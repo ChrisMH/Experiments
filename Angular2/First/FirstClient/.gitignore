@@ -1,0 +1,6 @@
+Client/**/*.js
+Client/**/*.map
+!Client/system.config.js
+
+node_modules/
+typings/

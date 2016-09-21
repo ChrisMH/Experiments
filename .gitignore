@@ -1,0 +1,10 @@
+.vs/
+obj/
+bin/
+out/
+packages/
+*.csproj.user
+*.suo
+*.ReSharper.user
+*.DotSettings.user
+*.dotCover
