@@ -19,7 +19,7 @@ namespace TemplateClient.Server
 
         public IndexModel(NancyContext context)
         {
-            PageConfig = new IndexPageConfig(context, Assembly.GetExecutingAssembly(), Debug);
+            PageConfig = new IndexPageConfig(context, Assembly.GetExecutingAssembly());
 
             App = new HtmlBuilder { new ScriptElem { Body = PageConfig.ToJavascript(), Type = ScriptType.Javascript } };
 
@@ -71,8 +71,6 @@ namespace TemplateClient.Server
                     new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/shim.min.js", Type = ScriptType.Javascript},
                     new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.6.25/zone.min.js", Type = ScriptType.Javascript},
                     new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.8/Reflect.min.js", Type = ScriptType.Javascript},
-                    //new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.38/system.src.js", Type = ScriptType.Javascript}
-
 
                     new ScriptElem {Src = $"{PageConfig.RootUrl}Client/lib-{PageConfig.Version}.min.js", Type = ScriptType.Javascript}
                 });
