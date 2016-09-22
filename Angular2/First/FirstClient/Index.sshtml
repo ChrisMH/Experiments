@@ -3,13 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <title>Overview Health</title>
-	<base href="@Model.PageConfig.RootUrl"/>
-
-	@Model.StyleSheets.Html
-	@Model.Scripts.Html
-
+	@Model.Head.Html
+	@Model.PageConfigScript.Html
 </head>
 <body>
-	<first-app>Loading...</first-App>
+	<app>Loading...</app>
 </body>
 </html>

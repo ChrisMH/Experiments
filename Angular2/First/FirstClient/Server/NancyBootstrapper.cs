@@ -20,13 +20,11 @@ namespace FirstClient.Server
         {
             base.ConfigureConventions(nancyConventions);
             
-            nancyConventions.StaticContentsConventions.AddDirectory("css");
-            nancyConventions.StaticContentsConventions.AddDirectory("img");
-            nancyConventions.StaticContentsConventions.AddDirectory("js");
+            nancyConventions.StaticContentsConventions.AddDirectory("Client");
+            nancyConventions.StaticContentsConventions.AddDirectory("Styles");
             
 #if DEBUG
             nancyConventions.StaticContentsConventions.AddDirectory("node_modules");
-            nancyConventions.StaticContentsConventions.AddDirectory("Client");
 #endif
         }
     }
