@@ -20,12 +20,8 @@ namespace TemplateClient.Server
         {
             base.ConfigureConventions(nancyConventions);
             
-            nancyConventions.StaticContentsConventions.AddDirectory("Client");
+            nancyConventions.StaticContentsConventions.AddDirectory("Scripts");
             nancyConventions.StaticContentsConventions.AddDirectory("Styles");
-            
-#if DEBUG
-            nancyConventions.StaticContentsConventions.AddDirectory("node_modules");
-#endif
         }
     }
 }

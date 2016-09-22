@@ -86,8 +86,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\Components\App.html" />
-    <Content Include="Client\system.config.js" />
+    <Content Include="Scripts\Components\App.html" />
     <Content Include="gulpfile.js" />
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
@@ -117,11 +116,11 @@
     <Folder Include="Styles\img\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Client\main.release.ts" />
-    <TypeScriptCompile Include="Client\Module.ts" />
-    <TypeScriptCompile Include="Client\Components\App.ts" />
-    <TypeScriptCompile Include="Client\main.debug.ts" />
-    <TypeScriptCompile Include="Client\Providers\PageConfig.ts" />
+    <TypeScriptCompile Include="Scripts\main.release.ts" />
+    <TypeScriptCompile Include="Scripts\Module.ts" />
+    <TypeScriptCompile Include="Scripts\Components\App.ts" />
+    <TypeScriptCompile Include="Scripts\main.debug.ts" />
+    <TypeScriptCompile Include="Scripts\Providers\PageConfig.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -152,6 +151,16 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup Condition="'$(Cofiguration)'=='Debug'">
+      <PostBuildEvent>gulp build-dev</PostBuildEvent>
+  </PropertyGroup>
+    <PropertyGroup Condition="'$(Cofiguration)'=='Release'">
+        <PostBuildEvent>gulp build-prod</PostBuildEvent>
+    </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
