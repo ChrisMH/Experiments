@@ -4,9 +4,9 @@
     <meta charset="utf-8"/>
     <title>Angular Template</title>
 	@Model.Head.Html
-	@Model.PageConfigScript.Html
 </head>
 <body>
 	<app>Loading...</app>
+	@Model.App.Html
 </body>
 </html>
