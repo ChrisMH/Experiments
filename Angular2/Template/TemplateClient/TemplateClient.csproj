@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Buddy, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Buddy.1.2.0\lib\net461\Buddy.dll</HintPath>
+    <Reference Include="Buddy, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Buddy.1.2.1\lib\net461\Buddy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Buddy.Nancy, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
