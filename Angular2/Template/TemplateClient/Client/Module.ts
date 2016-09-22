@@ -1,8 +1,8 @@
 ﻿import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import { App } from "./Components/App";
-import { PageConfig } from "./Providers/PageConfig";
+import { AppComponent } from "./Components/App";
+import { PageConfigProvider } from "./Providers/PageConfig";
 
 @NgModule({
     imports: [
@@ -10,14 +10,14 @@ import { PageConfig } from "./Providers/PageConfig";
     ],
 
     declarations: [
-        App
+        AppComponent
     ],
 
     providers: [
-        PageConfig
+        PageConfigProvider
     ],
 
-    exports: [App],
-    bootstrap: [App]
+    exports: [AppComponent],
+    bootstrap: [AppComponent]
 })
 export class Module { }
