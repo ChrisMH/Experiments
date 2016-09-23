@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PostBuildEvent>gulp build-dev</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PostBuildEvent>gulp build-prod</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddy, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -151,12 +153,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <PropertyGroup Condition="'$(Cofiguration)'=='Debug'">
-      <PostBuildEvent>gulp build-dev</PostBuildEvent>
-  </PropertyGroup>
-    <PropertyGroup Condition="'$(Cofiguration)'=='Release'">
-        <PostBuildEvent>gulp build-prod</PostBuildEvent>
-    </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
 </PreBuildEvent>

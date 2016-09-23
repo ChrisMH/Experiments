@@ -1,7 +1,7 @@
-Client/**/*.js
-Client/**/*.map
-!Client/system.config.js
+Scripts/**/*.js
+Scripts/**/*.map
 Styles/*.css
 
+build/
 node_modules/
 typings/
