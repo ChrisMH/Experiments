@@ -12,7 +12,7 @@ export class PageConfigProvider {
 
     constructor()
     {
-        if (window.hasOwnProperty("app") && window["app"].hasOwnProperty("pageConfig"))
-            this.config = window["app"]["pageConfig"] as IPageConfig;
+        if (window.hasOwnProperty("page") && window["page"].hasOwnProperty("config"))
+            this.config = window["page"]["config"] as IPageConfig;
     } 
 }

@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var PageConfigProvider = (function () {
     function PageConfigProvider() {
-        if (window.hasOwnProperty("app") && window["app"].hasOwnProperty("pageConfig"))
-            this.config = window["app"]["pageConfig"];
+        if (window.hasOwnProperty("page") && window["page"].hasOwnProperty("config"))
+            this.config = window["page"]["config"];
     }
     PageConfigProvider = __decorate([
         core_1.Injectable(), 
