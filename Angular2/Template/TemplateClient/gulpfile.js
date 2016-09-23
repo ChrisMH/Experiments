@@ -1,4 +1,4 @@
-﻿/// <binding Clean='clean' ProjectOpened='watch' />
+﻿/// <binding ProjectOpened='watch' />
 var gulp = require("gulp");
 var gconcat = require("gulp-concat");
 var gdebug = require("gulp-debug");
@@ -19,20 +19,19 @@ var pump = require("pump");
 var source = require("vinyl-source-stream");
 var tsify = require("tsify");
 
-var tsSourceDir = "Scripts/";
+var tsSrcDir = "Scripts/";
 var jsDestDir = "Scripts/";
 
-var buildDir = "build/";
-
-
-var debugEntryPoint = "main.debug.ts";
-var releaseEntryPoint = "main.release.ts";
-
-var lessSourceDir = "Styles/";
+var lessSrcDir = "Styles/";
 var cssDestDir = "Styles/";
 
+var tsBuildDir = "build/";
+
+var devEntryPoint = "main.dev.js"; // We rely on the VS transpiler during development
+var prodEntryPoint = "main.prod.ts";
+
 var lessFiles = [
-    lessSourceDir + "Common.less"
+    lessSrcDir + "Common.less"
 ];
 
 var getPackageJson = function()
@@ -49,8 +48,13 @@ var getAssemblyInfo = function()
 gulp.task("watch",
     function()
     {
-        gulp.watch(tsSourceDir + "**/*.ts", ["bundle-app-dev"]);
-        gulp.watch(lessSourceDir + "*.less", ["css"]);
+        // We rely on the VS transpiler during development, so watch js files
+        var tsWatch = [tsSrcDir + "**/*.js", "!" + tsSrcDir + "app*.js", "!" + tsSrcDir + "lib*.js"];
+        var lessWatch = [lessSrcDir + "*less"];
+        //return pump([gulp.src(lessWatch), gdebug({ title: "watched files: " })]);
+
+        gulp.watch(tsWatch, ["bundle-app-dev"]);
+        gulp.watch(lessWatch, ["css-dev"]);
     });
 
 
@@ -63,9 +67,9 @@ gulp.task("clean",
     function()
     {
         return del([
-            tsSourceDir + "**/*.js", tsSourceDir + "**/*.map", "!" + tsSourceDir + "system.config.js",
+            tsSrcDir + "**/*.js", tsSrcDir + "**/*.map",
             cssDestDir + "*.css",
-            buildDir
+            tsBuildDir
         ]);
     });
 
@@ -74,9 +78,9 @@ gulp.task("inline-templates",
     function(cb)
     {
         pump([
-                gulp.src(tsSourceDir + "**/*.ts"),
+                gulp.src(tsSrcDir + "**/*.ts"),
                 ginlineNg2Template({ base: "/" }),
-                gulp.dest(buildDir)
+                gulp.dest(tsBuildDir)
             ],
             cb);
     });
@@ -125,14 +129,13 @@ gulp.task("bundle-app-dev",
             debug: true
         });
 
-        b.add(tsSourceDir + debugEntryPoint);
+        b.add(tsSrcDir + devEntryPoint);
 
         var libs = Object.keys(getPackageJson().dependencies);
         libs.forEach(function(lib) { b.external(lib); });
 
         pump([
-                b.plugin(tsify)
-                .bundle()
+                b.bundle() // We rely on the VS transpiler during development
                 .on("error", function(err) { gutil.log(err); }),
                 source("app-" + getAssemblyInfo().AssemblyVersion + ".js"),
                 gulp.dest(jsDestDir)
@@ -147,7 +150,7 @@ gulp.task("bundle-app-prod", ["inline-templates"],
             debug: false
         });
 
-        b.add(buildDir + releaseEntryPoint);
+        b.add(tsBuildDir + prodEntryPoint);
 
         var libs = Object.keys(getPackageJson().dependencies);
         libs.forEach(function(lib) { b.external(lib); });

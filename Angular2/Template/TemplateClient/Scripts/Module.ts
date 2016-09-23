@@ -3,7 +3,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import { AppComponent } from "./Components/App";
+import { App } from "./Components/App";
 import { PageConfigProvider } from "./Providers/PageConfig";
 
 @NgModule({
@@ -12,14 +12,14 @@ import { PageConfigProvider } from "./Providers/PageConfig";
     ],
 
     declarations: [
-        AppComponent
+        App
     ],
 
     providers: [
         PageConfigProvider
     ],
 
-    exports: [AppComponent],
-    bootstrap: [AppComponent]
+    exports: [App],
+    bootstrap: [App]
 })
 export class Module { }

@@ -10,18 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var PageConfig_1 = require("../Providers/PageConfig");
-var AppComponent = (function () {
-    function AppComponent(pageConfig) {
+var App = (function () {
+    function App(pageConfig) {
         this.pageConfig = pageConfig;
     }
-    AppComponent = __decorate([
+    App = __decorate([
         core_1.Component({
             selector: "app",
             templateUrl: "Scripts/Components/App.html"
         }), 
         __metadata('design:paramtypes', [PageConfig_1.PageConfigProvider])
-    ], AppComponent);
-    return AppComponent;
+    ], App);
+    return App;
 }());
-exports.AppComponent = AppComponent;
+exports.App = App;
 //# sourceMappingURL=App.js.map

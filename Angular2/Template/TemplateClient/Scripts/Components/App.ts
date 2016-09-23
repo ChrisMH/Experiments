@@ -6,6 +6,6 @@ import { PageConfigProvider } from "../Providers/PageConfig";
     selector: "app",
     templateUrl: "Scripts/Components/App.html"
 })
-export class AppComponent {
+export class App {
     constructor(private pageConfig: PageConfigProvider) { }
 }    

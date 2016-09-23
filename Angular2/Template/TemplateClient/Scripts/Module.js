@@ -21,13 +21,13 @@ var Module = (function () {
                 platform_browser_1.BrowserModule
             ],
             declarations: [
-                App_1.AppComponent
+                App_1.App
             ],
             providers: [
                 PageConfig_1.PageConfigProvider
             ],
-            exports: [App_1.AppComponent],
-            bootstrap: [App_1.AppComponent]
+            exports: [App_1.App],
+            bootstrap: [App_1.App]
         }), 
         __metadata('design:paramtypes', [])
     ], Module);
