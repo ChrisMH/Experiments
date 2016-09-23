@@ -22,6 +22,9 @@ namespace TemplateClient.Server
             
             nancyConventions.StaticContentsConventions.AddDirectory("Scripts");
             nancyConventions.StaticContentsConventions.AddDirectory("Styles");
+#if DEBUG
+            nancyConventions.StaticContentsConventions.AddDirectory("node_modules");
+#endif
         }
     }
 }

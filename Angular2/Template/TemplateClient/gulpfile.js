@@ -49,11 +49,11 @@ gulp.task("watch",
     function()
     {
         // We rely on the VS transpiler during development, so watch js files
-        var tsWatch = [tsSrcDir + "**/*.js", "!" + tsSrcDir + "app*.js", "!" + tsSrcDir + "lib*.js"];
+        //var tsWatch = [tsSrcDir + "**/*.js", "!" + tsSrcDir + "app*.js", "!" + tsSrcDir + "lib*.js"];
         var lessWatch = [lessSrcDir + "*less"];
         //return pump([gulp.src(lessWatch), gdebug({ title: "watched files: " })]);
 
-        gulp.watch(tsWatch, ["bundle-app-dev"]);
+        //gulp.watch(tsWatch, ["bundle-app-dev"]);
         gulp.watch(lessWatch, ["css-dev"]);
     });
 
@@ -67,7 +67,7 @@ gulp.task("clean",
     function()
     {
         return del([
-            tsSrcDir + "**/*.js", tsSrcDir + "**/*.map",
+            tsSrcDir + "**/*.js", tsSrcDir + "**/*.map", "!" + tsSrcDir + "system.dev.js", , "!" + tsSrcDir + "system.prod.js",
             cssDestDir + "*.css",
             tsBuildDir
         ]);

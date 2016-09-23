@@ -44,11 +44,15 @@ namespace TemplateClient.Server
                     new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/shim.js", Type = ScriptType.Javascript },
                     new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.6.25/zone.js", Type = ScriptType.Javascript },
                     new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.8/Reflect.js", Type = ScriptType.Javascript },
-
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}Scripts/lib-{PageConfig.Version}.js", Type = ScriptType.Javascript }
+                    new ScriptElem {Src = "https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.38/system.src.js", Type = ScriptType.Javascript },
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/system.dev.js", Type = ScriptType.Javascript }
+                    //new ScriptElem { Src = $"{PageConfig.RootUrl}Scripts/lib-{PageConfig.Version}.js", Type = ScriptType.Javascript }
                 });
 
-                App.Add(new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/app-{PageConfig.Version}.js", Type = ScriptType.Javascript});
+                App.Add(new ScriptElem { Body= "(function() { System.import('app').catch(err => console.error(err)); })()", Type = ScriptType.Javascript });
+
+
+                //App.Add(new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/app-{PageConfig.Version}.js", Type = ScriptType.Javascript});
             }
             else
             {
