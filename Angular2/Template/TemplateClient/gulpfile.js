@@ -1,15 +1,16 @@
 ﻿/// <binding ProjectOpened='watch' />
 var gulp = require("gulp");
+var gcleancss = require("gulp-clean-css");
 var gconcat = require("gulp-concat");
 var gdebug = require("gulp-debug");
 var gdotNetAssemblyInfo = require("gulp-dotnet-assembly-info");
-var ginlineNg2Template = require('gulp-inline-ng2-template');
+var gif = require("gulp-if");
+var ginlineNg2Template = require("gulp-inline-ng2-template");
 var gless = require("gulp-less");
 var grename = require("gulp-rename");
 var gsourcemaps = require("gulp-sourcemaps");
 var gstreamify = require("gulp-streamify");
 var guglify = require("gulp-uglify");
-var guglifycss = require("gulp-uglifycss");
 var gutil = require("gulp-util");
 
 var browserify = require("browserify");
@@ -27,56 +28,61 @@ var cssDestDir = "Styles/";
 
 var tsBuildDir = "build/";
 
-var devEntryPoint = "main.dev.js"; // We rely on the VS transpiler during development
 var prodEntryPoint = "main.prod.ts";
 
-var lessFiles = [
+var styleFiles = [
+    "node_modules/font-awesome/css/font-awesome.css",
+    "node_modules/bootstrap/dist/css/bootstrap.css",
     lessSrcDir + "Common.less"
 ];
 
-var getPackageJson = function()
-{
+var bootScriptFiles = [
+    "node_modules/core-js/client/shim.js",
+    "node_modules/zone.js/dist/zone.js",
+    "node_modules/reflect-metadata/Reflect.js",
+    "node_modules/systemjs/dist/system.src.js"
+];
+
+var getPackageJson = function() {
     return JSON.parse(fs.readFileSync("./package.json", "utf8"));
 };
 
-var getAssemblyInfo = function()
-{
+var getAssemblyInfo = function() {
     var fileContents = fs.readFileSync("./Properties/AssemblyInfo.cs");
     return gdotNetAssemblyInfo.getAssemblyMetadata(fileContents);
 };
 
 gulp.task("watch",
-    function()
-    {
+    function() {
         // We rely on the VS transpiler during development, so watch js files
         //var tsWatch = [tsSrcDir + "**/*.js", "!" + tsSrcDir + "app*.js", "!" + tsSrcDir + "lib*.js"];
         var lessWatch = [lessSrcDir + "*less"];
         //return pump([gulp.src(lessWatch), gdebug({ title: "watched files: " })]);
 
         //gulp.watch(tsWatch, ["bundle-app-dev"]);
-        gulp.watch(lessWatch, ["css-dev"]);
+        gulp.watch(lessWatch, ["styles-dev"]);
     });
 
 
-gulp.task("before-build", ["clean"], function () { });
-gulp.task("build-dev", ["css-dev", "bundle-lib-dev", "bundle-app-dev"], function () { });
-gulp.task("build-prod", ["css-prod", "bundle-lib-prod", "bundle-app-prod"], function() {});
+gulp.task("before-build", ["clean"], function() {});
+gulp.task("build-dev", ["concat-boot-scripts-dev", "styles-dev"], function () { });
+gulp.task("build-prod", ["concat-boot-scripts-prod", "bundle-app-prod", "styles-prod"], function () { });
 
 
 gulp.task("clean",
-    function()
-    {
+    function() {
         return del([
-            tsSrcDir + "**/*.js", tsSrcDir + "**/*.map", "!" + tsSrcDir + "system.dev.js", , "!" + tsSrcDir + "system.prod.js",
+            tsSrcDir + "**/*.js", tsSrcDir + "**/*.map", "!" + tsSrcDir + "system.dev.js",
             cssDestDir + "*.css",
             tsBuildDir
         ]);
     });
 
 
+
+
 gulp.task("inline-templates",
-    function(cb)
-    {
+    function(cb) {
         pump([
                 gulp.src(tsSrcDir + "**/*.ts"),
                 ginlineNg2Template({ base: "/" }),
@@ -85,66 +91,9 @@ gulp.task("inline-templates",
             cb);
     });
 
-gulp.task("bundle-lib-dev",
-    function(cb)
-    {
-        var b = browserify({
-            debug: true
-        });
-
-        var libs = Object.keys(getPackageJson().dependencies);
-        libs.forEach(function(lib) { b.require(lib); });
-
-        pump([
-                b.bundle().on("error", function(err) { gutil.log(err); }),
-                source("lib-" + getAssemblyInfo().AssemblyVersion + ".js"),
-                gulp.dest(jsDestDir)
-            ],
-            cb);
-    });
-
-gulp.task("bundle-lib-prod",
+gulp.task("bundle-app-prod",
+    ["inline-templates"],
     function (cb)
-    {
-        var b = browserify({
-            debug: false
-        });
-
-        var libs = Object.keys(getPackageJson().dependencies);
-        libs.forEach(function (lib) { b.require(lib); });
-
-        pump([
-                b.bundle().on("error", function (err) { gutil.log(err); }),
-                source("lib-" + getAssemblyInfo().AssemblyVersion + ".min.js"),
-                gstreamify(guglify()),
-                gulp.dest(jsDestDir)
-        ],
-            cb);
-    });
-
-gulp.task("bundle-app-dev",
-    function(cb)
-    {
-        var b = browserify({
-            debug: true
-        });
-
-        b.add(tsSrcDir + devEntryPoint);
-
-        var libs = Object.keys(getPackageJson().dependencies);
-        libs.forEach(function(lib) { b.external(lib); });
-
-        pump([
-                b.bundle() // We rely on the VS transpiler during development
-                .on("error", function(err) { gutil.log(err); }),
-                source("app-" + getAssemblyInfo().AssemblyVersion + ".js"),
-                gulp.dest(jsDestDir)
-            ],
-            cb);
-    });
-
-gulp.task("bundle-app-prod", ["inline-templates"],
-    function(cb)
     {
         var b = browserify({
             debug: false
@@ -152,28 +101,45 @@ gulp.task("bundle-app-prod", ["inline-templates"],
 
         b.add(tsBuildDir + prodEntryPoint);
 
-        var libs = Object.keys(getPackageJson().dependencies);
-        libs.forEach(function(lib) { b.external(lib); });
-
         pump([
                 b.plugin(tsify)
                 .bundle()
-                .on("error", function(err) { gutil.log(err); }),
+                .on("error", function (err) { gutil.log(err); }),
                 source("app-" + getAssemblyInfo().AssemblyVersion + ".min.js"),
                 gstreamify(guglify()),
                 gulp.dest(jsDestDir)
-            ],
+        ],
             cb);
     });
 
-gulp.task("css-dev",
-    function(cb)
+
+gulp.task("concat-boot-scripts-dev",
+    function(cb) {
+        pump([
+            gulp.src(bootScriptFiles),
+            gconcat("boot-" + getAssemblyInfo().AssemblyVersion + ".js"),
+            gulp.dest(jsDestDir)
+        ], cb);
+    });
+
+gulp.task("concat-boot-scripts-prod",
+    function (cb)
     {
         pump([
-                gulp.src(lessFiles),
-                gdebug({ title: "css files: " }),
+            gulp.src(bootScriptFiles),
+            gconcat("boot-" + getAssemblyInfo().AssemblyVersion + ".min.js"),
+            gstreamify(guglify()),
+            gulp.dest(jsDestDir)
+        ], cb);
+    });
+
+gulp.task("styles-dev",
+    function(cb) {
+        pump([
+                gulp.src(styleFiles),
                 gsourcemaps.init(),
-                gless(),
+                gdebug({ title: "style files: " }),
+                gif(/[.]less/, gless()),
                 gsourcemaps.write(),
                 gconcat("styles-" + getAssemblyInfo().AssemblyVersion + ".css"),
                 gulp.dest(cssDestDir)
@@ -181,16 +147,22 @@ gulp.task("css-dev",
             cb);
     });
 
-gulp.task("css-prod",
-    function (cb)
-    {
+gulp.task("styles-prod",
+    function(cb) {
         pump([
-                gulp.src(lessFiles),
-                gdebug({ title: "css files: " }),
-                gless(),
+                gulp.src(styleFiles),
+                gdebug({ title: "style files: " }),
+                gif(/[.]less/, gless()),
                 gconcat("styles-" + getAssemblyInfo().AssemblyVersion + ".min.css"),
-                guglifycss(),
+                gcleancss({ keepSpecialComments: 0, debug: true },
+                    function(details) {
+                        gutil.log(details.name +
+                            ": original: " +
+                            details.stats.originalSize +
+                            ", minified: " +
+                            details.stats.minifiedSize);
+                    }),
                 gulp.dest(cssDestDir)
-        ],
+            ],
             cb);
     });
