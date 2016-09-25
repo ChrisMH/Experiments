@@ -21,6 +21,7 @@ namespace TemplateClient.Server
 
             Head = new HtmlBuilder
             {
+                new TitleElem { Title = Debug ? "Angular Template (Debug)" : "Angular Template" },
                 new BaseElem { Href = PageConfig.RootUrl },
                 new LinkElem { Href = $"{PageConfig.RootUrl}favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
                 new LinkElem { Href = $"{PageConfig.RootUrl}favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon }
