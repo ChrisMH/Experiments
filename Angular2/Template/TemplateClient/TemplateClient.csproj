@@ -94,6 +94,7 @@
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
     <Content Include="Scripts\system.dev.js" />
+    <Content Include="Styles\img\favicon.ico" />
     <Content Include="typings.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Styles\Common.less" />
@@ -115,9 +116,7 @@
     <Compile Include="Server\NancyBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\img\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\main.prod.ts" />
     <TypeScriptCompile Include="Scripts\Module.ts" />

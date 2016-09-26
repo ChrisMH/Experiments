@@ -5,6 +5,3 @@ Scripts/**/*.map
 
 Styles/*.css
 
-build/
-node_modules/
-typings/

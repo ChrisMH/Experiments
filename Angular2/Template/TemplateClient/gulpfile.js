@@ -1,4 +1,4 @@
-﻿/// <binding ProjectOpened='watch' />
+﻿/// <binding Clean='clean' ProjectOpened='watch' />
 var gulp = require("gulp");
 var gCleanCss = require("gulp-clean-css");
 var gConcat = require("gulp-concat");
@@ -19,20 +19,23 @@ var runSequence = require("run-sequence");
 var vSourceStream = require("vinyl-source-stream");
 var tsify = require("tsify");
 
-var tsSrcDir = "Scripts/";
-var jsDestDir = "Scripts/";
+var srcDir = "Scripts/";
+var jsDir = "js/";
 
-var lessSrcDir = "Styles/";
-var cssDestDir = "Styles/";
+var styleDir = "Styles/";
+var cssDir = "css/";
 
-var tsBuildDir = "build/";
+var imgSrcDir = "Styles/img/";
+var imgDestDir = "css/img/";
+
+var buildDir = "build/";
 
 var prodEntryPoint = "main.prod.ts";
 
 var styleFiles = [
     "node_modules/font-awesome/css/font-awesome.css",
     "node_modules/bootstrap/dist/css/bootstrap.css",
-    lessSrcDir + "Common.less"
+    styleDir + "Common.less"
 ];
 
 var bootScriptFiles = [
@@ -68,8 +71,8 @@ var getAssemblyInfo = function() {
 gulp.task("watch",
     function() {
         // We rely on the VS transpiler during development, so watch js files
-        //var tsWatch = [tsSrcDir + "**/*.js", "!" + tsSrcDir + "app*.js", "!" + tsSrcDir + "lib*.js"];
-        var lessWatch = [lessSrcDir + "*less"];
+        //var tsWatch = [srcDir + "**/*.js", "!" + srcDir + "app*.js", "!" + srcDir + "lib*.js"];
+        var lessWatch = [styleDir + "*less"];
         //return pump([gulp.src(lessWatch), gDebug({ title: "watched files: " })]);
 
         //gulp.watch(tsWatch, ["bundle-app-dev"]);
@@ -79,34 +82,46 @@ gulp.task("watch",
 
 gulp.task("build:dev", function (cb)
 {
-    runSequence(["clean:build", "clean:css"], ["build:dev:boot", "build:dev:css"], cb);
+    runSequence(["clean:build", "clean:css", "clean:js:dest", "clean:img"],
+                ["build:dev:boot", "build:dev:css", "copy:img"], cb);
 });
 
 gulp.task("build:prod", function (cb)
 {
-    runSequence("clean", ["build:prod:boot", "build:prod:app", "build:prod:lib", "build:prod:css"], "clean:build", cb)
+    runSequence("clean", ["build:prod:boot", "build:prod:app", "build:prod:lib", "build:prod:css", "copy:img"], "clean:build", cb)
 });
 
 
-gulp.task("clean", ["clean:build", "clean:css", "clean:js"], function () { });
+gulp.task("clean", ["clean:build", "clean:css", "clean:js:src", "clean:js:dest", "clean:img"], function () { });
 gulp.task("clean:build", function ()
 {
-    return del(tsBuildDir);
+    return del(buildDir);
 });
 gulp.task("clean:css", function ()
 {
-    return del(cssDestDir + "*.css");
+    return del(cssDir);
 });
-gulp.task("clean:js", function ()
+
+gulp.task("clean:js:src", function ()
 {
-    return del([tsSrcDir + "**/*.js", tsSrcDir + "**/*.map", "!" + tsSrcDir + "system.dev.js"]);
+    return del([srcDir + "**/*.js", srcDir + "**/*.map", "!" + srcDir + "system.dev.js"]);
+});
+
+gulp.task("clean:js:dest", function ()
+{
+    return del([jsDir]);
+});
+
+gulp.task("clean:img", function ()
+{
+    return del([imgDestDir]);
 });
 
 gulp.task("build:inline:templates", function ()
 {
-    return gulp.src(tsSrcDir + "**/*.ts")
+    return gulp.src(srcDir + "**/*.ts")
                .pipe(gInlineNg2Template({ base: "/" }))
-               .pipe(gulp.dest(tsBuildDir));
+               .pipe(gulp.dest(buildDir));
 });
 
 gulp.task("build:prod:app", ["build:inline:templates"], function ()
@@ -115,13 +130,13 @@ gulp.task("build:prod:app", ["build:inline:templates"], function ()
         debug: false
     });
 
-    b.add(tsBuildDir + prodEntryPoint);
+    b.add(buildDir + prodEntryPoint);
     libraryModules.forEach(function (lib) { b.external(lib); });
 
     return b.plugin(tsify).bundle().on("error", function (err) { gUtil.log(err); })
             .pipe(vSourceStream("app-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
             .pipe(gStreamify(gUglify()))
-            .pipe(gulp.dest(jsDestDir));
+            .pipe(gulp.dest(jsDir));
 });
 
 gulp.task("build:prod:lib", function ()
@@ -135,7 +150,7 @@ gulp.task("build:prod:lib", function ()
     return b.bundle().on("error", function (err) { gUtil.log(err); })
             .pipe(vSourceStream("lib-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
             .pipe(gStreamify(gUglify()))
-            .pipe(gulp.dest(jsDestDir));
+            .pipe(gulp.dest(jsDir));
 });
 
 
@@ -143,7 +158,7 @@ gulp.task("build:dev:boot", function ()
 {
     return gulp.src(bootScriptFiles)
                .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".js"))
-               .pipe(gulp.dest(jsDestDir));
+               .pipe(gulp.dest(jsDir));
 });
 
 gulp.task("build:prod:boot", function ()
@@ -151,29 +166,34 @@ gulp.task("build:prod:boot", function ()
     return gulp.src(bootScriptFiles)
                .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
                .pipe(gStreamify(gUglify()))
-               .pipe(gulp.dest(jsDestDir));
+               .pipe(gulp.dest(jsDir));
 });
 
 gulp.task("build:dev:css", function ()
 {
     return gulp.src(styleFiles)
                .pipe(gSourceMaps.init())
-               .pipe(gDebug({ title: "style files: " }))
+               //.pipe(gDebug({ title: "style files: " }))
                .pipe(gIf(/[.]less/, gLess()))
                .pipe(gSourceMaps.write())
                .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".css"))
-               .pipe(gulp.dest(cssDestDir));
+               .pipe(gulp.dest(cssDir));
 });
 
 gulp.task("build:prod:css", function ()
 {
     return gulp.src(styleFiles)
-                .pipe(gDebug({ title: "style files: " }))
+                //.pipe(gDebug({ title: "style files: " }))
                 .pipe(gIf(/[.]less/, gLess()))
                 .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
-                .pipe(gCleanCss({ keepSpecialComments: 0, debug: true }, function(details) 
-                      {
-                          gUtil.log(details.name + ": original: " + details.stats.originalSize + ", minified: " + details.stats.minifiedSize);
-                      }))
-                .pipe(gulp.dest(cssDestDir))
+                .pipe(gCleanCss({ keepSpecialComments: 0}))
+                .pipe(gulp.dest(cssDir))
 });
+
+
+gulp.task("copy:img", function ()
+{
+    return gulp.src(imgSrcDir + "**/*")
+               .pipe(gulp.dest(imgDestDir));
+});
+
