@@ -21,7 +21,7 @@
 
             // other libraries
             "rxjs": "npm:rxjs",
-            "ng2-cookies" : "npm:ng2-cokies"
+            "ng2-cookies" : "npm:ng2-cookies"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

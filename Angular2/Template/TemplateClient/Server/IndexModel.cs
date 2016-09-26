@@ -12,14 +12,15 @@ namespace TemplateClient.Server
         protected readonly bool Debug = false;
 #endif
         public IndexPageConfig PageConfig { get; private set; }
-        public HtmlBuilder Head { get; private set; }
+        public HtmlBuilder Styles { get; private set; }
+        public HtmlBuilder Scripts { get; private set; }
         public HtmlBuilder App { get; set; }
 
         public IndexModel(NancyContext context)
         {
             PageConfig = new IndexPageConfig(context, Assembly.GetExecutingAssembly());
 
-            Head = new HtmlBuilder
+            Styles = new HtmlBuilder
             {
                 new TitleElem { Title = Debug ? "Angular Template (Debug)" : "Angular Template" },
                 new BaseElem { Href = PageConfig.RootUrl },
@@ -28,28 +29,38 @@ namespace TemplateClient.Server
 
             };
 
-            App = new HtmlBuilder
+            Scripts = new HtmlBuilder
             {
-                new ScriptElem { Body = PageConfig.ToJavascript(), Type = ScriptType.Javascript }
+                new ScriptElem {Body = PageConfig.ToJavascript(), Type = ScriptType.Javascript}
             };
+
+            App = new HtmlBuilder();
             
             if (Debug)
             {
-                Head.AddRange(new IHtmlElem[]
+                Styles.AddRange(new IHtmlElem[]
                 {
-                    new LinkElem {Href = $"{PageConfig.RootUrl}Styles/styles-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/boot-{PageConfig.Version}.js", Type = ScriptType.Javascript },
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/system.dev.js", Type = ScriptType.Javascript }
+                    new LinkElem {Href = $"{PageConfig.RootUrl}Styles/styles-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
                 });
 
-                App.Add(new ScriptElem { Body= "(function() { System.import('app').catch(err => console.error(err)); })()", Type = ScriptType.Javascript });
+                Scripts.AddRange(new IHtmlElem[]
+                {
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/boot-{PageConfig.Version}.js", Type = ScriptType.Javascript},
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/system.dev.js", Type = ScriptType.Javascript},
+                    new ScriptElem { Body= "(function() { System.import('app').catch(err => console.error(err)); })()", Type = ScriptType.Javascript }
+                });
             }
             else
             {
-                Head.AddRange(new IHtmlElem[]
+                Styles.AddRange(new IHtmlElem[]
                 {
-                    new LinkElem {Href = $"{PageConfig.RootUrl}Styles/styles-{PageConfig.Version}.min.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/boot-{PageConfig.Version}.min.js", Type = ScriptType.Javascript }
+                    new LinkElem {Href = $"{PageConfig.RootUrl}Styles/styles-{PageConfig.Version}.min.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
+                });
+
+                Scripts.AddRange(new IHtmlElem[]
+                {
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/boot-{PageConfig.Version}.min.js", Type = ScriptType.Javascript },
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/lib-{PageConfig.Version}.min.js", Type = ScriptType.Javascript }
                 });
 
                 App.Add(new ScriptElem { Src = $"{PageConfig.RootUrl}Scripts/app-{PageConfig.Version}.min.js", Type = ScriptType.Javascript });
