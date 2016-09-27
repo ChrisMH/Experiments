@@ -20,19 +20,16 @@
             "@angular/router": "npm:@angular/router/bundles/router.umd.js",
 
             // other libraries
+            "ng2-cookies": "npm:ng2-cookies",
             "rxjs": "npm:rxjs",
-            "ng2-cookies" : "npm:ng2-cookies"
+            "typedjson": "npm:typedjson/js/index.js"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            app: {
-                main: "./main.dev.js",
-                defaultExtension: "js"
-            },
+            "app": { main: "./main.dev.js", defaultExtension: "js" },
             "ng2-cookies" : { defaultExtension: "js" },
-            rxjs: {
-                defaultExtension: "js"
-            }
+            "rxjs": { defaultExtension: "js" },
+            "typedjson": { defaultExtension: "js" }
         }
     });  
 })();

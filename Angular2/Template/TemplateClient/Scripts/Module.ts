@@ -1,10 +1,8 @@
-﻿
-
-import { NgModule } from "@angular/core";
+﻿import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { App } from "./Components/App";
-import { PageConfigProvider } from "./Providers/PageConfig";
+import { AppSettings } from "./Providers/AppSettings";
 
 @NgModule({
     imports: [
@@ -16,7 +14,7 @@ import { PageConfigProvider } from "./Providers/PageConfig";
     ],
 
     providers: [
-        PageConfigProvider
+        AppSettings
     ],
 
     exports: [App],

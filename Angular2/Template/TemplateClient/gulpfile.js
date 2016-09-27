@@ -61,9 +61,10 @@ var libraryModules = [
     "@angular/platform-browser",
     "@angular/platform-browser-dynamic",
     "@angular/router",
-
+    
+    "ng2-cookies/ng2-cookies",
     "rxjs/Rx",
-    "ng2-cookies/ng2-cookies"
+    "typedjson"
 ];
 
 var getPackageJson = function() {
@@ -179,8 +180,8 @@ gulp.task("build:prod:css", function ()
                 //.pipe(gDebug({ title: "style files: " }))
                 .pipe(gIf(/[.]less/, gLess()))
                 .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
-                .pipe(gCleanCss({ keepSpecialComments: 0}))
-                .pipe(gulp.dest(cssDir))
+                .pipe(gCleanCss({ keepSpecialComments: 0 }))
+                .pipe(gulp.dest(cssDir));
 });
 
 

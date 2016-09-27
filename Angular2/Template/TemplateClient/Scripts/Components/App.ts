@@ -1,11 +1,11 @@
 ﻿import { Component } from "@angular/core";
 
-import { PageConfigProvider } from "../Providers/PageConfig";
+import { AppSettings } from "../Providers/AppSettings";
 
 @Component({
     selector: "app",
     templateUrl: "js/Components/App.html"
 })
 export class App {
-    constructor(private pageConfig: PageConfigProvider) { }
+    constructor(private appSettings: AppSettings) { }
 }    
