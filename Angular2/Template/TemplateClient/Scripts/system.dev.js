@@ -8,8 +8,8 @@
         // map tells the System loader where to look for things
         map: {
             "app": "scripts",
-            "./components": "scripts/components/index.js",
-            "./providers": "scripts/providers/index.js",
+            "components": "scripts/components",
+            "services": "scripts/services",
 
             // angular bundles
             "@angular/common": "npm:@angular/common/bundles/common.umd.js",
@@ -22,16 +22,17 @@
             "@angular/router": "npm:@angular/router/bundles/router.umd.js",
 
             // other libraries
-            "ng2-cookies": "npm:ng2-cookies",
             "rxjs": "npm:rxjs",
             "typedjson": "npm:typedjson/js"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            "app": { main: "./main.dev.js", defaultExtension: "js" },
-            "ng2-cookies" : { defaultExtension: "js" },
-            "rxjs": { defaultExtension: "js" },
-            "typedjson": { defaultExtension: "js" }
+            "app": { main: "main.dev" },
+            "components": { main: "index" },
+            "services": { main: "index" },
+
+            "rxjs": { main: "Rx" },
+            "typedjson": { main: "index" },
         }
     });  
 })();

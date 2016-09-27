@@ -2,7 +2,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 
 import * as c from "./components";
-import * as p from "./providers";
+import * as s from "./services";
 
 @NgModule({
     imports: [
@@ -14,7 +14,7 @@ import * as p from "./providers";
     ],
 
     providers: [
-        p.AppSettings
+        s.AppSettings
     ],
 
     exports: [c.App],

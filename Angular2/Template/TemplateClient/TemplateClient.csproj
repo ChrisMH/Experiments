@@ -123,8 +123,8 @@
     <TypeScriptCompile Include="scripts\module.ts" />
     <TypeScriptCompile Include="scripts\components\app.component.ts" />
     <TypeScriptCompile Include="scripts\main.dev.ts" />
-    <TypeScriptCompile Include="scripts\providers\app.settings.ts" />
-    <TypeScriptCompile Include="scripts\providers\index.ts" />
+    <TypeScriptCompile Include="scripts\services\app.settings.ts" />
+    <TypeScriptCompile Include="scripts\services\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

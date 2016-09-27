@@ -53,8 +53,7 @@ var libraryModules = [
     "@angular/platform-browser",
     "@angular/platform-browser-dynamic",
     "@angular/router",
-    
-    "ng2-cookies/ng2-cookies",
+
     "rxjs/Rx",
     "typedjson"
 ];
@@ -101,7 +100,7 @@ gulp.task("clean:styles", function ()
     return Promise.all(promise);
 });
 
-gulp.task("build:inline:templates", ["copy:html"], function ()
+gulp.task("build:inline:templates", function ()
 {
     return gulp.src("scripts/**/*.ts")
                .pipe(gInlineNg2Template({ base: "/" }))
