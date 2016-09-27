@@ -24,6 +24,7 @@ namespace TemplateClient.Server
             nancyConventions.StaticContentsConventions.AddDirectory("js");
 #if DEBUG
             nancyConventions.StaticContentsConventions.AddDirectory("node_modules");
+            nancyConventions.StaticContentsConventions.AddDirectory("scripts");
 #endif
         }
     }

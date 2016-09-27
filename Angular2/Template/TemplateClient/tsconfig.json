@@ -8,9 +8,7 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "rootDir": "Scripts",
-    "outDir": "js"
+    "suppressImplicitAnyIndexErrors": true
   },
   "exclude": [
     "node_modules"

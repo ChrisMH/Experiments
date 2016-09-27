@@ -7,7 +7,9 @@
         },
         // map tells the System loader where to look for things
         map: {
-            app: "js",
+            "app": "scripts",
+            "./components": "scripts/components/index.js",
+            "./providers": "scripts/providers/index.js",
 
             // angular bundles
             "@angular/common": "npm:@angular/common/bundles/common.umd.js",
@@ -22,7 +24,7 @@
             // other libraries
             "ng2-cookies": "npm:ng2-cookies",
             "rxjs": "npm:rxjs",
-            "typedjson": "npm:typedjson/js/index.js"
+            "typedjson": "npm:typedjson/js"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {

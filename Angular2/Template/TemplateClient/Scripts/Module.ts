@@ -1,23 +1,23 @@
 ﻿import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import { App } from "./Components/App";
-import { AppSettings } from "./Providers/AppSettings";
+import * as c from "./components";
+import * as p from "./providers";
 
 @NgModule({
     imports: [
         BrowserModule
     ],
 
-    declarations: [
-        App
+    declarations: [ 
+        c.App
     ],
 
     providers: [
-        AppSettings
+        p.AppSettings
     ],
 
-    exports: [App],
-    bootstrap: [App]
+    exports: [c.App],
+    bootstrap: [c.App]
 })
 export class Module { }

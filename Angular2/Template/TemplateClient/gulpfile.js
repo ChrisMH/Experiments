@@ -19,22 +19,14 @@ var mergeStream = require("merge-stream");
 var vSourceStream = require("vinyl-source-stream");
 var tsify = require("tsify");
 
-var srcDir = "Scripts/";
-var jsDir = "js/";
-
-var styleDir = "Styles/";
-var cssDir = "css/";
-
-var prodEntryPoint = "main.prod.ts";
-
 var stylesheetFiles = [
     "node_modules/font-awesome/css/font-awesome.css",
     "node_modules/bootstrap/dist/css/bootstrap.css",
-    "Styles/Common.less"
+    "styles/Common.less"
 ];
 
 var styleFiles = [
-    { src: "Styles/img/**/*", dst: "css/img" }
+    { src: "styles/img/**/*", dst: "css/img" }
 ];
 
 var bootScriptFiles = [
@@ -45,11 +37,11 @@ var bootScriptFiles = [
 ];
 
 var jsDevFiles = [
-    "Scripts/system.dev.js"
+    "scripts/system.dev.js"
 ];
 
 var htmlFiles = [
-    "Scripts/**/*.html"
+    "scripts/**/*.html"
 ];
 
 var libraryModules = [
@@ -79,13 +71,11 @@ var getAssemblyInfo = function() {
 gulp.task("watch",
     function ()
     {
-        gulp.watch([srcDir + "system.dev.js"], ["copy:dev:js"]);
-        gulp.watch([srcDir + "**/*.html"], ["copy:html"]);
-        gulp.watch([styleDir + "*.less"], ["build:dev:css"]);
+        gulp.watch(["styles/*.less"], ["build:dev:css"]);
     });
 
 
-gulp.task("build:dev", ["build:dev:css", "build:dev:boot", "copy:dev:js", "copy:html", "copy:styles"], function () { });
+gulp.task("build:dev", ["build:dev:css", "build:dev:boot", "copy:styles"], function () { });
 gulp.task("build:prod", ["build:prod:css", "build:prod:boot", "build:prod:lib", "build:prod:app", "copy:styles"], function () { });
 
 
@@ -93,12 +83,12 @@ gulp.task("clean", ["clean:css", "clean:js", "clean:styles"], function () {});
 
 gulp.task("clean:css", function ()
 {
-    return del(cssDir);
+    return del("css");
 });
 
 gulp.task("clean:js", function ()
 {
-    return del([jsDir]);
+    return del(["js", "scripts/**/*.js", "scripts/**/*.map", "!scripts/system.dev.js"]);
 });
 
 gulp.task("clean:styles", function ()
@@ -113,9 +103,9 @@ gulp.task("clean:styles", function ()
 
 gulp.task("build:inline:templates", ["copy:html"], function ()
 {
-    return gulp.src(srcDir + "**/*.ts")
+    return gulp.src("scripts/**/*.ts")
                .pipe(gInlineNg2Template({ base: "/" }))
-               .pipe(gulp.dest(jsDir));
+               .pipe(gulp.dest("js"));
 });
 
 gulp.task("build:prod:app", ["build:inline:templates"], function ()
@@ -124,13 +114,13 @@ gulp.task("build:prod:app", ["build:inline:templates"], function ()
         debug: false
     });
 
-    b.add(jsDir + prodEntryPoint);
+    b.add("js/main.prod.js");
     libraryModules.forEach(function (lib) { b.external(lib); });
 
     return b.plugin(tsify).bundle().on("error", function (err) { gUtil.log(err); })
             .pipe(vSourceStream("app-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
             .pipe(gStreamify(gUglify()))
-            .pipe(gulp.dest(jsDir));
+            .pipe(gulp.dest("js"));
 });
 
 gulp.task("build:prod:lib", function ()
@@ -144,7 +134,7 @@ gulp.task("build:prod:lib", function ()
     return b.bundle().on("error", function (err) { gUtil.log(err); })
             .pipe(vSourceStream("lib-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
             .pipe(gStreamify(gUglify()))
-            .pipe(gulp.dest(jsDir));
+            .pipe(gulp.dest("js"));
 });
 
 
@@ -152,7 +142,7 @@ gulp.task("build:dev:boot", function ()
 {
     return gulp.src(bootScriptFiles)
                .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".js"))
-               .pipe(gulp.dest(jsDir));
+               .pipe(gulp.dest("js"));
 });
 
 gulp.task("build:prod:boot", function ()
@@ -160,7 +150,7 @@ gulp.task("build:prod:boot", function ()
     return gulp.src(bootScriptFiles)
                .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
                .pipe(gStreamify(gUglify()))
-               .pipe(gulp.dest(jsDir));
+               .pipe(gulp.dest("js"));
 });
 
 gulp.task("build:dev:css", function ()
@@ -171,7 +161,7 @@ gulp.task("build:dev:css", function ()
                .pipe(gIf(/[.]less/, gLess()))
                .pipe(gSourceMaps.write())
                .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".css"))
-               .pipe(gulp.dest(cssDir));
+               .pipe(gulp.dest("css"));
 });
 
 gulp.task("build:prod:css", function ()
@@ -181,19 +171,9 @@ gulp.task("build:prod:css", function ()
                 .pipe(gIf(/[.]less/, gLess()))
                 .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
                 .pipe(gCleanCss({ keepSpecialComments: 0 }))
-                .pipe(gulp.dest(cssDir));
+                .pipe(gulp.dest("css"));
 });
 
-
-gulp.task("copy:dev:js", function ()
-{
-    return gulp.src(jsDevFiles).pipe(gulp.dest(jsDir));
-});
-
-gulp.task("copy:html", function ()
-{
-    return gulp.src(htmlFiles).pipe(gulp.dest(jsDir));
-});
 
 gulp.task("copy:styles", function ()
 {

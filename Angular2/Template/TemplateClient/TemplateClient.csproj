@@ -88,17 +88,17 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\Components\App.html" />
+    <Content Include="scripts\components\app.component.html" />
     <Content Include="gulpfile.js" />
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
-    <Content Include="Scripts\system.dev.js" />
-    <Content Include="Styles\img\favicon.ico" />
+    <Content Include="scripts\system.dev.js" />
+    <Content Include="styles\img\favicon.ico" />
     <Content Include="typings.json" />
     <Content Include="tsconfig.json" />
-    <Content Include="Styles\Common.less" />
-    <Content Include="Styles\Global.less" />
+    <Content Include="styles\Common.less" />
+    <Content Include="styles\Global.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -118,11 +118,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\main.prod.ts" />
-    <TypeScriptCompile Include="Scripts\Module.ts" />
-    <TypeScriptCompile Include="Scripts\Components\App.ts" />
-    <TypeScriptCompile Include="Scripts\main.dev.ts" />
-    <TypeScriptCompile Include="Scripts\Providers\AppSettings.ts" />
+    <TypeScriptCompile Include="scripts\components\index.ts" />
+    <TypeScriptCompile Include="scripts\main.prod.ts" />
+    <TypeScriptCompile Include="scripts\module.ts" />
+    <TypeScriptCompile Include="scripts\components\app.component.ts" />
+    <TypeScriptCompile Include="scripts\main.dev.ts" />
+    <TypeScriptCompile Include="scripts\providers\app.settings.ts" />
+    <TypeScriptCompile Include="scripts\providers\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

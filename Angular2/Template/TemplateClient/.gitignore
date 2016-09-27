@@ -1,3 +1,6 @@
+Scripts/**/*.js
+Scripts/**/*.map
+!Scripts/system.dev.js
 css/
 js/
 node_modules/
