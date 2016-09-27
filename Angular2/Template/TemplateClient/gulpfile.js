@@ -15,7 +15,7 @@ var gUtil = require("gulp-util");
 var browserify = require("browserify");
 var del = require("del");
 var fs = require("fs");
-var runSequence = require("run-sequence");
+var mergeStream = require("merge-stream");
 var vSourceStream = require("vinyl-source-stream");
 var tsify = require("tsify");
 
@@ -25,17 +25,16 @@ var jsDir = "js/";
 var styleDir = "Styles/";
 var cssDir = "css/";
 
-var imgSrcDir = "Styles/img/";
-var imgDestDir = "css/img/";
-
-var buildDir = "build/";
-
 var prodEntryPoint = "main.prod.ts";
 
-var styleFiles = [
+var stylesheetFiles = [
     "node_modules/font-awesome/css/font-awesome.css",
     "node_modules/bootstrap/dist/css/bootstrap.css",
-    styleDir + "Common.less"
+    "Styles/Common.less"
+];
+
+var styleFiles = [
+    { src: "Styles/img/**/*", dst: "css/img" }
 ];
 
 var bootScriptFiles = [
@@ -43,6 +42,14 @@ var bootScriptFiles = [
     "node_modules/zone.js/dist/zone.js",
     "node_modules/reflect-metadata/Reflect.js",
     "node_modules/systemjs/dist/system.src.js"
+];
+
+var jsDevFiles = [
+    "Scripts/system.dev.js"
+];
+
+var htmlFiles = [
+    "Scripts/**/*.html"
 ];
 
 var libraryModules = [
@@ -72,7 +79,7 @@ gulp.task("watch",
     function() {
         // We rely on the VS transpiler during development, so watch js files
         //var tsWatch = [srcDir + "**/*.js", "!" + srcDir + "app*.js", "!" + srcDir + "lib*.js"];
-        var lessWatch = [styleDir + "*less"];
+        var lessWatch = [styleDir + "*.less"];
         //return pump([gulp.src(lessWatch), gDebug({ title: "watched files: " })]);
 
         //gulp.watch(tsWatch, ["bundle-app-dev"]);
@@ -80,48 +87,37 @@ gulp.task("watch",
     });
 
 
-gulp.task("build:dev", function (cb)
-{
-    runSequence(["clean:build", "clean:css", "clean:js:dest", "clean:img"],
-                ["build:dev:boot", "build:dev:css", "copy:img"], cb);
-});
-
-gulp.task("build:prod", function (cb)
-{
-    runSequence("clean", ["build:prod:boot", "build:prod:app", "build:prod:lib", "build:prod:css", "copy:img"], "clean:build", cb)
-});
+gulp.task("build:dev", ["build:dev:css", "build:dev:boot", "copy:dev:js", "copy:html", "copy:styles"], function () { });
+gulp.task("build:prod", ["build:prod:css", "build:prod:boot", "build:prod:lib", "build:prod:app", "copy:styles"], function () { });
 
 
-gulp.task("clean", ["clean:build", "clean:css", "clean:js:src", "clean:js:dest", "clean:img"], function () { });
-gulp.task("clean:build", function ()
-{
-    return del(buildDir);
-});
+gulp.task("clean", ["clean:css", "clean:js", "clean:styles"], function () {});
+
 gulp.task("clean:css", function ()
 {
     return del(cssDir);
 });
 
-gulp.task("clean:js:src", function ()
-{
-    return del([srcDir + "**/*.js", srcDir + "**/*.map", "!" + srcDir + "system.dev.js"]);
-});
-
-gulp.task("clean:js:dest", function ()
+gulp.task("clean:js", function ()
 {
     return del([jsDir]);
 });
 
-gulp.task("clean:img", function ()
-{
-    return del([imgDestDir]);
+gulp.task("clean:styles", function ()
+{   
+    var promise = [];
+    styleFiles.forEach(function (styleFile)
+    {
+        promise.push(del(styleFile.dst));
+    });
+    return Promise.all(promise);
 });
 
-gulp.task("build:inline:templates", function ()
+gulp.task("build:inline:templates", ["copy:html"], function ()
 {
     return gulp.src(srcDir + "**/*.ts")
                .pipe(gInlineNg2Template({ base: "/" }))
-               .pipe(gulp.dest(buildDir));
+               .pipe(gulp.dest(jsDir));
 });
 
 gulp.task("build:prod:app", ["build:inline:templates"], function ()
@@ -130,7 +126,7 @@ gulp.task("build:prod:app", ["build:inline:templates"], function ()
         debug: false
     });
 
-    b.add(buildDir + prodEntryPoint);
+    b.add(jsDir + prodEntryPoint);
     libraryModules.forEach(function (lib) { b.external(lib); });
 
     return b.plugin(tsify).bundle().on("error", function (err) { gUtil.log(err); })
@@ -171,7 +167,7 @@ gulp.task("build:prod:boot", function ()
 
 gulp.task("build:dev:css", function ()
 {
-    return gulp.src(styleFiles)
+    return gulp.src(stylesheetFiles)
                .pipe(gSourceMaps.init())
                //.pipe(gDebug({ title: "style files: " }))
                .pipe(gIf(/[.]less/, gLess()))
@@ -182,7 +178,7 @@ gulp.task("build:dev:css", function ()
 
 gulp.task("build:prod:css", function ()
 {
-    return gulp.src(styleFiles)
+    return gulp.src(stylesheetFiles)
                 //.pipe(gDebug({ title: "style files: " }))
                 .pipe(gIf(/[.]less/, gLess()))
                 .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
@@ -191,9 +187,23 @@ gulp.task("build:prod:css", function ()
 });
 
 
-gulp.task("copy:img", function ()
+gulp.task("copy:dev:js", function ()
 {
-    return gulp.src(imgSrcDir + "**/*")
-               .pipe(gulp.dest(imgDestDir));
+    return gulp.src(jsDevFiles).pipe(gulp.dest(jsDir));
+});
+
+gulp.task("copy:html", function ()
+{
+    return gulp.src(htmlFiles).pipe(gulp.dest(jsDir));
+});
+
+gulp.task("copy:styles", function ()
+{
+    var streams = [];
+    styleFiles.forEach(function (style)
+    {
+        streams.push(gulp.src(style.src).pipe(gulp.dest(style.dst)));
+    });
+    return mergeStream(streams);
 });
 

@@ -46,7 +46,7 @@ namespace TemplateClient.Server
                 Scripts.AddRange(new IHtmlElem[]
                 {
                     new ScriptElem {Src = $"{PageConfig.RootUrl}js/boot-{PageConfig.Version}.js", Type = ScriptType.Javascript},
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}Scripts/system.dev.js", Type = ScriptType.Javascript},
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}js/system.dev.js", Type = ScriptType.Javascript},
                     new ScriptElem { Body= "(function() { System.import('app').catch(err => console.error(err)); })()", Type = ScriptType.Javascript }
                 });
             }

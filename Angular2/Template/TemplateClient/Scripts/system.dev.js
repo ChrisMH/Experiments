@@ -7,7 +7,7 @@
         },
         // map tells the System loader where to look for things
         map: {
-            app: "Scripts",
+            app: "js",
 
             // angular bundles
             "@angular/common": "npm:@angular/common/bundles/common.umd.js",

@@ -1,7 +1,5 @@
-Scripts/**/*.js
-Scripts/**/*.map
-!Scripts/system.dev.js
-!Scripts/system.prod.js
-
-Styles/*.css
+css/
+js/
+node_modules/
+typings/
 
