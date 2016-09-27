@@ -76,14 +76,11 @@ var getAssemblyInfo = function() {
 };
 
 gulp.task("watch",
-    function() {
-        // We rely on the VS transpiler during development, so watch js files
-        //var tsWatch = [srcDir + "**/*.js", "!" + srcDir + "app*.js", "!" + srcDir + "lib*.js"];
-        var lessWatch = [styleDir + "*.less"];
-        //return pump([gulp.src(lessWatch), gDebug({ title: "watched files: " })]);
-
-        //gulp.watch(tsWatch, ["bundle-app-dev"]);
-        gulp.watch(lessWatch, ["build:dev:css"]);
+    function ()
+    {
+        gulp.watch([srcDir + "system.dev.js"], ["copy:dev:js"]);
+        gulp.watch([srcDir + "**/*.html"], ["copy:html"]);
+        gulp.watch([styleDir + "*.less"], ["build:dev:css"]);
     });
 
 
