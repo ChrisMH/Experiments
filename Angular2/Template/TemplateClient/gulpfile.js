@@ -19,29 +19,26 @@ var mergeStream = require("merge-stream");
 var vSourceStream = require("vinyl-source-stream");
 var tsify = require("tsify");
 
-var stylesheetFiles = [
-    "node_modules/font-awesome/css/font-awesome.css",
-    "node_modules/bootstrap/dist/css/bootstrap.css",
+var vendorStylesheetFiles = [
+    "styles/font-awesome/less/font-awesome.less",
+    "styles/bootstrap/less/bootstrap.less"
+];
+
+var appStylesheetFiles = [
     "styles/Common.less"
 ];
 
 var styleFiles = [
-    { src: "styles/img/**/*", dst: "css/img" }
+    { src: "styles/img/**/*", dst: "css/img" },
+    { src: "styles/font-awesome/fonts/**/*", dst: "css/fonts" },
+    { src: "styles/bootstrap/fonts/**/*", dst: "css/fonts" }
 ];
 
-var bootScriptFiles = [
+var bootJavascriptFiles = [
     "node_modules/core-js/client/shim.js",
     "node_modules/zone.js/dist/zone.js",
     "node_modules/reflect-metadata/Reflect.js",
     "node_modules/systemjs/dist/system.src.js"
-];
-
-var jsDevFiles = [
-    "scripts/system.dev.js"
-];
-
-var htmlFiles = [
-    "scripts/**/*.html"
 ];
 
 var libraryModules = [
@@ -70,12 +67,13 @@ var getAssemblyInfo = function() {
 gulp.task("watch",
     function ()
     {
-        gulp.watch(["styles/*.less"], ["build:dev:css"]);
+        gulp.watch(["styles/*.less"], ["build:dev:app:css"]);
+        gulp.watch(["styles/**/*.less", "!styles/*.less"], ["build:dev:vendor:css"]);
     });
 
 
-gulp.task("build:dev", ["build:dev:css", "build:dev:boot", "copy:styles"], function () { });
-gulp.task("build:prod", ["build:prod:css", "build:prod:boot", "build:prod:lib", "build:prod:app", "copy:styles"], function () { });
+gulp.task("build:dev", ["build:dev:app:css", "build:dev:vendor:css", "build:dev:boot:js", "copy:styles"], function () { });
+gulp.task("build:prod", ["build:prod:app:css", "build:prod:vendor:css", "build:prod:boot:js", "build:prod:vendor:js", "build:prod:app:js", "copy:styles"], function () { });
 
 
 gulp.task("clean", ["clean:css", "clean:js", "clean:styles"], function () {});
@@ -107,13 +105,13 @@ gulp.task("build:inline:templates", function ()
                .pipe(gulp.dest("js"));
 });
 
-gulp.task("build:prod:app", ["build:inline:templates"], function ()
+gulp.task("build:prod:app:js", ["build:inline:templates"], function ()
 {
     var b = browserify({
         debug: false
     });
 
-    b.add("js/main.prod.js");
+    b.add("js/main.prod.ts");
     libraryModules.forEach(function (lib) { b.external(lib); });
 
     return b.plugin(tsify).bundle().on("error", function (err) { gUtil.log(err); })
@@ -122,7 +120,7 @@ gulp.task("build:prod:app", ["build:inline:templates"], function ()
             .pipe(gulp.dest("js"));
 });
 
-gulp.task("build:prod:lib", function ()
+gulp.task("build:prod:vendor:js", function ()
 {
     var b = browserify({
         debug: false
@@ -131,46 +129,67 @@ gulp.task("build:prod:lib", function ()
     libraryModules.forEach(function (lib) { b.require(lib); });
             
     return b.bundle().on("error", function (err) { gUtil.log(err); })
-            .pipe(vSourceStream("lib-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
+            .pipe(vSourceStream("vendor-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
             .pipe(gStreamify(gUglify()))
             .pipe(gulp.dest("js"));
 });
 
 
-gulp.task("build:dev:boot", function ()
+gulp.task("build:dev:boot:js", function ()
 {
-    return gulp.src(bootScriptFiles)
+    return gulp.src(bootJavascriptFiles)
                .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".js"))
                .pipe(gulp.dest("js"));
 });
 
-gulp.task("build:prod:boot", function ()
+gulp.task("build:prod:boot:js", function ()
 {
-    return gulp.src(bootScriptFiles)
+    return gulp.src(bootJavascriptFiles)
                .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
                .pipe(gStreamify(gUglify()))
                .pipe(gulp.dest("js"));
 });
 
-gulp.task("build:dev:css", function ()
+gulp.task("build:dev:app:css", function ()
 {
-    return gulp.src(stylesheetFiles)
+    return gulp.src(appStylesheetFiles)
                .pipe(gSourceMaps.init())
                //.pipe(gDebug({ title: "style files: " }))
                .pipe(gIf(/[.]less/, gLess()))
                .pipe(gSourceMaps.write())
-               .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".css"))
+               .pipe(gConcat("app-" + getAssemblyInfo().AssemblyVersion + ".css"))
                .pipe(gulp.dest("css"));
 });
 
-gulp.task("build:prod:css", function ()
+gulp.task("build:prod:app:css", function ()
 {
-    return gulp.src(stylesheetFiles)
+    return gulp.src(appStylesheetFiles)
                 //.pipe(gDebug({ title: "style files: " }))
                 .pipe(gIf(/[.]less/, gLess()))
-                .pipe(gConcat("styles-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
+                .pipe(gConcat("app-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
+                .pipe(gCleanCss({ keepSpecialComments: 0}))
+                .pipe(gulp.dest("css"))
+});
+
+gulp.task("build:dev:vendor:css", function ()
+{
+    return gulp.src(vendorStylesheetFiles)
+               .pipe(gSourceMaps.init())
+               //.pipe(gDebug({ title: "style files: " }))
+               .pipe(gIf(/[.]less/, gLess()))
+               .pipe(gSourceMaps.write())
+               .pipe(gConcat("vendor-" + getAssemblyInfo().AssemblyVersion + ".css"))
+               .pipe(gulp.dest("css"));
+});
+
+gulp.task("build:prod:vendor:css", function ()
+{
+    return gulp.src(vendorStylesheetFiles)
+                //.pipe(gDebug({ title: "style files: " }))
+                .pipe(gIf(/[.]less/, gLess()))
+                .pipe(gConcat("vendor-" + getAssemblyInfo().AssemblyVersion + ".min.css"))
                 .pipe(gCleanCss({ keepSpecialComments: 0 }))
-                .pipe(gulp.dest("css"));
+                .pipe(gulp.dest("css"))
 });
 
 

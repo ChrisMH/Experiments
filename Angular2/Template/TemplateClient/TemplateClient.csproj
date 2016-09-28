@@ -88,7 +88,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\components\app.component.html" />
+    <Content Include="scripts\Components\App.html" />
     <Content Include="gulpfile.js" />
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
@@ -118,13 +118,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\components\index.ts" />
+    <TypeScriptCompile Include="scripts\Components\index.ts" />
     <TypeScriptCompile Include="scripts\main.prod.ts" />
-    <TypeScriptCompile Include="scripts\module.ts" />
-    <TypeScriptCompile Include="scripts\components\app.component.ts" />
+    <TypeScriptCompile Include="scripts\Models\index.ts" />
+    <TypeScriptCompile Include="scripts\Models\PageConfig.ts" />
+    <TypeScriptCompile Include="scripts\Module.ts" />
+    <TypeScriptCompile Include="scripts\Components\App.ts" />
     <TypeScriptCompile Include="scripts\main.dev.ts" />
-    <TypeScriptCompile Include="scripts\services\app.settings.ts" />
-    <TypeScriptCompile Include="scripts\services\index.ts" />
+    <TypeScriptCompile Include="scripts\Services\AppSettings.ts" />
+    <TypeScriptCompile Include="scripts\Services\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

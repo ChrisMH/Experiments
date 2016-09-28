@@ -40,7 +40,8 @@ namespace TemplateClient.Server
             {
                 Styles.AddRange(new IHtmlElem[]
                 {
-                    new LinkElem {Href = $"{PageConfig.RootUrl}css/styles-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
+                    new LinkElem {Href = $"{PageConfig.RootUrl}css/vendor-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
+                    new LinkElem {Href = $"{PageConfig.RootUrl}css/app-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
                 });
 
                 Scripts.AddRange(new IHtmlElem[]
@@ -54,13 +55,14 @@ namespace TemplateClient.Server
             {
                 Styles.AddRange(new IHtmlElem[]
                 {
-                    new LinkElem {Href = $"{PageConfig.RootUrl}css/styles-{PageConfig.Version}.min.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
+                    new LinkElem {Href = $"{PageConfig.RootUrl}css/vendor-{PageConfig.Version}.min.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
+                    new LinkElem {Href = $"{PageConfig.RootUrl}css/app-{PageConfig.Version}.min.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
                 });
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
                     new ScriptElem {Src = $"{PageConfig.RootUrl}js/boot-{PageConfig.Version}.min.js", Type = ScriptType.Javascript },
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}js/lib-{PageConfig.Version}.min.js", Type = ScriptType.Javascript }
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}js/vendor-{PageConfig.Version}.min.js", Type = ScriptType.Javascript }
                 });
 
                 App.Add(new ScriptElem { Src = $"{PageConfig.RootUrl}js/app-{PageConfig.Version}.min.js", Type = ScriptType.Javascript });

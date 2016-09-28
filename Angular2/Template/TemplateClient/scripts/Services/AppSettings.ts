@@ -1,17 +1,7 @@
 ﻿import { Injectable } from "@angular/core";
-import { JsonObject, JsonMember, TypedJSON } from "typedjson";
+import { TypedJSON } from "typedjson";
+import { PageConfig } from "../Models";
 
-@JsonObject
-export class PageConfig {
-    @JsonMember
-    originUrl: string;
-
-    @JsonMember
-    rootUrl: string;
-
-    @JsonMember
-    version: string;
-}
 
 @Injectable()
 export class AppSettings {

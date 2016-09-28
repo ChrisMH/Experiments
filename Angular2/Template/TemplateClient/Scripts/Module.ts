@@ -1,8 +1,8 @@
 ﻿import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import * as c from "./components";
-import * as s from "./services";
+import * as comp from "./Components";
+import * as serv from "./Services";
 
 @NgModule({
     imports: [
@@ -10,14 +10,14 @@ import * as s from "./services";
     ],
 
     declarations: [ 
-        c.App
+        comp.App
     ],
 
     providers: [
-        s.AppSettings
+        serv.AppSettings
     ],
 
-    exports: [c.App],
-    bootstrap: [c.App]
+    exports: [comp.App],
+    bootstrap: [comp.App]
 })
 export class Module { }
