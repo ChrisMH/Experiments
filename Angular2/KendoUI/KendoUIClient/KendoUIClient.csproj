@@ -89,19 +89,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />
-    <Content Include="scripts\Components\App.html" />
+    <Content Include="scripts\app\Components\App.html" />
     <Content Include="gulpfile.js" />
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
-    <Content Include="scripts\system.dev.js" />
-    <Content Include="styles\images\favicon.ico" />
+    <Content Include="scripts\app\system.dev.js" />
+    <Content Include="styles\app\images\favicon.ico" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="styles\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="typings.json" />
     <Content Include="tsconfig.json" />
-    <Content Include="styles\Common.less" />
-    <Content Include="styles\Global.less" />
+    <Content Include="styles\app\Common.less" />
+    <Content Include="styles\app\Global.less" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.woff" />
@@ -214,21 +214,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="scripts\vendor\jquery\" />
+    <Folder Include="scripts\app\vendor\jquery\" />
+    <Folder Include="scripts\vendor\" />
     <Folder Include="styles\vendor\kendo\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\Components\DatepickerPopup.ts" />
-    <TypeScriptCompile Include="scripts\Components\index.ts" />
-    <TypeScriptCompile Include="scripts\main.prod.ts" />
-    <TypeScriptCompile Include="scripts\Models\index.ts" />
-    <TypeScriptCompile Include="scripts\Models\PageConfig.ts" />
-    <TypeScriptCompile Include="scripts\Module.ts" />
-    <TypeScriptCompile Include="scripts\Components\App.ts" />
-    <TypeScriptCompile Include="scripts\main.dev.ts" />
-    <TypeScriptCompile Include="scripts\Services\AppSettings.test.ts" />
-    <TypeScriptCompile Include="scripts\Services\AppSettings.ts" />
-    <TypeScriptCompile Include="scripts\Services\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Components\DatepickerPopup.ts" />
+    <TypeScriptCompile Include="scripts\app\Components\index.ts" />
+    <TypeScriptCompile Include="scripts\app\main.prod.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
+    <TypeScriptCompile Include="scripts\app\Module.ts" />
+    <TypeScriptCompile Include="scripts\app\Components\App.ts" />
+    <TypeScriptCompile Include="scripts\app\main.dev.ts" />
+    <TypeScriptCompile Include="scripts\app\Services\AppSettings.test.ts" />
+    <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
+    <TypeScriptCompile Include="scripts\app\Services\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

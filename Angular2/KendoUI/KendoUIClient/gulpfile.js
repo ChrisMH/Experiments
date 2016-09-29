@@ -25,11 +25,11 @@ var vendorStylesheetFiles = [
 ];
 
 var appStylesheetFiles = [
-    "styles/Common.less"
+    "styles/app/Common.less"
 ];
 
 var styleFiles = [
-    { src: "styles/images/**/*", dst: "css/images" },
+    { src: "styles/app/images/**/*", dst: "css/images" },
     { src: "styles/vendor/font-awesome/fonts/**/*", dst: "css/fonts" },
     { src: "styles/vendor/bootstrap/fonts/**/*", dst: "css/fonts" }
 ];
@@ -67,8 +67,7 @@ var getAssemblyInfo = function() {
 gulp.task("watch",
     function ()
     {
-        gulp.watch(["styles/*.less"], ["build:dev:app:css"]);
-        gulp.watch(["styles/**/*.less", "!styles/*.less"], ["build:dev:vendor:css"]);
+        gulp.watch(["styles/**/*.less", "styles/vendor/**/*.css"], ["build:dev:app:css"]);
     });
 
 
@@ -85,7 +84,7 @@ gulp.task("clean:css", function ()
 
 gulp.task("clean:js", function ()
 {
-    return del(["js", "scripts/**/*.js", "scripts/**/*.map", "!scripts/system.dev.js", "!scripts/vendor/**/*"]);
+    return del(["js", "scripts/app/**/*.js", "scripts/app/**/*.map", "!scripts/app/system.dev.js"]);
 });
 
 gulp.task("clean:styles", function ()
@@ -100,7 +99,7 @@ gulp.task("clean:styles", function ()
 
 gulp.task("build:inline:templates", function ()
 {
-    return gulp.src("scripts/**/*.ts")
+    return gulp.src("scripts/app/**/*.ts")
                .pipe(gInlineNg2Template({ base: "/" }))
                .pipe(gulp.dest("js"));
 });

@@ -24,8 +24,8 @@ namespace TemplateClient.Server
             {
                 new TitleElem { Title = Debug ? "Angular Template (Debug)" : "Angular Template" },
                 new BaseElem { Href = PageConfig.RootUrl },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/img/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/img/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon }
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon }
 
             };
 
@@ -47,7 +47,7 @@ namespace TemplateClient.Server
                 Scripts.AddRange(new IHtmlElem[]
                 {
                     new ScriptElem {Src = $"{PageConfig.RootUrl}js/boot-{PageConfig.Version}.js", Type = ScriptType.Javascript},
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}scripts/system.dev.js", Type = ScriptType.Javascript},
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}scripts/app/system.dev.js", Type = ScriptType.Javascript},
                     new ScriptElem { Body= "(function() { System.import('app').catch(err => console.error(err)); })()", Type = ScriptType.Javascript }
                 });
             }
