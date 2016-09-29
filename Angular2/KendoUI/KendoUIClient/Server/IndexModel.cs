@@ -24,8 +24,8 @@ namespace KendoUIClient.Server
             {
                 new TitleElem { Title = Debug ? "Angular KendoUI (Debug)" : "Angular KendoUI" },
                 new BaseElem { Href = PageConfig.RootUrl },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/img/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/img/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon }
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon }
 
             };
 

@@ -20,8 +20,8 @@ var vSourceStream = require("vinyl-source-stream");
 var tsify = require("tsify");
 
 var vendorStylesheetFiles = [
-    "styles/font-awesome/less/font-awesome.less",
-    "styles/bootstrap/less/bootstrap.less"
+    "styles/vendor/font-awesome/less/font-awesome.less",
+    "styles/vendor/bootstrap/less/bootstrap.less"
 ];
 
 var appStylesheetFiles = [
@@ -29,9 +29,9 @@ var appStylesheetFiles = [
 ];
 
 var styleFiles = [
-    { src: "styles/img/**/*", dst: "css/img" },
-    { src: "styles/font-awesome/fonts/**/*", dst: "css/fonts" },
-    { src: "styles/bootstrap/fonts/**/*", dst: "css/fonts" }
+    { src: "styles/images/**/*", dst: "css/images" },
+    { src: "styles/vendor/font-awesome/fonts/**/*", dst: "css/fonts" },
+    { src: "styles/vendor/bootstrap/fonts/**/*", dst: "css/fonts" }
 ];
 
 var bootJavascriptFiles = [
@@ -85,7 +85,7 @@ gulp.task("clean:css", function ()
 
 gulp.task("clean:js", function ()
 {
-    return del(["js", "scripts/**/*.js", "scripts/**/*.map", "!scripts/system.dev.js"]);
+    return del(["js", "scripts/**/*.js", "scripts/**/*.map", "!scripts/system.dev.js", "!scripts/vendor/**/*"]);
 });
 
 gulp.task("clean:styles", function ()

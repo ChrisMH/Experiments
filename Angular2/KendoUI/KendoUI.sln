@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeControls", "PrimeControls\PrimeControls.csproj", "{E43B2347-B116-493C-9A85-6E5106DA6ADE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KendoUIClient", "KendoUIClient\KendoUIClient.csproj", "{E43B2347-B116-493C-9A85-6E5106DA6ADE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

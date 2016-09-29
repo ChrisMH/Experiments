@@ -24,8 +24,11 @@
 
             // KendoUI
             "@progress/kendo-angular-buttons": "npm:@progress/kendo-angular-buttons",
+            
+            "ng2-bootstrap/ng2-bootstrap": "npm:ng2-bootstrap",
 
             // other libraries
+            "moment": "npm:moment",
             "rxjs": "npm:rxjs",
             "typedjson": "npm:typedjson/js"
         },
@@ -38,6 +41,10 @@
 
             "@progress/kendo-angular-buttons": { main: "dist/npm/js/main" },
 
+            "primeng/primeng": { main: "primeng" },
+
+            "ng2-bootstrap/ng2-bootstrap": { main: "ng2-bootstrap" },
+            "moment": { main: "moment" },
             "rxjs": { main: "Rx" },
             "typedjson": { main: "index" },
         }

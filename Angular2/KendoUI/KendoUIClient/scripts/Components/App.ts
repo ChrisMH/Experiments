@@ -7,6 +7,8 @@ import { AppSettings } from "../Services";
     templateUrl: "scripts/Components/App.html"
 })
 export class App {
+    date: Date = new Date();
+
     constructor(private appSettings: AppSettings) { }
 
     onButtonClick() {
