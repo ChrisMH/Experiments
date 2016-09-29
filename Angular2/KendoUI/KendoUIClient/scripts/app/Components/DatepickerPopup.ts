@@ -5,6 +5,7 @@
     template: `
       <label>{{label}}</label>
       <input [(ngModel)]="dateModel" class="form-control"  (focus)="showPopup()" />
+        <a class="btn" href="#"><i class="icon-calendar"></i></a>
       <datepicker class="popup" *ngIf="showDatepicker" [(ngModel)]="dateModel" [showWeeks]="true" (ngModelChange)="hidePopup($event)" ></datepicker>
   `,
     styles: [`
