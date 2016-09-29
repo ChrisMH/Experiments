@@ -1,0 +1,10 @@
+scripts/**/*.js
+scripts/**/*.map
+!scripts/system.dev.js
+!scripts/vendor/**/*
+
+css/
+js/
+node_modules/
+typings/
+
