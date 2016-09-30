@@ -30,17 +30,21 @@ namespace TemplateClient.Server
             };
 
             Scripts = new HtmlBuilder();
-            
+
+            Bootstrap = new ScriptElem { Body = "(function() { angular.bootstrap(document.body, ['TemplateApp'], { strictDi: true })})();", Type = ScriptType.Javascript };
+
             if (Debug)
             {
                 Styles.AddRange(new IHtmlElem[]
                 {
-                    new LinkElem { Href = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css", Type= LinkType.Css, Rel= LinkRelType.Stylesheet }
+                    new LinkElem { Href = $"{PageConfig.RootUrl}node_modules/bootstrap/dist/css/bootstrap.css", Type= LinkType.Css, Rel= LinkRelType.Stylesheet }
                 });
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
-                    new ScriptElem { Src = "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js", Type = ScriptType.Javascript },
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/angular/angular.js", Type = ScriptType.Javascript },
+                    
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/jquery/dist/jquery.js", Type = ScriptType.Javascript },
 
                     new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/TemplateApp.js", Type = ScriptType.Javascript },
                     new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/TemplateController.js", Type = ScriptType.Javascript }
@@ -60,9 +64,9 @@ namespace TemplateClient.Server
             }
         }
 
-        public NancyPageConfig PageConfig { get; set; }
-
-        public HtmlBuilder Styles { get; set; }
-        public HtmlBuilder Scripts { get; set; }
+        public NancyPageConfig PageConfig { get; private set; }
+        public HtmlBuilder Styles { get; private set; }
+        public HtmlBuilder Scripts { get; private set; }
+        public ScriptElem Bootstrap { get; private set; }
     }
 }

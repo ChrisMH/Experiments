@@ -7,7 +7,8 @@
 </head>
 
 <body>
-	<div ng-app="TemplateApp" ng-controller="TemplateController" ng-init="init('@Model.PageConfig.Json')">	  
+	<div ng-controller="TemplateController" ng-init="init('@Model.PageConfig.Json')">	  
 	</div>
+	@Model.Bootstrap.Html
 </body>
 </html>

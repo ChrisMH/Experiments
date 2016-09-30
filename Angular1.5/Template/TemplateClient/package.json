@@ -2,9 +2,12 @@
   "name": "template-client",
   "version": "1.0.0",
   "description": "Angular 1.5xx Template",
-  "scripts": {
-    "postinstall": "typings install"
-  },
+  "scripts": {},
   "author": "Chris Hogan",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "jquery": "^2.2.4"
+  }
 }
