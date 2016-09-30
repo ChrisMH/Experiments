@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+	@Model.Styles.Html
+	@Model.Scripts.Html
+</head>
+
+<body>
+	<div ng-app="TemplateApp" ng-controller="TemplateController" ng-init="init('@Model.PageConfig.Json')">	  
+	</div>
+</body>
+</html>

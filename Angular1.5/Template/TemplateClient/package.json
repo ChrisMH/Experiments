@@ -1,0 +1,10 @@
+{
+  "name": "template-client",
+  "version": "1.0.0",
+  "description": "Angular 1.5xx Template",
+  "scripts": {
+    "postinstall": "typings install"
+  },
+  "author": "Chris Hogan",
+  "license": "ISC"
+}
