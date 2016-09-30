@@ -30,9 +30,7 @@ namespace TemplateClient.Server
             };
 
             Scripts = new HtmlBuilder();
-
-            Bootstrap = new ScriptElem { Body = "(function() { angular.bootstrap(document.body, ['TemplateApp'], { strictDi: true })})();", Type = ScriptType.Javascript };
-
+            
             if (Debug)
             {
                 Styles.AddRange(new IHtmlElem[]
@@ -42,12 +40,22 @@ namespace TemplateClient.Server
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/angular/angular.js", Type = ScriptType.Javascript },
+                    //new ScriptElem {Src = $"{PageConfig.RootUrl}node_modules/core-js/client/shim.js", Type = ScriptType.Javascript},
+                    //new ScriptElem {Src = $"{PageConfig.RootUrl}node_modules/zone.js/dist/zone.js", Type = ScriptType.Javascript},
+                    //new ScriptElem {Src = $"{PageConfig.RootUrl}node_modules/reflect-metadata/Reflect.js", Type = ScriptType.Javascript},
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/systemjs/dist/system.src.js", Type = ScriptType.Javascript },
+                    //new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/angular/angular.js", Type = ScriptType.Javascript },
                     
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/jquery/dist/jquery.js", Type = ScriptType.Javascript },
+                    //new ScriptElem { Src = $"{PageConfig.RootUrl}node_modules/jquery/dist/jquery.js", Type = ScriptType.Javascript },
 
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/TemplateApp.js", Type = ScriptType.Javascript },
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/TemplateController.js", Type = ScriptType.Javascript }
+
+
+                    //new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/TemplateApp.js", Type = ScriptType.Javascript },
+                    //new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/TemplateController.js", Type = ScriptType.Javascript },
+
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/system.config.js", Type = ScriptType.Javascript },
+
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/bootstrap.js", Type = ScriptType.Javascript }
                 });
             }
             else
