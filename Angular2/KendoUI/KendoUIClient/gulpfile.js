@@ -25,7 +25,7 @@ var vendorStylesheetFiles = [
 ];
 
 var appStylesheetFiles = [
-    "styles/app/Common.less"
+    "styles/app/app.less"
 ];
 
 var styleFiles = [
@@ -50,7 +50,9 @@ var libraryModules = [
     "@angular/platform-browser",
     "@angular/platform-browser-dynamic",
     "@angular/router",
-
+    "@progress/kendo-angular-buttons",
+    "moment/moment",
+    "ng2-bootstrap/ng2-bootstrap",
     "rxjs/Rx",
     "typedjson"
 ];
@@ -67,7 +69,8 @@ var getAssemblyInfo = function() {
 gulp.task("watch",
     function ()
     {
-        gulp.watch(["styles/**/*.less", "styles/vendor/**/*.css"], ["build:dev:app:css"]);
+        gulp.watch(["styles/app/**/*.less"], ["build:dev:app:css"]);
+        gulp.watch(["styles/vendor/**/*.less", "styles/vendor/**/*.css"], ["build:dev:vendor:css"]);
     });
 
 
@@ -100,8 +103,8 @@ gulp.task("clean:styles", function ()
 gulp.task("build:inline:templates", function ()
 {
     return gulp.src("scripts/app/**/*.ts")
-               .pipe(gInlineNg2Template({ base: "/" }))
-               .pipe(gulp.dest("js"));
+               .pipe(gInlineNg2Template({ base: "/", useRelativePaths: true }))
+               .pipe(gulp.dest("js/app"));
 });
 
 gulp.task("build:prod:app:js", ["build:inline:templates"], function ()
@@ -110,7 +113,7 @@ gulp.task("build:prod:app:js", ["build:inline:templates"], function ()
         debug: false
     });
 
-    b.add("js/main.prod.ts");
+    b.add("js/app/main.prod.ts");
     libraryModules.forEach(function (lib) { b.external(lib); });
 
     return b.plugin(tsify).bundle().on("error", function (err) { gUtil.log(err); })

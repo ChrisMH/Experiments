@@ -1,7 +1,6 @@
-scripts/**/*.js
-scripts/**/*.map
-!scripts/system.dev.js
-!scripts/vendor/**/*
+scripts/app/**/*.js
+scripts/app/**/*.map
+!scripts/app/system.dev.js
 
 css/
 js/

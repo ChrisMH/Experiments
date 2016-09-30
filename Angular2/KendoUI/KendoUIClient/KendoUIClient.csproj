@@ -100,8 +100,8 @@
     <Content Include="styles\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="typings.json" />
     <Content Include="tsconfig.json" />
-    <Content Include="styles\app\Common.less" />
-    <Content Include="styles\app\Global.less" />
+    <Content Include="styles\app\common.less" />
+    <Content Include="styles\app\variables.less" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="styles\vendor\bootstrap\fonts\glyphicons-halflings-regular.woff" />
@@ -196,6 +196,7 @@
     <Content Include="styles\vendor\font-awesome\less\screen-reader.less" />
     <Content Include="styles\vendor\font-awesome\less\stacked.less" />
     <Content Include="styles\vendor\font-awesome\less\variables.less" />
+    <Content Include="styles\app\app.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

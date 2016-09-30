@@ -3,8 +3,9 @@
 import { AppSettings } from "../Services";
 
 @Component({
+    moduleId: module.id,
     selector: "app",
-    templateUrl: "scripts/app/Components/App.html"
+    templateUrl: "./App.html"
 })
 export class App {
     constructor(private appSettings: AppSettings) { }
