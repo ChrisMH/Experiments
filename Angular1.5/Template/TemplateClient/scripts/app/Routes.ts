@@ -1,6 +1,6 @@
 ﻿import "angular";
 import "angular-ui-router";
-import { MainContent } from "./Components/MainContent";
+import { App } from "./Components";
 
 export function routes(
     $stateProvider: angular.ui.IStateProvider,
@@ -9,7 +9,7 @@ export function routes(
 {
     $urlRouterProvider.otherwise("/");
     $locationProvider.html5Mode(true);
-
+    
     $stateProvider
         .state("Main",
         {
@@ -18,8 +18,8 @@ export function routes(
             {
                 "content": 
                 {
-                    templateUrl: "scripts/app/Components/MainContent.html",
-                    controller: "MainContent"
+                    templateUrl: "scripts/app/Components/App.html",
+                    controller: "App"
                 }
             }
         });

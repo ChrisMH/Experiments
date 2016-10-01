@@ -1,6 +1,5 @@
 scripts/app/**/*.js
 scripts/app/**/*.map
-!scripts/app/bootstrap.js
 !scripts/app/system.config.js
 
 css/

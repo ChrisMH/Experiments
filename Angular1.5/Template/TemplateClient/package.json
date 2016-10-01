@@ -2,9 +2,12 @@
   "name": "template-client",
   "version": "1.0.0",
   "description": "Angular 1.5xx Template",
-  "scripts": {},
+  "private": true,
   "author": "Chris Hogan",
   "license": "ISC",
+  "scripts": {
+    "postinstall": "typings install"
+  },
   "dependencies": {
     "angular": "^1.5.8",
     "angular-ui-router": "^0.3.1",
@@ -13,6 +16,9 @@
     "jquery": "^2.2.4",
     "reflect-metadata": "^0.1.8",
     "systemjs": "^0.19.39",
+    "systemjs-plugin-babel": "0.0.15",
+    "systemjs-plugin-text": "0.0.9",
+    "typedjson": "^0.1.5",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
@@ -28,6 +34,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-streamify": "^1.0.2",
+    "gulp-typescript": "^3.0.1",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "jasmine": "^2.5.2",
@@ -36,6 +43,9 @@
     "karma-jasmine": "^1.0.2",
     "karma-systemjs": "^0.15.0",
     "merge-stream": "^1.0.0",
+    "run-sequence": "^1.2.2",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

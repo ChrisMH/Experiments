@@ -99,10 +99,12 @@
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
-    <Content Include="scripts\app\bootstrap.js" />
-    <Content Include="scripts\app\Components\MainContent.html" />
+    <Content Include="scripts\app\Components\App.html" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
+    <Content Include="styles\app\app.less" />
+    <Content Include="styles\app\variables.less" />
+    <Content Include="styles\app\common.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -125,9 +127,15 @@
     <Folder Include="scripts\vendor\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\app\main.dev.ts" />
-    <TypeScriptCompile Include="scripts\app\Components\MainContent.ts" />
-    <TypeScriptCompile Include="scripts\app\Routes.ts" />
+    <None Include="scripts\app\Components\index.ts" />
+    <None Include="scripts\app\main.dev.ts" />
+    <None Include="scripts\app\Components\App.ts" />
+    <None Include="scripts\app\Models\index.ts" />
+    <None Include="scripts\app\Models\PageConfig.ts" />
+    <None Include="scripts\app\Module.ts" />
+    <None Include="scripts\app\Routes.ts" />
+    <None Include="scripts\app\Services\AppSettings.ts" />
+    <None Include="scripts\app\Services\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -1,14 +1,7 @@
-﻿import "angular";
+﻿import "reflect-metadata"
+import "angular";
 
-import { routes } from "./Routes";
-import { MainContent } from "./Components/MainContent";
-
-angular.module("Module",
-    [
-        "ui.router"
-    ])
-    .config(routes)
-    .controller("MainContent", MainContent);
+import "./Module";
 
 angular.bootstrap(document.body, ["Module"], { strictDi: true });
 
