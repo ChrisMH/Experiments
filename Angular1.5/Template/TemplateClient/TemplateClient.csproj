@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PostBuildEvent>gulp build:dev</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,6 +44,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PostBuildEvent>gulp build:prod</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddy, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -92,10 +94,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="gulpfile.js" />
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
     <Content Include="scripts\app\bootstrap.js" />
+    <Content Include="scripts\app\Components\MainContent.html" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <None Include="Web.Debug.config">
@@ -107,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="scripts\app\system.config.js" />
-    <Content Include="scripts\app\TemplateController.js" />
     <Content Include="styles\app\images\favicon.ico" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -121,9 +125,9 @@
     <Folder Include="scripts\vendor\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\app\app.ts" />
-    <TypeScriptCompile Include="scripts\app\MainController.ts" />
-    <TypeScriptCompile Include="scripts\app\TemplateModule.ts" />
+    <TypeScriptCompile Include="scripts\app\main.dev.ts" />
+    <TypeScriptCompile Include="scripts\app\Components\MainContent.ts" />
+    <TypeScriptCompile Include="scripts\app\Routes.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
