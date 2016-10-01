@@ -13,4 +13,6 @@ angular.module("Module",
     .controller("App", App)
     .directive("app", AppDirective.Factory())
     .service("appSettings", AppSettings);
-    
+
+// Do this after the module is created.  It injects templates into the $templateCache
+import "app-templates";

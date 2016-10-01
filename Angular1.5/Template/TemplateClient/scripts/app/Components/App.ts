@@ -3,16 +3,19 @@
 export class AppDirective implements ng.IDirective {
     public restrict: string = "E";
     public replace: boolean = true;
-    public templateUrl: string = "/scripts/app/Components/App.html";
+    public templateUrl: string = "scripts/app/Components/App.html";
     public controller: string = "App";
     public controllerAs: string = "Ctrl";
     public scope = {};
 
-    constructor() {
+    constructor(private $templateCache: ng.ITemplateCacheService) {
+        //this.template = $templateCache.get<string>("scripts/app/Components/App.html")
     }
 
     static Factory(): ng.IDirectiveFactory {
-        return () => new AppDirective();
+        var directive = ($templateCache: ng.ITemplateCacheService) => new AppDirective($templateCache);
+        directive.$inject = ["$templateCache"];
+        return directive;
     }
 }
 

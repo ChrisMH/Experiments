@@ -127,15 +127,15 @@
     <Folder Include="scripts\vendor\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="scripts\app\Components\index.ts" />
-    <None Include="scripts\app\main.dev.ts" />
-    <None Include="scripts\app\Components\App.ts" />
-    <None Include="scripts\app\Models\index.ts" />
-    <None Include="scripts\app\Models\PageConfig.ts" />
-    <None Include="scripts\app\Module.ts" />
-    <None Include="scripts\app\Routes.ts" />
-    <None Include="scripts\app\Services\AppSettings.ts" />
-    <None Include="scripts\app\Services\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Components\index.ts" />
+    <TypeScriptCompile Include="scripts\app\main.dev.ts" />
+    <TypeScriptCompile Include="scripts\app\Components\App.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
+    <TypeScriptCompile Include="scripts\app\Module.ts" />
+    <TypeScriptCompile Include="scripts\app\Routes.ts" />
+    <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
+    <TypeScriptCompile Include="scripts\app\Services\index.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

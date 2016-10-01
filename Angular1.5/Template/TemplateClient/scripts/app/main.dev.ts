@@ -1,5 +1,4 @@
-﻿import "reflect-metadata"
-import "angular";
+﻿import "angular";
 
 import "./Module";
 
