@@ -31,6 +31,10 @@ namespace TemplateClient.Server
 
             Scripts = new HtmlBuilder
             {
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/core-js/shim.js", Type = ScriptType.Javascript },
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/zone.js/zone.js", Type = ScriptType.Javascript },
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/reflect-metadata/Reflect.js", Type = ScriptType.Javascript },
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/systemjs/system.js", Type = ScriptType.Javascript },
                 new ScriptElem {Body = PageConfig.ToJavascript(), Type = ScriptType.Javascript}
             };
 
@@ -46,8 +50,7 @@ namespace TemplateClient.Server
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}js/boot-{PageConfig.Version}.js", Type = ScriptType.Javascript},
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}scripts/app/system.dev.js", Type = ScriptType.Javascript},
+                    new ScriptElem {Src = $"{PageConfig.RootUrl}scripts/app/system.config.js", Type = ScriptType.Javascript},
                     new ScriptElem { Body= "(function() { System.import('app').catch(err => console.error(err)); })()", Type = ScriptType.Javascript }
                 });
             }
@@ -61,9 +64,7 @@ namespace TemplateClient.Server
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}js/boot-{PageConfig.Version}.min.js", Type = ScriptType.Javascript },
-                    new ScriptElem {Src = $"{PageConfig.RootUrl}js/vendor-{PageConfig.Version}.min.js", Type = ScriptType.Javascript }
-                });
+                 });
 
                 App.Add(new ScriptElem { Src = $"{PageConfig.RootUrl}js/app-{PageConfig.Version}.min.js", Type = ScriptType.Javascript });
             }

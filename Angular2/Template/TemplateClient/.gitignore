@@ -1,8 +1,6 @@
 scripts/app/**/*.js
 scripts/app/**/*.map
-!scripts/app/system.dev.js
+!scripts/app/system.config.js
 css/
 js/
-node_modules/
-typings/
 

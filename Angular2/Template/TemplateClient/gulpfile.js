@@ -7,6 +7,7 @@ var gDotNetAssemblyInfo = require("gulp-dotnet-assembly-info");
 var gIf = require("gulp-if");
 var gInlineNg2Template = require("gulp-inline-ng2-template");
 var gLess = require("gulp-less");
+var gRename = require("gulp-rename");
 var gSourceMaps = require("gulp-sourcemaps");
 var gStreamify = require("gulp-streamify");
 var gUglify = require("gulp-uglify");
@@ -23,6 +24,23 @@ var vendorStylesheetFiles = [
     "styles/vendor/font-awesome/less/font-awesome.less",
     "styles/vendor/bootstrap/less/bootstrap.less"
 ];
+
+var vendorJavascriptFiles = [
+    { src: "node_modules/core-js/client/shim.js", dst: "js/vendor/core-js" },
+    { src: "node_modules/zone.js/dist/zone.js", dst: "js/vendor/zone.js" },
+    { src: "node_modules/reflect-metadata/Reflect.js", dst: "js/vendor/reflect-metadata" },
+    { src: "node_modules/systemjs/dist/system.src.js", dst: "js/vendor/systemjs", rename: "system.js" },
+    { src: "node_modules/@angular/common/bundles/common.umd.js", dst: "js/vendor/@angular/" },
+    { src: "node_modules/@angular/compiler/bundles/compiler.umd.js", dst: "js/vendor/@angular" },
+    { src: "node_modules/@angular/core/bundles/core.umd.js", dst: "js/vendor/@angular" },
+    { src: "node_modules/@angular/forms/bundles/forms.umd.js", dst: "js/vendor/@angular" },
+    { src: "node_modules/@angular/http/bundles/http.umd.js", dst: "js/vendor/@angular" },
+    { src: "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js", dst: "js/vendor/@angular" },
+    { src: "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js", dst: "js/vendor/@angular" },
+    { src: "node_modules/@angular/router/bundles/router.umd.js", dst: "js/vendor/@angular" },
+    //{ src: "", dst: "" },
+];
+
 
 var appStylesheetFiles = [
     "styles/app/app.less"
@@ -72,8 +90,8 @@ gulp.task("watch",
     });
 
 
-gulp.task("build:dev", ["build:dev:app:css", "build:dev:vendor:css", "build:dev:boot:js", "copy:styles"], function () { });
-gulp.task("build:prod", ["build:prod:app:css", "build:prod:vendor:css", "build:prod:boot:js", "build:prod:vendor:js", "build:prod:app:js", "copy:styles"], function () { });
+gulp.task("build:dev", ["build:dev:app:css", "build:dev:vendor:css", "build:dev:vendor:js", "copy:styles"], function () { });
+gulp.task("build:prod", ["build:prod:app:css", "build:prod:vendor:css", "build:prod:vendor:js", "build:prod:app:js", "copy:styles"], function () { });
 
 
 gulp.task("clean", ["clean:css", "clean:js", "clean:styles"], function () {});
@@ -120,35 +138,37 @@ gulp.task("build:prod:app:js", ["build:inline:templates"], function ()
             .pipe(gulp.dest("js"));
 });
 
+
+gulp.task("build:dev:vendor:js", function ()
+{
+    var streams = [];
+    vendorJavascriptFiles.forEach(function (file)
+    {
+        streams.push(
+            gulp.src(file.src)
+                .pipe(gIf((file.rename != undefined), gRename(file.rename)))
+                .pipe(gulp.dest(file.dst))
+        );
+    });
+    return mergeStream(streams);
+});
+
 gulp.task("build:prod:vendor:js", function ()
 {
-    var b = browserify({
-        debug: false
+    var streams = [];
+    vendorJavascriptFiles.forEach(function (file)
+    {
+        streams.push(
+            gulp.src(file.src)
+                .pipe(gIf((file.rename != undefined), gRename(file.rename)))
+                .pipe(gStreamify(gUglify()))
+                .pipe(gulp.dest(file.dst))
+        );
     });
-
-    libraryModules.forEach(function (lib) { b.require(lib); });
-            
-    return b.bundle().on("error", function (err) { gUtil.log(err); })
-            .pipe(vSourceStream("vendor-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
-            .pipe(gStreamify(gUglify()))
-            .pipe(gulp.dest("js"));
+    return mergeStream(streams);
 });
 
 
-gulp.task("build:dev:boot:js", function ()
-{
-    return gulp.src(bootJavascriptFiles)
-               .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".js"))
-               .pipe(gulp.dest("js"));
-});
-
-gulp.task("build:prod:boot:js", function ()
-{
-    return gulp.src(bootJavascriptFiles)
-               .pipe(gConcat("boot-" + getAssemblyInfo().AssemblyVersion + ".min.js"))
-               .pipe(gStreamify(gUglify()))
-               .pipe(gulp.dest("js"));
-});
 
 gulp.task("build:dev:app:css", function ()
 {
