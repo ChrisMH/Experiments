@@ -14,6 +14,7 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "jquery": "^2.2.4",
+    "moment": "^2.15.1",
     "reflect-metadata": "^0.1.8",
     "systemjs": "^0.19.39",
     "systemjs-plugin-babel": "0.0.15",
@@ -22,6 +23,7 @@
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
+    "babel-core": "^6.17.0",
     "del": "^2.2.2",
     "fs": "^0.0.1-security",
     "gulp": "^3.9.1",
@@ -46,6 +48,7 @@
     "karma-systemjs": "^0.15.0",
     "merge-stream": "^1.0.0",
     "run-sequence": "^1.2.2",
+    "systemjs-builder": "^0.15.32",
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
     "vinyl-source-stream": "^1.1.0"

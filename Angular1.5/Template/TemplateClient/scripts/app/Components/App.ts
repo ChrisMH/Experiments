@@ -1,4 +1,5 @@
 ﻿import { AppSettings } from "../Services/AppSettings";
+import moment from "moment";
 
 export class AppDirective implements ng.IDirective {
     public restrict: string = "E";
@@ -23,6 +24,7 @@ export class AppDirective implements ng.IDirective {
 export interface IAppScope extends ng.IScope
 {
     appSettings: AppSettings;
+    loadTime: Date;
 }
 
 export class App implements ng.IController
@@ -32,6 +34,7 @@ export class App implements ng.IController
     constructor(protected $scope: IAppScope, appSettings: AppSettings)
     {
         this.$scope.appSettings = appSettings;
+        this.$scope.loadTime = moment().toDate();
     }
         
     $onInit()

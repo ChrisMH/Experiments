@@ -4,7 +4,6 @@
 import { App, AppDirective } from "./Components";
 import { AppSettings } from "./Services";
 
-
 angular.module("Module",
     [
         //"ui.router"
@@ -14,5 +13,4 @@ angular.module("Module",
     .directive("app", AppDirective.Factory())
     .service("appSettings", AppSettings);
 
-// Do this after the module is created.  It injects templates into the $templateCache
-import "app-templates";
+

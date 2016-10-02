@@ -19,6 +19,7 @@ var del = require("del");
 var fs = require("fs");
 var mergeStream = require("merge-stream");
 var runSequence = require("run-sequence");
+var systemjsBuilder = require("systemjs-builder");
 var vSourceStream = require("vinyl-source-stream");
 
 
@@ -52,19 +53,31 @@ var appStylesheets = [
 ];
 
 var appHtml = [
-    { src: "scripts/app/**/*.html", dst: "scripts/app", moduleName: "Module", rename: "app-templates.js" }
+    { src: "scripts/app/**/*.html", dst: "scripts/app", moduleName: "app-templates", rename: "app-templates.js" }
 ]
 
 var appArtifacts = [
     { src: "styles/app/images/**/*", dst: "css/app/images" }
 ];
 
+gulp.task("bundle", function (cb)
+{
+    var builder = new systemjsBuilder("/", "scripts/app/system.config.js");
+
+    builder.bundle("scripts/app/main.dev.js", "js/app/app.js")
+           .then(function (out)
+           {
+               cb();
+           });
+
+});
 
 gulp.task("watch",
     function ()
     {
         gulp.watch(["styles/app/**/*.less"], ["build:dev:app:css"]);
         gulp.watch(["styles/vendor/**/*.less", "styles/vendor/**/*.css"], ["build:dev:vendor:css"]);
+        gulp.watch(["scripts/app/**/*.html"], ["build:dev:app:html"]);
     });
 
 

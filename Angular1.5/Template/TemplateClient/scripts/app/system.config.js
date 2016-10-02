@@ -1,28 +1,25 @@
 ﻿(function ()
 {
-    if (!window.hasOwnProperty("page") || !window.page.hasOwnProperty("config"))
-    {
-        console.error("window.page.config is missing");
-        return;
-    }
-
     System.config(
     {
-        baseURL: window.page.config.rootUrl,
+        defaultJSExtension: true,
+
         /*
         transpiler: "typescript",
         typescriptOptions: {
             "target": "es5",
-            "module": "commonjs",
+            "module": "system",
             "moduleResolution": "node",
             "sourceMap": true,
             "emitDecoratorMetadata": true,
             "experimentalDecorators": true,
-            "removeComments": false,
+            "removeComments": true,
             "noImplicitAny": true,
-            "suppressImplicitAnyIndexErrors": true
+            "suppressImplicitAnyIndexErrors": true,
+            "allowSyntheticDefaultImports": true
         },
         */
+
         // paths serve as alias
         paths: {
             "npm:": "node_modules/",
@@ -45,13 +42,14 @@
             //"plugin-text": "vendor:systemjs/plugin-text-0.0.9.js",
             //"plugin-babel": "vendor:systemjs/plugin-babel-0.0.15.js",
             //"systemjs-babel-build": "vendor:systemjs/systemjs-babel-browser-0.0.15.js",
-            //"typescript": "vendor:typescript/typescript-2.0.3.js",
+            "typescript": "npm:typescript/lib/typescript.js",
 
             // Vendor Libraries
             "angular": "npm:angular/angular.js",
             "angular-ui-router": "npm:angular-ui-router/release/angular-ui-router.js", 
             "jquery": "npm:jquery/dist/jquery.js",
 
+            "moment": "npm:moment",
             "typedjson": "npm:typedjson/js",
         },
 
@@ -63,8 +61,30 @@
             "Models": { main: "index", defaultExtension: "js" },
             "Services": { main: "index", defaultExtension: "js" },
 
+            //"app-templates": { defaultExtension: "js" },
+
+            "moment": {main: "moment", defaultExtension: "js" },
             "typedjson": { main: "index", defaultExtension: "js" },
+        },
+
+        // Bundles are built with systemjs-builder.  
+        bundles: {
+            /*
+            "js/app/app.js": [
+                "app:app/main.dev.js",
+                //"app:app/Components",
+                //"app:app/Models",
+                //"app:app/Services",
+                //"app-templates",
+                //"angular",
+                //"angular-ui-router",
+                //"jquery",
+                //"typedjson"
+            ]*/
         }
 
     });
+
+
+    console.log("System.baseURL = " + System.baseURL);
 })();
