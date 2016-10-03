@@ -96,7 +96,7 @@ gulp.task("build:prod",function (cb)
 
 gulp.task("clean", ["clean:js", "clean:scripts", "clean:css"], function () {});
 gulp.task("clean:js", function () { return del(["js"]); });
-gulp.task("clean:scripts", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map", "!scripts/app/system.config.js"]); });
+gulp.task("clean:scripts", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map", "!scripts/app/system.config.dev.js", "!scripts/app/system.config.prod.js"]); });
 gulp.task("clean:css", function () { return del(["css"]); });
 
 
