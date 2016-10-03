@@ -1,11 +1,7 @@
-﻿using Buddy.Nancy.Page;
-using Buddy.Web;
+﻿using Buddy.Nancy.Web.Client;
+using Buddy.Web.Client;
 using Nancy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace KendoUIClient.Server
 {

@@ -23,10 +23,6 @@ var systemjsBuilder = require("systemjs-builder");
 var vSourceStream = require("vinyl-source-stream");
 
 
-var vendorStylesheets = [
-    { src: "node_modules/bootstrap/dist/css/bootstrap.css", dst: "css/vendor/bootstrap", version: function () { return getPackageVersion("bootstrap") } }
-];
-
 var vendorJavascript = [
     { src: "node_modules/core-js/client/shim.js", dst: "js/vendor/core-js", version: function () { return getPackageVersion("core-js") } },
     { src: "node_modules/reflect-metadata/Reflect.js", dst: "js/vendor/reflect-metadata", version: function () { return getPackageVersion("reflect-metadata") } },
@@ -36,13 +32,11 @@ var vendorJavascript = [
     //{ src: "node_modules/systemjs-plugin-text/text.js", dst: "js/vendor/systemjs", rename: "plugin-text.js", version: function () { return getPackageVersion("systemjs-plugin-text") } },
     //{ src: "node_modules/systemjs-plugin-babel/plugin-babel.js", dst: "js/vendor/systemjs", version: function () { return getPackageVersion("systemjs-plugin-babel") } },
     //{ src: "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js", dst: "js/vendor/systemjs", version: function () { return getPackageVersion("systemjs-plugin-babel") } },
-
-    //{ src: "node_modules/angular/angular.js", dst: "js/vendor/angular", version: function () { return getPackageVersion("angular") } },
-    //{ src: "node_modules/angular-ui-router/release/angular-ui-router.js", dst: "js/vendor/angular", version: function () { return getPackageVersion("angular-ui-router") } },
-    //{ src: "node_modules/jquery/dist/jquery.js", dst: "js/vendor/jquery", version: function () { return getPackageVersion("jquery") } },
-    //{ src: "node_modules/typedjson/js/index.js", dst: "js/vendor/typedjson", rename: "typedjson.js", version: function () { return getPackageVersion("typedjson") } },
 ];
 
+var vendorStylesheets = [
+    { src: "node_modules/bootstrap/dist/css/bootstrap.css", dst: "css/vendor/bootstrap", version: function () { return getPackageVersion("bootstrap") } }
+];
 
 var vendorArtifacts = [
     { src: "node_modules/bootstrap/dist/fonts/**/*", dst: "css/vendor/bootstrap/fonts" }
@@ -96,7 +90,11 @@ gulp.task("build:prod",function (cb)
 
 gulp.task("clean", ["clean:js", "clean:scripts", "clean:css"], function () {});
 gulp.task("clean:js", function () { return del(["js"]); });
-gulp.task("clean:scripts", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map", "!scripts/app/system.config.dev.js", "!scripts/app/system.config.prod.js"]); });
+gulp.task("clean:scripts", function ()
+{
+    return del(["scripts/app/**/*.js", "scripts/app/**/*.map",
+                "!scripts/app/system.config.dev.js", "!scripts/app/system.config.prod.js"]);
+});
 gulp.task("clean:css", function () { return del(["css"]); });
 
 
@@ -169,8 +167,8 @@ function buildStylesheets(files, compress)
     {
         streams.push(
             gulp.src(file.src)
-                .pipe(gIf((file.rename != undefined), gRename(file.rename)))
-                .pipe(gIf((file.version != undefined), gRename(function (path) { path.basename += "-" + file.version(); })))
+                .pipe(gIf(file.rename != undefined, gRename(file.rename)))
+                .pipe(gIf(file.version != undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
                 .pipe(gIf(/[.]less/, gLess(), gRename(function (path) { path.extname = ".css"; })))
                 .pipe(gIf(compress, gCleanCss({ keepSpecialComments: 0 })))
                 .pipe(gulp.dest(file.dst))
@@ -186,8 +184,8 @@ function buildJavascript(files, compress)
     {
         streams.push(
             gulp.src(file.src)
-                .pipe(gIf((file.rename != undefined), gRename(file.rename)))
-                .pipe(gIf((file.version != undefined), gRename(function (path) { path.basename += "-" + file.version(); })))
+                .pipe(gIf(file.rename != undefined, gRename(file.rename)))
+                .pipe(gIf(file.version != undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
                 //.pipe(gIf(/[.]ts/, gTypescript(getTypescriptConfig())))
                 .pipe(gIf(compress, gStreamify(gUglify())))
                 .pipe(gulp.dest(file.dst))
@@ -211,7 +209,7 @@ function buildHtml(files, compress)
                 }))
                .pipe(gInsert.prepend("require('angular');"))
                .pipe(gRename(file.rename))
-               .pipe(gIf((file.version != undefined), gRename(function (path) { path.basename += "-" + file.version(); })))
+               .pipe(gIf(file.version != undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
                .pipe(gulp.dest(file.dst))
             );
     });

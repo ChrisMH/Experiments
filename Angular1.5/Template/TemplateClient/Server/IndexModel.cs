@@ -1,11 +1,7 @@
-﻿using Buddy.Nancy.Page;
-using Buddy.Web;
+﻿using Buddy.Nancy.Web.Client;
+using Buddy.Web.Client;
 using Nancy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace TemplateClient.Server
 {
@@ -49,7 +45,7 @@ namespace TemplateClient.Server
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/system.config.js", Type = ScriptType.Javascript },
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/system.config.dev.js", Type = ScriptType.Javascript },
                     new ScriptElem
                     {
                         Body = $"(function () {{ System.import('app').catch(err => console.log(err)); }})();",

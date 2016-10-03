@@ -31,11 +31,6 @@ var vendorJavascript = [
     //{ src: "node_modules/systemjs-plugin-text/text.js", dst: "js/vendor/systemjs", rename: "plugin-text.js", version: function () { return getPackageVersion("systemjs-plugin-text") } },
     //{ src: "node_modules/systemjs-plugin-babel/plugin-babel.js", dst: "js/vendor/systemjs", version: function () { return getPackageVersion("systemjs-plugin-babel") } },
     //{ src: "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js", dst: "js/vendor/systemjs", version: function () { return getPackageVersion("systemjs-plugin-babel") } },
-
-    //{ src: "node_modules/angular/angular.js", dst: "js/vendor/angular", version: function () { return getPackageVersion("angular") } },
-    //{ src: "node_modules/angular-ui-router/release/angular-ui-router.js", dst: "js/vendor/angular", version: function () { return getPackageVersion("angular-ui-router") } },
-    //{ src: "node_modules/jquery/dist/jquery.js", dst: "js/vendor/jquery", version: function () { return getPackageVersion("jquery") } },
-    //{ src: "node_modules/typedjson/js/index.js", dst: "js/vendor/typedjson", rename: "typedjson.js", version: function () { return getPackageVersion("typedjson") } },
 ];
 
 var vendorStylesheets = [
@@ -97,7 +92,11 @@ gulp.task("build:prod",function (cb)
 
 gulp.task("clean", ["clean:js", "clean:scripts", "clean:css"], function () {});
 gulp.task("clean:js", function () { return del(["js"]); });
-gulp.task("clean:scripts", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map", "!scripts/app/system.config.dev.js", "!scripts/app/system.config.prod.js"]); });
+gulp.task("clean:scripts", function ()
+{
+    return del(["scripts/app/**/*.js", "scripts/app/**/*.map",
+                "!scripts/app/system.config.dev.js", "!scripts/app/system.config.prod.js"]);
+});
 gulp.task("clean:css", function () { return del(["css"]); });
 
 

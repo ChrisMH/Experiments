@@ -47,12 +47,12 @@
     <PostBuildEvent>gulp build:prod</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Buddy, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Buddy.1.4.3\lib\net452\Buddy.dll</HintPath>
+    <Reference Include="Buddy, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Buddy.1.5.0\lib\net452\Buddy.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Buddy.Nancy, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Buddy.Nancy.1.2.0\lib\net452\Buddy.Nancy.dll</HintPath>
+    <Reference Include="Buddy.Nancy, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Buddy.Nancy.1.3.1\lib\net452\Buddy.Nancy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -100,6 +100,7 @@
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
     <Content Include="scripts\app\Components\App.html" />
+    <Content Include="scripts\app\system.config.dev.js" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <Content Include="styles\app\app.less" />
@@ -113,7 +114,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\app\system.config.js" />
     <Content Include="styles\app\images\favicon.ico" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -123,9 +123,7 @@
     <Compile Include="Server\IndexModule.cs" />
     <Compile Include="Server\NancyBootstrapper.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="scripts\vendor\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="scripts\app\Components\index.ts" />
     <TypeScriptCompile Include="scripts\app\main.dev.ts" />
