@@ -1,14 +1,11 @@
 {
-  "name": "first-client",
-  "dependencies": {},
   "globalDependencies": {
     "core-js": "registry:dt/core-js#0.0.0+20160914114559",
-    "node": "registry:dt/node#6.0.0+20160928143418"
-  },
-  "devDependencies": {
-    "typedjson": "npm:typedjson"
-  },
-  "globalDevDependencies": {
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255"
+    "node": "registry:dt/node#6.0.0+20160928143418",
+    "systemjs": "registry:dt/systemjs#0.19.29+20160702105636"
+  },
+  "dependencies": {
+    "typedjson": "npm:typedjson"
   }
 }
