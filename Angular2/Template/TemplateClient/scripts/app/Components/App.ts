@@ -3,9 +3,9 @@
 import { AppSettings } from "../Services";
 
 @Component({
-    moduleId: module.id,
+    //moduleId: module.id,
     selector: "app",
-    templateUrl: "./App.html"
+    template: require("./App.html!text")
 })
 export class App {
     constructor(private appSettings: AppSettings) { }
