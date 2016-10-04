@@ -4,6 +4,7 @@
     {
         defaultJSExtension: true,
 
+        transpiler: "babel",
         /*
         transpiler: "typescript",
         typescriptOptions: {
@@ -36,17 +37,17 @@
             "Models": "app:app/Models",
             "Services": "app:app/Services",
 
-            "app-templates": "app:app/app-templates.js",
+            //"app-templates": "app:app/app-templates.js",
 
             // Plugins
-            //"plugin-text": "vendor:systemjs/plugin-text-0.0.9.js",
-            //"plugin-babel": "vendor:systemjs/plugin-babel-0.0.15.js",
-            //"systemjs-babel-build": "vendor:systemjs/systemjs-babel-browser-0.0.15.js",
-            "typescript": "npm:typescript/lib/typescript.js",
+            "text": "npm:systemjs-plugin-text/text.js",
+            "plugin-babel": "npm:systemjs-plugin-babel/plugin-babel.js",
+            "systemjs-babel-build": "npm:systemjs-plugin-babel/systemjs-babel-browser.js",
+            //"typescript": "npm:typescript/lib/typescript.js",
 
             // Vendor Libraries
-            "angular": "npm:angular/angular.js",
-            "angular-ui-router": "npm:angular-ui-router/release/angular-ui-router.js", 
+            "angular": "npm:angular",
+            "angular-ui-router": "npm:angular-ui-router/release/angular-ui-router.js",
             "jquery": "npm:jquery/dist/jquery.js",
 
             "moment": "npm:moment",
@@ -56,15 +57,16 @@
         // packages tells the System loader how to load when no filename and/or no extension
         packages:
         {
-            "app": { main: "main.dev", defaultExtension: "js" },
-            "Components": { main: "index", defaultExtension: "js" },
-            "Models": { main: "index", defaultExtension: "js" },
-            "Services": { main: "index", defaultExtension: "js" },
+            "app": { main: "main" },
+            "Components": { main: "index" },
+            "Models": { main: "index" },
+            "Services": { main: "index" },
 
             //"app-templates": { defaultExtension: "js" },
 
-            "moment": {main: "moment", defaultExtension: "js" },
-            "typedjson": { main: "index", defaultExtension: "js" },
+            "angular": { main: "index" },
+            "moment": {main: "moment" },
+            "typedjson": { main: "index" },
         },
 
         // Bundles are built with systemjs-builder.  

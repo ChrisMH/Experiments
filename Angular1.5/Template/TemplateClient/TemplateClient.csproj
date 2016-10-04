@@ -100,7 +100,7 @@
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
     <Content Include="scripts\app\Components\App.html" />
-    <Content Include="scripts\app\system.config.dev.js" />
+    <Content Include="scripts\system.config.js" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <Content Include="styles\app\app.less" />
@@ -126,8 +126,8 @@
   <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="scripts\app\Components\index.ts" />
-    <TypeScriptCompile Include="scripts\app\main.dev.ts" />
     <TypeScriptCompile Include="scripts\app\Components\App.ts" />
+    <TypeScriptCompile Include="scripts\app\main.ts" />
     <TypeScriptCompile Include="scripts\app\Models\index.ts" />
     <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
     <TypeScriptCompile Include="scripts\app\Module.ts" />
