@@ -54,36 +54,18 @@
         // packages tells the System loader how to load when no filename and/or no extension
         packages:
         {
-            "app": { main: "main" },
-            "Components": { main: "index" },
-            "Models": { main: "index" },
-            "Services": { main: "index" },
+            "app": { main: "main.js" },
+            "Components": { main: "index.js" },
+            "Models": { main: "index.js" },
+            "Services": { main: "index.js" },
 
             //"app-templates": { defaultExtension: "js" },
 
-            "angular": { main: "index" },
-            "moment": {main: "moment" },
-            "typedjson": { main: "index" },
-        },
-
-        // Bundles are built with systemjs-builder.  
-        bundles: {
-            /*
-            "js/app/app.js": [
-                "app:app/main.dev.js",
-                //"app:app/Components",
-                //"app:app/Models",
-                //"app:app/Services",
-                //"app-templates",
-                //"angular",
-                //"angular-ui-router",
-                //"jquery",
-                //"typedjson"
-            ]*/
+            "angular": { main: "index.js" },
+            "moment": { main: "moment.js" },
+            "typedjson": { main: "index.js" },
         }
-
     });
-
 
     console.log("System.baseURL = " + System.baseURL);
 })();

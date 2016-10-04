@@ -19,7 +19,7 @@ namespace TemplateClient.Server
 
             Styles = new HtmlBuilder
             {
-                new TitleElem { Title = Debug ? "Template Client | Debug" : "Template Client" },
+                new TitleElem { Title = Debug ? "Debug | Angular 1.5 Template" : "Angular 1.5 Template" },
                 new BaseElem { Href = PageConfig.RootUrl },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
@@ -38,31 +38,22 @@ namespace TemplateClient.Server
             
             if (Debug)
             {
-                Styles.AddRange(new IHtmlElem[]
-                {
-                });
-
-                Scripts.AddRange(new IHtmlElem[]
-                {
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/system.config.js", Type = ScriptType.Javascript },
-                    new ScriptElem
-                    {
-                        Body = $"(function () {{ System.import('app').catch(err => console.log(err)); }})();",
-                        Type = ScriptType.Javascript }
-                });
+                Scripts.Add(new ScriptElem { Src = $"{PageConfig.RootUrl}scripts/system.config.js", Type = ScriptType.Javascript });
             }
             else
             {
-                Styles.AddRange(new IHtmlElem[]
-                {
-
-                });
-
                 Scripts.AddRange(new IHtmlElem[]
                 {
-
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}js/system.config-{PageConfig.Version}.js", Type = ScriptType.Javascript }
                 });
             }
+
+            Scripts.Add(new ScriptElem
+            {
+                Body = $"(function () {{ System.import('app').catch(err => console.log(err)); }})();",
+                Type = ScriptType.Javascript
+            });
+
         }
 
         public NancyPageConfig PageConfig { get; private set; }

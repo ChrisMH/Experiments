@@ -106,6 +106,7 @@
     <Content Include="styles\app\app.less" />
     <Content Include="styles\app\variables.less" />
     <Content Include="styles\app\common.less" />
+    <Content Include="scripts\system.config.bundle.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

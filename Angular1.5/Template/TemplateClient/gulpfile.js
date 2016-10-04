@@ -8,6 +8,7 @@ var gIf = require("gulp-if");
 var gInsert = require("gulp-insert");
 var gLess = require("gulp-less");
 var gRename = require("gulp-rename");
+var gReplace = require("gulp-replace");
 var gSourceMaps = require("gulp-sourcemaps");
 var gStreamify = require("gulp-streamify");
 var gTypescript = require("gulp-typescript");
@@ -45,17 +46,6 @@ var appArtifacts = [
     { src: "styles/app/images/**/*", dst: "css/app/images" }
 ];
 
-gulp.task("bundle", function (cb)
-{
-    var builder = new systemjsBuilder("/", "scripts/app/system.config.js");
-
-    builder.bundle("scripts/app/main.dev.js", "js/app/app.js")
-           .then(function (out)
-           {
-               cb();
-           });
-
-});
 
 gulp.task("watch",
     function ()
@@ -67,40 +57,92 @@ gulp.task("watch",
 
 gulp.task("build:dev", function (cb)
 {
-    runSequence(["build:dev:vendor:css", "build:dev:vendor:js", "copy:vendor:artifacts",
-                 "build:dev:app:css", "copy:app:artifacts"], cb);
+    runSequence(["clean:css", "clean:js"],
+                ["build:dev:vendor:css", "copy:vendor:artifacts", "build:dev:vendor:js",
+                 "build:dev:app:css", "copy:app:artifacts"],
+                 cb);
 });
 
 gulp.task("build:prod",function (cb)
 {
-    runSequence("clean",
-                ["build:prod:vendor:css", "build:prod:vendor:js", "copy:vendor:artifacts", "build:prod:app:css", "copy:app:artifacts"],
-                "clean:scripts", cb);
+    runSequence(["clean:css", "clean:js"],
+                ["build:prod:vendor:css", "copy:vendor:artifacts", "build:prod:vendor:js",
+                 "build:prod:app:css", "copy:app:artifacts", "build:prod:app:js", "bundle:prod"],
+                ["clean:js:app"],
+                cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:app:js", "clean:css"], function () {});
 gulp.task("clean:js", function () { return del(["js"]); });
+gulp.task("clean:js:app", function () { return del(["js/app"]); });
 gulp.task("clean:app:js", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map"]); });
 gulp.task("clean:css", function () { return del(["css"]); });
 
 
 // Vendor Javascript
-
 gulp.task("build:dev:vendor:js", function () { return buildJavascript(vendorJavascript, false); });
 gulp.task("build:prod:vendor:js", function ()  { return buildJavascript(vendorJavascript, true); });
 
 
 // Vendor Stylesheets
-
 gulp.task("build:dev:vendor:css", function () { return buildStylesheets(vendorStylesheets, false); });
 gulp.task("build:prod:vendor:css", function () { return buildStylesheets(vendorStylesheets, true); });
 
 // Vendor Artifacts
-
 gulp.task("copy:vendor:artifacts", function () { return copyArtifacts(vendorArtifacts); });
 
 
 // App Javascript
+gulp.task("build:prod:app:js", function ()
+{
+    return gulp.src(["scripts/system.config.js", "scripts/system.config.bundle.js"])
+               .pipe(gReplace("__VERSION__", getAppVersion()))
+               .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
+               .pipe(gStreamify(gUglify()))
+               .pipe(gulp.dest("js"));
+});
+
+// App Production Bundling
+gulp.task("bundle:prod:copy:js", ["clean:js:app"], function ()
+{
+    return gulp.src(["scripts/app/**/*.js", "scripts/app/**/*.html"])
+               .pipe(gulp.dest("js/app"));
+});
+
+gulp.task("bundle:prod", ["bundle:prod:copy:js"], function (cb)
+{
+    var builder = new systemjsBuilder("", "scripts/system.config.js");
+    
+    //builder.bundle("js/app/**/* - [js/app/**/*]", "js/vendor/lib.js")
+    //.then(function ()
+    //{
+    //    gUtil.log("Bundle Success");
+    //})
+    //.catch(function (err)
+    //{
+    //    gUtil.log("Bundle Error");
+    //    gUtil.log(err);
+    //});
+
+    //return;
+    var appBundleName = "js/app-" + getAppVersion() + ".js";
+
+    builder.bundle("scripts/app/main.js", appBundleName, { minify: true, sourceMaps: false })
+        .then(function ()
+        {
+            cb();
+        })
+        .catch(function (err)
+        {
+            gUtil.log("Bundle Error");
+            gUtil.log(err);
+            cb();
+        });
+
+});
+
+
+
 
 
 // App Stylesheets
@@ -108,10 +150,9 @@ gulp.task("copy:vendor:artifacts", function () { return copyArtifacts(vendorArti
 gulp.task("build:dev:app:css", function () { return buildStylesheets(appStylesheets, false); });
 gulp.task("build:prod:app:css", function () { return buildStylesheets(appStylesheets, true); });
 
-
 // App Artifacts
-
 gulp.task("copy:app:artifacts", function () { return copyArtifacts(appArtifacts); });
+
 
 // Helper functions
 

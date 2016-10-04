@@ -98,8 +98,7 @@
     <Content Include="scripts\app\Services\AppSettings.js" />
     <Content Include="scripts\app\Services\AppSettings.test.js" />
     <Content Include="scripts\app\Services\index.js" />
-    <Content Include="scripts\app\system.config.prod.js" />
-    <Content Include="scripts\app\system.config.dev.js" />
+    <Content Include="scripts\system.config.js" />
     <Content Include="styles\app\images\favicon.ico" />
     <Content Include="typings.json" />
     <Content Include="tsconfig.json" />
@@ -129,12 +128,11 @@
   <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Include="scripts\app\Components\index.ts" />
-    <TypeScriptCompile Include="scripts\app\main.prod.ts" />
+    <TypeScriptCompile Include="scripts\app\main.ts" />
     <TypeScriptCompile Include="scripts\app\Models\index.ts" />
     <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
     <TypeScriptCompile Include="scripts\app\Module.ts" />
     <TypeScriptCompile Include="scripts\app\Components\App.ts" />
-    <TypeScriptCompile Include="scripts\app\main.dev.ts" />
     <TypeScriptCompile Include="scripts\app\Services\AppSettings.test.ts" />
     <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
     <TypeScriptCompile Include="scripts\app\Services\index.ts" />

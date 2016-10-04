@@ -1,9 +1,0 @@
-/css/
-/js/
-!/node_modules/**/bin/
-/scripts/app/**/*.js
-/scripts/app/**/*.map
-!/scripts/app/system.config.dev.js
-!/scripts/app/system.config.prod.js
-
-
