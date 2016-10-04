@@ -43,13 +43,13 @@
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            "app": { main: "main.js" },
-            "Components": { main: "index.js" },
-            "Models": { main: "index.js" },
-            "Services": { main: "index.js" },
+            "app": { main: "main" },
+            "Components": { main: "index" },
+            "Models": { main: "index" },
+            "Services": { main: "index" },
 
-            "rxjs": { main: "Rx.js" },
-            "typedjson": { main: "index.js" },
+            "rxjs": { main: "Rx" },
+            "typedjson": { main: "index" },
         }
     });  
 })();

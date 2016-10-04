@@ -60,8 +60,8 @@ export class App implements ng.IController
     private createDatePickerOptions(): kendo.ui.DatePickerOptions
     {
         let options: kendo.ui.DatePickerOptions = {
-            min: moment("01/01/1900").toDate(),
-            max: moment("12/31/2100").toDate(),
+            min: moment("19000101", "YYYYMMDD").toDate(),
+            max: moment("21001231", "YYYYMMDD").toDate(),
             format: "MM/dd/yyyy"
         };
         return options;

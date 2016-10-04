@@ -100,6 +100,7 @@
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
     <Content Include="scripts\app\Components\App.html" />
+    <Content Include="scripts\system.config.bundle.js" />
     <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <Content Include="styles\app\app.less" />

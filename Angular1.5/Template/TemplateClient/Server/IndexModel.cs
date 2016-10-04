@@ -46,7 +46,7 @@ namespace TemplateClient.Server
             }
             else
             {
-                Scripts.Add(new ScriptElem { Src = $"{PageConfig.RootUrl}js/system.config-{PageConfig.Version}.js", Type = ScriptType.Javascript });                });
+                Scripts.Add(new ScriptElem { Src = $"{PageConfig.RootUrl}js/system.config-{PageConfig.Version}.js", Type = ScriptType.Javascript });
             }
 
             Scripts.Add(new ScriptElem

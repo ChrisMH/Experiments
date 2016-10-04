@@ -54,16 +54,14 @@
         // packages tells the System loader how to load when no filename and/or no extension
         packages:
         {
-            "app": { main: "main.js" },
-            "Components": { main: "index.js" },
-            "Models": { main: "index.js" },
-            "Services": { main: "index.js" },
-
-            //"app-templates": { defaultExtension: "js" },
-
-            "angular": { main: "index.js" },
-            "moment": { main: "moment.js" },
-            "typedjson": { main: "index.js" },
+            "app": { main: "main" },
+            "Components": { main: "index" },
+            "Models": { main: "index" },
+            "Services": { main: "index" },
+            
+            "angular": { main: "index" },
+            "moment": { main: "moment" },
+            "typedjson": { main: "index" },
         }
     });
 })();

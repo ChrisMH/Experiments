@@ -4,8 +4,8 @@
     {
         defaultJSExtension: true,
 
+        //transpiler: "babel",
         /*
-        transpiler: "babel",
         transpiler: "typescript",
         typescriptOptions: {
             "target": "es5",
@@ -44,7 +44,7 @@
 
             // Vendor Libraries
             "angular": "npm:angular",
-            "angular-ui-router": "npm:angular-ui-router/release/angular-ui-router.js", 
+            "angular-ui-router": "npm:angular-ui-router/release/angular-ui-router.js",
             "jquery": "npm:jquery/dist/jquery.js",
             "kendo": "npm:kendo/js",
             "moment": "npm:moment",
@@ -61,28 +61,8 @@
             
             "angular": { main: "index" },
             "kendo": { main: "kendo.web" },
-            "moment": {main: "moment" },
+            "moment": { main: "moment" },
             "typedjson": { main: "index" },
-        },
-
-        // Bundles are built with systemjs-builder.  
-        bundles: {
-            /*
-            "js/app/app.js": [
-                "app:app/main.dev.js",
-                //"app:app/Components",
-                //"app:app/Models",
-                //"app:app/Services",
-                //"app-templates",
-                //"angular",
-                //"angular-ui-router",
-                //"jquery",
-                //"typedjson"
-            ]*/
         }
-
     });
-
-
-    console.log("System.baseURL = " + System.baseURL);
 })();

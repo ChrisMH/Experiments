@@ -70,13 +70,11 @@ gulp.task("build:prod",function (cb)
     runSequence(["clean:css", "clean:js"],
                 ["build:prod:vendor:css", "copy:vendor:artifacts", "build:prod:vendor:js",
                  "build:prod:app:css", "copy:app:artifacts", "build:prod:app:js", "bundle:prod"],
-                ["clean:js:app"],
                 cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:app:js", "clean:css"], function () {});
 gulp.task("clean:js", function () { return del(["js"]); });
-gulp.task("clean:js:app", function () { return del(["js/app"]); });
 gulp.task("clean:app:js", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map"]); });
 gulp.task("clean:css", function () { return del(["css"]); });
 
@@ -105,45 +103,15 @@ gulp.task("build:prod:app:js", function ()
 });
 
 // App Production Bundling
-gulp.task("bundle:prod:copy:js", ["clean:js:app"], function ()
-{
-    return gulp.src(["scripts/app/**/*.js", "scripts/app/**/*.html"])
-               .pipe(gulp.dest("js/app"));
-});
-
-gulp.task("bundle:prod", ["bundle:prod:copy:js"], function (cb)
+gulp.task("bundle:prod", function (cb)
 {
     var builder = new systemjsBuilder("", "scripts/system.config.js");
-    
-    //builder.bundle("js/app/**/* - [js/app/**/*]", "js/vendor/lib.js")
-    //.then(function ()
-    //{
-    //    gUtil.log("Bundle Success");
-    //})
-    //.catch(function (err)
-    //{
-    //    gUtil.log("Bundle Error");
-    //    gUtil.log(err);
-    //});
 
-    //return;
-    var appBundleName = "js/app-" + getAppVersion() + ".js";
-
-    builder.bundle("scripts/app/main.js", appBundleName, { minify: true, sourceMaps: false })
-        .then(function ()
-        {
-            cb();
-        })
-        .catch(function (err)
-        {
-            gUtil.log("Bundle Error");
-            gUtil.log(err);
-            cb();
-        });
-
+    var appBundleName = "js/app-" + getAppVersion() + ".js"
+    builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
+           .then(function() { cb(); })
+           .catch(function (err) { console.log("Bundle Error:"); console.log(err); cb(); });
 });
-
-
 
 // App Stylesheets
 gulp.task("build:dev:app:css", function () { return buildStylesheets(appStylesheets, false); });
