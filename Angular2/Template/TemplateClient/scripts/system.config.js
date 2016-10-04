@@ -10,16 +10,21 @@
         },
 
         // map tells the System loader where to look for things
-        map: {
+        map:
+        {            
+            // Application
             "app": "app:app",
             "Components": "app:app/Components",
             "Models": "app:app/Models",
             "Services": "app:app/Services",
 
             // Plugins
-            "text": "npm:systemjs-plugin-text/text.js",
-
-            // angular bundles
+            "text": "npm:systemjs-plugin-text/text.js",            
+	    //"plugin-babel": "npm:systemjs-plugin-babel/plugin-babel.js",
+	    //"systemjs-babel-build": "npm:systemjs-plugin-babel/systemjs-babel-browser.js",
+            //"typescript": "npm:typescript/lib/typescript.js",
+            
+	    // Angular bundles
             "@angular/common": "npm:@angular/common/bundles/common.umd.js",
             "@angular/compiler": "npm:@angular/compiler/bundles/compiler.umd.js",
             "@angular/core": "npm:@angular/core/bundles/core.umd.js",
@@ -31,18 +36,20 @@
             "@angular/upgrade": "npm:@angular/upgrade/bundles/upgrade.umd.js",
               
             // other libraries
+
+            "moment": "npm:moment",
             "rxjs": "npm:rxjs",
             "typedjson": "npm:typedjson/js"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            "app": { main: "main" },
-            "Components": { main: "index" },
-            "Models": { main: "index" },
-            "Services": { main: "index" },
+            "app": { main: "main.js" },
+            "Components": { main: "index.js" },
+            "Models": { main: "index.js" },
+            "Services": { main: "index.js" },
 
-            "rxjs": { main: "Rx" },
-            "typedjson": { main: "index" },
+            "rxjs": { main: "Rx.js" },
+            "typedjson": { main: "index.js" },
         }
     });  
 })();

@@ -66,6 +66,4 @@
             "typedjson": { main: "index.js" },
         }
     });
-
-    console.log("System.baseURL = " + System.baseURL);
 })();

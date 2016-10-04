@@ -98,6 +98,7 @@
     <Content Include="scripts\app\Services\AppSettings.js" />
     <Content Include="scripts\app\Services\AppSettings.test.js" />
     <Content Include="scripts\app\Services\index.js" />
+    <Content Include="scripts\system.config.bundle.js" />
     <Content Include="scripts\system.config.js" />
     <Content Include="styles\app\images\favicon.ico" />
     <Content Include="typings.json" />

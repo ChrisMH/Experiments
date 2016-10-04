@@ -8,6 +8,7 @@ var gIf = require("gulp-if");
 var gInsert = require("gulp-insert");
 var gLess = require("gulp-less");
 var gRename = require("gulp-rename");
+var gReplace = require("gulp-replace");
 var gSourceMaps = require("gulp-sourcemaps");
 var gStreamify = require("gulp-streamify");
 var gTypescript = require("gulp-typescript");
@@ -26,7 +27,7 @@ var vSourceStream = require("vinyl-source-stream");
 var vendorJavascript = [
     { src: "node_modules/core-js/client/shim.js", dst: "js", version: function () { return getPackageVersion("core-js"); } },
     { src: "node_modules/zone.js/dist/zone.js", dst: "js", version: function () { return getPackageVersion("zone.js"); } },
-    { src: "node_modules/reflect-metadata/Reflect.js", dst: "js", version: function () { return getPackageVersion("reflect-metadata") } },
+    { src: "node_modules/reflect-metadata/Reflect.js", dst: "js", version: function () { return getPackageVersion("reflect-metadata"); } },
     { src: "node_modules/systemjs/dist/system.src.js", dst: "js", rename: "system.js", version: function () { return getPackageVersion("systemjs"); } }
 ];
 
@@ -59,7 +60,7 @@ gulp.task("watch",
 gulp.task("build:dev", function (cb)
 {
     runSequence(["clean:css", "clean:js"],
-                ["build:dev:vendor:css", "build:dev:vendor:js", "copy:vendor:artifacts",
+                ["build:dev:vendor:css", "copy:vendor:artifacts", "build:dev:vendor:js",
                  "build:dev:app:css", "copy:app:artifacts"],
                  cb);
 });
@@ -67,13 +68,15 @@ gulp.task("build:dev", function (cb)
 gulp.task("build:prod",function (cb)
 {
     runSequence(["clean:css", "clean:js"],
-                ["build:prod:vendor:css", "build:prod:vendor:js", "copy:vendor:artifacts",
-                 "build:prod:app:css", "copy:app:artifacts"],
+                ["build:prod:vendor:css", "copy:vendor:artifacts", "build:prod:vendor:js",
+                 "build:prod:app:css", "copy:app:artifacts", "build:prod:app:js", "bundle:prod"],
+                ["clean:js:app"],
                 cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:app:js", "clean:css"], function () {});
 gulp.task("clean:js", function () { return del(["js"]); });
+gulp.task("clean:js:app", function () { return del(["js/app"]); });
 gulp.task("clean:app:js", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map"]); });
 gulp.task("clean:css", function () { return del(["css"]); });
 
@@ -92,6 +95,54 @@ gulp.task("copy:vendor:artifacts", function () { return copyArtifacts(vendorArti
 
 
 // App Javascript
+gulp.task("build:prod:app:js", function ()
+{
+    return gulp.src(["scripts/system.config.js", "scripts/system.config.bundle.js"])
+               .pipe(gReplace("__VERSION__", getAppVersion()))
+               .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
+               .pipe(gStreamify(gUglify()))
+               .pipe(gulp.dest("js"));
+});
+
+// App Production Bundling
+gulp.task("bundle:prod:copy:js", ["clean:js:app"], function ()
+{
+    return gulp.src(["scripts/app/**/*.js", "scripts/app/**/*.html"])
+               .pipe(gulp.dest("js/app"));
+});
+
+gulp.task("bundle:prod", ["bundle:prod:copy:js"], function (cb)
+{
+    var builder = new systemjsBuilder("", "scripts/system.config.js");
+    
+    //builder.bundle("js/app/**/* - [js/app/**/*]", "js/vendor/lib.js")
+    //.then(function ()
+    //{
+    //    gUtil.log("Bundle Success");
+    //})
+    //.catch(function (err)
+    //{
+    //    gUtil.log("Bundle Error");
+    //    gUtil.log(err);
+    //});
+
+    //return;
+    var appBundleName = "js/app-" + getAppVersion() + ".js";
+
+    builder.bundle("scripts/app/main.js", appBundleName, { minify: true, sourceMaps: false })
+        .then(function ()
+        {
+            cb();
+        })
+        .catch(function (err)
+        {
+            gUtil.log("Bundle Error");
+            gUtil.log(err);
+            cb();
+        });
+
+});
+
 
 
 // App Stylesheets
