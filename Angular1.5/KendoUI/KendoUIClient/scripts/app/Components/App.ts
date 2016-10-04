@@ -1,11 +1,11 @@
 ﻿import { AppSettings } from "../Services/AppSettings";
-import moment from "moment";
+import * as moment from "moment";
 
 
 export class AppDirective implements ng.IDirective {
     public restrict: string = "E";
     public replace: boolean = true;
-    public templateUrl: string = "scripts/app/Components/App.html";
+    public template: string = require("./App.html!text");
     public controller: string = "App";
     public controllerAs: string = "Ctrl";
     public scope = {};

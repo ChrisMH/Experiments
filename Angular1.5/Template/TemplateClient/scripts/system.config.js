@@ -4,7 +4,7 @@
     {
         defaultJSExtension: true,
 
-        transpiler: "babel",
+        //transpiler: "babel",
         /*
         transpiler: "typescript",
         typescriptOptions: {
@@ -24,8 +24,7 @@
         // paths serve as alias
         paths: {
             "npm:": "node_modules/",
-            "app:": "scripts/",
-            "vendor:": "js/vendor/"
+            "app:": "scripts/"
         },
 
         // map tells the System loader where to look for things
@@ -36,13 +35,11 @@
             "Components": "app:app/Components",
             "Models": "app:app/Models",
             "Services": "app:app/Services",
-
-            //"app-templates": "app:app/app-templates.js",
-
+            
             // Plugins
             "text": "npm:systemjs-plugin-text/text.js",
-            "plugin-babel": "npm:systemjs-plugin-babel/plugin-babel.js",
-            "systemjs-babel-build": "npm:systemjs-plugin-babel/systemjs-babel-browser.js",
+            //"plugin-babel": "npm:systemjs-plugin-babel/plugin-babel.js",
+            //"systemjs-babel-build": "npm:systemjs-plugin-babel/systemjs-babel-browser.js",
             //"typescript": "npm:typescript/lib/typescript.js",
 
             // Vendor Libraries

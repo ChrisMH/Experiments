@@ -1,5 +1,4 @@
-﻿import $ from "jquery";
-import angular from "angular";
+﻿import "angular";
 import "kendo";
 
 //import { routes } from "./Routes";

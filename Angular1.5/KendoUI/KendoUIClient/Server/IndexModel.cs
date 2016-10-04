@@ -31,10 +31,9 @@ namespace KendoUIClient.Server
 
             Scripts = new HtmlBuilder
             {
-                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/core-js/shim-2.4.1.js", Type = ScriptType.Javascript },
-                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/reflect-metadata/Reflect-0.1.8.js", Type = ScriptType.Javascript }, 
-                //new ScriptElem {Src = $"{PageConfig.RootUrl}js/vendor/zone.js/dist/zone.js", Type = ScriptType.Javascript},
-                new ScriptElem { Src = $"{PageConfig.RootUrl}js/vendor/systemjs/system-0.19.39.js", Type = ScriptType.Javascript },
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/shim-2.4.1.js", Type = ScriptType.Javascript },
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/Reflect-0.1.8.js", Type = ScriptType.Javascript }, 
+                new ScriptElem { Src = $"{PageConfig.RootUrl}js/system-0.19.39.js", Type = ScriptType.Javascript },
                 new ScriptElem { Body = $"(function() {{ System.config({{baseURL: '{PageConfig.RootUrl}'}}); }})();", Type = ScriptType.Javascript },
                 new ScriptElem { Body = PageConfig.ToJavascript(), Type = ScriptType.Javascript },
             };
@@ -47,7 +46,7 @@ namespace KendoUIClient.Server
 
                 Scripts.AddRange(new IHtmlElem[]
                 {
-                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/app/system.config.dev.js", Type = ScriptType.Javascript },
+                    new ScriptElem { Src = $"{PageConfig.RootUrl}/scripts/system.config.js", Type = ScriptType.Javascript },
                     new ScriptElem
                     {
                         Body = $"(function () {{ System.import('app').catch(err => console.log(err)); }})();",
