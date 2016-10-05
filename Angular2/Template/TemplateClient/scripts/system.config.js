@@ -48,7 +48,7 @@
 
             "moment":               { main: "moment" },
             "rxjs":                 { main: "Rx" },
-            "typedjson": { main: "index" }
+            "typedjson":            { main: "index" }
         }
     });  
 })();

@@ -5,6 +5,7 @@
     "systemjs": "registry:dt/systemjs#0.19.29+20160702105636"
   },
   "dependencies": {
+    "rxjs": "npm:rxjs/Rx.d.ts",
     "typedjson": "npm:typedjson"
   }
 }
