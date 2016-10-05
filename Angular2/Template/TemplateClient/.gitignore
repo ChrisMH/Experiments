@@ -3,4 +3,5 @@
 !/node_modules/**/bin/
 /scripts/app/**/*.js
 /scripts/app/**/*.map
-!/scripts/system*.js
+/scripts/test/**/*.js
+/scripts/test/**/*.map

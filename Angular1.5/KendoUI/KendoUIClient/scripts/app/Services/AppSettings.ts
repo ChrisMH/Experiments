@@ -6,14 +6,17 @@ export class AppSettings implements ng.IServiceProvider
 {
     public pageConfig: PageConfig;
 
-    constructor() {
-        if (window.hasOwnProperty("page") && window["page"].hasOwnProperty("config")) {
-            this.pageConfig = TypedJSON.parse(JSON.stringify(window["page"]["config"]), PageConfig);
+    static $inject = ["configRoot"];
+
+    constructor(private configRoot: any) 
+    {
+        if (configRoot.hasOwnProperty("page") && configRoot["page"].hasOwnProperty("config")) {
+            this.pageConfig = TypedJSON.parse(TypedJSON.stringify(configRoot["page"]["config"]), PageConfig);
         }
     }
 
     $get(): any
     {
-        return new AppSettings();
+        return new AppSettings(this.configRoot);
     }
 }

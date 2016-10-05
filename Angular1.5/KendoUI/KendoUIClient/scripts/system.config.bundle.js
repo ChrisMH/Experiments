@@ -6,7 +6,7 @@
         {
         	"js/app-__VERSION__.js": 
             [
-                "app:app/main.js"
+                "scripts/app/main.js"
             ]
         }
     });

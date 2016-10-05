@@ -1,4 +1,4 @@
-﻿import { Injectable } from "@angular/core";
+﻿import { Injectable, Inject } from "@angular/core";
 import { TypedJSON } from "typedjson";
 import { PageConfig } from "../Models";
 
@@ -7,10 +7,10 @@ import { PageConfig } from "../Models";
 export class AppSettings {
     public pageConfig: PageConfig;
 
-    constructor()
+    constructor(@Inject("ConfigRoot") configRoot: any)
     {
-        if (window.hasOwnProperty("page") && window["page"].hasOwnProperty("config")) {
-            this.pageConfig = TypedJSON.parse(JSON.stringify(window["page"]["config"]), PageConfig);
+        if (configRoot.hasOwnProperty("page") && configRoot["page"].hasOwnProperty("config")) {
+            this.pageConfig = TypedJSON.parse(JSON.stringify(configRoot["page"]["config"]), PageConfig);
         }
     } 
 }

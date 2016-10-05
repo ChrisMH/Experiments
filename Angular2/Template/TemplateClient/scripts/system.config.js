@@ -2,54 +2,53 @@
 {
     System.config({
         defaultJSExtension: true,
+        transpiler: "plugin-babel",
 
         // paths serve as alias
         paths: {
-            "npm:": "node_modules/",
-            "app:": "scripts/"
         },
 
         // map tells the System loader where to look for things
         map:
         {            
             // Application
-            "app": "app:app",
-            "Components": "app:app/Components",
-            "Models": "app:app/Models",
-            "Services": "app:app/Services",
+            "app":                  "scripts/app",
+            "Components":           "scripts/app/Components",
+            "Models":               "scripts/app/Models",
+            "Services":             "scripts/app/Services",
 
             // Plugins
-            "text": "npm:systemjs-plugin-text/text.js",            
-	    //"plugin-babel": "npm:systemjs-plugin-babel/plugin-babel.js",
-	    //"systemjs-babel-build": "npm:systemjs-plugin-babel/systemjs-babel-browser.js",
-            //"typescript": "npm:typescript/lib/typescript.js",
+            "systemjs":             "node_modules/systemjs/dist/system.src.js",
+            "text":                 "node_modules/systemjs-plugin-text/text.js",            
+            "plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
+            "systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
             
-	    // Angular bundles
-            "@angular/common": "npm:@angular/common/bundles/common.umd.js",
-            "@angular/compiler": "npm:@angular/compiler/bundles/compiler.umd.js",
-            "@angular/core": "npm:@angular/core/bundles/core.umd.js",
-            "@angular/forms": "npm:@angular/forms/bundles/forms.umd.js",
-            "@angular/http": "npm:@angular/http/bundles/http.umd.js",
-            "@angular/platform-browser": "npm:@angular/platform-browser/bundles/platform-browser.umd.js",
-            "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js",
-            "@angular/router": "npm:@angular/router/bundles/router.umd.js",
-            "@angular/upgrade": "npm:@angular/upgrade/bundles/upgrade.umd.js",
+            // Angular bundles
+            "@angular/common":                      "node_modules/@angular/common/bundles/common.umd.js",
+            "@angular/compiler":                    "node_modules/@angular/compiler/bundles/compiler.umd.js",
+            "@angular/core":                        "node_modules/@angular/core/bundles/core.umd.js",
+            "@angular/forms":                       "node_modules/@angular/forms/bundles/forms.umd.js",
+            "@angular/http":                        "node_modules/@angular/http/bundles/http.umd.js",
+            "@angular/platform-browser":            "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js",
+            "@angular/platform-browser-dynamic":    "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js",
+            "@angular/router":                      "node_modules/@angular/router/bundles/router.umd.js",
+            "@angular/upgrade":                     "node_modules/@angular/upgrade/bundles/upgrade.umd.js",
               
             // other libraries
-
-            "moment": "npm:moment",
-            "rxjs": "npm:rxjs",
-            "typedjson": "npm:typedjson/js"
+            "moment":               "node_modules/moment",
+            "rxjs":                 "node_modules/rxjs",
+            "typedjson":            "node_modules/typedjson/js"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
-            "app": { main: "main" },
-            "Components": { main: "index" },
-            "Models": { main: "index" },
-            "Services": { main: "index" },
+            "app":                  { main: "main" },
+            "Components":           { main: "index" },
+            "Models":               { main: "index" },
+            "Services":             { main: "index" },
 
-            "rxjs": { main: "Rx" },
-            "typedjson": { main: "index" },
+            "moment":               { main: "moment" },
+            "rxjs":                 { main: "Rx" },
+            "typedjson": { main: "index" }
         }
     });  
 })();

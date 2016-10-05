@@ -95,9 +95,6 @@
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
-    <Content Include="scripts\app\Services\AppSettings.js" />
-    <Content Include="scripts\app\Services\AppSettings.test.js" />
-    <Content Include="scripts\app\Services\index.js" />
     <Content Include="scripts\system.config.bundle.js" />
     <Content Include="scripts\system.config.js" />
     <Content Include="styles\app\images\favicon.ico" />
@@ -106,9 +103,6 @@
     <Content Include="styles\app\common.less" />
     <Content Include="styles\app\variables.less" />
     <Content Include="styles\app\app.less" />
-    <Content Include="scripts\app\Services\AppSettings.js.map" />
-    <Content Include="scripts\app\Services\AppSettings.test.js.map" />
-    <Content Include="scripts\app\Services\index.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -134,9 +128,9 @@
     <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
     <TypeScriptCompile Include="scripts\app\Module.ts" />
     <TypeScriptCompile Include="scripts\app\Components\App.ts" />
-    <TypeScriptCompile Include="scripts\app\Services\AppSettings.test.ts" />
     <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
     <TypeScriptCompile Include="scripts\app\Services\index.ts" />
+    <TypeScriptCompile Include="scripts\test\Services\AppSettings.test.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

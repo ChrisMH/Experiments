@@ -74,9 +74,10 @@ gulp.task("build:prod",function (cb)
                 cb);
 });
 
-gulp.task("clean", ["clean:js", "clean:app:js", "clean:css"], function () {});
+gulp.task("clean", ["clean:js", "clean:app:js", "clean:test:js", "clean:css"], function () { });
 gulp.task("clean:js", function () { return del(["js"]); });
 gulp.task("clean:app:js", function () { return del(["scripts/app/**/*.js", "scripts/app/**/*.map"]); });
+gulp.task("clean:test:js", function () { return del(["scripts/test/**/*.js", "scripts/test/**/*.map"]); });
 gulp.task("clean:css", function () { return del(["css"]); });
 
 

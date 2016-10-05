@@ -3,66 +3,48 @@
     System.config(
     {
         defaultJSExtension: true,
-
-        //transpiler: "babel",
-        /*
-        transpiler: "typescript",
-        typescriptOptions: {
-            "target": "es5",
-            "module": "system",
-            "moduleResolution": "node",
-            "sourceMap": true,
-            "emitDecoratorMetadata": true,
-            "experimentalDecorators": true,
-            "removeComments": true,
-            "noImplicitAny": true,
-            "suppressImplicitAnyIndexErrors": true,
-            "allowSyntheticDefaultImports": true
-        },
-        */
-
+        transpiler: "plugin-babel",
+        
         // paths serve as alias
         paths: {
-            "npm:": "node_modules/",
-            "app:": "scripts/"
         },
 
         // map tells the System loader where to look for things
         map:
         {            
             // Application
-            "app": "app:app",
-            "Components": "app:app/Components",
-            "Models": "app:app/Models",
-            "Services": "app:app/Services",
-
+            "app":                  "scripts/app",
+            "Components":           "scripts/app/Components",
+            "Models":               "scripts/app/Models",
+            "Services":             "scripts/app/Services",
+            
             // Plugins
-            "text": "npm:systemjs-plugin-text/text.js",
-            //"plugin-babel": "npm:systemjs-plugin-babel/plugin-babel.js",
-            //"systemjs-babel-build": "npm:systemjs-plugin-babel/systemjs-babel-browser.js",
-            //"typescript": "npm:typescript/lib/typescript.js",
-
+            "systemjs":             "node_modules/systemjs/dist/system.src.js",
+            "text":                 "node_modules/systemjs-plugin-text/text.js",
+            "plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
+            "systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
+            
             // Vendor Libraries
-            "angular": "npm:angular",
-            "angular-ui-router": "npm:angular-ui-router/release/angular-ui-router.js",
-            "jquery": "npm:jquery/dist/jquery.js",
-            "kendo": "npm:kendo/js",
-            "moment": "npm:moment",
-            "typedjson": "npm:typedjson/js",
+            "angular":              "node_modules/angular",
+            "angular-ui-router":    "node_modules/angular-ui-router/release/angular-ui-router.js",
+            "jquery":               "node_modules/jquery/dist/jquery.js",
+            "kendo":                "node_modules/kendo/js",
+            "moment":               "node_modules/moment",
+            "typedjson":            "node_modules/typedjson/js",
         },
 
         // packages tells the System loader how to load when no filename and/or no extension
         packages:
         {
-            "app": { main: "main" },
-            "Components": { main: "index" },
-            "Models": { main: "index" },
-            "Services": { main: "index" },
+            "app":                  { main: "main" },
+            "Components":           { main: "index" },
+            "Models":               { main: "index" },
+            "Services":             { main: "index" },
             
-            "angular": { main: "index" },
-            "kendo": { main: "kendo.web" },
-            "moment": { main: "moment" },
-            "typedjson": { main: "index" },
+            "angular":              { main: "index" },
+            "kendo":                { main: "kendo.web" },
+            "moment":               { main: "moment" },
+            "typedjson":            { main: "index" },
         }
     });
 })();

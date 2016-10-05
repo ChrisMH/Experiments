@@ -12,6 +12,7 @@ angular.module("Module",
     //.config(routes)
     .controller("App", App)
     .directive("app", AppDirective.Factory())
+    .factory("configRoot", () => window)
     .service("appSettings", AppSettings);
 
 

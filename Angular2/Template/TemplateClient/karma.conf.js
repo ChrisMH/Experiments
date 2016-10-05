@@ -4,10 +4,7 @@
 module.exports = function(config) {
   config.set({
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: "",
-
-    plugins: ["karma-jasmine", "karma-chrome-launcher", "karma-systemjs"],
+    plugins: ["karma-systemjs", "karma-jasmine", "karma-chrome-launcher"],
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -16,39 +13,18 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        { pattern: "node_modules/core-js/client/shim.js", included: true, watched: false },
-        { pattern: "node_modules/zone.js/dist/zone.js", included: true, watched: false },
-        { pattern: "node_modules/reflect-metadata/Reflect.js", included: true, watched: false },
-        //"node_modules/systemjs/dist/system.src.js",
-        /*
-        { pattern: "node_modules/rxjs/Rx.js", included: true, watched: false },
-        { pattern: "node_modules/typedjson/js/index.js", included: true, watched: false },
-        
-        { pattern: "node_modules/@angular/common/bundles/common.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/compiler/bundles/compiler.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/core/bundles/core.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/forms/bundles/forms.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/http/bundles/http.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/router/bundles/router.umd.js", included: true, watched: false },
-                
-        { pattern: "node_modules/@angular/common/bundles/common-testing.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/compiler/bundles/compiler-testing.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/core/bundles/core-testing.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/http/bundles/http-testing.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/platform-browser/bundles/platform-browser-testing.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js", included: true, watched: false },
-        { pattern: "node_modules/@angular/router/bundles/router-testing.umd.js", included: true, watched: false },
+        { pattern: "node_modules/@angular/**/*.js", included: false, watched: false },
+        { pattern: "node_modules/rxjs/*.js", included: false, watched: false },
+        { pattern: "node_modules/rxjs/**/*.js", included: false, watched: false },
+        { pattern: "node_modules/typedjson/js/index.js", included: false, watched: false },
 
-         */
-        //
-        { pattern: "scripts/**/*!(.test).js", included: false, watched: true },
+        { pattern: "scripts/app/*.js", included: false, watched: true },
+        { pattern: "scripts/app/**/*.js", included: false, watched: true },
 
-        { pattern: "scripts/**/*.test.js", included: true, watched: true },
+        { pattern: "scripts/test/*.test.js", included: true, watched: true },
+        { pattern: "scripts/test/**/*.test.js", included: true, watched: true }
     ],
-
-
+      
     // list of files to exclude
     exclude: [
     ],
@@ -98,7 +74,21 @@ module.exports = function(config) {
 
     systemjs: {
         // Path to your SystemJS configuration file 
-        configFile: "scripts/system.dev.js",
+        configFile: "scripts/system.config.js",
+
+        includeFiles: [
+            "node_modules/core-js/client/shim.js",
+
+            "node_modules/zone.js/dist/zone.js",
+            "node_modules/zone.js/dist/long-stack-trace-zone.js",
+            "node_modules/zone.js/dist/async-test.js",
+            "node_modules/zone.js/dist/fake-async-test.js",
+            "node_modules/zone.js/dist/sync-test.js",
+            "node_modules/zone.js/dist/proxy.js",
+            "node_modules/zone.js/dist/jasmine-patch.js",
+
+            "node_modules/reflect-metadata/Reflect.js"
+        ],
 
         // Patterns for files that you want Karma to make available, but not loaded until a module requests them. eg. Third-party libraries. 
         serveFiles: [
@@ -110,13 +100,13 @@ module.exports = function(config) {
             paths: {
             },
             map: {
-                "@angular/common/testing": "npm:@angular/common/bundles/common-testing.umd.js",
-                "@angular/compiler/testing": "npm:@angular/compiler/bundles/compiler-testing.umd.js",
-                "@angular/core/testing": "npm:@angular/core/bundles/core-testing.umd.js",
-                "@angular/http/testing": "npm:@angular/http/bundles/http-testing.umd.js",
-                "@angular/platform-browser/testing": "npm:@angular/platform-browser/bundles/platform-browser-testing.umd.js",
-                "@angular/platform-browser-dynamic/testing": "npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js",
-                "@angular/router/testing": "npm:@angular/router/bundles/router-testing.umd.js",
+                "@angular/common/testing":                      "node_modules/@angular/common/bundles/common-testing.umd.js",
+                "@angular/compiler/testing":                    "node_modules/@angular/compiler/bundles/compiler-testing.umd.js",
+                "@angular/core/testing":                        "node_modules/@angular/core/bundles/core-testing.umd.js",
+                "@angular/http/testing":                        "node_modules/@angular/http/bundles/http-testing.umd.js",
+                "@angular/platform-browser/testing":            "node_modules/@angular/platform-browser/bundles/platform-browser-testing.umd.js",
+                "@angular/platform-browser-dynamic/testing":    "node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js",
+                "@angular/router/testing":                      "node_modules/@angular/router/bundles/router-testing.umd.js",
             },
             packages: {
             }

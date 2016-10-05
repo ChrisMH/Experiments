@@ -96,6 +96,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="gulpfile.js" />
+    <Content Include="karma.conf.js" />
     <Content Include="packages.config" />
     <Content Include="Index.sshtml" />
     <Content Include="package.json" />
@@ -135,6 +136,7 @@
     <TypeScriptCompile Include="scripts\app\Routes.ts" />
     <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
     <TypeScriptCompile Include="scripts\app\Services\index.ts" />
+    <TypeScriptCompile Include="scripts\test\Services\AppSettings.test.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
