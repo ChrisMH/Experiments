@@ -16,6 +16,7 @@ module.exports = function(config) {
         { pattern: "node_modules/@angular/**/*.js", included: false, watched: false },
         { pattern: "node_modules/rxjs/*.js", included: false, watched: false },
         { pattern: "node_modules/rxjs/**/*.js", included: false, watched: false },
+        { pattern: "node_modules/reflect-metadata/*.js", included: false, watched: false },
         { pattern: "node_modules/typedjson/js/index.js", included: false, watched: false },
 
         { pattern: "scripts/app/*.js", included: false, watched: true },
@@ -85,9 +86,7 @@ module.exports = function(config) {
             "node_modules/zone.js/dist/fake-async-test.js",
             "node_modules/zone.js/dist/sync-test.js",
             "node_modules/zone.js/dist/proxy.js",
-            "node_modules/zone.js/dist/jasmine-patch.js",
-
-            "node_modules/reflect-metadata/Reflect.js"
+            "node_modules/zone.js/dist/jasmine-patch.js"
         ],
 
         // Patterns for files that you want Karma to make available, but not loaded until a module requests them. eg. Third-party libraries. 

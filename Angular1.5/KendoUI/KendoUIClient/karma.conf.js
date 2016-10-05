@@ -18,6 +18,7 @@ module.exports = function(config) {
     files: [        
         { pattern: "node_modules/angular/*.js", included: false, watched: false },
         { pattern: "node_modules/angular-mocks/*.js", included: false, watched: false },
+        { pattern: "node_modules/reflect-metadata/*.js", included: false, watched: false },
         { pattern: "node_modules/typedjson/js/*.js", included: false, watched: false },
 
         { pattern: "scripts/app/*.js", included: false, watched: true },

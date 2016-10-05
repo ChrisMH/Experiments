@@ -25,7 +25,6 @@ var vSourceStream = require("vinyl-source-stream");
 
 var vendorJavascript = [
     { src: "node_modules/core-js/client/shim.js", dst: "js", version: function () { return getPackageVersion("core-js"); } },
-    { src: "node_modules/reflect-metadata/Reflect.js", dst: "js", version: function () { return getPackageVersion("reflect-metadata"); } },
     { src: "node_modules/systemjs/dist/system.src.js", dst: "js", rename: "system.js", version: function () { return getPackageVersion("systemjs"); } }
 ];
 

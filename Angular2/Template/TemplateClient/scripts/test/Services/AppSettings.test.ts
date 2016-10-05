@@ -2,8 +2,6 @@
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 import { TestBed, ComponentFixture, inject, async } from "@angular/core/testing";
 
-
-
 describe("AppSettings : ", () =>
 {
     beforeAll(() => { TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting()); });

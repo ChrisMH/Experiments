@@ -36,6 +36,7 @@
               
             // other libraries
             "moment":               "node_modules/moment",
+            "reflect-metadata":     "node_modules/reflect-metadata/Reflect.js",
             "rxjs":                 "node_modules/rxjs",
             "typedjson":            "node_modules/typedjson/js"
         },

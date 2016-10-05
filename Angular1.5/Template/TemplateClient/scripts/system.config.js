@@ -29,7 +29,8 @@
             "angular-ui-router":    "node_modules/angular-ui-router/release/angular-ui-router.js",
             "jquery":               "node_modules/jquery/dist/jquery.js",
             "moment":               "node_modules/moment",
-            "typedjson":            "node_modules/typedjson/js",
+            "reflect-metadata":     "node_modules/reflect-metadata",
+            "typedjson":            "node_modules/typedjson/js"
         },
 
         // packages tells the System loader how to load when no filename and/or no extension
@@ -42,7 +43,8 @@
             
             "angular":              { main: "index" },
             "moment":               { main: "moment" },
-            "typedjson":            { main: "index" },
+            "reflect-metadata":     { main: "Reflect" },
+            "typedjson":            { main: "index" }
         }
     });
 })();

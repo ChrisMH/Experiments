@@ -9,10 +9,10 @@ angular.module("Module",
     [
         "kendo.directives"
     ])
-    //.config(routes)
+    .factory("configRoot", () => window)
     .controller("App", App)
     .directive("app", AppDirective.Factory())
-    .factory("configRoot", () => window)
     .service("appSettings", AppSettings);
+    //.config(routes)
 
 
