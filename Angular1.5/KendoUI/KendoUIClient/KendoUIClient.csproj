@@ -107,6 +107,17 @@
     <Content Include="styles\app\app.less" />
     <Content Include="styles\app\variables.less" />
     <Content Include="styles\app\common.less" />
+    <Content Include="typings\globals\angular-mocks\typings.json" />
+    <Content Include="typings\globals\angular-ui-router\typings.json" />
+    <Content Include="typings\globals\angular\typings.json" />
+    <Content Include="typings\globals\core-js\typings.json" />
+    <Content Include="typings\globals\jasmine\typings.json" />
+    <Content Include="typings\globals\jquery\typings.json" />
+    <Content Include="typings\globals\kendo-ui\typings.json" />
+    <Content Include="typings\globals\node\typings.json" />
+    <Content Include="typings\globals\systemjs\typings.json" />
+    <Content Include="typings\modules\typedjson\typings.json" />
+    <Content Include="typings\modules\moment\typings.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -131,12 +142,31 @@
     <TypeScriptCompile Include="scripts\app\Components\App.ts" />
     <TypeScriptCompile Include="scripts\app\main.ts" />
     <TypeScriptCompile Include="scripts\app\Models\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\ISearchCriteria.ts" />
     <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\PossibleAssigneeSearchCriteria.ts" />
     <TypeScriptCompile Include="scripts\app\Module.ts" />
     <TypeScriptCompile Include="scripts\app\Routes.ts" />
     <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
     <TypeScriptCompile Include="scripts\app\Services\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Utilities\index.ts" />
+    <TypeScriptCompile Include="scripts\app\Utilities\UrlExtensions.ts" />
+    <TypeScriptCompile Include="scripts\app\Utilities\UrlQueryParamDecorator.ts" />
     <TypeScriptCompile Include="scripts\test\Services\AppSettings.test.ts" />
+    <TypeScriptCompile Include="scripts\test\Utilities\UrlExtensions.test.ts" />
+    <TypeScriptCompile Include="scripts\test\Utilities\UrlQueryParamDecorator.test.ts" />
+    <TypeScriptCompile Include="typings\globals\angular-mocks\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\angular-ui-router\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\angular\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\core-js\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\jasmine\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\kendo-ui\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\systemjs\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\moment\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\typedjson\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

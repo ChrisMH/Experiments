@@ -9,6 +9,8 @@
     "systemjs": "registry:dt/systemjs#0.19.29+20160702105636"
   },
   "dependencies": {
+    "moment": "npm:moment",
+    "reflect-metadata": "npm:reflect-metadata",
     "typedjson": "npm:typedjson"
   },
   "globalDevDependencies": {

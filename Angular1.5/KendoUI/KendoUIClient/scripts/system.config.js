@@ -17,6 +17,7 @@
             "Components":           "scripts/app/Components",
             "Models":               "scripts/app/Models",
             "Services":             "scripts/app/Services",
+            "Utilities":            "scripts/app/Utilities",
             
             // Plugins
             "systemjs":             "node_modules/systemjs/dist/system.src.js",
@@ -41,6 +42,7 @@
             "Components":           { main: "index" },
             "Models":               { main: "index" },
             "Services":             { main: "index" },
+            "Utilities":            { main: "index" },
             
             "angular":              { main: "index" },
             "kendo":                { main: "kendo.web" },
