@@ -27,9 +27,9 @@ namespace KendoUIClient.Server
                 new BaseElem { Href = PageConfig.RootUrl },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/vendor/bootstrap/bootstrap-3.3.7.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/vendor/kendo/kendo.common-2016.3.914.css", Type= LinkType.Css, Rel= LinkRelType.Stylesheet },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/vendor/kendo/kendo.bootstrap-2016.3.914.css", Type= LinkType.Css, Rel= LinkRelType.Stylesheet },
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/bootstrap/css/bootstrap-3.3.7.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/kendo/kendo.common-2016.3.914.css", Type= LinkType.Css, Rel= LinkRelType.Stylesheet },
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/kendo/kendo.bootstrap-2016.3.914.css", Type= LinkType.Css, Rel= LinkRelType.Stylesheet },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/app-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
             };
 

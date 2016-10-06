@@ -27,7 +27,7 @@ namespace TemplateClient.Server
                 new BaseElem { Href = PageConfig.RootUrl },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.Icon },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel= LinkRelType.ShortcutIcon },
-                new LinkElem { Href = $"{PageConfig.RootUrl}css/vendor/bootstrap/bootstrap-3.3.7.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
+                new LinkElem { Href = $"{PageConfig.RootUrl}css/bootstrap/css/bootstrap-3.3.7.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet },
                 new LinkElem { Href = $"{PageConfig.RootUrl}css/app/app-{PageConfig.Version}.css", Type = LinkType.Css, Rel= LinkRelType.Stylesheet }
             };
 

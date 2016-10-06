@@ -1,9 +1,10 @@
 ﻿(function ()
 {
-    System.config({
+    System.config(
+    {
         defaultJSExtension: true,
         transpiler: "plugin-babel",
-
+        
         // paths serve as alias
         paths: {
         },
@@ -16,10 +17,10 @@
             "Components":           "scripts/app/Components",
             "Models":               "scripts/app/Models",
             "Services":             "scripts/app/Services",
-
+            
             // Plugins
             "systemjs":             "node_modules/systemjs/dist/system.src.js",
-            "text":                 "node_modules/systemjs-plugin-text/text.js",            
+            "text":                 "node_modules/systemjs-plugin-text/text.js",
             "plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
             "systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
             
@@ -40,6 +41,7 @@
             "rxjs":                 "node_modules/rxjs",
             "typedjson":            "node_modules/typedjson/js"
         },
+
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
             "app":                  { main: "main" },
@@ -51,5 +53,5 @@
             "rxjs":                 { main: "Rx" },
             "typedjson":            { main: "index" }
         }
-    });  
+    });
 })();
