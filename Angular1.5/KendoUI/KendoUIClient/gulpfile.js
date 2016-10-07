@@ -84,14 +84,16 @@ var appArtifacts = [
 
 
 gulp.task("watch",
-    function() {
+    function()
+    {
         gulp.watch(["styles/app/**/*.less"], ["build:dev:app:css"]);
         gulp.watch(["styles/vendor/**/*.less", "styles/vendor/**/*.css"], ["build:dev:vendor:css"]);
     });
 
 
 gulp.task("build:dev",
-    function(cb) {
+    function(cb)
+    {
         runSequence(["clean:css", "clean:js"],
             ["build:dev:app:ts"],
             [
@@ -102,7 +104,8 @@ gulp.task("build:dev",
     });
 
 gulp.task("build:prod",
-    function(cb) {
+    function(cb)
+    {
         runSequence(
             ["clean:css", "clean:js"],
             ["build:prod:app:ts"],
@@ -140,7 +143,8 @@ gulp.task("build:prod:app:ts", ["clean:app:js", "clean:test:js"], function() { r
 
 // App Javascript
 gulp.task("build:prod:app:js",
-    function() {
+    function()
+    {
         return gulp.src(["scripts/system.config.js", "scripts/system.config.bundle.js"])
             .pipe(gReplace("__VERSION__", getAppVersion()))
             .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
@@ -150,13 +154,15 @@ gulp.task("build:prod:app:js",
 
 // App Production Bundling
 gulp.task("bundle:prod",
-    function(cb) {
+    function(cb)
+    {
         var builder = new systemjsBuilder("", "scripts/system.config.js");
 
-        var appBundleName = "js/app-" + getAppVersion() + ".js"
+        var appBundleName = "js/app-" + getAppVersion() + ".js";
         builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
             .then(function() { cb(); })
-            .catch(function(err) {
+            .catch(function(err)
+            {
                 console.log("Bundle Error:");
                 console.log(err);
                 cb();
@@ -173,12 +179,14 @@ gulp.task("copy:app:artifacts", function() { return copyArtifacts(appArtifacts);
 
 // Helper functions
 
-function getAppVersion() {
+function getAppVersion()
+{
     var assemblyInfoFile = fs.readFileSync("./Properties/AssemblyInfo.cs");
     return gDotNetAssemblyInfo.getAssemblyMetadata(assemblyInfoFile).AssemblyVersion;
 }
 
-function getPackageVersion(packageKey) {
+function getPackageVersion(packageKey)
+{
     var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
     var version = "0.0.0";
 
@@ -192,9 +200,11 @@ function getPackageVersion(packageKey) {
     return version;
 }
 
-function buildStylesheets(files, compress) {
+function buildStylesheets(files, compress)
+{
     var streams = [];
-    files.forEach(function(file) {
+    files.forEach(function(file)
+    {
         streams.push(
             gulp.src(file.src)
             .pipe(gIf(compress !== true, gSourceMaps.init()))
@@ -210,13 +220,15 @@ function buildStylesheets(files, compress) {
 }
 
 
-function getTypescriptConfig() {
+function getTypescriptConfig()
+{
     var tsConfigFile = JSON.parse(fs.readFileSync("./tsconfig.json", "utf8"));
     return tsConfigFile.compilerOptions;
 }
 
 
-function buildTypescript(sourceMaps) {
+function buildTypescript(sourceMaps)
+{
     var tsProject = gTypescript.createProject("./tsconfig.json");
 
     var tsResult = tsProject.src()
@@ -228,9 +240,11 @@ function buildTypescript(sourceMaps) {
 }
 
 
-function buildJavascript(files, compress) {
+function buildJavascript(files, compress)
+{
     var streams = [];
-    files.forEach(function(file) {
+    files.forEach(function(file)
+    {
         streams.push(
             gulp.src(file.src)
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
@@ -243,9 +257,11 @@ function buildJavascript(files, compress) {
     return mergeStream(streams);
 }
 
-function copyArtifacts(artifacts) {
+function copyArtifacts(artifacts)
+{
     var streams = [];
-    artifacts.forEach(function(artifact) {
+    artifacts.forEach(function(artifact)
+    {
         streams.push(gulp.src(artifact.src).pipe(gulp.dest(artifact.dst)));
     });
     return mergeStream(streams);

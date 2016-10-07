@@ -141,6 +141,7 @@
     <TypeScriptCompile Include="scripts\app\Components\index.ts" />
     <TypeScriptCompile Include="scripts\app\Components\App.ts" />
     <TypeScriptCompile Include="scripts\app\main.ts" />
+    <TypeScriptCompile Include="scripts\app\Models\AssigneeSearchCriteria.ts" />
     <TypeScriptCompile Include="scripts\app\Models\index.ts" />
     <TypeScriptCompile Include="scripts\app\Models\ISearchCriteria.ts" />
     <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
@@ -150,10 +151,10 @@
     <TypeScriptCompile Include="scripts\app\Services\AppSettings.ts" />
     <TypeScriptCompile Include="scripts\app\Services\index.ts" />
     <TypeScriptCompile Include="scripts\app\Utilities\index.ts" />
-    <TypeScriptCompile Include="scripts\app\Utilities\UrlExtensions.ts" />
-    <TypeScriptCompile Include="scripts\app\Utilities\UrlQueryParamDecorator.ts" />
+    <TypeScriptCompile Include="scripts\app\Services\UrlService.ts" />
+    <TypeScriptCompile Include="scripts\app\Utilities\UrlQueryDecorator.ts" />
     <TypeScriptCompile Include="scripts\test\Services\AppSettings.test.ts" />
-    <TypeScriptCompile Include="scripts\test\Utilities\UrlExtensions.test.ts" />
+    <TypeScriptCompile Include="scripts\test\Services\UrlService.test.ts" />
     <TypeScriptCompile Include="scripts\test\Utilities\UrlQueryParamDecorator.test.ts" />
     <TypeScriptCompile Include="typings\globals\angular-mocks\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\angular-ui-router\index.d.ts" />

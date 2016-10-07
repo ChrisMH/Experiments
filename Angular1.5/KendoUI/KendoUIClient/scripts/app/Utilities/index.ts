@@ -1,3 +1,2 @@
 ﻿
-export * from "./UrlExtensions";
-export * from "./UrlQueryParamDecorator";
+export * from "./UrlQueryDecorator";

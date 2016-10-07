@@ -1,116 +1,177 @@
 ﻿/// <reference path="../../../typings/globals/jasmine/index.d.ts" />
 import * as moment from "moment";
-import "reflect-metadata";
 
-import { UrlQueryParam, UrlQueryParamKey, UrlQueryParamMetadata, StringConverter, IntConverter, IsoDateConverter } from "../../app/Utilities";
+import { UrlQuery } from "../../app/Utilities";
 
-class TestClass {
-    @UrlQueryParam("p1u", StringConverter)
+import { ISearchCriteria } from "../../app/Models";
+
+import { AssigneeSearchCriteria, PossibleAssigneeSearchCriteria } from "../../app/Models";
+
+export class TestClass {
+    @UrlQuery.UrlQueryParam("p1u", UrlQuery.StringConverter)
     p1: string;
-    
-    @UrlQueryParam("p2u", IntConverter)
+
+    @UrlQuery.UrlQueryParam("p2u", UrlQuery.IntConverter)
     p2: number;
 
-    @UrlQueryParam("p3u", IsoDateConverter)
+    @UrlQuery.UrlQueryParam("p3u", UrlQuery.IsoDateConverter)
     p3: Date;
 }
 
- 
-describe("UrlQueryParamDecorator : ",
-    () => {
 
+describe("UrlQueryParamDecorator : ",
+    () =>
+    {
         let testAll: TestClass;
 
-        beforeAll(() => {
+        beforeAll(() =>
+        {
             testAll = new TestClass();
             testAll.p1 = "Hey";
             testAll.p2 = 47;
             testAll.p3 = moment().toDate();
         });
 
+
         it("has metadata",
-            () => {
-
-                let withMetadata = new Array<string>();
-
-                for (let p in testAll) {
-                    let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, p);
-                    if (urlQuery) withMetadata.push(p);
-                }
-                expect(withMetadata.length).toEqual(3);
+            () =>
+            {
+                expect(UrlQuery.getParamMap(TestClass.prototype).size).toBe(3);
             });
 
-        it("has correct metadata values",
-            () => {
-                for (let p in testAll) {
-                    let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, p);
-                    expect(urlQuery.urlKey).toEqual(p + "u");
-                }
-            });
 
-        it("has metadata only for defined properties",
-            () => {
-                let testOne = new TestClass();
-                testOne.p1 = "hey";
+        it("metadata has all properties",
+            () =>
+            {
+                const meta = UrlQuery.getParamMap(TestClass.prototype);
+                let propCount = 0;
 
-                let withMetadata = new Array<string>();
-                for (let p in testOne) {
-                    let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, p);
-                    if (urlQuery) withMetadata.push(p);
+                for (let prop in testAll)
+                {
+                    expect(meta.get(prop)).toBeDefined();
+                    propCount++;
                 }
 
-                expect(withMetadata.length).toEqual(1);
-                expect(withMetadata[0]).toEqual("p1");
+                expect(propCount).toBeGreaterThan(0);
+                expect(propCount).toBe(meta.size);
             });
 
+        it("metadata has correct propertyKeys",
+            () =>
+            {
+                const meta = UrlQuery.getParamMap(TestClass.prototype);
+                let propCount = 0;
+
+                for (let prop in testAll)
+                {
+                    expect(meta.get(prop).propertyKey).toEqual(prop);
+                    propCount++;
+                }
+
+                expect(propCount).toBeGreaterThan(0);
+                expect(propCount).toBe(meta.size);
+            });
+
+        it("metadata has correct urlKeys",
+            () =>
+            {
+                const meta = UrlQuery.getParamMap(TestClass.prototype);
+                let propCount = 0;
+
+                for (let prop in testAll)
+                {
+                    expect(meta.get(prop).urlKey).toEqual(prop + "u");
+                    propCount++;
+                }
+
+                expect(propCount).toBeGreaterThan(0);
+                expect(propCount).toBe(meta.size);
+            });
+
+        it("metadata has converter",
+            () =>
+            {
+                const meta = UrlQuery.getParamMap(TestClass.prototype);
+                let propCount = 0;
+
+                for (let prop in testAll)
+                {
+                    expect(meta.get(prop).converter).toBeDefined();
+                    propCount++;
+                }
+
+                expect(propCount).toBeGreaterThan(0);
+                expect(propCount).toBe(meta.size);
+            });
+
+        it("url map matches parameter map",
+            () =>
+            {
+                let paramMap = UrlQuery.getParamMap(TestClass.prototype);
+                let urlMap = UrlQuery.getUrlMap(TestClass.prototype);
+
+                expect(paramMap.size).toBe(3);
+                expect(urlMap.size).toBe(3);
+
+                paramMap.forEach((param) =>
+                {
+                    let url = urlMap.get(param.urlKey);
+
+                    expect(param.propertyKey).toBe(url.propertyKey);
+                    expect(param.urlKey).toBe(url.urlKey);
+                    expect(param.converter).toBe(url.converter);
+                });
+            });
 
         it("can convert string value from URL",
-            () => {
-                let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, "p1");
+            () =>
+            {
+                const fixture = new UrlQuery.StringConverter();
 
-                expect(urlQuery.converter.fromUrl("stringValue")).toEqual("stringValue");
+                expect(fixture.fromUrl("stringValue")).toEqual("stringValue");
             });
 
         it("can convert string value to URL",
-            () => {
-                
-                let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, "p1");
-                
-                expect(urlQuery.converter.toUrl("stringValue")).toEqual("stringValue");
+            () =>
+            {
+                const fixture = new UrlQuery.StringConverter();
+
+                expect(fixture.toUrl("stringValue")).toEqual("stringValue");
             });
 
         it("can convert number value from URL",
-            () => {
-                let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, "p2");
+            () =>
+            {
+                const fixture = new UrlQuery.IntConverter();
 
-                expect(urlQuery.converter.fromUrl("100")).toEqual(100);
+                expect(fixture.fromUrl("100")).toEqual(100);
             });
 
         it("can convert number value to URL",
-            () => {
-                
-                let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, "p2");
-                
-                expect(urlQuery.converter.toUrl(100)).toEqual("100");
+            () =>
+            {
+                const fixture = new UrlQuery.IntConverter();
+
+                expect(fixture.toUrl(100)).toEqual("100");
             });
 
         it("can convert ISO date value from URL",
-            () => {
-                let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, "p3");
+            () =>
+            {
+                const fixture = new UrlQuery.IsoDateConverter();
 
                 var m = moment();
 
-                expect(urlQuery.converter.fromUrl(m.toISOString())).toEqual(m.toDate());
+                expect(fixture.fromUrl(m.toISOString())).toEqual(m.toDate());
             });
 
         it("can convert ISO date value to URL",
-            () => {
-                
-                let urlQuery = <UrlQueryParamMetadata>Reflect.getMetadata(UrlQueryParamKey, testAll, "p3");
-                
+            () =>
+            {
+                const fixture = new UrlQuery.IsoDateConverter();
+
                 var m = moment();
 
-                expect(urlQuery.converter.toUrl(m.toDate())).toEqual(m.toISOString());
+                expect(fixture.toUrl(m.toDate())).toEqual(m.toISOString());
             });
-
     });

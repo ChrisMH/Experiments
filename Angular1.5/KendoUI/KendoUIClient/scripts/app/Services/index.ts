@@ -1,1 +1,3 @@
-﻿export * from "./AppSettings";
+﻿
+export * from "./AppSettings";
+export * from "./UrlService";
