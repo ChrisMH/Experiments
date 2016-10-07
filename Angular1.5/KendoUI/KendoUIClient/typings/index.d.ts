@@ -8,4 +8,5 @@
 /// <reference path="globals/node/index.d.ts" />
 /// <reference path="globals/systemjs/index.d.ts" />
 /// <reference path="modules/moment/index.d.ts" />
+/// <reference path="modules/reflect-metadata/index.d.ts" />
 /// <reference path="modules/typedjson/index.d.ts" />

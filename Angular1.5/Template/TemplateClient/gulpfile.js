@@ -7,6 +7,7 @@ var gDotNetAssemblyInfo = require("gulp-dotnet-assembly-info");
 var gIf = require("gulp-if");
 var gInsert = require("gulp-insert");
 var gLess = require("gulp-less");
+var gPlumber = require("gulp-plumber");
 var gRename = require("gulp-rename");
 var gReplace = require("gulp-replace");
 var gSourceMaps = require("gulp-sourcemaps");
@@ -132,6 +133,7 @@ gulp.task("build:prod:app:js",
     function()
     {
         return gulp.src(["scripts/system.config.js", "scripts/system.config.bundle.js"])
+            .pipe(gPlumber())
             .pipe(gReplace("__VERSION__", getAppVersion()))
             .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
             .pipe(gStreamify(gUglify()))
@@ -144,7 +146,7 @@ gulp.task("bundle:prod",
     {
         var builder = new systemjsBuilder("", "scripts/system.config.js");
 
-        var appBundleName = "js/app-" + getAppVersion() + ".js"
+        var appBundleName = "js/app-" + getAppVersion() + ".js";
         builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
             .then(function() { cb(); })
             .catch(function(err)
@@ -193,10 +195,14 @@ function buildStylesheets(files, compress)
     {
         streams.push(
             gulp.src(file.src)
+            .pipe(gPlumber())
             .pipe(gIf(compress !== true, gSourceMaps.init()))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function(path) { path.basename += "-" + file.version(); })))
-            .pipe(gIf(/[.]less/, gLess(), gRename(function(path) { path.extname = ".css"; })))
+            .pipe(gIf(/[.]less/,
+                      gLess(),
+                      gRename(function (path) { path.extname = ".css"; }))
+                 ).on("error", onError)
             .pipe(gIf(compress === true, gCleanCss({ keepSpecialComments: 0 })))
             .pipe(gIf(compress !== true, gSourceMaps.write({ sourceRoot: "/" + file.dst + "/" })))
             .pipe(gulp.dest(file.dst))
@@ -218,11 +224,13 @@ function buildTypescript(sourceMaps)
     var tsProject = gTypescript.createProject("./tsconfig.json");
 
     var tsResult = tsProject.src()
-        .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
-        .pipe(tsProject());
+            .pipe(gPlumber())
+            .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
+            .pipe(tsProject());
     return tsResult.js
-        .pipe(gIf(sourceMaps === true, gSourceMaps.write({ sourceRoot: "/scripts/" })))
-        .pipe(gulp.dest("scripts"));
+            .pipe(gPlumber())
+            .pipe(gIf(sourceMaps === true, gSourceMaps.write({ sourceRoot: "/scripts/" })))
+            .pipe(gulp.dest("scripts"));
 }
 
 
@@ -233,9 +241,9 @@ function buildJavascript(files, compress)
     {
         streams.push(
             gulp.src(file.src)
+            .pipe(gPlumber())
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function(path) { path.basename += "-" + file.version(); })))
-            //.pipe(gIf(/[.]ts/, gTypescript(getTypescriptConfig())))
             .pipe(gIf(compress, gStreamify(gUglify())))
             .pipe(gulp.dest(file.dst))
         );
@@ -248,7 +256,16 @@ function copyArtifacts(artifacts)
     var streams = [];
     artifacts.forEach(function(artifact)
     {
-        streams.push(gulp.src(artifact.src).pipe(gulp.dest(artifact.dst)));
+        streams.push(gulp.src(artifact.src)
+                          .pipe(gPlumber())
+                          .pipe(gulp.dest(artifact.dst))
+                    );
     });
     return mergeStream(streams);
+}
+
+function onError(err)
+{
+    gUtil.log(err);
+    this.emit("end");
 }
