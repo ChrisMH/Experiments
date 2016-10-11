@@ -1,5 +1,8 @@
-﻿import "angular";
+﻿
+import "angular";
 import "ngMock";
+
+import { MockHelpers } from "../Mocks";
 
 import { AppSettings } from "../../app/Services";
 
@@ -7,22 +10,12 @@ describe("AppSettings : ", () =>
 {
     describe("Happy Path : ", () =>
     {
-        let configRootGood: any = {
-            page: {
-                config: {
-                    originUrl: "http://origin/",
-                    rootUrl: "http://origin/root/",
-                    version: "1.0.0"
-                }
-            }
-        };
 
         beforeEach(() =>
         {
             angular.mock.module(($provide: angular.auto.IProvideService) =>
-            {
-                $provide.factory("configRoot", () => configRootGood);
-                $provide.service("appSettings", AppSettings);
+            {   
+                MockHelpers.installAppSettings($provide);
             });
         });
 
@@ -30,23 +23,22 @@ describe("AppSettings : ", () =>
         {
             expect(appSettings).toBeDefined();
         }));
-
-        it("can create AppSettings.pageConfig", angular.mock.inject((appSettings: AppSettings) => 
-        {
-            expect(appSettings.pageConfig).toBeDefined();
-        }));
+        
 
         it("can create AppSettings.pageConfig with expected properties", angular.mock.inject((appSettings: AppSettings) =>
         {
-            expect(appSettings.pageConfig.originUrl).toEqual(<string>configRootGood["page"]["config"]["originUrl"]);
-            expect(appSettings.pageConfig.rootUrl).toEqual(<string>configRootGood["page"]["config"]["rootUrl"]);
-            expect(appSettings.pageConfig.version).toEqual(<string>configRootGood["page"]["config"]["version"]);
+            expect(appSettings.originUrl).toBeDefined();
+            expect(appSettings.originUrl).toEqual(<string>MockHelpers.configRoot["page"]["config"]["originUrl"]);
+            expect(appSettings.rootUrl).toBeDefined();
+            expect(appSettings.rootUrl).toEqual(<string>MockHelpers.configRoot["page"]["config"]["rootUrl"]);
+            expect(appSettings.version).toBeDefined();
+            expect(appSettings.version).toEqual(<string>MockHelpers.configRoot["page"]["config"]["version"]);
         }));
     });
 
     describe("Error Cases : ", () =>
     {
-        it("has undefined AppSettings.pageConfig when page is undefined", () =>
+        it("has undefined values when page is undefined", () =>
         {
             angular.mock.module(($provide: angular.auto.IProvideService) =>
             {
@@ -57,11 +49,13 @@ describe("AppSettings : ", () =>
             angular.mock.inject((appSettings: AppSettings) =>
             {
                 expect(appSettings).toBeDefined();
-                expect(appSettings.pageConfig).toBeUndefined();
+                expect(appSettings.originUrl).toBeUndefined();
+                expect(appSettings.rootUrl).toBeUndefined();
+                expect(appSettings.version).toBeUndefined();
             });
         });
 
-        it("has undefined AppSettings.pageConfig when config is undefined", () =>
+        it("has undefined values config is undefined", () =>
         {
             angular.mock.module(($provide: angular.auto.IProvideService) =>
             {
@@ -72,7 +66,8 @@ describe("AppSettings : ", () =>
             angular.mock.inject((appSettings: AppSettings) =>
             {
                 expect(appSettings).toBeDefined();
-                expect(appSettings.pageConfig).toBeUndefined();
+                expect(appSettings.originUrl).toBeUndefined();
+                expect(appSettings.rootUrl).toBeUndefined();
             });
         });
 

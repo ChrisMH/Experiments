@@ -51,10 +51,10 @@ export class App implements ng.IController
         
     $onInit()
     {
-        console.log("App.init:")
-        console.log("  originUrl=" + this.appSettings.pageConfig.originUrl);
-        console.log("  rootUrl=" + this.appSettings.pageConfig.rootUrl);
-        console.log("  version=" + this.appSettings.pageConfig.version);
+        console.log("App.init:");
+        console.log(`  originUrl=${this.appSettings.originUrl}`);
+        console.log(`  rootUrl=${this.appSettings.rootUrl}`);
+        console.log(`  version=${this.appSettings.version}`);
     }
 
     private createDatePickerOptions(): kendo.ui.DatePickerOptions

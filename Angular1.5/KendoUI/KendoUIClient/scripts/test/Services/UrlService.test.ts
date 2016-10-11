@@ -1,12 +1,12 @@
-﻿/// <reference path="../../../typings/globals/jasmine/index.d.ts" />
-/// <reference path="../../../typings/globals/angular/index.d.ts" />
-/// <reference path="../../../typings/globals/angular-mocks/index.d.ts" />
-
+﻿
 import "angular";
 import "ngMock";
 
 import * as moment from "moment";
-import { AppSettings, UrlService } from "../../app/Services";
+
+import { MockHelpers } from "../Mocks";
+
+import { UrlService } from "../../app/Services";
 import { AssigneeSearchCriteria, PossibleAssigneeSearchCriteria } from "../../app/Models";
 
 
@@ -18,9 +18,7 @@ describe("UrlService : ",
         {
             angular.mock.module(($provide: angular.auto.IProvideService) =>
             {
-                $provide.factory("configRoot", () => <any>{page: { config: { rootUrl: rootUrl }}} as any);
-                $provide.service("appSettings", AppSettings);
-                $provide.service("urlService", UrlService);
+                MockHelpers.installUrlService($provide);
             });
         });
 

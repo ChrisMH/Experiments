@@ -144,7 +144,6 @@
     <TypeScriptCompile Include="scripts\app\Models\AssigneeSearchCriteria.ts" />
     <TypeScriptCompile Include="scripts\app\Models\index.ts" />
     <TypeScriptCompile Include="scripts\app\Models\ISearchCriteria.ts" />
-    <TypeScriptCompile Include="scripts\app\Models\PageConfig.ts" />
     <TypeScriptCompile Include="scripts\app\Models\PossibleAssigneeSearchCriteria.ts" />
     <TypeScriptCompile Include="scripts\app\Module.ts" />
     <TypeScriptCompile Include="scripts\app\Routes.ts" />
@@ -153,6 +152,8 @@
     <TypeScriptCompile Include="scripts\app\Utilities\index.ts" />
     <TypeScriptCompile Include="scripts\app\Services\UrlService.ts" />
     <TypeScriptCompile Include="scripts\app\Utilities\UrlQueryDecorator.ts" />
+    <TypeScriptCompile Include="scripts\test\Mocks\index.ts" />
+    <TypeScriptCompile Include="scripts\test\Mocks\MockHelpers.ts" />
     <TypeScriptCompile Include="scripts\test\Services\AppSettings.test.ts" />
     <TypeScriptCompile Include="scripts\test\Services\UrlService.test.ts" />
     <TypeScriptCompile Include="scripts\test\Utilities\UrlQueryParamDecorator.test.ts" />

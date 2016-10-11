@@ -40,10 +40,10 @@ export class App implements ng.IController
         
     $onInit()
     {
-        console.log("App.init:")
-        console.log("  originUrl=" + this.$scope.appSettings.pageConfig.originUrl);
-        console.log("  rootUrl=" + this.$scope.appSettings.pageConfig.rootUrl);
-        console.log("  version=" + this.$scope.appSettings.pageConfig.version);
+        console.log("App.init:");
+        console.log(`  originUrl=${this.$scope.appSettings.originUrl}`);
+        console.log(`  rootUrl=${this.$scope.appSettings.rootUrl}`);
+        console.log(`  version=${this.$scope.appSettings.version}`);
     }
 }
 
