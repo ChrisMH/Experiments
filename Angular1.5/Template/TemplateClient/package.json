@@ -17,7 +17,8 @@
     "moment": "^2.15.1",
     "reflect-metadata": "^0.1.8",
     "systemjs": "^0.19.39",
-    "systemjs-plugin-babel": "0.0.15",
+    "systemjs-plugin-babel": "^0.0.16",
+    "systemjs-plugin-css": "^0.1.31",
     "systemjs-plugin-text": "0.0.9",
     "typedjson": "^0.1.5",
     "zone.js": "^0.6.25"
@@ -38,7 +39,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
-    "gulp-sourcemaps": "^1.6.0",
+    "gulp-sourcemaps": "^2.0.1",
     "gulp-streamify": "^1.0.2",
     "gulp-typescript": "^3.0.2",
     "gulp-uglify": "^2.0.0",

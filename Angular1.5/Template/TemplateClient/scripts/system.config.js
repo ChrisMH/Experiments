@@ -2,7 +2,7 @@
 {
     System.config(
     {
-        defaultJSExtension: true,
+        //defaultJSExtension: true,
         transpiler: "plugin-babel",
         
         // paths serve as alias
@@ -20,6 +20,7 @@
             
             // Plugins
             "systemjs":             "node_modules/systemjs/dist/system.src.js",
+            "css":                  "node_modules/systemjs-plugin-css/css.js",
             "text":                 "node_modules/systemjs-plugin-text/text.js",
             "plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
             "systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
@@ -45,6 +46,12 @@
             "moment":               { main: "moment" },
             "reflect-metadata":     { main: "Reflect" },
             "typedjson":            { main: "index" }
+        },
+
+        meta:
+        {
+            "*.css": { loader: "css" },
+            "*.html": { loader: "text" }
         }
     });
 })();
