@@ -1,6 +1,6 @@
 /css/
 /js/
-!/node_modules/**/bin/
+!/node_modules/**/*
 /scripts/app/**/*.js
 /scripts/app/**/*.map
 /scripts/test/**/*.js

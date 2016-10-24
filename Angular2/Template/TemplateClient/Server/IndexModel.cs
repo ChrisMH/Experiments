@@ -51,7 +51,7 @@ namespace TemplateClient.Server
 
             Scripts.Add(new ScriptElem
             {
-                Body = $"(function () {{ System.import('app').catch(err => console.log(err)); }})();",
+                Body = "(function(){System.import('app').catch(function(err){console.log(err);});})();",
                 Type = ScriptType.Javascript
             });
 

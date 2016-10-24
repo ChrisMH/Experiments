@@ -1,7 +1,0 @@
-/css/
-/js/
-!/node_modules/**/bin/
-/scripts/app/**/*.js
-/scripts/app/**/*.map
-/scripts/test/**/*.js
-/scripts/test/**/*.map
