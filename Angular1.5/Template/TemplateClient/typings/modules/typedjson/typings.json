@@ -5,7 +5,6 @@
     "raw": "npm:typedjson",
     "main": "js/index.js",
     "version": "0.1.5",
-    "global": false,
     "name": "typedjson"
   }
 }
