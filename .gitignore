@@ -1,5 +1,7 @@
 .vs/
-obj/
 bin/
-*.csproj.user
+obj/
+logs/
+out/
 *.suo
+*.user

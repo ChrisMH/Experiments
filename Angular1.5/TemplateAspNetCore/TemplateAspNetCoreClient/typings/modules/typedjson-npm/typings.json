@@ -1,0 +1,10 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "C:\\DevP\\Experiments\\Angular1.5\\TemplateAspNetCore\\TemplateAspNetCoreClient\\node_modules\\typedjson-npm\\package.json",
+    "raw": "npm:typedjson-npm",
+    "main": "js/typed-json.js",
+    "version": "0.1.6",
+    "name": "typedjson-npm"
+  }
+}

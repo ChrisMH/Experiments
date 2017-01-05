@@ -1,0 +1,19 @@
+﻿@using TemplateAspNetCoreClient.Models
+@model TemplateAspNetCoreClient.Models.IndexModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @Html.Raw(Model.Styles.Html)
+    @Html.Raw(Model.Scripts.Html)
+</head>
+<body>
+    <!-- The angular router will place its content here -->
+    <div class="main" ui-view></div>
+</body>
+</html>
