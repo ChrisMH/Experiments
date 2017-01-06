@@ -1,7 +1,8 @@
-﻿import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
+﻿import * as angular from "angular";
+import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
 
-export class AppSettings implements ng.IServiceProvider
+export class AppSettings implements angular.IServiceProvider
 {
     originUrl: string;
     rootUrl: string;

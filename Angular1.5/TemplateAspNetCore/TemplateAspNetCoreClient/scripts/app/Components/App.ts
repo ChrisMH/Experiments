@@ -1,5 +1,7 @@
-﻿import { AppSettings } from "../Services/AppSettings";
+﻿import * as angular from "angular";
 import * as moment from "moment";
+
+import { AppSettings } from "../Services/AppSettings";
 
 /*
 export class AppDirective implements ng.IDirective {
@@ -29,7 +31,7 @@ export interface IAppScope extends ng.IScope
 }
 
 */
-export class App implements ng.IController
+export class App implements angular.IController
 {
     protected loadTime: Date;
 

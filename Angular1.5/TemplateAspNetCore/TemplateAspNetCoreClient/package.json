@@ -7,6 +7,13 @@
     "postinstall": "typings install"
   },
   "dependencies": {
+    "@types/angular": "^1.5.23",
+    "@types/angular-mocks": "^1.5.8",
+    "@types/angular-ui-router": "^1.1.36",
+    "@types/core-js": "^0.9.35",
+    "@types/jasmine": "^2.5.40",
+    "@types/node": "^6.0.58",
+    "@types/systemjs": "^0.19.33",
     "angular": "^1.6.0",
     "angular-ui-router": "^0.3.1",
     "bootstrap": "^3.3.7",

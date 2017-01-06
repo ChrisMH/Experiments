@@ -1,5 +1,4 @@
-﻿
-import "angular";
+﻿import * as angular from "angular";
 import "ngMock";
 
 import { configRoot } from "../Mocks";

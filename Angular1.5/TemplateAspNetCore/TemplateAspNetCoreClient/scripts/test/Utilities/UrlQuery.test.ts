@@ -1,6 +1,4 @@
-﻿/// <reference path="../../../typings/globals/jasmine/index.d.ts" />
-
-import * as moment from "moment";
+﻿import * as moment from "moment";
 
 import { UrlQuery, Util } from "../../app/Utilities";
 

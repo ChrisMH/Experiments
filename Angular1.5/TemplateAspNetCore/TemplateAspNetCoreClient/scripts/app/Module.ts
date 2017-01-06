@@ -1,4 +1,4 @@
-﻿import "angular";
+﻿import * as angular from "angular";
 
 import { Router } from "./Router";
 import { App } from "./Components";
