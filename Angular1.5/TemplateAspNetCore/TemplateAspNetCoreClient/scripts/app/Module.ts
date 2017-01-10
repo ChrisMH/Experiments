@@ -1,7 +1,7 @@
 ﻿import * as angular from "angular";
 
 import { Router } from "./Router";
-import { App } from "./Components";
+import { Main } from "./Components";
 import { AppSettings } from "./Services";
 
 angular.module("Module",
@@ -11,7 +11,7 @@ angular.module("Module",
     .config(Router.routes)
     .factory("configRoot", () => window)
 
-    .controller("App", App)
+    .controller("Main", Main)
 
     .service("appSettings", AppSettings);
 

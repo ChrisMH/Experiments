@@ -1,0 +1,7 @@
+/wwwroot/**/
+!/node_modules/**/*
+/scripts/app/**/*.css
+/scripts/app/**/*.js
+/scripts/app/**/*.map
+/scripts/test/**/*.js
+/scripts/test/**/*.map

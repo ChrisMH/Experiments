@@ -1,13 +1,13 @@
 ﻿import * as angular from "angular";
 import "angular-ui-router";
-import { App } from "./Components";
+import { Main } from "./Components";
 
 export namespace Router
 {
     export function routes(
         $stateProvider: angular.ui.IStateProvider,
         $urlRouterProvider: angular.ui.IUrlRouterProvider,
-        $locationProvider: angular.ILocationProvider)
+        $locationProvider:  angular.ILocationProvider)
     {
         $urlRouterProvider.otherwise("/");
         $locationProvider.html5Mode(true);
@@ -16,9 +16,9 @@ export namespace Router
             .state("Main",
             {
                 url: "/",
-                template: require("./Components/App.html"),
-                controller: "App",
-                controllerAs: "ctrlApp"
+                template: require("./Components/Main.html"),
+                controller: "Main",
+                controllerAs: "ctrlMain"
             });
     }
 
