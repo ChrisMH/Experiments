@@ -18,8 +18,8 @@ namespace KendoAspNetCoreClient.Models
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel = LinkRelType.ShortcutIcon},
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/font-awesome/css/font-awesome-4.7.0.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/bootstrap/css/bootstrap-3.3.7.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
-                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.common-2016.3.1118.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
-                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.bootstrap-2016.3.1118.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
+                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.common-2017.1.118.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
+                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.bootstrap-2017.1.118.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/app/app-{PageConfig.Version}.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet}
             };
 

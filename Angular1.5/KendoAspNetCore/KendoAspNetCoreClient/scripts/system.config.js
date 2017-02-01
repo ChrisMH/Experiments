@@ -30,7 +30,7 @@
             "angular":              "node_modules/angular",
             "angular-ui-router":    "node_modules/angular-ui-router/release/angular-ui-router.js",
             "jquery":               "node_modules/jquery/dist/jquery.js",
-            "kendo":                "node_modules/kendo/js",
+            "kendo":                "node_modules/@progress/kendo-ui/js",
             "moment":               "node_modules/moment",
             "reflect-metadata":     "node_modules/reflect-metadata",
             "typedjson-npm":        "node_modules/typedjson-npm/js"

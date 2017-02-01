@@ -7,11 +7,13 @@
     "postinstall": "typings install"
   },
   "dependencies": {
+    "@progress/kendo-ui": "^2017.1.118",
     "@types/angular": "^1.5.23",
     "@types/angular-mocks": "^1.5.8",
     "@types/angular-ui-router": "^1.1.36",
     "@types/core-js": "^0.9.35",
     "@types/jasmine": "^2.5.40",
+    "@types/kendo-ui": "^2016.3.41",
     "@types/node": "^6.0.58",
     "@types/systemjs": "^0.19.33",
     "angular": "^1.6.0",
@@ -20,7 +22,6 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^2.2.4",
-    "kendo": "git+https://hogancm%40gmail.com:Telerik051010@bower.telerik.com/npm-kendo-ui.git#2016.3.1118",
     "moment": "^2.17.1",
     "reflect-metadata": "^0.1.8",
     "systemjs": "^0.19.41",

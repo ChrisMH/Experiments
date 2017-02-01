@@ -51,18 +51,14 @@ var vendorStylesheets =
         version: function () { return getPackageVersion("bootstrap"); }
     },
     {
-        src: "node_modules/kendo/css/web/kendo.common.css",
+        src: "node_modules/@progress/kendo-ui/css/web/kendo.common.css",
         dst: "wwwroot/css/kendo",
-        version: function () { return "2016.3.1118"; }
+        version: function () { return getPackageVersion("@progress/kendo-ui"); }
     },
     {
-        src: "node_modules/kendo/css/web/kendo.bootstrap.css",
+        src: "node_modules/@progress/kendo-ui/css/web/kendo.bootstrap.css",
         dst: "wwwroot/css/kendo",
-        version: function () { return "2016.3.1118"; }
-    },
-    {
-        src: "node_modules/kendo/css/web/bootstrap/**/*",
-        dst: "wwwroot/css/kendo/bootstrap"
+        version: function () { return getPackageVersion("@progress/kendo-ui"); }
     }
 ];
 
@@ -75,6 +71,10 @@ var vendorArtifacts =
     {
         src: "node_modules/bootstrap/dist/fonts/**/*",
         dst: "wwwroot/css/bootstrap/fonts"
+    },
+    {
+        src: "node_modules/@progress/kendo-ui/css/web/bootstrap/**/*",
+        dst: "wwwroot/css/kendo/bootstrap"
     }
 ];
 
