@@ -2,7 +2,8 @@
 {
     System.config(
     {
-        //defaultJSExtension: true,
+        warnings: true,
+
         transpiler: "plugin-babel",
         
         // paths serve as alias
