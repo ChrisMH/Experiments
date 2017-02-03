@@ -5,50 +5,22 @@ export namespace AngularUtil
     export class Directive implements angular.IDirective
     {
         public restrict: string;
-        public replace = true;
-
-        public template = require("./AreaChart.html");
-        public controller = "AreaChart";
-        public controllerAs = "ctrlAreaChart";
+        public replace: boolean;
+        public template: string | ((tElement: JQuery, tAttrs: angular.IAttributes) => string);
+        public controller: string | angular.Injectable<angular.IControllerConstructor>;
+        public controllerAs: string;
         public scope: boolean | { [boundProperty: string]: string } = {};
         public bindToController: boolean | { [boundProperty: string]: string } = {};
 
-        constructor()
+        constructor(controllerName: string, bindToController?: { [boundProperty: string]: string }, template?: string)
         {
             this.restrict = "E";
-        }
-        public restrict = "E";
-        public replace = true;
-
-        public template = require("./AreaChart.html");
-        public controller = "AreaChart";
-        public controllerAs = "ctrlAreaChart";
-        public scope: boolean | { [boundProperty: string]: string } = {};
-        public bindToController: boolean | { [boundProperty: string]: string } = {};
-
-        static factory(): angular.IDirectiveFactory
-        {
-            return () => new Directive();
+            this.replace = true;
+            this.template = template ? template : require(`./${controllerName}.html`);
+            this.controller = controllerName;
+            this.controllerAs = `ctrl${controllerName}`;
+            this.scope = {};
+            this.bindToController = bindToController ? bindToController : {};
         }
     }
-
-    export function createDirective(): angular.IDirective
-    {
-        return {
-            restrict: "E",
-            replace: true,
-
-            template: require("./AreaChart.html"),
-            controller = "AreaChart";
-            controllerAs = "ctrlAreaChart";
-            scope: boolean | { [boundProperty: string]: string } = {};
-            bindToController: boolean | { [boundProperty: string]: string } = {};
-
-            static factory(): angular.IDirectiveFactory
-            {
-                return () => new AreaChartDirective();
-            }
-    } as angular.IDirective;
-    }
-
 }
