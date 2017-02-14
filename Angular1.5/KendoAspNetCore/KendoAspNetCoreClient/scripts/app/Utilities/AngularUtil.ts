@@ -12,15 +12,21 @@ export namespace AngularUtil
         public scope: boolean | { [boundProperty: string]: string } = {};
         public bindToController: boolean | { [boundProperty: string]: string } = {};
 
-        constructor(controllerName: string, bindToController?: { [boundProperty: string]: string }, template?: string)
+        public name: string;
+        public factory: angular.IDirectiveFactory;
+
+        constructor(controllerName: string, template: string, bindToController?: { [boundProperty: string]: string })
         {
             this.restrict = "E";
             this.replace = true;
-            this.template = template ? template : require(`./${controllerName}.html`);
+            this.template = template;
             this.controller = controllerName;
             this.controllerAs = `ctrl${controllerName}`;
             this.scope = {};
             this.bindToController = bindToController ? bindToController : {};
+
+            this.name = controllerName.charAt(0).toLowerCase() + controllerName.slice(1);
+            this.factory = () => this;
         }
     }
 }

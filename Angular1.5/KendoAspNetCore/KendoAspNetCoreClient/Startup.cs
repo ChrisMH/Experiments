@@ -27,10 +27,13 @@ namespace KendoAspNetCoreClient
             Configuration = builder.Build();
 
             AppSettings = new AppSettings(Configuration);
+            Database = new Database.Database();
+            
         }
 
         public IConfigurationRoot Configuration { get; }
         public AppSettings AppSettings { get; }
+        public Database.Database Database { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,14 +42,15 @@ namespace KendoAspNetCoreClient
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton(AppSettings);
+            services.AddSingleton(Database);
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
             env.ConfigureNLog("nlog.config");
-
+            
             app.UseStaticFiles();
 
             if (env.IsDevelopment())

@@ -2,45 +2,32 @@
   "locked": false,
   "version": 2,
   "targets": {
-    ".NETFramework,Version=v4.6.1": {
-      "Buddy/1.7.0": {
+    ".NETFramework,Version=v4.6": {
+      "Buddy/1.8.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.0"
         },
         "compile": {
-          "lib/net461/Buddy.dll": {}
+          "lib/net46/Buddy.dll": {}
         },
         "runtime": {
-          "lib/net461/Buddy.dll": {}
+          "lib/net46/Buddy.dll": {}
         }
       },
-      "Buddy.AspNetCore/1.0.1": {
+      "Buddy.AspNetCore/1.0.2": {
         "type": "package",
         "dependencies": {
-          "Buddy": "1.7.0",
+          "Buddy": "1.8.0",
           "Microsoft.AspNetCore.Http": "1.1.0",
           "Microsoft.AspNetCore.Mvc": "1.1.0",
           "Newtonsoft.Json": "9.0.0"
         },
         "compile": {
-          "lib/net461/Buddy.AspNetCore.dll": {}
+          "lib/net46/Buddy.AspNetCore.dll": {}
         },
         "runtime": {
-          "lib/net461/Buddy.AspNetCore.dll": {}
-        }
-      },
-      "BundlerMinifier.Core/2.2.306": {
-        "type": "package",
-        "dependencies": {
-          "NUglify": "1.5.1",
-          "Newtonsoft.Json": "9.0.1"
-        },
-        "compile": {
-          "lib/net452/dotnet-bundle.exe": {}
-        },
-        "runtime": {
-          "lib/net452/dotnet-bundle.exe": {}
+          "lib/net46/Buddy.AspNetCore.dll": {}
         }
       },
       "Libuv/1.9.1": {
@@ -81,6 +68,51 @@
             "assetType": "native",
             "rid": "win7-x86"
           }
+        }
+      },
+      "Microsoft.AspNet.WebApi/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.WebHost": "[5.2.3, 5.3.0)"
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Core/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Core": "[5.2.3, 5.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/1.1.0": {
@@ -601,6 +633,34 @@
           "lib/net451/Microsoft.AspNetCore.Razor.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection": "1.0.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "frameworkAssemblies": [
+          "System.Runtime"
+        ],
+        "compile": {
+          "lib/net451/Microsoft.AspNetCore.Razor.Design.exe": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.AspNetCore.Razor.Design.exe": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win7-x64/lib/net451/Microsoft.AspNetCore.Razor.Design.exe": {
+            "assetType": "runtime",
+            "rid": "win7-x64"
+          },
+          "runtimes/win7-x86/lib/net451/Microsoft.AspNetCore.Razor.Design.exe": {
+            "assetType": "runtime",
+            "rid": "win7-x86"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Razor.Runtime/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -619,30 +679,18 @@
           "lib/net451/Microsoft.AspNetCore.Razor.Runtime.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
+      "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.AspNetCore.Razor.Design": "1.1.0-preview4-final",
           "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
-          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
-          "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
-          "Newtonsoft.Json": "9.0.1"
+          "Microsoft.Extensions.PlatformAbstractions": "1.0.0"
         },
         "compile": {
           "lib/net451/dotnet-razor-tooling.exe": {}
         },
         "runtime": {
           "lib/net451/dotnet-razor-tooling.exe": {}
-        },
-        "runtimeTargets": {
-          "runtimes/win7-x64/lib/net451/dotnet-razor-tooling.exe": {
-            "assetType": "runtime",
-            "rid": "win7-x64"
-          },
-          "runtimes/win7-x86/lib/net451/dotnet-razor-tooling.exe": {
-            "assetType": "runtime",
-            "rid": "win7-x86"
-          }
         }
       },
       "Microsoft.AspNetCore.ResponseCaching.Abstractions/1.1.0": {
@@ -1346,7 +1394,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "NLog/4.4.1": {
+      "NLog/4.4.2": {
         "type": "package",
         "compile": {
           "lib/net45/NLog.dll": {}
@@ -1576,21 +1624,6 @@
         },
         "runtime": {
           "lib/net45/NuGet.Versioning.dll": {}
-        }
-      },
-      "NUglify/1.5.1": {
-        "type": "package",
-        "frameworkAssemblies": [
-          "System",
-          "System.Core",
-          "System.Xml",
-          "mscorlib"
-        ],
-        "compile": {
-          "lib/net40/NUglify.dll": {}
-        },
-        "runtime": {
-          "lib/net40/NUglify.dll": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -2142,13 +2175,13 @@
           "mscorlib"
         ],
         "compile": {
-          "ref/net461/System.Security.Cryptography.Algorithms.dll": {}
+          "ref/net46/System.Security.Cryptography.Algorithms.dll": {}
         },
         "runtime": {
-          "lib/net461/System.Security.Cryptography.Algorithms.dll": {}
+          "lib/net46/System.Security.Cryptography.Algorithms.dll": {}
         },
         "runtimeTargets": {
-          "runtimes/win/lib/net461/System.Security.Cryptography.Algorithms.dll": {
+          "runtimes/win/lib/net46/System.Security.Cryptography.Algorithms.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -2201,13 +2234,13 @@
           "mscorlib"
         ],
         "compile": {
-          "ref/net461/System.Security.Cryptography.X509Certificates.dll": {}
+          "ref/net46/System.Security.Cryptography.X509Certificates.dll": {}
         },
         "runtime": {
-          "lib/net461/System.Security.Cryptography.X509Certificates.dll": {}
+          "lib/net46/System.Security.Cryptography.X509Certificates.dll": {}
         },
         "runtimeTargets": {
-          "runtimes/win/lib/net461/System.Security.Cryptography.X509Certificates.dll": {
+          "runtimes/win/lib/net46/System.Security.Cryptography.X509Certificates.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -2406,12 +2439,12 @@
     }
   },
   "libraries": {
-    "Buddy/1.7.0": {
-      "sha512": "L5DiHK96f+dpP5CCQ+XODsNHeft7MJbmrSuBD6kCNB5zEzGsR4zrCezwyxFqQsWvFLEAs4JYGMfNwKTp01100g==",
+    "Buddy/1.8.0": {
+      "sha512": "op476T7wDekoTz2DsnuvxCFKulhGh6D+rEt8wFch5wHuk1WFmbDRTfFdMtxWsSU8qWrJqlY6G9lY6xh2N/yVCQ==",
       "type": "package",
-      "path": "Buddy/1.7.0",
+      "path": "Buddy/1.8.0",
       "files": [
-        "Buddy.1.7.0.nupkg.sha512",
+        "Buddy.1.8.0.nupkg.sha512",
         "Buddy.nuspec",
         "lib/net45/Buddy.dll",
         "lib/net45/Buddy.pdb",
@@ -2425,12 +2458,12 @@
         "lib/net461/Buddy.pdb"
       ]
     },
-    "Buddy.AspNetCore/1.0.1": {
-      "sha512": "lMR/lQf44/SpvGpeDwFbnKhhiqan1Lrzq5Ek6qJ+t6kK92zud8mmmtfaBoaqHn/RxvHA7/jhWnrqrrW62MW7gQ==",
+    "Buddy.AspNetCore/1.0.2": {
+      "sha512": "J4SVxgM+7uLXaq6pk6CX7P2CDdFWeL5gzs7YLaSmiQNFuFaFGl5UwD30gJXduoJ7TQtLq5os5eD4193th6Jr/Q==",
       "type": "package",
-      "path": "Buddy.AspNetCore/1.0.1",
+      "path": "Buddy.AspNetCore/1.0.2",
       "files": [
-        "Buddy.AspNetCore.1.0.1.nupkg.sha512",
+        "Buddy.AspNetCore.1.0.2.nupkg.sha512",
         "Buddy.AspNetCore.nuspec",
         "lib/net451/Buddy.AspNetCore.dll",
         "lib/net451/Buddy.AspNetCore.pdb",
@@ -2440,18 +2473,6 @@
         "lib/net46/Buddy.AspNetCore.pdb",
         "lib/net461/Buddy.AspNetCore.dll",
         "lib/net461/Buddy.AspNetCore.pdb"
-      ]
-    },
-    "BundlerMinifier.Core/2.2.306": {
-      "sha512": "3MhXe3qLroL+Fe4Uo/7cmtYQ3YPjSHIjfuHxpewVZUdU4mh73wLEKAgf9rr3OLTuEXCbJr8bOBdwjuNwfGR8qw==",
-      "type": "package",
-      "path": "BundlerMinifier.Core/2.2.306",
-      "files": [
-        "BundlerMinifier.Core.2.2.306.nupkg.sha512",
-        "BundlerMinifier.Core.nuspec",
-        "lib/net452/dotnet-bundle.exe",
-        "lib/netcoreapp1.0/dotnet-bundle.dll",
-        "lib/netcoreapp1.0/dotnet-bundle.runtimeconfig.json"
       ]
     },
     "Libuv/1.9.1": {
@@ -2470,6 +2491,51 @@
         "runtimes/win7-arm/native/libuv.dll",
         "runtimes/win7-x64/native/libuv.dll",
         "runtimes/win7-x86/native/libuv.dll"
+      ]
+    },
+    "Microsoft.AspNet.WebApi/5.2.3": {
+      "sha512": "mGBfSy61+2dIdPwgguW8EaCVsbYTwwVHeCc/pVq1PhlZS87ColgJ++Hve40TrX6Dtqde0fo9M1Tt19rXlHC5GA==",
+      "type": "package",
+      "path": "Microsoft.AspNet.WebApi/5.2.3",
+      "files": [
+        "Microsoft.AspNet.WebApi.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Client/5.2.3": {
+      "sha512": "3kiI8peSXbXHDDrRuo+QaX0iCEVRe0nvn2dBDRw656uPX32UalbBlSIDUDlJxu05eau4tnuhsikiUuugvvoUoQ==",
+      "type": "package",
+      "path": "Microsoft.AspNet.WebApi.Client/5.2.3",
+      "files": [
+        "Microsoft.AspNet.WebApi.Client.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.Client.nuspec",
+        "lib/net45/System.Net.Http.Formatting.dll",
+        "lib/net45/System.Net.Http.Formatting.xml",
+        "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll",
+        "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.xml"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Core/5.2.3": {
+      "sha512": "o90QYlRV8VKR1S7+EcJw9w8WSyVFLl+IIzN8ILZ+n2t6rsc/KS8kBxRzA7wCFPRUHhebCfLqilBk39phvanx3g==",
+      "type": "package",
+      "path": "Microsoft.AspNet.WebApi.Core/5.2.3",
+      "files": [
+        "Content/web.config.transform",
+        "Microsoft.AspNet.WebApi.Core.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.Core.nuspec",
+        "lib/net45/System.Web.Http.dll",
+        "lib/net45/System.Web.Http.xml"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+      "sha512": "bhm4/BKdS3t6nK2R3NjCpxulcwtMFiHqVBDLuN3W5So1PhZfE+RBs7eVazGOhsEKCk7PoSmiSnl9DG0cpyfHtA==",
+      "type": "package",
+      "path": "Microsoft.AspNet.WebApi.WebHost/5.2.3",
+      "files": [
+        "Microsoft.AspNet.WebApi.WebHost.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.WebHost.nuspec",
+        "lib/net45/System.Web.Http.WebHost.dll",
+        "lib/net45/System.Web.Http.WebHost.xml"
       ]
     },
     "Microsoft.AspNetCore.Antiforgery/1.1.0": {
@@ -2886,6 +2952,22 @@
         "lib/netstandard1.3/Microsoft.AspNetCore.Razor.xml"
       ]
     },
+    "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final": {
+      "sha512": "30zfJaiVGlFK4AlYvddJ7dysfwryfGkAYEYm760VEiKdCJ2kRrx0rlDWYDolWvr9Oh2A8iqSGwDwtVCG4W4qhA==",
+      "type": "package",
+      "path": "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final",
+      "files": [
+        "Microsoft.AspNetCore.Razor.Design.1.1.0-preview4-final.nupkg.sha512",
+        "Microsoft.AspNetCore.Razor.Design.nuspec",
+        "lib/net451/Microsoft.AspNetCore.Razor.Design.exe",
+        "lib/net451/Microsoft.AspNetCore.Razor.Design.xml",
+        "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.dll",
+        "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.runtimeconfig.json",
+        "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.xml",
+        "runtimes/win7-x64/lib/net451/Microsoft.AspNetCore.Razor.Design.exe",
+        "runtimes/win7-x86/lib/net451/Microsoft.AspNetCore.Razor.Design.exe"
+      ]
+    },
     "Microsoft.AspNetCore.Razor.Runtime/1.1.0": {
       "sha512": "hQW8+DRFHCHmTzviW54umnBfX1vc9bv/390r62k85LQsUd5Lo59QQ+IyD5fe6o9g/h946IF8Yl25wd6dEk7YqA==",
       "type": "package",
@@ -2899,20 +2981,18 @@
         "lib/netstandard1.5/Microsoft.AspNetCore.Razor.Runtime.xml"
       ]
     },
-    "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
-      "sha512": "gUFr7P3hVd7ILgY5Q5AnBHxatElop3kpn7uYX7kPVktvWMkL0HK2DKw66hqYTy5BNz41BTuxCn0Foa7aKwvTVA==",
+    "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final": {
+      "sha512": "elen0GMaXIUZjL7X61V6tvCm64vYw6NL+XDBIUguFXpx3PK4GXvYALLDK8zzjgUVSS0ChYBX3o4Xw20iQwXiJQ==",
       "type": "package",
-      "path": "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final",
+      "path": "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final",
       "files": [
-        "Microsoft.AspNetCore.Razor.Tools.1.0.0-preview2-final.nupkg.sha512",
+        "Microsoft.AspNetCore.Razor.Tools.1.1.0-preview4-final.nupkg.sha512",
         "Microsoft.AspNetCore.Razor.Tools.nuspec",
         "lib/net451/dotnet-razor-tooling.exe",
         "lib/net451/dotnet-razor-tooling.xml",
         "lib/netcoreapp1.0/dotnet-razor-tooling.dll",
         "lib/netcoreapp1.0/dotnet-razor-tooling.runtimeconfig.json",
-        "lib/netcoreapp1.0/dotnet-razor-tooling.xml",
-        "runtimes/win7-x64/lib/net451/dotnet-razor-tooling.exe",
-        "runtimes/win7-x86/lib/net451/dotnet-razor-tooling.exe"
+        "lib/netcoreapp1.0/dotnet-razor-tooling.xml"
       ]
     },
     "Microsoft.AspNetCore.ResponseCaching.Abstractions/1.1.0": {
@@ -3570,12 +3650,12 @@
         "tools/install.ps1"
       ]
     },
-    "NLog/4.4.1": {
-      "sha512": "otLpDgpNzT0bbM4L3gz65J5zTxK7ebmLKnluFc0+r8Jn6sCtra2MS47jBQ7S1MA49aVr0Mp3srSPzYb/RZ5X+A==",
+    "NLog/4.4.2": {
+      "sha512": "dM53gWUrV3q7491DouxuZ7W8A1zQ4tbo6KTzCSpj0sH3OJCDz+/3GUBQDG16I4Y26qFa/okZInzi9lDdAmFm/Q==",
       "type": "package",
-      "path": "NLog/4.4.1",
+      "path": "NLog/4.4.2",
       "files": [
-        "NLog.4.4.1.nupkg.sha512",
+        "NLog.4.4.2.nupkg.sha512",
         "NLog.nuspec",
         "lib/MonoAndroid10/NLog.dll",
         "lib/MonoAndroid10/NLog.xml",
@@ -3788,21 +3868,6 @@
         "lib/net45/NuGet.Versioning.xml",
         "lib/netstandard1.0/NuGet.Versioning.dll",
         "lib/netstandard1.0/NuGet.Versioning.xml"
-      ]
-    },
-    "NUglify/1.5.1": {
-      "sha512": "iYV/OtSs+HgyE/RilY7UvGXYec6r0OJenWlPIdX/IivedVpSSdzxvPvUIyWpiV/6ad7VjantH0/6oaOhAZbaoQ==",
-      "type": "package",
-      "path": "NUglify/1.5.1",
-      "files": [
-        "NUglify.1.5.1.nupkg.sha512",
-        "NUglify.nuspec",
-        "lib/net35/NUglify.dll",
-        "lib/net35/NUglify.xml",
-        "lib/net40/NUglify.dll",
-        "lib/net40/NUglify.xml",
-        "lib/netstandard1.3/NUglify.dll",
-        "lib/netstandard1.3/NUglify.xml"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -7065,11 +7130,12 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Buddy.AspNetCore >= 1.0.1",
-      "BundlerMinifier.Core >= 2.2.306",
+      "Buddy >= 1.8.0",
+      "Buddy.AspNetCore >= 1.0.2",
+      "Microsoft.AspNet.WebApi >= 5.2.3",
       "Microsoft.AspNetCore.Diagnostics >= 1.1.0",
       "Microsoft.AspNetCore.Mvc >= 1.1.1",
-      "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
+      "Microsoft.AspNetCore.Razor.Tools >= 1.1.0-preview4-final",
       "Microsoft.AspNetCore.Routing >= 1.1.0",
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.1.0",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.1.0",
@@ -7078,54 +7144,11 @@
       "Microsoft.Extensions.Configuration.Json >= 1.1.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.1.0",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.1.0",
-      "NLog >= 4.4.1",
+      "NLog >= 4.4.2",
       "NLog.Extensions.Logging >= 1.0.0-rtm-alpha5"
     ],
-    ".NETFramework,Version=v4.6.1": []
+    ".NETFramework,Version=v4.6": []
   },
-  "tools": {
-    ".NETCoreApp,Version=v1.0": {
-      "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
-          "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
-          "Microsoft.DotNet.ProjectModel.Loader": "1.0.0-preview2-003121",
-          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
-          "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
-          "Microsoft.NETCore.App": "1.0.0",
-          "Newtonsoft.Json": "9.0.1",
-          "System.Diagnostics.Process": "4.1.0",
-          "System.Runtime.Serialization.Primitives": "4.1.1"
-        },
-        "compile": {
-          "lib/netcoreapp1.0/dotnet-razor-tooling.dll": {}
-        },
-        "runtime": {
-          "lib/netcoreapp1.0/dotnet-razor-tooling.dll": {}
-        }
-      },
-      "Microsoft.AspNetCore.Server.IISIntegration.Tools/1.0.0-preview2-final": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.DotNet.ProjectModel": "1.0.0-rc3-003121",
-          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
-          "Microsoft.NETCore.App": "1.0.0",
-          "System.Diagnostics.Process": "4.1.0"
-        },
-        "compile": {
-          "lib/netcoreapp1.0/dotnet-publish-iis.dll": {}
-        },
-        "runtime": {
-          "lib/netcoreapp1.0/dotnet-publish-iis.dll": {}
-        }
-      }
-    }
-  },
-  "projectFileToolGroups": {
-    ".NETCoreApp,Version=v1.0": [
-      "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
-      "Microsoft.AspNetCore.Server.IISIntegration.Tools >= 1.0.0-preview2-final"
-    ]
-  }
+  "tools": {},
+  "projectFileToolGroups": {}
 }

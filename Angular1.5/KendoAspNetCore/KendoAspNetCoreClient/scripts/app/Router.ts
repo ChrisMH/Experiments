@@ -1,6 +1,6 @@
 ﻿import * as angular from "angular";
 import "angular-ui-router";
-import { Main, Charts } from "./Components";
+import { Main, Charts, Grid } from "./Components";
 
 export namespace Router
 {
@@ -26,6 +26,13 @@ export namespace Router
                 template: require("./Components/Charts/Charts.html"),
                 controller: "Charts",
                 controllerAs: "ctrlCharts"
+            })
+            .state("Grid",
+            {
+                url: "/grid",
+                template: require("./Components/Grid/Grid.html"),
+                controller: "Grid",
+                controllerAs: "ctrlGrid"
             });
     }
 

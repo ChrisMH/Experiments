@@ -75,6 +75,10 @@ var vendorArtifacts =
     {
         src: "node_modules/@progress/kendo-ui/css/web/bootstrap/**/*",
         dst: "wwwroot/css/kendo/bootstrap"
+    },
+    {
+        src: "node_modules/@progress/kendo-ui/css/web/fonts/**/*",
+        dst: "wwwroot/css/kendo/fonts"
     }
 ];
 
