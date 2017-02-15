@@ -33,10 +33,10 @@ export class Grid implements angular.IController
         const dataSourceOptions = {
             //type: "json", //"odata-v4",
             serverFiltering: false,
-            serverPaging: false,
-            serverSorting: false,
+            serverPaging: true,
+            serverSorting: true,
             serverAggregates: false,
-            //pageSize: 25,
+            pageSize: 25,
             transport: {
                 read: {
                     url: () => `${this.appSettings.rootUrl}api/Database/Performance`,
@@ -46,11 +46,11 @@ export class Grid implements angular.IController
             } as kendo.data.DataSourceTransport,
 
             schema: {
-                //data: "value",
-                total: function (data: any) { return data["@odata.count"]; },
+                data: (response: any) => response["data"]["rows"],
+                total: (response: any) => response["data"]["count"],
                 model: { fields: KendoUtil.createFields(columns) }
             },
-            //sort: { field: "totalCount", dir: "desc" },
+            sort: { field: "customerName", dir: "asc" },
             aggregate: KendoUtil.createAggregates(columns)
 
         } as kendo.data.DataSourceOptions;
@@ -58,13 +58,13 @@ export class Grid implements angular.IController
         const options = {
             columns: KendoUtil.createColumns(columns),
             filterable: { extra: false },
-            /*
+            
             pageable: {
                 refresh: true,
                 pageSizes: true,
                 buttonCount: 5
             },
-            */
+            
             scrollable: true,
             sortable: true,
             autoBind: true,
