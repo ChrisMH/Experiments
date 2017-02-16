@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Buddy.AspNetCore.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,14 +51,17 @@ namespace KendoAspNetCoreClient
         {
             loggerFactory.AddNLog();
             env.ConfigureNLog("nlog.config");
-            
+
+            var logger = loggerFactory.CreateLogger(nameof(Startup));
+
             app.UseStaticFiles();
 
             if (env.IsDevelopment())
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Development Mode");
+                logger.LogInformation("Development Mode");
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                app.UseSimpleLogger(loggerFactory);
 
                 app.UseStaticFiles(new StaticFileOptions
                 {
@@ -67,7 +71,7 @@ namespace KendoAspNetCoreClient
             }
             else
             {
-                NLog.LogManager.GetCurrentClassLogger().Info("Production Mode");
+                logger.LogInformation("Production Mode");
                 app.UseExceptionHandler("/Home/Error");
             }
 

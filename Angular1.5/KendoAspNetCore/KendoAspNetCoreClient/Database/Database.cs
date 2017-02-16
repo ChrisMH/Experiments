@@ -4,10 +4,9 @@ namespace KendoAspNetCoreClient.Database
 {
     public class Database
     {
-        private List<PerformanceSnapshot> _performanceSnapshots;
-        public List<PerformanceSnapshot> PerformanceSnapshots
+        public IEnumerable<PerformanceSnapshot> PerformanceSnapshots
         {
-            get { return _performanceSnapshots ?? (_performanceSnapshots = PerformanceSnapshot.Load()); }
+            get { return PerformanceSnapshot.Load(); }
         } 
     }
 }

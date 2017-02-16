@@ -4,7 +4,7 @@ import { JsonObject, JsonMember } from "typedjson-npm";
 @JsonObject
 export class JsGridColumn
 {
-    constructor(field?: string, title?: string, type?: string, width?: string|number, format?: string, aggregate?: string, hidden?: boolean)
+    constructor(field?: string, title?: string, type?: string, width?: string|number, format?: string, aggregate?: string, footerHeader?: string, hidden?: boolean)
     {
         this.field = field;
         this.title = title;
@@ -12,6 +12,7 @@ export class JsGridColumn
         this.width = typeof width === "number" ? width.toString() : width;
         this.format = format;
         this.aggregate = aggregate;
+        this.footerHeader = footerHeader;
         this.hidden = hidden;
     }
 
@@ -32,7 +33,11 @@ export class JsGridColumn
 
     @JsonMember
     aggregate: string;
-    
+
+    @JsonMember
+    footerHeader: string;
+
     @JsonMember
     hidden: boolean;
+
 }

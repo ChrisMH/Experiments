@@ -28,63 +28,57 @@ namespace KendoAspNetCoreClient.Database
 
         public double PctPagingFileUsage { get; set; }
         
-        public static List<PerformanceSnapshot> Load()
+        public static IEnumerable<PerformanceSnapshot> Load()
         {
-            try
+            var db = Path.Combine(Directory.GetCurrentDirectory(), "Database\\PerformanceSnapshots.csv");
+            using (var stream = File.OpenRead(db))
             {
-                var result = new List<PerformanceSnapshot>();
-
-                var db = Path.Combine(Directory.GetCurrentDirectory(), "Database\\PerformanceSnapshots.csv");
-                using (var stream = File.OpenRead(db))
+                using (var reader = new StreamReader(stream))
                 {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        // Read the column line
-                        if(reader.EndOfStream)
-                            return result;
-                        reader.ReadLine();
+                    // Read the column line
+                    if(reader.EndOfStream)
+                        yield return null;
+                    reader.ReadLine();
 
-                        while(!reader.EndOfStream)
-                        {
-                            var line = reader.ReadLine();
-                            result.Add(ParseLine(line));
-                        }
+                    while(!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        yield return ParseLine(line);
                     }
                 }
-
-                return result;
-            }
-            catch(Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, $"ERROR: {nameof(Load)} : {ex.GetType()} : {ex.Message}");
-                return new List<PerformanceSnapshot>();
             }
         }
 
         public static PerformanceSnapshot ParseLine(string line)
         {
-            var trim = new [] { ' ', '"' };
-
-            var fields = line.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-            if(fields.Length != 11)
-                throw new ArgumentException($"{nameof(ParseLine)}: Wrong number of fields found in line", nameof(line));
-            
-            var result = new PerformanceSnapshot
+            try
             {
-                CustomerId = int.Parse(fields[0].Trim(trim)),
-                CustomerName = fields[1].Trim(trim),
-                StatTime = new DateTime(DateTime.Parse(fields[2].Trim(trim)).Ticks, DateTimeKind.Utc),
-                Backlog = int.Parse(fields[3].Trim(trim)),
-                LastReceivedOn = new DateTime(DateTime.Parse(fields[4].Trim(trim)).Ticks, DateTimeKind.Utc),
-                TotalReceived = int.Parse(fields[5].Trim(trim)),
-                DatabaseConnections  = int.Parse(fields[6].Trim(trim)),
-                IdleDatabaseConnections = int.Parse(fields[7].Trim(trim)),
-                PctProcessorTime  = double.Parse(fields[8].Trim(trim)),
-                AvailableMBytes  = int.Parse(fields[9].Trim(trim)),
-                PctPagingFileUsage = double.Parse(fields[10].Trim(trim))
-            };
+                var trim = new [] { ' ', '"' };
 
-            return result;
+                var fields = line.Split(new [] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                if(fields.Length != 11)
+                    throw new ArgumentException($"{nameof(ParseLine)}: Wrong number of fields found in line", nameof(line));
+            
+                return new PerformanceSnapshot
+                {
+                    CustomerId = int.Parse(fields[0].Trim(trim)),
+                    CustomerName = fields[1].Trim(trim),
+                    StatTime = new DateTime(DateTime.Parse(fields[2].Trim(trim)).Ticks, DateTimeKind.Utc),
+                    Backlog = int.Parse(fields[3].Trim(trim)),
+                    LastReceivedOn = new DateTime(DateTime.Parse(fields[4].Trim(trim)).Ticks, DateTimeKind.Utc),
+                    TotalReceived = int.Parse(fields[5].Trim(trim)),
+                    DatabaseConnections  = int.Parse(fields[6].Trim(trim)),
+                    IdleDatabaseConnections = int.Parse(fields[7].Trim(trim)),
+                    PctProcessorTime  = double.Parse(fields[8].Trim(trim)),
+                    AvailableMBytes  = int.Parse(fields[9].Trim(trim)),
+                    PctPagingFileUsage = double.Parse(fields[10].Trim(trim))
+                };
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, $"ERROR: {nameof(Load)} : {ex.GetType()} : {ex.Message}");
+                return null;
+            }
         }
     }
 }

@@ -3,33 +3,6 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.6": {
-      "Buddy/1.8.0": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "9.0.0"
-        },
-        "compile": {
-          "lib/net46/Buddy.dll": {}
-        },
-        "runtime": {
-          "lib/net46/Buddy.dll": {}
-        }
-      },
-      "Buddy.AspNetCore/1.0.2": {
-        "type": "package",
-        "dependencies": {
-          "Buddy": "1.8.0",
-          "Microsoft.AspNetCore.Http": "1.1.0",
-          "Microsoft.AspNetCore.Mvc": "1.1.0",
-          "Newtonsoft.Json": "9.0.0"
-        },
-        "compile": {
-          "lib/net46/Buddy.AspNetCore.dll": {}
-        },
-        "runtime": {
-          "lib/net46/Buddy.AspNetCore.dll": {}
-        }
-      },
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -810,7 +783,7 @@
           "System"
         ]
       },
-      "Microsoft.CodeAnalysis.Common/1.3.0": {
+      "Microsoft.CodeAnalysis.Common/1.3.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.CodeAnalysis.Analyzers": "1.1.0",
@@ -860,10 +833,10 @@
           "lib/net45/Microsoft.CodeAnalysis.dll": {}
         }
       },
-      "Microsoft.CodeAnalysis.CSharp/1.3.0": {
+      "Microsoft.CodeAnalysis.CSharp/1.3.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.CodeAnalysis.Common": "[1.3.0]"
+          "Microsoft.CodeAnalysis.Common": "[1.3.2]"
         },
         "compile": {
           "lib/net45/Microsoft.CodeAnalysis.CSharp.dll": {}
@@ -2435,46 +2408,19 @@
         "runtime": {
           "lib/net46/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "Buddy.AspNetCore46/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "Buddy46": "1.0.0"
+        }
+      },
+      "Buddy46/1.0.0": {
+        "type": "project"
       }
     }
   },
   "libraries": {
-    "Buddy/1.8.0": {
-      "sha512": "op476T7wDekoTz2DsnuvxCFKulhGh6D+rEt8wFch5wHuk1WFmbDRTfFdMtxWsSU8qWrJqlY6G9lY6xh2N/yVCQ==",
-      "type": "package",
-      "path": "Buddy/1.8.0",
-      "files": [
-        "Buddy.1.8.0.nupkg.sha512",
-        "Buddy.nuspec",
-        "lib/net45/Buddy.dll",
-        "lib/net45/Buddy.pdb",
-        "lib/net451/Buddy.dll",
-        "lib/net451/Buddy.pdb",
-        "lib/net452/Buddy.dll",
-        "lib/net452/Buddy.pdb",
-        "lib/net46/Buddy.dll",
-        "lib/net46/Buddy.pdb",
-        "lib/net461/Buddy.dll",
-        "lib/net461/Buddy.pdb"
-      ]
-    },
-    "Buddy.AspNetCore/1.0.2": {
-      "sha512": "J4SVxgM+7uLXaq6pk6CX7P2CDdFWeL5gzs7YLaSmiQNFuFaFGl5UwD30gJXduoJ7TQtLq5os5eD4193th6Jr/Q==",
-      "type": "package",
-      "path": "Buddy.AspNetCore/1.0.2",
-      "files": [
-        "Buddy.AspNetCore.1.0.2.nupkg.sha512",
-        "Buddy.AspNetCore.nuspec",
-        "lib/net451/Buddy.AspNetCore.dll",
-        "lib/net451/Buddy.AspNetCore.pdb",
-        "lib/net452/Buddy.AspNetCore.dll",
-        "lib/net452/Buddy.AspNetCore.pdb",
-        "lib/net46/Buddy.AspNetCore.dll",
-        "lib/net46/Buddy.AspNetCore.pdb",
-        "lib/net461/Buddy.AspNetCore.dll",
-        "lib/net461/Buddy.AspNetCore.pdb"
-      ]
-    },
     "Libuv/1.9.1": {
       "sha512": "uqX2Frwf9PW8MaY7PRNY6HM5BpW1D8oj1EdqzrmbEFD5nH63Yat3aEjN/tws6Tw6Fk7LwmLBvtUh32tTeTaHiA==",
       "type": "package",
@@ -3102,12 +3048,12 @@
         "tools/uninstall.ps1"
       ]
     },
-    "Microsoft.CodeAnalysis.Common/1.3.0": {
-      "sha512": "V09G35cs0CT1C4Dr1IEOh8IGfnWALEVAOO5JXsqagxXwmYR012TlorQ+vx2eXxfZRKs3gAS/r92gN9kRBLba5A==",
+    "Microsoft.CodeAnalysis.Common/1.3.2": {
+      "sha512": "lOinFNbjpCvkeYQHutjKi+CfsjoKu88wAFT6hAumSR/XJSJmmVGvmnbzCWW8kUJnDVrw1RrcqS8BzgPMj263og==",
       "type": "package",
-      "path": "Microsoft.CodeAnalysis.Common/1.3.0",
+      "path": "Microsoft.CodeAnalysis.Common/1.3.2",
       "files": [
-        "Microsoft.CodeAnalysis.Common.1.3.0.nupkg.sha512",
+        "Microsoft.CodeAnalysis.Common.1.3.2.nupkg.sha512",
         "Microsoft.CodeAnalysis.Common.nuspec",
         "ThirdPartyNotices.rtf",
         "lib/net45/Microsoft.CodeAnalysis.dll",
@@ -3118,12 +3064,12 @@
         "lib/portable-net45+win8/Microsoft.CodeAnalysis.xml"
       ]
     },
-    "Microsoft.CodeAnalysis.CSharp/1.3.0": {
-      "sha512": "BgWDIAbSFsHuGeLSn/rljLi51nXqkSo4DZ0qEIrHyPVasrhxEVq7aV8KKZ3HEfSFB+GIhBmOogE+mlOLYg19eg==",
+    "Microsoft.CodeAnalysis.CSharp/1.3.2": {
+      "sha512": "GrYMp6ScZDOMR0fNn/Ce6SegNVFw1G/QRT/8FiKv7lAP+V6lEZx9e42n0FvFUgjjcKgcEJOI4muU6i+3LSvOBA==",
       "type": "package",
-      "path": "Microsoft.CodeAnalysis.CSharp/1.3.0",
+      "path": "Microsoft.CodeAnalysis.CSharp/1.3.2",
       "files": [
-        "Microsoft.CodeAnalysis.CSharp.1.3.0.nupkg.sha512",
+        "Microsoft.CodeAnalysis.CSharp.1.3.2.nupkg.sha512",
         "Microsoft.CodeAnalysis.CSharp.nuspec",
         "ThirdPartyNotices.rtf",
         "lib/net45/Microsoft.CodeAnalysis.CSharp.dll",
@@ -7126,12 +7072,18 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "Buddy.AspNetCore46/1.0.0": {
+      "type": "project",
+      "msbuildProject": "../../../../Buddy.AspNetCore/Buddy.AspNetCore46/Buddy.AspNetCore46.csproj"
+    },
+    "Buddy46/1.0.0": {
+      "type": "project",
+      "msbuildProject": "../../../../Buddy/Buddy46/Buddy46.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "Buddy >= 1.8.0",
-      "Buddy.AspNetCore >= 1.0.2",
       "Microsoft.AspNet.WebApi >= 5.2.3",
       "Microsoft.AspNetCore.Diagnostics >= 1.1.0",
       "Microsoft.AspNetCore.Mvc >= 1.1.1",
@@ -7140,6 +7092,7 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.1.0",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.1.0",
       "Microsoft.AspNetCore.StaticFiles >= 1.1.0",
+      "Microsoft.CodeAnalysis.CSharp >= 1.3.2",
       "Microsoft.Extensions.Configuration.EnvironmentVariables >= 1.1.0",
       "Microsoft.Extensions.Configuration.Json >= 1.1.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.1.0",
@@ -7147,7 +7100,10 @@
       "NLog >= 4.4.2",
       "NLog.Extensions.Logging >= 1.0.0-rtm-alpha5"
     ],
-    ".NETFramework,Version=v4.6": []
+    ".NETFramework,Version=v4.6": [
+      "Buddy.AspNetCore46",
+      "Buddy46"
+    ]
   },
   "tools": {},
   "projectFileToolGroups": {}

@@ -18,6 +18,55 @@ export namespace KendoUtil
         dataArea.height(gridHeight - otherElementsHeight);
     }
 
+    /**
+     * Transforms grid parameters into a form that can be used by the WebApi model binders
+     * 
+     * @param data
+     * @param type
+     */
+    export function createParameterMap(data: kendo.data.DataSourceTransportParameterMapData, type: string): any
+    {
+        let result = data;
+
+        delete result["pageSize"];
+        delete result["page"];
+
+        if (result.sort)
+        {
+            result.sort.forEach((value: kendo.data.DataSourceParameterMapDataSort, index: number) =>
+            {
+                result[`sort[${index}].field`] = value.field;
+                result[`sort[${index}].dir`] = value.dir;
+            });
+
+            delete result["sort"];
+        }
+
+        if (result.aggregate)
+        {
+            result.aggregate.forEach((value: kendo.data.DataSourceParameterMapDataAggregate, index: number) =>
+            {
+                result[`aggregate[${index}].field`] = value.field;
+                result[`aggregate[${index}].aggregate`] = value.aggregate;
+            });
+
+            delete result["aggregate"];
+        }
+
+        return result;
+        /*
+                aggregate?: DataSourceParameterMapDataAggregate[];
+        group?: DataSourceParameterMapDataGroup[];
+        filter?: DataSourceParameterMapDataFilter;
+        models?: Model[];
+        page?: number;
+        pageSize?: number;
+        skip?: number;
+        sort?: DataSourceParameterMapDataSort[];
+        take?: number;
+        */
+    }
+
     export function createColumn(gridColumn: JsGridColumn): kendo.ui.GridColumn
     {
         if (!gridColumn)
@@ -83,12 +132,26 @@ export namespace KendoUtil
         if (typeof width === "number")
             return width;
 
-        let intWidth = parseInt(width);
-        if (intWidth === NaN)
+        let intWidth = parseInt(width as string);
+        if (isNaN(intWidth))
             return width;
         return intWidth;
     }
 
+    function createFooterTemplate(column: JsGridColumn): string
+    {
+        if (!column.aggregate)
+            return undefined;
+
+        if (column.footerHeader && column.format)
+            return `<div style='text-align:right'>#='${column.footerHeader} '.concat(kendo.toString(${column.aggregate}, '${column.format}'))#</div>`;
+        else if (column.footerHeader)
+            return `<div style='text-align:right'>#='${column.footerHeader} '.concat(${column.aggregate})#</div>`;
+        else if (column.format)
+            return `<div style='text-align:right'>#=kendo.toString(${column.aggregate}, '${column.format}')#</div>`;
+
+        return `<div style='text-align:right'>#=${column.aggregate}#</div>`;
+    }
 
     export function createStringColumn(column: JsGridColumn): kendo.ui.GridColumn
     {
@@ -96,11 +159,11 @@ export namespace KendoUtil
             field: column.field,
             title: column.title,
             width: parseWidth(column.width),
-            //footerTemplate: column.aggregate ? `<div style='text-align:right'>#=${column.aggregate})#</div>` : undefined,
+            footerTemplate: createFooterTemplate(column),
             hidden: column.hidden ? column.hidden : false
         } as kendo.ui.GridColumn;
     }
-
+    
     export function createNumberColumn(column: JsGridColumn): kendo.ui.GridColumn
     {
         return {
@@ -108,7 +171,7 @@ export namespace KendoUtil
             title: column.title,
             width: parseWidth(column.width),
             template: `<div style='text-align:right'>#=kendo.toString(${column.field}, '${column.format}')#</div>`,
-            footerTemplate: column.aggregate ? `<div style='text-align:right'>#=kendo.toString(${column.aggregate}, '${column.format}')#</div>` : undefined,
+            footerTemplate: createFooterTemplate(column),
             filterable: { ui: (el: any) => el.kendoNumericTextBox({ format: `"${column.format}"` }) },
             hidden: column.hidden ? column.hidden : false
         } as kendo.ui.GridColumn;

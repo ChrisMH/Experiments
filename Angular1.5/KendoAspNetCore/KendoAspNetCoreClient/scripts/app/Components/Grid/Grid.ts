@@ -26,28 +26,40 @@ export class Grid implements angular.IController
     private createGridOptions(): kendo.ui.GridOptions
     {
         var columns = [
-            new JsGridColumn("customerId", "Id", "string", 100),
-            new JsGridColumn("customerName", "Customer Name", "string", 200)
+            new JsGridColumn("customerId", "Id", "string", undefined, undefined, undefined, undefined, true),
+            new JsGridColumn("customerName", "Customer Name", "string", "*", undefined, "count", "Count:"),
+            new JsGridColumn("statTime", "time", "Date", 160, "MM/dd/yyyy hh:mm tt"),
+            new JsGridColumn("backlog", "Backlog", "number", 100, "n0", "average", "Avg:"),
+            new JsGridColumn("lastReceivedOn", "Last Rx", "Date", 160, "MM/dd/yyyy hh:mm tt"),
+            new JsGridColumn("totalReceived", "Total Rx", "number", 100, "n0", "max", "Max:"),
+            new JsGridColumn("databaseConnections", "Db Conn", "number", 100, "n0", "sum", "Sum:"),
+            new JsGridColumn("idleDatabaseConnections", "Idle Db Conn", "number", 100),
+            new JsGridColumn("pctProcessorTime", "Pct Processor", "number", 100, "n2"),
+            new JsGridColumn("availableMBytes", "MBytes", "number", 100, "n0", "min", "Min:"),
+            new JsGridColumn("pctPagingFileUsage", "Pct Paging", "number", 100, "n2")
         ];
 
         const dataSourceOptions = {
             //type: "json", //"odata-v4",
+            serverAggregates: true,
             serverFiltering: false,
+            serverGrouping: false,
             serverPaging: true,
             serverSorting: true,
-            serverAggregates: false,
             pageSize: 25,
             transport: {
                 read: {
                     url: () => `${this.appSettings.rootUrl}api/Database/Performance`,
                     //data: () => UrlQuery.toUrlObject(this.gridQuery),
                     dataType: "json"
-                } as kendo.data.DataSourceTransportRead
+                } as kendo.data.DataSourceTransportRead,
+                parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoUtil.createParameterMap(data, type)
             } as kendo.data.DataSourceTransport,
 
             schema: {
-                data: (response: any) => response["data"]["rows"],
+                data: (response: any) => response["data"]["data"],
                 total: (response: any) => response["data"]["count"],
+                aggregates: (response: any) => response["data"]["aggregates"],
                 model: { fields: KendoUtil.createFields(columns) }
             },
             sort: { field: "customerName", dir: "asc" },
