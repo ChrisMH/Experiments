@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "Buddy.Test": "1.2.0",
     "Microsoft.AspNet.WebApi": "5.2.3",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.1",

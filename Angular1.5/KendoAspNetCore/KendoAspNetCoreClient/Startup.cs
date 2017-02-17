@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Buddy.AspNetCore.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,13 +25,11 @@ namespace KendoAspNetCoreClient
             Configuration = builder.Build();
 
             AppSettings = new AppSettings(Configuration);
-            Database = new Database.Database();
             
         }
 
         public IConfigurationRoot Configuration { get; }
         public AppSettings AppSettings { get; }
-        public Database.Database Database { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -43,7 +38,6 @@ namespace KendoAspNetCoreClient
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton(AppSettings);
-            services.AddSingleton(Database);
         }
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

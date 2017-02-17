@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Buddy.Test.TestData;
 using Buddy.Web.Service;
 using Buddy.Web.TabularQuery;
-using KendoAspNetCoreClient.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,12 +14,10 @@ namespace KendoAspNetCoreClient.Controllers
     public class DatabaseController : Controller
     {
         protected readonly ILogger Logger;
-        protected readonly Database.Database Database;
 
-        public DatabaseController(ILoggerFactory loggerFactory, Database.Database database)
+        public DatabaseController(ILoggerFactory loggerFactory)
         {
             Logger = loggerFactory.CreateLogger(nameof(DatabaseController));
-            Database = database;    
         }
 
         [HttpGet]
@@ -28,9 +26,7 @@ namespace KendoAspNetCoreClient.Controllers
         {
             try
             {
-                if(tabularQuery.Filter != null)
-                    Logger.LogInformation(tabularQuery.Filter.ToExpression());
-                var data = Database.PerformanceSnapshots.AsQueryable();
+                var data = Data.PerformanceSnapshots.AsQueryable();
                 return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(true, data.ApplyQuery(tabularQuery));
             }
             catch(Exception ex)
