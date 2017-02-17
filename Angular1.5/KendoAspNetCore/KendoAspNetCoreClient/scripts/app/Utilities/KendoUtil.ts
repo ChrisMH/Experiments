@@ -18,6 +18,30 @@ export namespace KendoUtil
         dataArea.height(gridHeight - otherElementsHeight);
     }
 
+    function createFilterParameterMap(root: string, data: kendo.data.DataSourceParameterMapDataFilter, dest: any): void
+    {
+        if(data.logic)
+            dest[`${root}.logic`] = data.logic;
+
+        if (data.field)
+            dest[`${root}.field`] = data.field;
+
+        if (data.operator)
+            dest[`${root}.operator`] = data.operator;
+
+        if (data.value)
+            dest[`${root}.value`] = data.value;
+
+        if (data.filters)
+        {
+            data.filters.forEach((value: kendo.data.DataSourceParameterMapDataFilter, index: number) =>
+            {
+                let nextRoot = `${root}.filters[${index}]`;
+                createFilterParameterMap(nextRoot, value, dest);
+            });
+        }
+        
+    }
     /**
      * Transforms grid parameters into a form that can be used by the WebApi model binders
      * 
@@ -52,6 +76,21 @@ export namespace KendoUtil
 
             delete result["aggregate"];
         }
+
+        if (result.filter)
+        {
+            createFilterParameterMap("filter", result.filter, result);
+            delete result["filter"];
+        }
+        /*
+            interface DataSourceParameterMapDataFilter {
+        field?: string;
+        filters?: DataSourceParameterMapDataFilter[];
+        logic?: string;
+        operator?: string;
+        value?: any;
+    }
+        */
 
         return result;
         /*

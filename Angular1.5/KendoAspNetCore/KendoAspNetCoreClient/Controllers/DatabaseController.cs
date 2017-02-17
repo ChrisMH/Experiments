@@ -28,6 +28,8 @@ namespace KendoAspNetCoreClient.Controllers
         {
             try
             {
+                if(tabularQuery.Filter != null)
+                    Logger.LogInformation(tabularQuery.Filter.ToExpression());
                 var data = Database.PerformanceSnapshots.AsQueryable();
                 return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(true, data.ApplyQuery(tabularQuery));
             }

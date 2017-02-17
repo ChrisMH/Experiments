@@ -42,7 +42,7 @@ export class Grid implements angular.IController
         const dataSourceOptions = {
             //type: "json", //"odata-v4",
             serverAggregates: true,
-            serverFiltering: false,
+            serverFiltering: true,
             serverGrouping: false,
             serverPaging: true,
             serverSorting: true,
