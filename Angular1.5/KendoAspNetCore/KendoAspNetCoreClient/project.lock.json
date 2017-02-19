@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.6": {
-      "Buddy.Test/1.2.0": {
+      "Buddy.Test/1.3.0": {
         "type": "package",
         "compile": {
           "lib/net46/Buddy.Test.dll": {}
@@ -1376,7 +1376,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "NLog/4.4.2": {
+      "NLog/4.4.3": {
         "type": "package",
         "compile": {
           "lib/net45/NLog.dll": {}
@@ -2430,12 +2430,12 @@
     }
   },
   "libraries": {
-    "Buddy.Test/1.2.0": {
-      "sha512": "E0HPrZ81XYgh7rXvjI5SyimofbP9/nDN7ivz9PhlhyIjtmgRlsV1v29sUxQUsRQqEdngEvlCRKLJC9KQ6zK/kA==",
+    "Buddy.Test/1.3.0": {
+      "sha512": "aWLoNaFyscwGq+9Da4RynYwtsKv/9coQKVhB9IObRQM+UG8zcqNiw44XQllmbF+u2x8I6S7WOt0L4Ka7jzyV7w==",
       "type": "package",
-      "path": "Buddy.Test/1.2.0",
+      "path": "Buddy.Test/1.3.0",
       "files": [
-        "Buddy.Test.1.2.0.nupkg.sha512",
+        "Buddy.Test.1.3.0.nupkg.sha512",
         "Buddy.Test.nuspec",
         "lib/net45/Buddy.Test.dll",
         "lib/net45/Buddy.Test.pdb",
@@ -3624,12 +3624,12 @@
         "tools/install.ps1"
       ]
     },
-    "NLog/4.4.2": {
-      "sha512": "dM53gWUrV3q7491DouxuZ7W8A1zQ4tbo6KTzCSpj0sH3OJCDz+/3GUBQDG16I4Y26qFa/okZInzi9lDdAmFm/Q==",
+    "NLog/4.4.3": {
+      "sha512": "gihLRGl++KPKlyn6JNnKiDarcM3mflc0mll8BJgJdiwtwZL0XnCkKaNlqTZgdGqOSXBkAykfzbfxa1arsu7L3A==",
       "type": "package",
-      "path": "NLog/4.4.2",
+      "path": "NLog/4.4.3",
       "files": [
-        "NLog.4.4.2.nupkg.sha512",
+        "NLog.4.4.3.nupkg.sha512",
         "NLog.nuspec",
         "lib/MonoAndroid10/NLog.dll",
         "lib/MonoAndroid10/NLog.xml",
@@ -7112,7 +7112,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Buddy.Test >= 1.2.0",
+      "Buddy.Test >= 1.3.0",
       "Microsoft.AspNet.WebApi >= 5.2.3",
       "Microsoft.AspNetCore.Diagnostics >= 1.1.0",
       "Microsoft.AspNetCore.Mvc >= 1.1.1",
@@ -7126,7 +7126,7 @@
       "Microsoft.Extensions.Configuration.Json >= 1.1.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.1.0",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.1.0",
-      "NLog >= 4.4.2",
+      "NLog >= 4.4.3",
       "NLog.Extensions.Logging >= 1.0.0-rtm-alpha5"
     ],
     ".NETFramework,Version=v4.6": [
