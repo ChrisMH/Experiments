@@ -27,7 +27,8 @@ namespace KendoAspNetCoreClient.Controllers
             try
             {
                 var data = Data.PerformanceSnapshots.AsQueryable();
-                return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(true, data.ApplyQuery(tabularQuery));
+                var result = data.ApplyQuery(tabularQuery);
+                return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(true, result);
             }
             catch(Exception ex)
             {

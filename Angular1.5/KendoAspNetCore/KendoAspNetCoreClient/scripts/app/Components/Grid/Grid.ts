@@ -33,7 +33,7 @@ export class Grid implements angular.IController
             new JsGridColumn("lastReceivedOn", "Last Rx", "Date", 160, "MM/dd/yyyy hh:mm tt"),
             new JsGridColumn("totalReceived", "Total Rx", "number", 100, "n0", "max", "Max:"),
             new JsGridColumn("databaseConnections", "Db Conn", "number", 100, "n0", "sum", "Sum:"),
-            new JsGridColumn("idleDatabaseConnections", "Idle Db Conn", "number", 100),
+            new JsGridColumn("idleDatabaseConnections", "Idle Db Conn", "number", 100, "n0"),
             new JsGridColumn("pctProcessorTime", "Pct Processor", "number", 100, "n2"),
             new JsGridColumn("availableMBytes", "MBytes", "number", 100, "n0", "min", "Min:"),
             new JsGridColumn("pctPagingFileUsage", "Pct Paging", "number", 100, "n2")

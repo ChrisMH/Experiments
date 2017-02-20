@@ -82,27 +82,18 @@ export namespace KendoUtil
             createFilterParameterMap("filter", result.filter, result);
             delete result["filter"];
         }
-        /*
-            interface DataSourceParameterMapDataFilter {
-        field?: string;
-        filters?: DataSourceParameterMapDataFilter[];
-        logic?: string;
-        operator?: string;
-        value?: any;
-    }
-        */
 
         return result;
         /*
-                aggregate?: DataSourceParameterMapDataAggregate[];
-        group?: DataSourceParameterMapDataGroup[];
-        filter?: DataSourceParameterMapDataFilter;
-        models?: Model[];
-        page?: number;
-        pageSize?: number;
-        skip?: number;
-        sort?: DataSourceParameterMapDataSort[];
-        take?: number;
+            aggregate?: DataSourceParameterMapDataAggregate[];
+            group?: DataSourceParameterMapDataGroup[];
+            filter?: DataSourceParameterMapDataFilter;
+            models?: Model[];
+            page?: number;
+            pageSize?: number;
+            skip?: number;
+            sort?: DataSourceParameterMapDataSort[];
+            take?: number;
         */
     }
 

@@ -8,6 +8,7 @@
         "bin/Debug/Buddy.AspNetCore.dll": {}
       },
       "runtime": {
+        "../packages/Buddy.1.9.2/lib/net46/Buddy.dll": {},
         "../packages/Microsoft.AspNetCore.Antiforgery.1.1.0/lib/net451/Microsoft.AspNetCore.Antiforgery.dll": {},
         "../packages/Microsoft.AspNetCore.Authorization.1.1.0/lib/net451/Microsoft.AspNetCore.Authorization.dll": {},
         "../packages/Microsoft.AspNetCore.Cors.1.1.0/lib/net451/Microsoft.AspNetCore.Cors.dll": {},
@@ -82,6 +83,7 @@
         "../packages/System.IO.Compression.ZipFile.4.3.0/lib/net46/System.IO.Compression.ZipFile.dll": {},
         "../packages/System.IO.FileSystem.4.3.0/lib/net46/System.IO.FileSystem.dll": {},
         "../packages/System.IO.FileSystem.Primitives.4.3.0/lib/net46/System.IO.FileSystem.Primitives.dll": {},
+        "../packages/System.Linq.Dynamic.1.0.7/lib/net40/System.Linq.Dynamic.dll": {},
         "../packages/System.Net.Http.4.3.0/lib/net46/System.Net.Http.dll": {},
         "../packages/System.Net.Sockets.4.3.0/lib/net46/System.Net.Sockets.dll": {},
         "../packages/System.Reflection.Metadata.1.4.2/lib/portable-net45+win8/System.Reflection.Metadata.dll": {},
