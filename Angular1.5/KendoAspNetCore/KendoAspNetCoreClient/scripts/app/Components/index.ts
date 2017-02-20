@@ -1,5 +1,5 @@
 ﻿export * from "./Main";
 
-export * from "./Charts/Charts";
+export * from "./AreaChart/AreaChart";
 
 export * from "./Grid/Grid";

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Buddy.Enum;
 using Buddy.Test.TestData;
+using Buddy.UI.Kendo;
 using Buddy.Web.Service;
 using Buddy.Web.TabularQuery;
 using KendoAspNetCoreClient.Models;
-using KendoAspNetCoreClient.Models.Kendo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -90,20 +90,6 @@ namespace KendoAspNetCoreClient.Controllers
                 return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(false, null, ex.Message);
             }
         }
-        
-                /*
-        var columns = [
-            new KendoUtil.JsGridColumn("backlog", "Backlog", "number", 100, "n0", "average", "Avg:"),
-            new KendoUtil.JsGridColumn("lastReceivedOn", "Last Rx", "Date", 160, "MM/dd/yyyy hh:mm tt"),
-            new KendoUtil.JsGridColumn("totalReceived", "Total Rx", "number", 100, "n0", "max", "Max:"),
-
-            new KendoUtil.JsGridColumn("databaseConnections", "Db Conn", "number", 100, "n0", "sum", "Sum:"),
-            new KendoUtil.JsGridColumn("idleDatabaseConnections", "Idle Db Conn", "number", 100, "n0"),
-            new KendoUtil.JsGridColumn("pctProcessorTime", "Pct Processor", "number", 100, "n2"),
-            new KendoUtil.JsGridColumn("availableMBytes", "MBytes", "number", 100, "n0", "min", "Min:"),
-            new KendoUtil.JsGridColumn("pctPagingFileUsage", "Pct Paging", "number", 100, "n2")
-        ];
-        */
 
         private List<GridColumn> GetGridColumns(GridQuery query)
         {
@@ -117,9 +103,9 @@ namespace KendoAspNetCoreClient.Controllers
             if(query.Filter == GridFilterType.Backlog)
             {
                 columns.AddRange(new [] {
-                    new GridColumn { Field = "backlog", Title = "Backlog", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
+                    new GridColumn { Field = "backlog", Title = "Backlog", Type = "number", Width = "140", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
                     new GridColumn { Field = "lastReceivedOn", Title = "Last Rx", Type = "Date", Width = "160", Format = "MM/dd/yyyy hh:mm tt" },
-                    new GridColumn { Field = "totalReceived", Title = "Total Rx", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" }
+                    new GridColumn { Field = "totalReceived", Title = "Total Rx", Type = "number", Width = "140", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" }
                 });
             }
             else
@@ -127,9 +113,9 @@ namespace KendoAspNetCoreClient.Controllers
                 columns.AddRange(new [] {
                     new GridColumn { Field = "databaseConnections", Title = "Db Conn", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
                     new GridColumn { Field = "idleDatabaseConnections", Title = "Idle Db Conn", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "pctProcessorTime", Title = "Pct Processor", Type = "number", Width = "100", Format = "n2", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "pctPagingFileUsage", Title = "Pct Paging", Type = "number", Width = "100", Format = "n2", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "availableMBytes", Title = "Avail MBytes", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" }
+                    new GridColumn { Field = "pctProcessorTime", Title = "Pct Processor", Type = "number", Width = "120", Format = "n2", Aggregate = "average", FooterHeader = "Avg:" },
+                    new GridColumn { Field = "pctPagingFileUsage", Title = "Pct Paging", Type = "number", Width = "120", Format = "n2", Aggregate = "average", FooterHeader = "Avg:" },
+                    new GridColumn { Field = "availableMBytes", Title = "Avail MBytes", Type = "number", Width = "120", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" }
                 });
             }
 
