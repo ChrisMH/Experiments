@@ -1,8 +1,16 @@
 ﻿<div id="grid">
     <h3>Kendo Grid</h3>
+    
+    <div id="filter-div">
+        <label for="filter">Filter:</label>
+        <select kendo-dropdownlist="ctrlGrid.filter"
+                id="filter"
+                k-options="ctrlGrid.filterOptions"></select>
+    </div>
 
     <div kendo-grid="ctrlGrid.grid"
-         id="assets-grid"
-         k-options="ctrlGrid.gridOptions" />
+         id="perf-grid"
+         k-options="ctrlGrid.gridOptions"
+         k-rebind="ctrlGrid.gridConfigId"/>
 
 </div>

@@ -1,9 +1,103 @@
 ﻿import "kendo";
-
-import { JsGridConfigModel, JsGridColumn } from "../Models";
+import { JsonObject, JsonMember } from "typedjson-npm";
 
 export namespace KendoUtil
 {
+    /*
+     *
+     * Dropdown
+     *
+     */
+
+     /**
+      * Single dropdown value
+      */
+    @JsonObject
+    export class DropdownValue
+    {
+        @JsonMember
+        id: number;
+
+        @JsonMember
+        name: string;
+    }
+
+
+    /**
+     * Configuration for a dropdown
+     */
+    @JsonObject
+    export class DropdownConfig
+    {
+        @JsonMember
+        default: number;
+
+        @JsonMember({ elements: DropdownValue })
+        values: DropdownValue[];
+    }
+
+
+    /*
+     *
+     * Grid
+     *
+     */
+
+    /**
+     * Single column in a grid
+     */
+    @JsonObject
+    export class GridColumn
+    {
+        constructor(field?: string, title?: string, type?: string, width?: string | number, format?: string, aggregate?: string, footerHeader?: string, hidden?: boolean)
+        {
+            this.field = field;
+            this.title = title;
+            this.type = type;
+            this.width = typeof width === "number" ? width.toString() : width;
+            this.format = format;
+            this.aggregate = aggregate;
+            this.footerHeader = footerHeader;
+            this.hidden = hidden;
+        }
+
+        @JsonMember
+        field: string;
+
+        @JsonMember
+        title: string;
+
+        @JsonMember
+        type: string;
+
+        @JsonMember
+        width: string;
+
+        @JsonMember
+        format: string;
+
+        @JsonMember
+        aggregate: string;
+
+        @JsonMember
+        footerHeader: string;
+
+        @JsonMember
+        hidden: boolean;
+    }
+
+
+    /**
+     * Configuration for a grid
+     */
+    @JsonObject
+    export class GridConfig
+    {
+        @JsonMember({ elements: GridColumn })
+        columns: GridColumn[]
+    }
+
+
     export function resizeGrid(selector: string): void
     {
         const gridElement = $(selector);
@@ -42,6 +136,7 @@ export namespace KendoUtil
         }
         
     }
+
     /**
      * Transforms grid parameters into a form that can be used by the WebApi model binders
      * 
@@ -97,7 +192,7 @@ export namespace KendoUtil
         */
     }
 
-    export function createColumn(gridColumn: JsGridColumn): kendo.ui.GridColumn
+    export function createColumn(gridColumn: GridColumn): kendo.ui.GridColumn
     {
         if (!gridColumn)
             return null;
@@ -117,11 +212,11 @@ export namespace KendoUtil
         }
     }
 
-    export function createColumns(gridColumns: JsGridColumn[]): kendo.ui.GridColumn[]
+    export function createColumns(gridColumns: GridColumn[]): kendo.ui.GridColumn[]
     {
         let columns: kendo.ui.GridColumn[] = [];
 
-        gridColumns.forEach((gridColumn: JsGridColumn) =>
+        gridColumns.forEach((gridColumn: GridColumn) =>
         {
             let column = createColumn(gridColumn);
             if (column)
@@ -131,11 +226,11 @@ export namespace KendoUtil
         return columns;
     }
 
-    export function createFields(gridColumns: JsGridColumn[]): kendo.data.DataSourceSchemaModelFields
+    export function createFields(gridColumns: GridColumn[]): kendo.data.DataSourceSchemaModelFields
     {
         var fields: kendo.data.DataSourceSchemaModelFields = {};
 
-        gridColumns.forEach((gridColumn: JsGridColumn) =>
+        gridColumns.forEach((gridColumn: GridColumn) =>
         {
             if (gridColumn.type)
                 fields[gridColumn.field] = { type: gridColumn.type };
@@ -144,11 +239,11 @@ export namespace KendoUtil
         return fields;
     }
 
-    export function createAggregates(gridColumns: JsGridColumn[]): kendo.data.DataSourceAggregateItem[]
+    export function createAggregates(gridColumns: GridColumn[]): kendo.data.DataSourceAggregateItem[]
     {
         let aggregates: kendo.data.DataSourceAggregateItem[] = [];
 
-        gridColumns.forEach((column: JsGridColumn) =>
+        gridColumns.forEach((column: GridColumn) =>
         {
             if (column.aggregate)
                 aggregates.push({field: column.field, aggregate: column.aggregate });
@@ -168,7 +263,7 @@ export namespace KendoUtil
         return intWidth;
     }
 
-    function createFooterTemplate(column: JsGridColumn): string
+    function createFooterTemplate(column: GridColumn): string
     {
         if (!column.aggregate)
             return undefined;
@@ -183,7 +278,7 @@ export namespace KendoUtil
         return `<div style='text-align:right'>#=${column.aggregate}#</div>`;
     }
 
-    export function createStringColumn(column: JsGridColumn): kendo.ui.GridColumn
+    export function createStringColumn(column: GridColumn): kendo.ui.GridColumn
     {
         return {
             field: column.field,
@@ -194,7 +289,7 @@ export namespace KendoUtil
         } as kendo.ui.GridColumn;
     }
     
-    export function createNumberColumn(column: JsGridColumn): kendo.ui.GridColumn
+    export function createNumberColumn(column: GridColumn): kendo.ui.GridColumn
     {
         return {
             field: column.field,
@@ -207,7 +302,7 @@ export namespace KendoUtil
         } as kendo.ui.GridColumn;
     }
 
-    export function createBooleanColumn(column: JsGridColumn): kendo.ui.GridColumn
+    export function createBooleanColumn(column: GridColumn): kendo.ui.GridColumn
     {
         return {
             field: column.field,  
@@ -219,7 +314,7 @@ export namespace KendoUtil
         } as kendo.ui.GridColumn;
     }
 
-    export function createDateColumn(column: JsGridColumn): kendo.ui.GridColumn
+    export function createDateColumn(column: GridColumn): kendo.ui.GridColumn
     {
         return {
             field: column.field,

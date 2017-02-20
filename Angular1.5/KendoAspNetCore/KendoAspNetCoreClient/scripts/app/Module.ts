@@ -3,7 +3,7 @@ import "kendo";
 
 import { Router } from "./Router";
 import { Main, Charts, Grid } from "./Components";
-import { AppSettings } from "./Services";
+import { AppSettings, HttpService } from "./Services";
 
 angular.module("Module",
     [
@@ -17,6 +17,8 @@ angular.module("Module",
     .controller("Charts", Charts)
     .controller("Grid", Grid)
 
-    .service("appSettings", AppSettings);
+    .service("appSettings", AppSettings)
+    .service("httpService", HttpService)
+    ;
 
 

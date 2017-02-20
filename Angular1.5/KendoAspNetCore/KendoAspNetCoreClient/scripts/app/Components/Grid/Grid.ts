@@ -1,55 +1,98 @@
 ﻿import * as angular from "angular";
 import "kendo";
+import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
-import { AppSettings } from "../../Services";
-import { JsGridColumn } from "../../Models";
+import { AppSettings, HttpService, IHttpServiceResponse } from "../../Services";
 import { KendoUtil, UrlQuery } from "../../Utilities";
 
 import "./Grid.css";
 
 export class Grid implements angular.IController
 {
+    protected filter: kendo.ui.DropDownList;
+    protected filterOptions: kendo.ui.DropDownListOptions;
+
     protected grid: kendo.ui.Grid;
     protected gridOptions: kendo.ui.GridOptions;
+    protected gridConfigId: number;
 
-    static $inject = ["appSettings"];
+    static $inject = ["$timeout", "appSettings", "httpService"];
 
-    constructor(protected appSettings: AppSettings)
+    constructor(protected $timeout: angular.ITimeoutService,
+        protected appSettings: AppSettings,
+        protected httpService: HttpService)
     {
     }
 
     $onInit(): void
     {
-        this.gridOptions = this.createGridOptions();
+        this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/FilterConfig"),
+            (data: string) => data ? TypedJSON.parse(data, FilterConfigResponse) : null)
+            .then((result: KendoUtil.DropdownConfig) =>
+            {
+                this.filterOptions = this.createFilterOptions(result);
+                this.$timeout(() => this.refreshGrid());
+            });
     }
 
-    private createGridOptions(): kendo.ui.GridOptions
+    private refreshGrid(): void
     {
-        var columns = [
-            new JsGridColumn("customerId", "Id", "string", undefined, undefined, undefined, undefined, true),
-            new JsGridColumn("customerName", "Customer Name", "string", "*", undefined, "count", "Count:"),
-            new JsGridColumn("statTime", "time", "Date", 160, "MM/dd/yyyy hh:mm tt"),
-            new JsGridColumn("backlog", "Backlog", "number", 100, "n0", "average", "Avg:"),
-            new JsGridColumn("lastReceivedOn", "Last Rx", "Date", 160, "MM/dd/yyyy hh:mm tt"),
-            new JsGridColumn("totalReceived", "Total Rx", "number", 100, "n0", "max", "Max:"),
-            new JsGridColumn("databaseConnections", "Db Conn", "number", 100, "n0", "sum", "Sum:"),
-            new JsGridColumn("idleDatabaseConnections", "Idle Db Conn", "number", 100, "n0"),
-            new JsGridColumn("pctProcessorTime", "Pct Processor", "number", 100, "n2"),
-            new JsGridColumn("availableMBytes", "MBytes", "number", 100, "n0", "min", "Min:"),
-            new JsGridColumn("pctPagingFileUsage", "Pct Paging", "number", 100, "n2")
-        ];
+        let gridQuery = new GridQuery();
+        gridQuery.filter = parseInt(this.filter.value());
+        
+        this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/GridConfig"),
+            (data: string) => data ? TypedJSON.parse(data, GridConfigResponse) : null,
+            UrlQuery.toUrlObject(gridQuery))
+            .then((result: KendoUtil.GridConfig) =>
+            {
+                
+                if (this.gridOptions == null)
+                {
+                    // gridOptions will be null when the grid is first created.  
+                    // Initialize gridConfigId *before* gridOptions so that rebind isn't triggered.
+                    this.gridConfigId = gridQuery.filter;
+                    this.gridOptions = this.createGridOptions(result);
+                }
+                else
+                {
+                    // gridOptions will be non-null every other time.  
+                    // Initialize gridConfigId *after* gridOptions to trigger rebind.
+                    this.gridOptions = this.createGridOptions(result);
+                    this.gridConfigId = gridQuery.filter;
+                }
+            });
+    }
 
+    private onFilterChanged(e: kendo.ui.DropDownListChangeEvent): void
+    {
+        this.refreshGrid();
+    }
+    
+    private createFilterOptions(config: KendoUtil.DropdownConfig): kendo.ui.DropDownListOptions
+    {
+        let index = config.values.findIndex((value: KendoUtil.DropdownValue) => value.id === config.default);
+
+        return {
+            dataValueField: "id",
+            dataTextField: "name",
+            dataSource: { data: config.values },
+            index: index,
+            change: (e: kendo.ui.DropDownListChangeEvent) => this.onFilterChanged(e)
+        } as kendo.ui.DropDownListOptions;
+    }
+
+    private createGridOptions(config: KendoUtil.GridConfig): kendo.ui.GridOptions
+    {
         const dataSourceOptions = {
-            //type: "json", //"odata-v4",
             serverAggregates: true,
             serverFiltering: true,
-            serverGrouping: false,
+            serverGrouping: true,
             serverPaging: true,
             serverSorting: true,
             pageSize: 25,
             transport: {
                 read: {
-                    url: () => `${this.appSettings.rootUrl}api/Database/Performance`,
+                    url: () => `${this.appSettings.rootUrl}api/Grid/Data`,
                     //data: () => UrlQuery.toUrlObject(this.gridQuery),
                     dataType: "json"
                 } as kendo.data.DataSourceTransportRead,
@@ -60,15 +103,15 @@ export class Grid implements angular.IController
                 data: (response: any) => response["data"]["data"],
                 total: (response: any) => response["data"]["count"],
                 aggregates: (response: any) => response["data"]["aggregates"],
-                model: { fields: KendoUtil.createFields(columns) }
+                model: { fields: KendoUtil.createFields(config.columns) }
             },
             sort: { field: "customerName", dir: "asc" },
-            aggregate: KendoUtil.createAggregates(columns)
+            aggregate: KendoUtil.createAggregates(config.columns)
 
         } as kendo.data.DataSourceOptions;
 
         const options = {
-            columns: KendoUtil.createColumns(columns),
+            columns: KendoUtil.createColumns(config.columns),
             filterable: { extra: false },
             
             pageable: {
@@ -86,51 +129,36 @@ export class Grid implements angular.IController
 
         return options;
     }
+}
 
-    /*
-    private createGridOptions(): kendo.ui.GridOptions
-    {
-        const dataSourceOptions = {
-            type: "json", //"odata-v4",
-            serverFiltering: true,
-            serverPaging: true,
-            serverSorting: true,
-            serverAggregates: true,
-            pageSize: 25,
-            transport: {
-                read: {
-                    url: () => `${this.appSettings.rootUrl}odata/Controls/PatentAssets`,
-                    data: () => UrlQuery.toUrlObject(this.gridQuery),
-                    dataType: "json"
-                } as kendo.data.DataSourceTransportRead
-            } as kendo.data.DataSourceTransport,
+class GridQuery
+{
+    @UrlQuery.UrlQueryParam(UrlQuery.IntConverter)
+    filter: number;
+}
 
-            schema: {
-                data: "value",
-                total: function (data: any) { return data["@odata.count"]; },
-                model: { fields: KendoUtil.createFields(gridConfig.columns) }
-            },
-            //sort: { field: "totalCount", dir: "desc" },
-            aggregate: KendoUtil.createAggregates(gridConfig.columns)
+@JsonObject
+class FilterConfigResponse implements IHttpServiceResponse<KendoUtil.DropdownConfig>
+{
+    @JsonMember
+    success: boolean;
 
-        } as kendo.data.DataSourceOptions;
+    @JsonMember
+    message: string;
 
-        const options = {
-            columns: KendoUtil.createColumns(gridConfig.columns),
-            filterable: { extra: false },
-            pageable: {
-                refresh: true,
-                pageSizes: true,
-                buttonCount: 5
-            },
-            scrollable: false,
-            sortable: true,
-            autoBind: false,
-            dataSource: kendo.data.DataSource.create(dataSourceOptions),
-            dataBound: (e: kendo.ui.GridDataBoundEvent) => this.onGridDataBound(e)
-        } as kendo.ui.GridOptions;
+    @JsonMember
+    data: KendoUtil.DropdownConfig;
+}
 
-        return options;
-    }
-    */
+@JsonObject
+class GridConfigResponse implements IHttpServiceResponse<KendoUtil.GridConfig>
+{
+    @JsonMember
+    success: boolean;
+
+    @JsonMember
+    message: string;
+
+    @JsonMember
+    data: KendoUtil.GridConfig;
 }

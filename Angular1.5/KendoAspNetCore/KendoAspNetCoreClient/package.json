@@ -12,7 +12,7 @@
     "@types/angular-mocks": "^1.5.9",
     "@types/angular-ui-router": "^1.1.36",
     "@types/core-js": "^0.9.35",
-    "@types/jasmine": "^2.5.43",
+    "@types/jasmine": "^2.5.40",
     "@types/kendo-ui": "^2016.3.41",
     "@types/node": "^7.0.5",
     "@types/systemjs": "^0.20.0",

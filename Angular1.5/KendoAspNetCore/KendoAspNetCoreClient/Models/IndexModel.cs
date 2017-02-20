@@ -18,15 +18,15 @@ namespace KendoAspNetCoreClient.Models
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/app/images/favicon.ico", Type = LinkType.XIcon, Rel = LinkRelType.ShortcutIcon},
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/font-awesome/css/font-awesome-4.7.0.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/bootstrap/css/bootstrap-3.3.7.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
-                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.common-2017.1.118.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
-                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.bootstrap-2017.1.118.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
+                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.common-2017.1.216.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
+                new LinkElem {Href = $"{PageConfig.RootUrl}css/kendo/kendo.bootstrap-2017.1.216.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet},
                 new LinkElem {Href = $"{PageConfig.RootUrl}css/app/app-{PageConfig.Version}.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet}
             };
 
             Scripts = new HtmlBuilder
             {
                 new ScriptElem {Src = $"{PageConfig.RootUrl}js/shim-2.4.1.js", Type = ScriptType.Javascript},
-                new ScriptElem {Src = $"{PageConfig.RootUrl}js/system-0.20.5.js", Type = ScriptType.Javascript},
+                new ScriptElem {Src = $"{PageConfig.RootUrl}js/system-0.20.9.js", Type = ScriptType.Javascript},
                 new ScriptElem {Body = $"(function() {{ System.config({{baseURL: '{PageConfig.RootUrl}'}}); }})();", Type = ScriptType.Javascript},
                 new ScriptElem {Body = PageConfig.ToJavascript(), Type = ScriptType.Javascript}
             };
