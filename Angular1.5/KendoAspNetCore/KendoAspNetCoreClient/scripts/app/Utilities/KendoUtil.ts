@@ -10,7 +10,7 @@ export namespace KendoDropDown
     export class Value
     {
         @JsonMember
-        id: number;
+        id: string;
 
         @JsonMember
         name: string;
@@ -23,7 +23,7 @@ export namespace KendoDropDown
     export class Config
     {
         @JsonMember
-        default: number;
+        default: string;
 
         @JsonMember({ elements: Value })
         values: Value[];
@@ -324,7 +324,7 @@ export namespace KendoMultiSelect
     export class Value
     {
         @JsonMember
-        id: number;
+        id: string;
 
         @JsonMember
         name: string;
@@ -337,8 +337,8 @@ export namespace KendoMultiSelect
     @JsonObject
     export class Config
     {
-        @JsonMember({ elements: Number })
-        default: number[];
+        @JsonMember({ elements: String })
+        default: string[];
 
         @JsonMember({ elements: Value })
         values: Value[];

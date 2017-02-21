@@ -14,7 +14,7 @@ export class Grid implements angular.IController
 
     protected grid: kendo.ui.Grid;
     protected gridOptions: kendo.ui.GridOptions;
-    protected gridConfigId: number;
+    protected gridConfigId: string;
     protected gridQuery: GridQuery;
 
     static $inject = ["$timeout", "appSettings", "httpService"];
@@ -64,7 +64,7 @@ export class Grid implements angular.IController
 
     private onFilterChange(): void
     {
-        this.gridQuery.filter = parseInt(this.filter.value());
+        this.gridQuery.filter = this.filter.value();
         this.refreshGrid();
     }
     
@@ -74,7 +74,8 @@ export class Grid implements angular.IController
             dataValueField: "id",
             dataTextField: "name",
             dataSource: { data: config.values },
-            index: config.values.findIndex((value: KendoDropDown.Value) => value.id === config.default),
+            value: config.default,
+            //index: config.values.findIndex((value: KendoDropDown.Value) => value.id === config.default),
             change: () => this.onFilterChange()
         } as kendo.ui.DropDownListOptions;
     }
@@ -131,8 +132,8 @@ export class Grid implements angular.IController
 
 class GridQuery
 {
-    @UrlQuery.UrlQueryParam(UrlQuery.IntConverter)
-    filter: number;
+    @UrlQuery.UrlQueryParam(UrlQuery.StringConverter)
+    filter: string;
 }
 
 @JsonObject
