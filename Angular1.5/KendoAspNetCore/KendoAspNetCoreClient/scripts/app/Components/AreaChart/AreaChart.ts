@@ -3,92 +3,10 @@ import "kendo";
 import * as moment from "moment";
 
 import { AppSettings } from "../../Services";
+import { KendoDataSource } from "../../Utilities";
 
 import "./AreaChart.css";
 
-let spainElectricity = [
-    {
-        "country": "Spain",
-        "year": "2008",
-        "unit": "GWh",
-        "solar": 2578,
-        "hydro": 26112,
-        "wind": 32203,
-        "nuclear": 58973
-    },
-    {
-        "country": "Spain",
-        "year": "2007",
-        "unit": "GWh",
-        "solar": 508,
-        "hydro": 30522,
-        "wind": 27568,
-        "nuclear": 55103
-    },
-    {
-        "country": "Spain",
-        "year": "2006",
-        "unit": "GWh",
-        "solar": 119,
-        "hydro": 29831,
-        "wind": 23297,
-        "nuclear": 60126
-    },
-    {
-        "country": "Spain",
-        "year": "2005",
-        "unit": "GWh",
-        "solar": 41,
-        "hydro": 23025,
-        "wind": 21176,
-        "nuclear": 57539
-    },
-    {
-        "country": "Spain",
-        "year": "2004",
-        "unit": "GWh",
-        "solar": 56,
-        "hydro": 34439,
-        "wind": 15700,
-        "nuclear": 63606
-    },
-    {
-        "country": "Spain",
-        "year": "2003",
-        "unit": "GWh",
-        "solar": 41,
-        "hydro": 43897,
-        "wind": 12075,
-        "nuclear": 61875
-    },
-    {
-        "country": "Spain",
-        "year": "2002",
-        "unit": "GWh",
-        "solar": 30,
-        "hydro": 26270,
-        "wind": 9342,
-        "nuclear": 63016
-    },
-    {
-        "country": "Spain",
-        "year": "2001",
-        "unit": "GWh",
-        "solar": 24,
-        "hydro": 43864,
-        "wind": 6759,
-        "nuclear": 63708
-    },
-    {
-        "country": "Spain",
-        "year": "2000",
-        "unit": "GWh",
-        "solar": 18,
-        "hydro": 31807,
-        "wind": 4727,
-        "nuclear": 62206
-    }
-];
 
 export class AreaChart implements angular.IController
 {
@@ -131,11 +49,35 @@ export class AreaChart implements angular.IController
 
     private createChartOptions(): kendo.dataviz.ui.ChartOptions
     {
+        var dataSourceOptions = {
+            //serverSorting: true,
+            transport: {
+                read: {
+                    url: () => `${this.appSettings.rootUrl}api/AreaChart/ChartData`,
+                    //data: () => UrlQuery.toUrlObject(this.gridQuery),
+                    dataType: "json"
+                } as kendo.data.DataSourceTransportRead,
+                parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoDataSource.createParameterMap(data, type)
+            } as kendo.data.DataSourceTransport,
+
+            group: [
+                { field: "customerName" }
+            ],
+
+            //sort: [ 
+            //    { field: "customerName", dir: "asc" },
+            //    { field: "statTime", dir: "asc" }
+            //],
+            schema: {
+                data: (response: any) => response["data"]["items"]
+            }
+        } as kendo.data.DataSourceOptions;
+
         let options =
             {
                 theme: "bootstrap",
                 title: {
-                    text: "Backlog",
+                    text: "Backlog By Customer",
                     font: this.titleFont
                 },
                 legend: {
@@ -144,43 +86,9 @@ export class AreaChart implements angular.IController
                 series: [
                     {
                         type: "area",
-                        markers:
-                        {
-                            visible: true,
-                            size: 6
-                        },
-                        field: "solar",
-                        categoryField: "year"
-                    },
-                    {
-                        type: "area",
-                        markers:
-                        {
-                            visible: true,
-                            size: 6
-                        },
-                        field: "hydro",
-                        categoryField: "year"
-                    },
-                    {
-                        type: "area",
-                        markers:
-                        {
-                            visible: true,
-                            size: 6
-                        },
-                        field: "wind",
-                        categoryField: "year"
-                    },
-                    {
-                        type: "area",
-                        markers:
-                        {
-                            visible: true,
-                            size: 6
-                        },
-                        field: "nuclear",
-                        categoryField: "year"
+                        name: "#= group.value =#",
+                        field: "backlog",
+                        categoryField: "statTime"
                     }
                 ],
                 valueAxis: [
@@ -204,7 +112,8 @@ export class AreaChart implements angular.IController
                             text: "Date",
                             font: this.titleFont
                         },
-                        baseUnit: "years",
+                        baseUnit: "months",
+                        baseUnitStep: 1,
                         //labels:
                         //{
                         //    step: 4,
@@ -220,11 +129,8 @@ export class AreaChart implements angular.IController
                     visible: true
                     //template: "#= kendo.toString(category, 'MM/dd/yyyy hh:mm tt') # - Backlog: #= value #"
                 },
-                dataSource: new kendo.data.DataSource(
-                    {
-                        data: spainElectricity
-                    }),
-
+                autoBind: true,
+                dataSource: new kendo.data.DataSource(dataSourceOptions),
                 render: (e: kendo.dataviz.ui.ChartRenderEvent) => this.showProgress(false)
             } as kendo.dataviz.ui.ChartOptions;
 

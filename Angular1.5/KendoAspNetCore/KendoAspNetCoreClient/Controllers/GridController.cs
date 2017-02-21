@@ -77,7 +77,7 @@ namespace KendoAspNetCoreClient.Controllers
 
         [HttpGet]
         [Route(nameof(GridData))]
-        public ServiceResponse<TabularResponse<GridDataModel>> GridData([FromQuery] GridQuery query, [FromQuery] TabularQuery tabularQuery)
+        public ServiceResponse<TabularResponse> GridData([FromQuery] GridQuery query, [FromQuery] TabularQuery tabularQuery)
         {
             try
             {
@@ -113,12 +113,12 @@ namespace KendoAspNetCoreClient.Controllers
                 }
 
                 var result = data.ApplyQuery(tabularQuery);
-                return new ServiceResponse<TabularResponse<GridDataModel>>(true, result);
+                return new ServiceResponse<TabularResponse>(true, result);
             }
             catch(Exception ex)
             {
                 Logger.LogError($"{nameof(GridData)} : {ex.GetType()} : {ex.Message}");
-                return new ServiceResponse<TabularResponse<GridDataModel>>(false, null, ex.Message);
+                return new ServiceResponse<TabularResponse>(false, null, ex.Message);
             }
         }
         

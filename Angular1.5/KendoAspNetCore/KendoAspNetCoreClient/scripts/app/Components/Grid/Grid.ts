@@ -3,7 +3,7 @@ import "kendo";
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
 import { AppSettings, HttpService, IHttpServiceResponse } from "../../Services";
-import { KendoDropDown, KendoGrid, UrlQuery } from "../../Utilities";
+import { KendoDataSource, KendoDropDown, KendoGrid, UrlQuery } from "../../Utilities";
 
 import "./Grid.css";
 
@@ -84,7 +84,7 @@ export class Grid implements angular.IController
         const dataSourceOptions = {
             serverAggregates: true,
             serverFiltering: true,
-            serverGrouping: true,
+            serverGrouping: false,
             serverPaging: true,
             serverSorting: true,
             pageSize: 25,
@@ -94,11 +94,11 @@ export class Grid implements angular.IController
                     data: () => UrlQuery.toUrlObject(this.gridQuery),
                     dataType: "json"
                 } as kendo.data.DataSourceTransportRead,
-                parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoGrid.createParameterMap(data, type)
+                parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoDataSource.createParameterMap(data, type)
             } as kendo.data.DataSourceTransport,
 
             schema: {
-                data: (response: any) => response["data"]["data"],
+                data: (response: any) => response["data"]["items"],
                 total: (response: any) => response["data"]["count"],
                 aggregates: (response: any) => response["data"]["aggregates"],
                 model: { fields: KendoGrid.createFields(config.columns) }
@@ -111,13 +111,12 @@ export class Grid implements angular.IController
         const options = {
             columns: KendoGrid.createColumns(config.columns),
             filterable: { extra: false },
-            
+            //groupable: true,
             pageable: {
                 refresh: true,
                 pageSizes: true,
                 buttonCount: 5
             },
-            
             scrollable: true,
             sortable: true,
             autoBind: true,

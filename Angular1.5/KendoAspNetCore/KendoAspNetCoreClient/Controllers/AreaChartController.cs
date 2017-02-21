@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using Buddy.Enum;
+using Buddy.Test.PerformanceTestData;
 using Buddy.UI.Kendo;
 using Buddy.Web.Service;
 using Buddy.Web.TabularQuery;
@@ -23,14 +25,18 @@ namespace KendoAspNetCoreClient.Controllers
             Logger = loggerFactory.CreateLogger(nameof(AreaChartController));
         }
         
-        
+        public class ChartConfig
+        {
+            public string Title { get; set; }
+
+        }
+
         [HttpGet]
-        [Route(nameof(Data))]
-        public ServiceResponse<object> Data([FromQuery] TabularQuery tabularQuery)
+        [Route(nameof(ChartData))]
+        public ServiceResponse<TabularResponse> ChartData([FromQuery] TabularQuery tabularQuery)
         {
             try
             {
-                //var data = Buddy.Test.TestData.Data.PerformanceSnapshots.AsQueryable();
 
                 //var seriesNames = new Dictionary<string, string>();
 
@@ -46,13 +52,16 @@ namespace KendoAspNetCoreClient.Controllers
                 //    };
                 //    foreach(
                 //}
-                var result = "";
-                return new ServiceResponse<object>(true, result);
+                
+                var data = Db.Backlog.AsQueryable();
+                var result = data.ApplyQuery(tabularQuery);
+
+                return new ServiceResponse<TabularResponse>(true, result);
             }
             catch(Exception ex)
             {
-                Logger.LogError($"{nameof(Data)} : {ex.GetType()} : {ex.Message}");
-                return new ServiceResponse<object>(false, null, ex.Message);
+                Logger.LogError($"{nameof(ChartData)} : {ex.GetType()} : {ex.Message}");
+                return new ServiceResponse<TabularResponse>(false, null, ex.Message);
             }
         }
         

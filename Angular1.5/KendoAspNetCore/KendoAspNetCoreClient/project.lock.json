@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.6": {
-      "Buddy/1.11.1": {
+      "Buddy/1.11.2": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "9.0.0",
@@ -2458,12 +2458,12 @@
     }
   },
   "libraries": {
-    "Buddy/1.11.1": {
-      "sha512": "P1XGCl3UMNhAg6uhJBP9SQdHDh27dPLM/U6EZuAq+SV+vujwHrWRgnL5uIDW2lo/1SB5gaRkyP3y0M6DvReKtg==",
+    "Buddy/1.11.2": {
+      "sha512": "SpnwMPgxD2Em9gTFAVkaeO9t3MsNmDUWTrH+gggLP3j1rVpW3nwY53cIYJLtb9ESEt6bq5lWZvjjn3krcTxp+w==",
       "type": "package",
-      "path": "Buddy/1.11.1",
+      "path": "Buddy/1.11.2",
       "files": [
-        "Buddy.1.11.1.nupkg.sha512",
+        "Buddy.1.11.2.nupkg.sha512",
         "Buddy.nuspec",
         "lib/net45/Buddy.dll",
         "lib/net45/Buddy.pdb",
@@ -7179,7 +7179,7 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Buddy >= 1.11.1",
+      "Buddy >= 1.11.2",
       "Buddy.AspNetCore >= 1.0.3",
       "Buddy.Test >= 1.5.0",
       "Microsoft.AspNet.WebApi >= 5.2.3",

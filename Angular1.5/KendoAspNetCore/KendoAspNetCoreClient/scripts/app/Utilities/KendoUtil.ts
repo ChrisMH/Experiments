@@ -1,6 +1,88 @@
 ﻿import "kendo";
 import { JsonObject, JsonMember } from "typedjson-npm";
 
+export namespace KendoDataSource
+{
+    function createFilterParameterMap(root: string, data: kendo.data.DataSourceParameterMapDataFilter, dest: any): void
+    {
+        if (data.logic)
+            dest[`${root}.logic`] = data.logic;
+
+        if (data.field)
+            dest[`${root}.field`] = data.field;
+
+        if (data.operator)
+            dest[`${root}.operator`] = data.operator;
+
+        if (data.value)
+            dest[`${root}.value`] = data.value;
+
+        if (data.filters)
+        {
+            data.filters.forEach((value: kendo.data.DataSourceParameterMapDataFilter, index: number) =>
+            {
+                const nextRoot = `${root}.filters[${index}]`;
+                createFilterParameterMap(nextRoot, value, dest);
+            });
+        }
+    }
+
+    /**
+     * Transforms data source parameters into a form that can be used by the WebApi model binders
+     * 
+     * @param data
+     * @param type
+     */
+    export function createParameterMap(data: kendo.data.DataSourceTransportParameterMapData, type: string): any
+    {
+        const result = data;
+
+        delete result["pageSize"];
+        delete result["page"];
+
+        if (result.sort)
+        {
+            result.sort.forEach((value: kendo.data.DataSourceParameterMapDataSort, index: number) =>
+            {
+                result[`sort[${index}].field`] = value.field;
+                result[`sort[${index}].dir`] = value.dir;
+            });
+
+            delete result["sort"];
+        }
+
+        if (result.aggregate)
+        {
+            result.aggregate.forEach((value: kendo.data.DataSourceParameterMapDataAggregate, index: number) =>
+            {
+                result[`aggregate[${index}].field`] = value.field;
+                result[`aggregate[${index}].aggregate`] = value.aggregate;
+            });
+
+            delete result["aggregate"];
+        }
+
+        if (result.filter)
+        {
+            createFilterParameterMap("filter", result.filter, result);
+            delete result["filter"];
+        }
+
+        return result;
+        /*
+            aggregate?: DataSourceParameterMapDataAggregate[];
+            group?: DataSourceParameterMapDataGroup[];
+            filter?: DataSourceParameterMapDataFilter;
+            models?: Model[];
+            page?: number;
+            pageSize?: number;
+            skip?: number;
+            sort?: DataSourceParameterMapDataSort[];
+            take?: number;
+        */
+    }
+}
+
 export namespace KendoDropDown
 {
     /**
@@ -102,85 +184,7 @@ export namespace KendoGrid
         dataArea.height(gridHeight - otherElementsHeight);
     }
 
-    function createFilterParameterMap(root: string, data: kendo.data.DataSourceParameterMapDataFilter, dest: any): void
-    {
-        if (data.logic)
-            dest[`${root}.logic`] = data.logic;
-
-        if (data.field)
-            dest[`${root}.field`] = data.field;
-
-        if (data.operator)
-            dest[`${root}.operator`] = data.operator;
-
-        if (data.value)
-            dest[`${root}.value`] = data.value;
-
-        if (data.filters)
-        {
-            data.filters.forEach((value: kendo.data.DataSourceParameterMapDataFilter, index: number) =>
-            {
-                const nextRoot = `${root}.filters[${index}]`;
-                createFilterParameterMap(nextRoot, value, dest);
-            });
-        }
-    }
-
-    /**
-     * Transforms grid parameters into a form that can be used by the WebApi model binders
-     * 
-     * @param data
-     * @param type
-     */
-    export function createParameterMap(data: kendo.data.DataSourceTransportParameterMapData, type: string): any
-    {
-        const result = data;
-
-        delete result["pageSize"];
-        delete result["page"];
-
-        if (result.sort)
-        {
-            result.sort.forEach((value: kendo.data.DataSourceParameterMapDataSort, index: number) =>
-            {
-                result[`sort[${index}].field`] = value.field;
-                result[`sort[${index}].dir`] = value.dir;
-            });
-
-            delete result["sort"];
-        }
-
-        if (result.aggregate)
-        {
-            result.aggregate.forEach((value: kendo.data.DataSourceParameterMapDataAggregate, index: number) =>
-            {
-                result[`aggregate[${index}].field`] = value.field;
-                result[`aggregate[${index}].aggregate`] = value.aggregate;
-            });
-
-            delete result["aggregate"];
-        }
-
-        if (result.filter)
-        {
-            createFilterParameterMap("filter", result.filter, result);
-            delete result["filter"];
-        }
-
-        return result;
-        /*
-            aggregate?: DataSourceParameterMapDataAggregate[];
-            group?: DataSourceParameterMapDataGroup[];
-            filter?: DataSourceParameterMapDataFilter;
-            models?: Model[];
-            page?: number;
-            pageSize?: number;
-            skip?: number;
-            sort?: DataSourceParameterMapDataSort[];
-            take?: number;
-        */
-    }
-
+    
     export function createColumn(gridColumn: Column): kendo.ui.GridColumn
     {
         if (!gridColumn)
