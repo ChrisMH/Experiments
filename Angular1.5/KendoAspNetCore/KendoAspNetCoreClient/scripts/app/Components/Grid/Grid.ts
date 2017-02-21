@@ -3,7 +3,7 @@ import "kendo";
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
 import { AppSettings, HttpService, IHttpServiceResponse } from "../../Services";
-import { KendoUtil, UrlQuery } from "../../Utilities";
+import { KendoDropDown, KendoGrid, UrlQuery } from "../../Utilities";
 
 import "./Grid.css";
 
@@ -15,6 +15,7 @@ export class Grid implements angular.IController
     protected grid: kendo.ui.Grid;
     protected gridOptions: kendo.ui.GridOptions;
     protected gridConfigId: number;
+    protected gridQuery: GridQuery;
 
     static $inject = ["$timeout", "appSettings", "httpService"];
 
@@ -26,62 +27,59 @@ export class Grid implements angular.IController
 
     $onInit(): void
     {
+        this.gridQuery = new GridQuery();
+
         this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/FilterConfig"),
             (data: string) => data ? TypedJSON.parse(data, FilterConfigResponse) : null)
-            .then((result: KendoUtil.DropdownConfig) =>
+            .then((config: KendoDropDown.Config) =>
             {
-                this.filterOptions = this.createFilterOptions(result);
-                this.$timeout(() => this.refreshGrid());
+                this.filterOptions = this.createFilterOptions(config);
+                this.$timeout(() => this.onFilterChange());
             });
     }
 
     private refreshGrid(): void
     {
-        let gridQuery = new GridQuery();
-        gridQuery.filter = parseInt(this.filter.value());
-        
         this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/GridConfig"),
             (data: string) => data ? TypedJSON.parse(data, GridConfigResponse) : null,
-            UrlQuery.toUrlObject(gridQuery))
-            .then((result: KendoUtil.GridConfig) =>
+            UrlQuery.toUrlObject(this.gridQuery))
+            .then((config: KendoGrid.Config) =>
             {
-                
                 if (this.gridOptions == null)
                 {
                     // gridOptions will be null when the grid is first created.  
                     // Initialize gridConfigId *before* gridOptions so that rebind isn't triggered.
-                    this.gridConfigId = gridQuery.filter;
-                    this.gridOptions = this.createGridOptions(result);
+                    this.gridConfigId = this.gridQuery.filter;
+                    this.gridOptions = this.createGridOptions(config);
                 }
                 else
                 {
                     // gridOptions will be non-null every other time.  
                     // Initialize gridConfigId *after* gridOptions to trigger rebind.
-                    this.gridOptions = this.createGridOptions(result);
-                    this.gridConfigId = gridQuery.filter;
+                    this.gridOptions = this.createGridOptions(config);
+                    this.gridConfigId = this.gridQuery.filter;
                 }
             });
     }
 
-    private onFilterChanged(e: kendo.ui.DropDownListChangeEvent): void
+    private onFilterChange(): void
     {
+        this.gridQuery.filter = parseInt(this.filter.value());
         this.refreshGrid();
     }
     
-    private createFilterOptions(config: KendoUtil.DropdownConfig): kendo.ui.DropDownListOptions
+    private createFilterOptions(config: KendoDropDown.Config): kendo.ui.DropDownListOptions
     {
-        let index = config.values.findIndex((value: KendoUtil.DropdownValue) => value.id === config.default);
-
         return {
             dataValueField: "id",
             dataTextField: "name",
             dataSource: { data: config.values },
-            index: index,
-            change: (e: kendo.ui.DropDownListChangeEvent) => this.onFilterChanged(e)
+            index: config.values.findIndex((value: KendoDropDown.Value) => value.id === config.default),
+            change: () => this.onFilterChange()
         } as kendo.ui.DropDownListOptions;
     }
 
-    private createGridOptions(config: KendoUtil.GridConfig): kendo.ui.GridOptions
+    private createGridOptions(config: KendoGrid.Config): kendo.ui.GridOptions
     {
         const dataSourceOptions = {
             serverAggregates: true,
@@ -96,22 +94,22 @@ export class Grid implements angular.IController
                     //data: () => UrlQuery.toUrlObject(this.gridQuery),
                     dataType: "json"
                 } as kendo.data.DataSourceTransportRead,
-                parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoUtil.createParameterMap(data, type)
+                parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoGrid.createParameterMap(data, type)
             } as kendo.data.DataSourceTransport,
 
             schema: {
                 data: (response: any) => response["data"]["data"],
                 total: (response: any) => response["data"]["count"],
                 aggregates: (response: any) => response["data"]["aggregates"],
-                model: { fields: KendoUtil.createFields(config.columns) }
+                model: { fields: KendoGrid.createFields(config.columns) }
             },
             sort: { field: "customerName", dir: "asc" },
-            aggregate: KendoUtil.createAggregates(config.columns)
+            aggregate: KendoGrid.createAggregates(config.columns)
 
         } as kendo.data.DataSourceOptions;
 
         const options = {
-            columns: KendoUtil.createColumns(config.columns),
+            columns: KendoGrid.createColumns(config.columns),
             filterable: { extra: false },
             
             pageable: {
@@ -138,7 +136,7 @@ class GridQuery
 }
 
 @JsonObject
-class FilterConfigResponse implements IHttpServiceResponse<KendoUtil.DropdownConfig>
+class FilterConfigResponse implements IHttpServiceResponse<KendoDropDown.Config>
 {
     @JsonMember
     success: boolean;
@@ -147,11 +145,11 @@ class FilterConfigResponse implements IHttpServiceResponse<KendoUtil.DropdownCon
     message: string;
 
     @JsonMember
-    data: KendoUtil.DropdownConfig;
+    data: KendoDropDown.Config;
 }
 
 @JsonObject
-class GridConfigResponse implements IHttpServiceResponse<KendoUtil.GridConfig>
+class GridConfigResponse implements IHttpServiceResponse<KendoGrid.Config>
 {
     @JsonMember
     success: boolean;
@@ -160,5 +158,5 @@ class GridConfigResponse implements IHttpServiceResponse<KendoUtil.GridConfig>
     message: string;
 
     @JsonMember
-    data: KendoUtil.GridConfig;
+    data: KendoGrid.Config;
 }

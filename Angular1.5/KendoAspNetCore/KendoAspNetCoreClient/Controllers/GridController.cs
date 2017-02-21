@@ -26,31 +26,31 @@ namespace KendoAspNetCoreClient.Controllers
 
         [HttpGet]
         [Route(nameof(FilterConfig))]
-        public ServiceResponse<DropdownConfig<GridFilterType, DropdownValue<GridFilterType>>> FilterConfig()
+        public ServiceResponse<DropDownConfig<GridFilterType>> FilterConfig()
         {
             try
             {   
-                var result = new DropdownConfig<GridFilterType, DropdownValue<GridFilterType>>
+                var result = new DropDownConfig<GridFilterType>
                 {
                     Default = GridFilterType.Backlog,
-                    Values = new List<DropdownValue<GridFilterType>>()
+                    Values = new List<DropDownValue<GridFilterType>>()
                 };
 
                 foreach(var val in Enum.GetValues(typeof(GridFilterType)))
                 {
-                    result.Values.Add(new DropdownValue<GridFilterType>
+                    result.Values.Add(new DropDownValue<GridFilterType>
                     {
                         Id = (GridFilterType)val,
                         Name = ((Enum)val).GetDescription()
                     });
                 }
 
-                return new ServiceResponse<DropdownConfig<GridFilterType, DropdownValue<GridFilterType>>>(true, result);
+                return new ServiceResponse<DropDownConfig<GridFilterType>>(true, result);
             }
             catch(Exception ex)
             {
                 Logger.LogError($"{nameof(FilterConfig)} : {ex.GetType()} : {ex.Message}");
-                return new ServiceResponse<DropdownConfig<GridFilterType, DropdownValue<GridFilterType>>>(false, null, ex.Message);
+                return new ServiceResponse<DropDownConfig<GridFilterType>>(false, null, ex.Message);
             }
         }
 

@@ -1,19 +1,13 @@
 ﻿import "kendo";
 import { JsonObject, JsonMember } from "typedjson-npm";
 
-export namespace KendoUtil
+export namespace KendoDropDown
 {
-    /*
-     *
-     * Dropdown
-     *
+    /**
+     * Single dropdown value
      */
-
-     /**
-      * Single dropdown value
-      */
     @JsonObject
-    export class DropdownValue
+    export class Value
     {
         @JsonMember
         id: number;
@@ -21,33 +15,29 @@ export namespace KendoUtil
         @JsonMember
         name: string;
     }
-
-
+    
     /**
      * Configuration for a dropdown
      */
     @JsonObject
-    export class DropdownConfig
+    export class Config
     {
         @JsonMember
         default: number;
 
-        @JsonMember({ elements: DropdownValue })
-        values: DropdownValue[];
+        @JsonMember({ elements: Value })
+        values: Value[];
     }
+}
 
 
-    /*
-     *
-     * Grid
-     *
-     */
-
+export namespace KendoGrid
+{
     /**
      * Single column in a grid
      */
     @JsonObject
-    export class GridColumn
+    export class Column
     {
         constructor(field?: string, title?: string, type?: string, width?: string | number, format?: string, aggregate?: string, footerHeader?: string, hidden?: boolean)
         {
@@ -91,10 +81,10 @@ export namespace KendoUtil
      * Configuration for a grid
      */
     @JsonObject
-    export class GridConfig
+    export class Config
     {
-        @JsonMember({ elements: GridColumn })
-        columns: GridColumn[]
+        @JsonMember({ elements: Column })
+        columns: Column[]
     }
 
 
@@ -114,7 +104,7 @@ export namespace KendoUtil
 
     function createFilterParameterMap(root: string, data: kendo.data.DataSourceParameterMapDataFilter, dest: any): void
     {
-        if(data.logic)
+        if (data.logic)
             dest[`${root}.logic`] = data.logic;
 
         if (data.field)
@@ -130,11 +120,10 @@ export namespace KendoUtil
         {
             data.filters.forEach((value: kendo.data.DataSourceParameterMapDataFilter, index: number) =>
             {
-                let nextRoot = `${root}.filters[${index}]`;
+                const nextRoot = `${root}.filters[${index}]`;
                 createFilterParameterMap(nextRoot, value, dest);
             });
         }
-        
     }
 
     /**
@@ -145,7 +134,7 @@ export namespace KendoUtil
      */
     export function createParameterMap(data: kendo.data.DataSourceTransportParameterMapData, type: string): any
     {
-        let result = data;
+        const result = data;
 
         delete result["pageSize"];
         delete result["page"];
@@ -192,33 +181,33 @@ export namespace KendoUtil
         */
     }
 
-    export function createColumn(gridColumn: GridColumn): kendo.ui.GridColumn
+    export function createColumn(gridColumn: Column): kendo.ui.GridColumn
     {
         if (!gridColumn)
             return null;
 
         switch (gridColumn.type)
         {
-            case "number":
-                return KendoUtil.createNumberColumn(gridColumn);
-            case "string":
-                return KendoUtil.createStringColumn(gridColumn);
-            case "boolean":
-                return KendoUtil.createBooleanColumn(gridColumn);
-            case "Date":
-                return KendoUtil.createDateColumn(gridColumn);
-            default:
-                return null;
+        case "number":
+            return createNumberColumn(gridColumn);
+        case "string":
+            return createStringColumn(gridColumn);
+        case "boolean":
+            return createBooleanColumn(gridColumn);
+        case "Date":
+            return createDateColumn(gridColumn);
+        default:
+            return null;
         }
     }
 
-    export function createColumns(gridColumns: GridColumn[]): kendo.ui.GridColumn[]
+    export function createColumns(gridColumns: Column[]): kendo.ui.GridColumn[]
     {
-        let columns: kendo.ui.GridColumn[] = [];
+        const columns: kendo.ui.GridColumn[] = [];
 
-        gridColumns.forEach((gridColumn: GridColumn) =>
+        gridColumns.forEach((gridColumn: Column) =>
         {
-            let column = createColumn(gridColumn);
+            const column = createColumn(gridColumn);
             if (column)
                 columns.push(column);
         });
@@ -226,11 +215,11 @@ export namespace KendoUtil
         return columns;
     }
 
-    export function createFields(gridColumns: GridColumn[]): kendo.data.DataSourceSchemaModelFields
+    export function createFields(gridColumns: Column[]): kendo.data.DataSourceSchemaModelFields
     {
         var fields: kendo.data.DataSourceSchemaModelFields = {};
 
-        gridColumns.forEach((gridColumn: GridColumn) =>
+        gridColumns.forEach((gridColumn: Column) =>
         {
             if (gridColumn.type)
                 fields[gridColumn.field] = { type: gridColumn.type };
@@ -239,14 +228,14 @@ export namespace KendoUtil
         return fields;
     }
 
-    export function createAggregates(gridColumns: GridColumn[]): kendo.data.DataSourceAggregateItem[]
+    export function createAggregates(gridColumns: Column[]): kendo.data.DataSourceAggregateItem[]
     {
-        let aggregates: kendo.data.DataSourceAggregateItem[] = [];
+        const aggregates: kendo.data.DataSourceAggregateItem[] = [];
 
-        gridColumns.forEach((column: GridColumn) =>
+        gridColumns.forEach((column: Column) =>
         {
             if (column.aggregate)
-                aggregates.push({field: column.field, aggregate: column.aggregate });
+                aggregates.push({ field: column.field, aggregate: column.aggregate });
         });
 
         return aggregates;
@@ -257,13 +246,13 @@ export namespace KendoUtil
         if (typeof width === "number")
             return width;
 
-        let intWidth = parseInt(width as string);
+        const intWidth = parseInt(width as string);
         if (isNaN(intWidth))
             return width;
         return intWidth;
     }
 
-    function createFooterTemplate(column: GridColumn): string
+    function createFooterTemplate(column: Column): string
     {
         if (!column.aggregate)
             return undefined;
@@ -278,7 +267,7 @@ export namespace KendoUtil
         return `<div style='text-align:right'>#=${column.aggregate}#</div>`;
     }
 
-    export function createStringColumn(column: GridColumn): kendo.ui.GridColumn
+    export function createStringColumn(column: Column): kendo.ui.GridColumn
     {
         return {
             field: column.field,
@@ -288,8 +277,8 @@ export namespace KendoUtil
             hidden: column.hidden ? column.hidden : false
         } as kendo.ui.GridColumn;
     }
-    
-    export function createNumberColumn(column: GridColumn): kendo.ui.GridColumn
+
+    export function createNumberColumn(column: Column): kendo.ui.GridColumn
     {
         return {
             field: column.field,
@@ -302,10 +291,10 @@ export namespace KendoUtil
         } as kendo.ui.GridColumn;
     }
 
-    export function createBooleanColumn(column: GridColumn): kendo.ui.GridColumn
+    export function createBooleanColumn(column: Column): kendo.ui.GridColumn
     {
         return {
-            field: column.field,  
+            field: column.field,
             title: column.title,
             width: parseWidth(column.width),
             template: `#=${column.field} ? 'Yes' : 'No'#`,
@@ -314,7 +303,7 @@ export namespace KendoUtil
         } as kendo.ui.GridColumn;
     }
 
-    export function createDateColumn(column: GridColumn): kendo.ui.GridColumn
+    export function createDateColumn(column: Column): kendo.ui.GridColumn
     {
         return {
             field: column.field,
@@ -323,5 +312,35 @@ export namespace KendoUtil
             template: `<div style='text-align:right'>#=kendo.toString(kendo.parseDate(${column.field}), '${column.format}')#</div>`,
             hidden: column.hidden ? column.hidden : false
         } as kendo.ui.GridColumn;
+    }
+}
+
+export namespace KendoMultiSelect
+{
+    /**
+     * Single MultiSelect value
+     */
+    @JsonObject
+    export class Value
+    {
+        @JsonMember
+        id: number;
+
+        @JsonMember
+        name: string;
+    }
+
+
+    /**
+     * Configuration for a MultiSelect
+     */
+    @JsonObject
+    export class Config
+    {
+        @JsonMember({ elements: Number })
+        default: number[];
+
+        @JsonMember({ elements: Value })
+        values: Value[];
     }
 }
