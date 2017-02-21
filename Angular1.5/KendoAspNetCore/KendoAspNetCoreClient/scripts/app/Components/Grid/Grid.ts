@@ -49,7 +49,7 @@ export class Grid implements angular.IController
                 {
                     // gridOptions will be null when the grid is first created.  
                     // Initialize gridConfigId *before* gridOptions so that rebind isn't triggered.
-                    this.gridConfigId = this.gridQuery.filter;
+                    this.gridConfigId = this.gridQuery.dataSet;
                     this.gridOptions = this.createGridOptions(config);
                 }
                 else
@@ -57,14 +57,14 @@ export class Grid implements angular.IController
                     // gridOptions will be non-null every other time.  
                     // Initialize gridConfigId *after* gridOptions to trigger rebind.
                     this.gridOptions = this.createGridOptions(config);
-                    this.gridConfigId = this.gridQuery.filter;
+                    this.gridConfigId = this.gridQuery.dataSet;
                 }
             });
     }
 
     private onFilterChange(): void
     {
-        this.gridQuery.filter = this.filter.value();
+        this.gridQuery.dataSet = this.filter.value();
         this.refreshGrid();
     }
     
@@ -75,7 +75,6 @@ export class Grid implements angular.IController
             dataTextField: "name",
             dataSource: { data: config.values },
             value: config.default,
-            //index: config.values.findIndex((value: KendoDropDown.Value) => value.id === config.default),
             change: () => this.onFilterChange()
         } as kendo.ui.DropDownListOptions;
     }
@@ -91,8 +90,8 @@ export class Grid implements angular.IController
             pageSize: 25,
             transport: {
                 read: {
-                    url: () => `${this.appSettings.rootUrl}api/Grid/Data`,
-                    //data: () => UrlQuery.toUrlObject(this.gridQuery),
+                    url: () => `${this.appSettings.rootUrl}api/Grid/GridData`,
+                    data: () => UrlQuery.toUrlObject(this.gridQuery),
                     dataType: "json"
                 } as kendo.data.DataSourceTransportRead,
                 parameterMap: (data: kendo.data.DataSourceTransportParameterMapData, type: string) => KendoGrid.createParameterMap(data, type)
@@ -122,8 +121,7 @@ export class Grid implements angular.IController
             scrollable: true,
             sortable: true,
             autoBind: true,
-            dataSource: kendo.data.DataSource.create(dataSourceOptions)//,
-            //dataBound: (e: kendo.ui.GridDataBoundEvent) => this.onGridDataBound(e)
+            dataSource: kendo.data.DataSource.create(dataSourceOptions)
         } as kendo.ui.GridOptions;
 
         return options;
@@ -133,7 +131,7 @@ export class Grid implements angular.IController
 class GridQuery
 {
     @UrlQuery.UrlQueryParam(UrlQuery.StringConverter)
-    filter: string;
+    dataSet: string;
 }
 
 @JsonObject

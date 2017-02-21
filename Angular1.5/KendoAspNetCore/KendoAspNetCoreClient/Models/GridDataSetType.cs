@@ -2,7 +2,7 @@
 
 namespace KendoAspNetCoreClient.Models
 {
-    public enum GridFilterType
+    public enum GridDataSetType
     {
         [Description("Backlog")]
         Backlog,

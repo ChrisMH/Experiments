@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Buddy.Enum;
-using Buddy.Test.TestData;
+using Buddy.Test.PerformanceTestData;
 using Buddy.UI.Kendo;
 using Buddy.Web.Service;
 using Buddy.Web.TabularQuery;
@@ -32,11 +33,11 @@ namespace KendoAspNetCoreClient.Controllers
             {   
                 var result = new DropDownConfig
                 {
-                    Default = GridFilterType.Backlog.ToString(),
+                    Default = GridDataSetType.Backlog.ToString(),
                     Values = new List<DropDownValue>()
                 };
 
-                foreach(var val in Enum.GetValues(typeof(GridFilterType)))
+                foreach(var val in Enum.GetValues(typeof(GridDataSetType)))
                 {
                     result.Values.Add(new DropDownValue
                     {
@@ -75,57 +76,136 @@ namespace KendoAspNetCoreClient.Controllers
         }
 
         [HttpGet]
-        [Route(nameof(Data))]
-        public ServiceResponse<TabularResponse<PerformanceSnapshot>> Data([FromQuery] TabularQuery tabularQuery)
+        [Route(nameof(GridData))]
+        public ServiceResponse<TabularResponse<GridDataModel>> GridData([FromQuery] GridQuery query, [FromQuery] TabularQuery tabularQuery)
         {
             try
             {
-                var data = Buddy.Test.TestData.Data.PerformanceSnapshots.AsQueryable();
+                IQueryable<GridDataModel> data = null;
+
+                if(query.DataSet == GridDataSetType.Backlog)
+                {
+                    data = Db.Backlog.Select(b => new GridDataModel
+                    {
+                        CustomerId = b.CustomerId,
+                        CustomerName = b.CustomerName,
+                        StatTime = b.StatTime,
+                        Backlog = b.Backlog,
+                        LastReceivedOn = b.LastReceivedOn,
+                        TotalReceived = b.TotalReceived
+                    }).AsQueryable();
+                }
+                else
+                {
+                    data = Db.Performance.Select(b => new GridDataModel
+                    {
+                        CustomerId = b.CustomerId,
+                        CustomerName = b.CustomerName,
+                        StatTime = b.StatTime,
+                        DatabaseConnections = b.DatabaseConnections,
+                        IdleDatabaseConnections = b.IdleDatabaseConnections,
+                        TotalDatabaseConnections = b.TotalDatabaseConnections,
+                        TotalIdleDatabaseConnections = b.TotalIdleDatabaseConnections,
+                        PctProcessorTime = b.PctProcessorTime / 100.0,
+                        AvailableMBytes = b.AvailableMBytes,
+                        PctPagingFileUsage = b.PctPagingFileUsage / 100.0
+                    }).AsQueryable();
+                }
+
                 var result = data.ApplyQuery(tabularQuery);
-                return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(true, result);
+                return new ServiceResponse<TabularResponse<GridDataModel>>(true, result);
             }
             catch(Exception ex)
             {
-                Logger.LogError($"{nameof(Data)} : {ex.GetType()} : {ex.Message}");
-                return new ServiceResponse<TabularResponse<PerformanceSnapshot>>(false, null, ex.Message);
+                Logger.LogError($"{nameof(GridData)} : {ex.GetType()} : {ex.Message}");
+                return new ServiceResponse<TabularResponse<GridDataModel>>(false, null, ex.Message);
             }
         }
-
-        private List<GridColumn> GetGridColumns(GridQuery query)
+        
+        private List<GridColumn> GetGridColumns([FromQuery] GridQuery query)
         {
-            var columns = new List<GridColumn>
+            var properties = new List<PropertyInfo>
             {
-                new GridColumn { Field = "customerId", Type = "number", Hidden = true },
-                new GridColumn { Field = "customerName", Title = "Customer Name", Type = "string", Width = "*", Aggregate = "count", FooterHeader = "Total:" },
-                new GridColumn { Field = "statTime", Title = "Time", Type = "Date", Width = "160", Format = "MM/dd/yyyy hh:mm tt" }
+                typeof(GridDataModel).GetProperty(nameof(GridDataModel.CustomerId)),
+                typeof(GridDataModel).GetProperty(nameof(GridDataModel.CustomerName)),
+                typeof(GridDataModel).GetProperty(nameof(GridDataModel.StatTime))
             };
 
-            if(query.Filter == GridFilterType.Backlog)
+            if(query.DataSet == GridDataSetType.Backlog)
             {
-                columns.AddRange(new [] {
-                    new GridColumn { Field = "backlog", Title = "Backlog", Type = "number", Width = "140", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "lastReceivedOn", Title = "Last Rx", Type = "Date", Width = "160", Format = "MM/dd/yyyy hh:mm tt" },
-                    new GridColumn { Field = "totalReceived", Title = "Total Rx", Type = "number", Width = "140", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" }
+                properties.AddRange(new [] {
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.Backlog)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.LastReceivedOn)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.TotalReceived))
                 });
             }
             else
             {
-                columns.AddRange(new [] {
-                    new GridColumn { Field = "databaseConnections", Title = "Db Conn", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "idleDatabaseConnections", Title = "Idle Db Conn", Type = "number", Width = "100", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "pctProcessorTime", Title = "Pct Processor", Type = "number", Width = "120", Format = "n2", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "pctPagingFileUsage", Title = "Pct Paging", Type = "number", Width = "120", Format = "n2", Aggregate = "average", FooterHeader = "Avg:" },
-                    new GridColumn { Field = "availableMBytes", Title = "Avail MBytes", Type = "number", Width = "120", Format = "n0", Aggregate = "average", FooterHeader = "Avg:" }
+                properties.AddRange(new [] {
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.DatabaseConnections)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.IdleDatabaseConnections)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.TotalDatabaseConnections)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.TotalIdleDatabaseConnections)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.PctProcessorTime)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.PctPagingFileUsage)),
+                    typeof(GridDataModel).GetProperty(nameof(GridDataModel.AvailableMBytes))
                 });
             }
 
-            return columns;
+            return properties.GetColumns();
         }
     }
 
 
     public class GridQuery
     {
-        public GridFilterType Filter { get; set; }
+        public GridDataSetType DataSet { get; set; }
+    }
+
+    public class GridDataModel
+    {
+        [Grid("", "", hidden: true)]
+        public int CustomerId { get; set; }
+        
+        [Grid("Customer Name", "*", aggregate: "count", footerHeader: "Total:")]
+        public string CustomerName { get; set; }
+
+        [Grid("Time", "160", "MM/dd/yyyy hh:mm tt")]
+        public DateTime StatTime { get; set; }
+
+        // Backlog
+
+        [Grid("Backlog", "140", "n0", "average", "Avg:")]
+        public int Backlog { get; set; }
+
+        [Grid("Last Rx", "160", "MM/dd/yyyy hh:mm tt")]
+        public DateTime LastReceivedOn { get; set; }
+
+        [Grid("Total Rx", "140", "n0", "average", "Avg:")]
+        public int TotalReceived { get; set; }
+
+        // Performance
+
+        [Grid("Db Conn", "120", "n0", "average", "Avg:")]
+        public int DatabaseConnections { get; set; }
+        
+        [Grid("Idle Db Conn", "120", "n0", "average", "Avg:")]
+        public int IdleDatabaseConnections { get; set; }
+        
+        [Grid("Total Db Conn", "120", "n0", "average", "Avg:")]
+        public int TotalDatabaseConnections { get; set; }
+        
+        [Grid("Total Idle Db Conn", "120", "n0", "average", "Avg:")]
+        public int TotalIdleDatabaseConnections { get; set; }
+        
+        [Grid("Pct Processor", "120", "p2", "average", "Avg:")]
+        public double PctProcessorTime { get; set; }
+        
+        [Grid("Pct Paging", "120", "p2", "average", "Avg:")]
+        public double PctPagingFileUsage { get; set; }
+
+        [Grid("Avail MBytes", "120", "n0", "average", "Avg:")]
+        public int AvailableMBytes { get; set; }
+        
     }
 }
