@@ -19,7 +19,7 @@ export class Grid implements angular.IController
 
     static $inject = ["$timeout", "appSettings", "httpService"];
 
-    constructor(protected $timeout: angular.ITimeoutService,
+    constructor(protected $timeout: angular.ITimeoutService, $window: angular.IWindowService,
         protected appSettings: AppSettings,
         protected httpService: HttpService)
     {

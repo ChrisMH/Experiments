@@ -1,5 +1,6 @@
 ﻿import "kendo";
 import { JsonObject, JsonMember } from "typedjson-npm";
+import { IHttpServiceResponse } from "../Services";
 
 export namespace KendoDataSource
 {
@@ -110,6 +111,22 @@ export namespace KendoDropDown
         @JsonMember({ elements: Value })
         values: Value[];
     }
+
+    /**
+     * Response from a service retrieving the configuration
+     */
+    @JsonObject
+    export class ServiceResponse implements IHttpServiceResponse<Config>
+    {
+        @JsonMember
+        success: boolean;
+
+        @JsonMember
+        message: string;
+
+        @JsonMember
+        data: Config;
+    }
 }
 
 
@@ -169,6 +186,21 @@ export namespace KendoGrid
         columns: Column[]
     }
 
+    /**
+     * Response from a service retrieving the configuration
+     */
+    @JsonObject
+    export class ServiceResponse implements IHttpServiceResponse<Config>
+    {
+        @JsonMember
+        success: boolean;
+
+        @JsonMember
+        message: string;
+
+        @JsonMember
+        data: Config;
+    }
 
     export function resizeGrid(selector: string): void
     {
@@ -342,9 +374,25 @@ export namespace KendoMultiSelect
     export class Config
     {
         @JsonMember({ elements: String })
-        default: string[];
+        defaults: string[];
 
         @JsonMember({ elements: Value })
         values: Value[];
+    }
+
+    /**
+     * Response from a service retrieving the configuration
+     */
+    @JsonObject
+    export class ServiceResponse implements IHttpServiceResponse<Config>
+    {
+        @JsonMember
+        success: boolean;
+
+        @JsonMember
+        message: string;
+
+        @JsonMember
+        data: Config;
     }
 }
