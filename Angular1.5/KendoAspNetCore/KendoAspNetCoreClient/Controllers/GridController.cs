@@ -26,8 +26,8 @@ namespace KendoAspNetCoreClient.Controllers
         }
 
         [HttpGet]
-        [Route(nameof(FilterConfig))]
-        public ServiceResponse<DropDownConfig> FilterConfig()
+        [Route(nameof(GetDataSetConfig))]
+        public ServiceResponse<DropDownConfig> GetDataSetConfig()
         {
             try
             {   
@@ -50,14 +50,14 @@ namespace KendoAspNetCoreClient.Controllers
             }
             catch(Exception ex)
             {
-                Logger.LogError($"{nameof(FilterConfig)} : {ex.GetType()} : {ex.Message}");
+                Logger.LogError($"{nameof(GetDataSetConfig)} : {ex.GetType()} : {ex.Message}");
                 return new ServiceResponse<DropDownConfig>(false, null, ex.Message);
             }
         }
 
         [HttpGet]
-        [Route(nameof(GridConfig))]
-        public ServiceResponse<GridConfig> GridConfig([FromQuery] GridQuery query)
+        [Route(nameof(GetGridConfig))]
+        public ServiceResponse<GridConfig> GetGridConfig([FromQuery] GridQuery query)
         {
             try
             {   
@@ -70,14 +70,14 @@ namespace KendoAspNetCoreClient.Controllers
             }
             catch(Exception ex)
             {
-                Logger.LogError($"{nameof(GridConfig)} : {ex.GetType()} : {ex.Message}");
+                Logger.LogError($"{nameof(GetGridConfig)} : {ex.GetType()} : {ex.Message}");
                 return new ServiceResponse<GridConfig>(false, null, ex.Message);
             }
         }
 
         [HttpGet]
-        [Route(nameof(GridData))]
-        public ServiceResponse<TabularResponse> GridData([FromQuery] GridQuery query, [FromQuery] TabularQuery tabularQuery)
+        [Route(nameof(GetGridData))]
+        public ServiceResponse<TabularResponse> GetGridData([FromQuery] GridQuery query, [FromQuery] TabularQuery tabularQuery)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace KendoAspNetCoreClient.Controllers
             }
             catch(Exception ex)
             {
-                Logger.LogError($"{nameof(GridData)} : {ex.GetType()} : {ex.Message}");
+                Logger.LogError($"{nameof(GetGridData)} : {ex.GetType()} : {ex.Message}");
                 return new ServiceResponse<TabularResponse>(false, null, ex.Message);
             }
         }

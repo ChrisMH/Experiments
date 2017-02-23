@@ -177,6 +177,19 @@ export namespace KendoGrid
 
 
     /**
+     * column sorting option
+     */
+    @JsonObject
+    export class Sort
+    {
+        @JsonMember
+        field: string;
+
+        @JsonMember
+        dir: string;
+    };
+
+    /**
      * Configuration for a grid
      */
     @JsonObject
@@ -184,6 +197,9 @@ export namespace KendoGrid
     {
         @JsonMember({ elements: Column })
         columns: Column[]
+
+        @JsonMember({ elements: Sort })
+        sort: Sort[];
     }
 
     /**

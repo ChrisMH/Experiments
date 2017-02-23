@@ -10,6 +10,7 @@ export namespace Router
         $locationProvider: angular.ILocationProvider)
     {
         $urlRouterProvider.otherwise("/");
+      
         $locationProvider.html5Mode(true);
 
         $stateProvider

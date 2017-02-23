@@ -7,7 +7,7 @@
     "postinstall": "typings install"
   },
   "dependencies": {
-    "@progress/kendo-ui": "^2017.1.216",
+    "@progress/kendo-ui": "^2017.1.223",
     "@types/angular": "^1.6.6",
     "@types/angular-mocks": "^1.5.9",
     "@types/angular-ui-router": "^1.1.36",
@@ -60,7 +60,7 @@
     "run-sequence": "^1.2.2",
     "systemjs-builder": "^0.16.3",
     "systemjs-plugin-css": "^0.1.32",
-    "typescript": "^2.1.6",
+    "typescript": "^2.2.1",
     "typings": "^2.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
