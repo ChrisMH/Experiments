@@ -2,20 +2,20 @@
 import "kendo";
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
-import { AppSettings, HttpService, IHttpServiceResponse } from "../../Services";
+import { AppSettings, HttpService, IHttpServiceResponse, SessionStoreService } from "../../Services";
 import { KendoDataSource, KendoDropDown, KendoGrid, UrlQuery } from "../../Utilities";
 
 import "./Grid.css";
 
 
 @JsonObject
-class SessionStore
+class GridSessionStore
 {
     @JsonMember
     dataSet: string;
 
-    //@JsonMember({ elements: KendoGrid.Sort })
-    //sort: KendoGrid.Sort[];
+    @JsonMember
+    gridConfig: KendoGrid.Config;
 }
 
 export class Grid implements angular.IController
@@ -25,153 +25,98 @@ export class Grid implements angular.IController
 
     protected grid: kendo.ui.Grid;
     protected gridOptions: kendo.ui.GridOptions;
-    protected gridConfigId: string;
+    protected gridConfigId: number;
     protected gridQuery: GridQuery;
 
-    protected sessionData: SessionStore;
+    private destroyMessage: () => void;
+    private newStateMessage: () => void;
+    private changedStateMessage: () => void;
 
-    private locationChangeSuccess: () => any;
-
-    static $inject = ["$location", "$rootScope", "$state", "$timeout", "$window", "appSettings", "httpService"];
+    static $inject = ["$location", "$rootScope", "$scope", "$timeout", "$window", "appSettings", "httpService", "sessionStoreService"];
 
     constructor(protected $location: angular.ILocationService,
         protected $rootScope: angular.IRootScopeService,
-        protected $state: angular.ui.IStateService,
+        protected $scope: angular.IScope,
         protected $timeout: angular.ITimeoutService,
         protected $window: angular.IWindowService,
         protected appSettings: AppSettings,
-        protected httpService: HttpService)
+        protected httpService: HttpService,
+        protected sessionStoreService: SessionStoreService    )
     {
     }
     
-    static lastSessionIdKey: string = "lastSessionId";
-    static sessionIdKey: string = "sid";
-
-    getNextSessionId(): string
-    {
-        let id = this.$window.sessionStorage[Grid.lastSessionIdKey];
-        if (id)
-        {
-            id = parseInt(id);
-            if (isNaN(id))
-                id = 0;
-        }
-        else
-        {
-            id = 0;
-        }
-
-        let nextId = (++id).toString();
-        this.$window.sessionStorage[Grid.lastSessionIdKey] = nextId;
-        return nextId;
-    }
-
-
-    loadSessionData(id: string): SessionStore
-    {
-        if (!id)
-            return undefined;
-
-        let storedSession = this.$window.sessionStorage[id];
-        if (storedSession)
-            return TypedJSON.parse(storedSession, SessionStore);
-        return undefined;
-    }
-
-    storeSessionData(id: string, data: SessionStore): void
-    {
-        this.$window.sessionStorage[id] = TypedJSON.stringify(data);
-    }
-
-
-    getDataToStoreInSession(): SessionStore
-    {
-        var gridOptions = this.grid ? this.grid.getOptions() : undefined;
-
-        let sessionStore = {
-            dataSet: this.dataSet ? this.dataSet.value() : undefined
-            //sort: gridOptions ? gridOptions.dataSource.sort : []
-        };
-
-        return sessionStore;
-    }
-
-    updateHash(id: string): void
-    {
-        if (this.locationChangeSuccess)
-            this.locationChangeSuccess();
-
-        this.$location.hash(id);
-        this.$rootScope.$apply();
-
-        this.locationChangeSuccess = this.$rootScope.$on("$locationChangeSuccess", () => this.onLocationChangeSuccess());
-    }
-
+    static sessionKey = "grid";
+    
     $onInit(): void
     {
-        console.log(`$onInit : sessionId=${this.$location.hash()}`);
-
         this.gridQuery = new GridQuery();
 
-        this.sessionData = this.loadSessionData(this.$location.hash());
+        this.destroyMessage = this.$scope.$on("$destroy", () => this.$onDestroy());
 
-        this.locationChangeSuccess = this.$rootScope.$on("$locationChangeSuccess", () => this.onLocationChangeSuccess());
-        
+        this.newStateMessage = this.$rootScope.$on(SessionStoreService.newStateMessage, (e: angular.IAngularEvent) => this.onNewSessionState(e));
+        this.changedStateMessage = this.$rootScope.$on(SessionStoreService.changedStateMessage, (e: angular.IAngularEvent) => this.onChangedSessionState(e));
+
+
         this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/GetDataSetConfig"),
-            (data: string) => data ? TypedJSON.parse(data, FilterConfigResponse) : null)
+                (data: string) => data ? TypedJSON.parse(data, FilterConfigResponse) : null)
             .then((config: KendoDropDown.Config) =>
             {
-                if (this.sessionData && this.sessionData.dataSet)
-                    config.default = this.sessionData.dataSet;
+                let stateData = this.loadStateData();
+                if (stateData && stateData.dataSet)
+                    config.default = stateData.dataSet;
 
                 this.gridQuery.dataSet = config.default;
 
-                this.dataSetOptions = this.createFilterOptions(config);
-                this.$timeout(() => this.refreshGrid());
+                this.dataSetOptions = this.createDataSetOptions(config);
+
+                this.refreshGrid(stateData)
+                    .then(() =>
+                    {
+                        this.$timeout(() => this.saveStateData()); // $timeout runs after the next digest cycle
+                    });
             });
     }
 
-    private onLocationChangeSuccess(): void
+    $onDestroy(): void
     {
-        console.log(`onLocationChangeSuccess : sessionId=${this.$location.hash()}`);
-        this.sessionData = this.loadSessionData(this.$location.hash());
-
-        this.applySessionData();
-    }
-
-    private applySessionData()
-    {
-        console.log(`applySessionData`);
-
-        if (!this.sessionData)
-            return;
-
-        if (this.sessionData.dataSet && this.sessionData.dataSet !== this.dataSet.value())
+        if (this.destroyMessage)
         {
-            this.dataSet.value(this.sessionData.dataSet);
-            this.gridQuery.dataSet = this.sessionData.dataSet;
-            this.refreshGrid();
+            this.destroyMessage();
+            this.destroyMessage = undefined;
+        }
+
+        if (this.newStateMessage)
+        {
+            this.newStateMessage();
+            this.newStateMessage = undefined;
+        }
+
+        if (this.changedStateMessage)
+        {
+            this.changedStateMessage();
+            this.changedStateMessage = null;
         }
     }
+    
+    
 
-    private refreshGrid(): void
+    private refreshGrid(stateData?: GridSessionStore): angular.IPromise<void>
     {
-        this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/GetGridConfig"),
+        return this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/GetGridConfig"),
             (data: string) => data ? TypedJSON.parse(data, GridConfigResponse) : null,
             UrlQuery.toUrlObject(this.gridQuery))
             .then((config: KendoGrid.Config) =>
             {
-                //var session = this.retrieveSession(this.sessionId);
-                //if (session)
-                //{
-                //    config.sort = session.sort;
-                //}
+                if (stateData && stateData.gridConfig)
+                {
+                    KendoGrid.combineConfig(stateData.gridConfig, config);
+                }
 
                 if (this.gridOptions == null)
                 {
                     // gridOptions will be null when the grid is first created.  
                     // Initialize gridConfigId *before* gridOptions so that rebind isn't triggered.
-                    this.gridConfigId = this.gridQuery.dataSet;
+                    this.gridConfigId = 0;
                     this.gridOptions = this.createGridOptions(config);
                 }
                 else
@@ -179,53 +124,65 @@ export class Grid implements angular.IController
                     // gridOptions will be non-null every other time.  
                     // Initialize gridConfigId *after* gridOptions to trigger rebind.
                     this.gridOptions = this.createGridOptions(config);
-                    this.gridConfigId = this.gridQuery.dataSet;
+                    this.gridConfigId++;
                 }
             });
     }
 
+    private loadStateData(): GridSessionStore
+    {
+        let storedData = this.sessionStoreService.load(Grid.sessionKey);
+        if (!storedData) return undefined;
+        return TypedJSON.parse(storedData, GridSessionStore);
+    }
+
+    private saveStateData(): boolean
+    {
+        let stateData = new GridSessionStore();
+        stateData.dataSet = this.dataSet ? this.dataSet.value() : undefined;
+        stateData.gridConfig = KendoGrid.getConfigForSession(this.grid);
+
+        let storedData = TypedJSON.stringify(stateData);
+
+        return this.sessionStoreService.save(Grid.sessionKey, storedData);
+    }
+
+    private onNewSessionState(e: angular.IAngularEvent): void
+    {
+        //console.log(`Grid.onNewSessionState`);
+
+        this.saveStateData();
+    }
+
+
+    private onChangedSessionState(e: angular.IAngularEvent): void
+    {
+        //console.log(`Grid.onChangedSessionState`);
+
+        let stateData = this.loadStateData();
+        if (!stateData)
+            return;
+
+        if (stateData.dataSet)
+        {
+            this.dataSet.value(stateData.dataSet);
+            this.gridQuery.dataSet = stateData.dataSet;
+        }
+
+        this.refreshGrid(stateData);
+    }
+
     private onDataSetChange(): void
     {
-        console.log(`onDataSetChange`);
-
-        let id = this.getNextSessionId();
-        let data = this.getDataToStoreInSession();
-        this.storeSessionData(id, data);
-        this.updateHash(id);
-
         this.gridQuery.dataSet = this.dataSet.value();
-        this.refreshGrid();
+        this.refreshGrid(this.loadStateData())
+            .then(() =>
+            {
+                this.sessionStoreService.createNewState();
+            });
     }
 
-    private onGridSort(e: kendo.ui.GridSortEvent): void
-    {
-        //console.log(e.sort);
-
-        //let id = this.getNextSessionId();
-
-        //let sessionStore = this.getSessionStore();
-
-        //if (sessionStore.sort && sessionStore.sort.length)
-        //{
-        //    let existingIndex = sessionStore.sort.findIndex((value: KendoGrid.Sort) => value.field === e.sort.field);
-        //    if (existingIndex >= 0)
-        //        sessionStore.sort[existingIndex].dir = e.sort.dir;
-        //    else
-        //        sessionStore.sort.push(e.sort as KendoGrid.Sort);
-        //}
-
-        //this.$window.sessionStorage[id] = TypedJSON.stringify(sessionStore);
-
-        ///*
-        //let params = {};
-        //params[Grid.sessionIdKey] = id;
-        //this.$state.go("Grid", params, { notify: false });
-        //*/
-        ////this.$location.search(Grid.sessionIdKey, id);
-        //this.$location.hash(id);
-    }
-
-    private createFilterOptions(config: KendoDropDown.Config): kendo.ui.DropDownListOptions
+    private createDataSetOptions(config: KendoDropDown.Config): kendo.ui.DropDownListOptions
     {
         return {
             dataValueField: "id",
@@ -235,6 +192,35 @@ export class Grid implements angular.IController
             change: () => this.onDataSetChange()
         } as kendo.ui.DropDownListOptions;
     }
+
+    private gridFiltering = false;
+    private onGridFilter(e: kendo.ui.GridFilterEvent): void
+    {
+        this.gridFiltering = true;
+    }
+
+    private gridPaging = false;
+    private onGridPage(e: kendo.ui.GridPageEvent): void
+    {
+        this.gridPaging = true;
+    }
+
+    private gridSorting = false;
+    private onGridSort(e: kendo.ui.GridSortEvent): void
+    {
+        this.gridSorting = true;
+    }
+
+    private onGridDataBound(e: kendo.ui.GridDataBoundEvent): void
+    {
+        if (this.gridFiltering || this.gridPaging || this.gridSorting)
+            this.sessionStoreService.createNewState();
+
+        this.gridFiltering = false;
+        this.gridPaging = false;
+        this.gridSorting = false;
+    }
+
 
     private createGridOptions(config: KendoGrid.Config): kendo.ui.GridOptions
     {
@@ -260,9 +246,11 @@ export class Grid implements angular.IController
                 aggregates: (response: any) => response["data"]["aggregates"],
                 model: { fields: KendoGrid.createFields(config.columns) }
             },
-            sort: config.sort ? config.sort : [ { field: "customerName", dir: "asc" } ],
-            aggregate: KendoGrid.createAggregates(config.columns)
+            aggregate: KendoGrid.createAggregates(config.columns),
 
+            filter: config.filter,
+            page: config.page,
+            sort: config.sort ? config.sort : [{ field: "customerName", dir: "asc" }],
         } as kendo.data.DataSourceOptions;
 
         const options = {
@@ -279,6 +267,9 @@ export class Grid implements angular.IController
             autoBind: true,
             dataSource: kendo.data.DataSource.create(dataSourceOptions),
 
+            dataBound: (e: kendo.ui.GridDataBoundEvent) => this.onGridDataBound(e),
+            filter: (e: kendo.ui.GridFilterEvent) => this.onGridFilter(e),
+            page: (e: kendo.ui.GridPageEvent) => this.onGridPage(e),
             sort: (e: kendo.ui.GridSortEvent) => this.onGridSort(e)
         } as kendo.ui.GridOptions;
 

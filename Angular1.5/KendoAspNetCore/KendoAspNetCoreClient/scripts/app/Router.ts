@@ -30,6 +30,7 @@ export namespace Router
             })
             .state("Grid",
             {
+                cache: false,
                 url: "/grid",
                 template: require("./Components/Grid/Grid.html"),
                 controller: "Grid",

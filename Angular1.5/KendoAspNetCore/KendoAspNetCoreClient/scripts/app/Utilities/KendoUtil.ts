@@ -174,6 +174,28 @@ export namespace KendoGrid
         @JsonMember
         hidden: boolean;
     }
+    
+    /**
+     * column filtering option
+     */
+    @JsonObject
+    export class Filter
+    {
+        @JsonMember
+        field: string;
+
+        @JsonMember
+        operator: string;
+
+        @JsonMember
+        value: string;
+
+        @JsonMember
+        logic: string;
+
+        @JsonMember({elements: Filter})
+        filters: Filter[];
+    }
 
 
     /**
@@ -182,6 +204,12 @@ export namespace KendoGrid
     @JsonObject
     export class Sort
     {
+        constructor(field?: string, dir?: string)
+        {
+            this.field = field;
+            this.dir = dir;
+        }
+
         @JsonMember
         field: string;
 
@@ -196,7 +224,13 @@ export namespace KendoGrid
     export class Config
     {
         @JsonMember({ elements: Column })
-        columns: Column[]
+        columns: Column[];
+
+        @JsonMember
+        filter: Filter;
+
+        @JsonMember
+        page: number;
 
         @JsonMember({ elements: Sort })
         sort: Sort[];
@@ -217,6 +251,104 @@ export namespace KendoGrid
         @JsonMember
         data: Config;
     }
+
+
+    /**
+     * Gets grid configuration suitable for storing in session state
+     * 
+     * @param grid The grid
+     * @returns The grid Config if available
+     */
+    export function getConfigForSession(grid: kendo.ui.Grid): Config
+    {
+        var gridConfig = new Config();
+
+        if (!grid) return gridConfig;
+
+        var gridOptions = grid.getOptions();
+        if (!gridOptions || !gridOptions.dataSource) return gridConfig;
+
+        // Filter
+        gridConfig.filter = getFilterConfig(gridOptions.dataSource.filter);
+        
+        // Page
+        gridConfig.page = gridOptions.dataSource.page;
+
+        // Sort
+        gridConfig.sort = getSortConfig(gridOptions.dataSource.sort);
+
+        return gridConfig;
+    }
+
+    function getFilterConfig(gridFilter: any): Filter
+    {
+        if (!gridFilter) return undefined;
+
+        var filter = new Filter();
+
+        if (gridFilter.hasOwnProperty("field"))
+            filter.field = gridFilter["field"];
+
+        if (gridFilter.hasOwnProperty("operator"))
+            filter.operator = gridFilter["operator"];
+
+        if (gridFilter.hasOwnProperty("value"))
+            filter.value = gridFilter["value"].toString();
+
+        if (gridFilter.hasOwnProperty("logic"))
+            filter.logic = gridFilter["logic"];
+
+        if (gridFilter.hasOwnProperty("filters"))
+        {
+            filter.filters = new Array<Filter>();
+            gridFilter["filters"].forEach((v: any) =>
+            {
+                filter.filters.push(getFilterConfig(v));
+            });
+        }
+
+        return filter;
+    }
+
+    function getSortConfig(gridSort: any): Array<Sort>
+    {
+        if (!gridSort) return undefined;
+
+        let sort = new Array<Sort>();
+        gridSort.forEach((v: any) =>
+        {
+            if(v.hasOwnProperty("field") && v.hasOwnProperty("dir"))
+                sort.push(new Sort(v["field"], v["dir"]));
+        });
+
+        return sort;
+    }
+
+    /**
+     * Combines the source grid configuration into the dest grid configuration.
+     * This is a shallow copy
+     * 
+     * @param source The source
+     * @param dest The destination
+     * @returns The destination
+     */
+    export function combineConfig(source: Config, dest: Config): void
+    {
+        if (!source || !dest) return undefined;
+
+        if (source.columns)
+            dest.columns = source.columns;
+
+        if (source.filter)
+            dest.filter = source.filter;
+
+        if (source.page)
+            dest.page = source.page;
+
+        if (source.sort)
+            dest.sort = source.sort;
+    }
+
 
     export function resizeGrid(selector: string): void
     {
