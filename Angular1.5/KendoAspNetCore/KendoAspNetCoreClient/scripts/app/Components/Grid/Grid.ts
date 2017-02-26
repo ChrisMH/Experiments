@@ -8,15 +8,7 @@ import { KendoDataSource, KendoDropDown, KendoGrid, UrlQuery } from "../../Utili
 import "./Grid.css";
 
 
-@JsonObject
-class GridSessionStore
-{
-    @JsonMember
-    dataSet: string;
 
-    @JsonMember
-    gridConfig: KendoGrid.Config;
-}
 
 export class Grid implements angular.IController
 {
@@ -45,7 +37,7 @@ export class Grid implements angular.IController
     {
     }
     
-    static sessionKey = "grid";
+    private static stateKey = "grid";
     
     $onInit(): void
     {
@@ -69,7 +61,7 @@ export class Grid implements angular.IController
 
                 this.dataSetOptions = this.createDataSetOptions(config);
 
-                this.refreshGrid(stateData)
+                this.initGrid(stateData ? stateData.gridConfig : undefined)
                     .then(() =>
                     {
                         this.$timeout(() => this.saveStateData()); // $timeout runs after the next digest cycle
@@ -100,16 +92,16 @@ export class Grid implements angular.IController
     
     
 
-    private refreshGrid(stateData?: GridSessionStore): angular.IPromise<void>
+    private initGrid(gridConfig?: KendoGrid.Config): angular.IPromise<void>
     {
         return this.httpService.get(this.appSettings.rootUrl.concat("api/Grid/GetGridConfig"),
             (data: string) => data ? TypedJSON.parse(data, GridConfigResponse) : null,
             UrlQuery.toUrlObject(this.gridQuery))
             .then((config: KendoGrid.Config) =>
             {
-                if (stateData && stateData.gridConfig)
+                if (gridConfig)
                 {
-                    KendoGrid.combineConfig(stateData.gridConfig, config);
+                    KendoGrid.combineConfig(gridConfig, config);
                 }
 
                 if (this.gridOptions == null)
@@ -129,22 +121,22 @@ export class Grid implements angular.IController
             });
     }
 
-    private loadStateData(): GridSessionStore
+    private loadStateData(): GridStateData
     {
-        let storedData = this.sessionStoreService.load(Grid.sessionKey);
+        let storedData = this.sessionStoreService.load(Grid.stateKey);
         if (!storedData) return undefined;
-        return TypedJSON.parse(storedData, GridSessionStore);
+        return TypedJSON.parse(storedData, GridStateData);
     }
 
     private saveStateData(): boolean
     {
-        let stateData = new GridSessionStore();
+        let stateData = new GridStateData();
         stateData.dataSet = this.dataSet ? this.dataSet.value() : undefined;
         stateData.gridConfig = KendoGrid.getConfigForSession(this.grid);
 
         let storedData = TypedJSON.stringify(stateData);
 
-        return this.sessionStoreService.save(Grid.sessionKey, storedData);
+        return this.sessionStoreService.save(Grid.stateKey, storedData);
     }
 
     private onNewSessionState(e: angular.IAngularEvent): void
@@ -169,13 +161,13 @@ export class Grid implements angular.IController
             this.gridQuery.dataSet = stateData.dataSet;
         }
 
-        this.refreshGrid(stateData);
+        this.initGrid(stateData.gridConfig);
     }
 
     private onDataSetChange(): void
     {
         this.gridQuery.dataSet = this.dataSet.value();
-        this.refreshGrid(this.loadStateData())
+        this.initGrid(KendoGrid.getConfigForSession(this.grid))
             .then(() =>
             {
                 this.sessionStoreService.createNewState();
@@ -307,4 +299,14 @@ class GridConfigResponse implements IHttpServiceResponse<KendoGrid.Config>
 
     @JsonMember
     data: KendoGrid.Config;
+}
+
+@JsonObject
+class GridStateData
+{
+    @JsonMember
+    dataSet: string;
+
+    @JsonMember
+    gridConfig: KendoGrid.Config;
 }
