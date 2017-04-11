@@ -78,7 +78,7 @@ gulp.task("watch",
     });
 
 
-gulp.task("build:dev",
+gulp.task("build:Debug",
     function(cb)
     {
         runSequence(["clean:css", "clean:js"],
@@ -90,7 +90,7 @@ gulp.task("build:dev",
             cb);
     });
 
-gulp.task("build:prod",
+gulp.task("build:Release",
     function(cb)
     {
         runSequence(

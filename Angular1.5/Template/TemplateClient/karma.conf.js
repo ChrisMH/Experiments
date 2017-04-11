@@ -94,7 +94,7 @@ module.exports = function(config)
                 map: {
                     "Mocks": "scripts/test/Mocks",
 
-                    "ngMock": "node_modules/angular-mocks/angular-mocks.js"
+                    "angular-mocks": "node_modules/angular-mocks/angular-mocks.js"
                 },
                 packages: {
                     "Mocks": { main: "index" }

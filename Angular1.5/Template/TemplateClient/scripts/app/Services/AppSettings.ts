@@ -26,7 +26,7 @@ export class AppSettings implements ng.IServiceProvider
     }
 }
 
-
+ 
 @JsonObject
 export class PageConfig {
     @JsonMember
