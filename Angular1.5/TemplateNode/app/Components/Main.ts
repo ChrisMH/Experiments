@@ -1,9 +1,9 @@
 ﻿import * as angular from "angular";
-import * as moment from "../../node_modules/moment/moment";
+import * as moment from "moment";
 
 import "./Main.css";
 
-import { AppSettings } from "../Services/AppSettings";
+//import { AppSettings } from "../Services/AppSettings";
 
 /*
 export class AppDirective implements ng.IDirective {

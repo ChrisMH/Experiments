@@ -6,10 +6,11 @@ app.get("/", (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {
-            title: "Angular 1.5 Template",
+            title: "Angular 1.5 NodeJS Template",
+            baseUrl: "/",
             scripts: getScripts()
         });
-});
+}); 
 
 let port = process.env.port || 3000;
 app.listen(port, () =>

@@ -1,7 +1,7 @@
 ﻿import * as angular from "angular";
-import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
+//import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
-
+/*
 export class AppSettings implements angular.IServiceProvider
 {
     originUrl: string;
@@ -39,3 +39,4 @@ export class PageConfig {
     @JsonMember
     version: string;
 }
+*/

@@ -1,5 +1,6 @@
 ﻿head
     title= title
+    base(href=baseUrl)
     each val in scripts
         script(src=val)
     script(type='text/javascript') (function(){System.import('app').catch(function(err){console.log(err);});})();

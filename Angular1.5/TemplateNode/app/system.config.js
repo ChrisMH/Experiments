@@ -20,14 +20,14 @@
                 "systemjs": "node_modules/systemjs/dist/system.src.js",
                 "css": "node_modules/systemjs-plugin-css/css.js",
                 "text": "node_modules/systemjs-plugin-text/text.js",
-
+                
                 // Vendor Libraries
                 
                 "angular": "node_modules/angular",
                 "angular-ui-router": "node_modules/angular-ui-router/release/angular-ui-router.js",
                 //"jquery": "node_modules/jquery/dist/jquery.js",
                 "moment": "node_modules/moment",
-                //"reflect-metadata": "node_modules/reflect-metadata",
+                "reflect-metadata": "node_modules/reflect-metadata",
                 //"typedjson-npm": "node_modules/typedjson-npm/js"
                 
             },
@@ -44,10 +44,9 @@
                 "angular": { main: "index" },
                 "moment": { main: "moment" },
 
-                /*
                 "reflect-metadata": { main: "Reflect" },
-                "typedjson-npm": { main: "typed-json" }
-                */
+                //"typedjson-npm": { main: "typed-json" }
+                
             },
 
             meta:
