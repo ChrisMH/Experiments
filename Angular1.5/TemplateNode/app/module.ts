@@ -1,6 +1,6 @@
 ﻿import * as angular from "angular";
 
-import { Router } from "./router";
+import { Routes } from "./Routes";
 import { Main } from "./Components/index";
 //import { AppSettings } from "./Services";
 
@@ -8,7 +8,7 @@ angular.module("Module",
     [
         "ui.router"
     ])
-    .config(Router.routes)
+    .config(Routes)
     .factory("configRoot", () => window)
 
     .controller("Main", Main)

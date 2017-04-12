@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{d20175af-f474-43bb-bc20-875c4bd1d2be}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile>app.ts</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -36,7 +36,9 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="app\Components\Main.html" />
-    <Content Include="app\Components\Main.less" />
+    <Content Include="app\Components\Main.styl" />
+    <Content Include="app\global.styl" />
+    <Content Include="app\main.styl" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="views\head.pug">
@@ -45,13 +47,14 @@
     <Content Include="views\main.pug">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="web.config" />
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="app\Components\index.ts" />
     <TypeScriptCompile Include="app\Components\Main.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\Models\index.ts" />
     <TypeScriptCompile Include="app\module.ts" />
-    <TypeScriptCompile Include="app\router.ts" />
+    <TypeScriptCompile Include="app\Routes.ts" />
     <TypeScriptCompile Include="app\Services\index.ts" />
     <TypeScriptCompile Include="app\Utilities\index.ts" />
     <TypeScriptCompile Include="app\Utilities\UrlQuery.ts" />

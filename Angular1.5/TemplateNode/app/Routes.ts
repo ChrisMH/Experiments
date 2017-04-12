@@ -1,10 +1,11 @@
 ﻿import * as angular from "angular";
 import "angular-ui-router";
 
-export namespace Router
+export class Routes 
 {
-    export function routes(
-        $stateProvider: angular.ui.IStateProvider,
+    static $inject = ["$stateProvider", "$urlRouterProvider", "$locationProvider"];
+
+    constructor($stateProvider: angular.ui.IStateProvider,
         $urlRouterProvider: angular.ui.IUrlRouterProvider,
         $locationProvider: angular.ILocationProvider)
     {
@@ -20,6 +21,5 @@ export namespace Router
                     controllerAs: "ctrlMain"
                 });
     }
-
-    routes.$inject = ["$stateProvider", "$urlRouterProvider", "$locationProvider"];
 }
+ 

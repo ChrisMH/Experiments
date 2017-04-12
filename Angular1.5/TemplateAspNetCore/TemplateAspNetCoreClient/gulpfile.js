@@ -153,7 +153,7 @@ gulp.task("build:prod:app:js",
     function ()
     {
         return gulp.src(["scripts/system.config.js", "scripts/system.config.bundle.js"])
-            .pipe(gPlumber())
+            .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gReplace("__VERSION__", getAppVersion()))
             .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
             .pipe(gStreamify(gUglify()))
@@ -218,7 +218,7 @@ function buildStylesheets(files, compress)
     {
         streams.push(
             gulp.src(file.src)
-            .pipe(gPlumber())
+                .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gIf(compress !== true, gSourceMaps.init()))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
@@ -226,7 +226,6 @@ function buildStylesheets(files, compress)
                     gLess(),
                     gRename(function (path) { path.extname = ".css"; }))
             )
-            .on("error", onError)
             .pipe(gIf(compress === true, gCleanCss({ keepSpecialComments: 0 })))
             .pipe(gIf(compress !== true, gSourceMaps.write({ sourceRoot: "/" + file.dst + "/" })))
             .pipe(gulp.dest(file.dst))
@@ -248,11 +247,11 @@ function buildTypescript(sourceMaps)
     var tsProject = gTypescript.createProject("./tsconfig.json");
 
     var tsResult = tsProject.src()
-        .pipe(gPlumber())
+        .pipe(gPlumber({ errorHandler: onError }))
         .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
         .pipe(tsProject());
     return tsResult.js
-        .pipe(gPlumber())
+        .pipe(gPlumber({ errorHandler: onError }))
         .pipe(gIf(sourceMaps === true, gSourceMaps.write({ sourceRoot: "/scripts/" })))
         .pipe(gulp.dest("scripts"));
 }
@@ -265,7 +264,7 @@ function buildJavascript(files, compress)
     {
         streams.push(
             gulp.src(file.src)
-            .pipe(gPlumber())
+                .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
             .pipe(gIf(compress, gStreamify(gUglify())))
@@ -281,7 +280,7 @@ function copyArtifacts(artifacts)
     artifacts.forEach(function (artifact)
     {
         streams.push(gulp.src(artifact.src)
-            .pipe(gPlumber())
+            .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gulp.dest(artifact.dst))
         );
     });

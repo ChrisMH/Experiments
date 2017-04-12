@@ -1,3 +1,4 @@
+/// <binding ProjectOpened='watch' />
 var gulp = require("gulp");
 var gCleanCss = require("gulp-clean-css");
 var gIf = require("gulp-if");
@@ -7,6 +8,7 @@ var gRename = require("gulp-rename");
 var gSourceMaps = require("gulp-sourcemaps");
 var gSourceMaps = require("gulp-sourcemaps");
 var gStreamify = require("gulp-streamify");
+var gStylus = require("gulp-stylus");
 var gTypescript = require("gulp-typescript");
 var gUglify = require("gulp-uglify");
 var gUtil = require("gulp-util");
@@ -30,6 +32,11 @@ var appStylesheets = [
         src: "app/**/*.less",
         dst: "app",
         version: undefined
+    },
+    {
+        src: "app/**/*.styl",
+        dst: "app",
+        version: undefined
     }
 ];
 
@@ -37,7 +44,7 @@ var appStylesheets = [
 gulp.task("watch",
     function ()
     {
-        gulp.watch(["app/**/*.less"], ["build:dev:app:css"]);
+        gulp.watch(["app/**/*.less", "app/**/*.styl"], ["build:dev:app:css"]);
     });
 
 
@@ -73,11 +80,11 @@ function buildTypescript(sourceMaps)
     var tsProject = gTypescript.createProject("./tsconfig.json");
 
     var tsResult = tsProject.src()
-        .pipe(gPlumber())
+        .pipe(gPlumber({ errorHandler: onError }))
         .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
         .pipe(tsProject());
     return tsResult.js
-        .pipe(gPlumber())
+        .pipe(gPlumber({ errorHandler: onError }))
         .pipe(gIf(sourceMaps === true, gSourceMaps.write({ sourceRoot: "/app/" })))
         .pipe(gulp.dest("app"));
 }
@@ -89,7 +96,7 @@ function buildJavascript(files, compress)
     {
         streams.push(
             gulp.src(file.src)
-            .pipe(gPlumber())
+            .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
             .pipe(gIf(compress, gStreamify(gUglify())))
@@ -104,17 +111,18 @@ function buildStylesheets(files, compress)
     var streams = [];
     files.forEach(function (file)
     {
+        gUtil.log(file);
         streams.push(
             gulp.src(file.src)
-            .pipe(gPlumber())
+            .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gIf(compress !== true, gSourceMaps.init()))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
-            .pipe(gIf(/[.]less/,
+            .pipe(gIf(/\.styl/,
+                gStylus(),
+                gIf(/\.less/,
                     gLess(),
-                    gRename(function (path) { path.extname = ".css"; }))
-            )
-            .on("error", onError)
+                    gRename(function (path) { path.extname = ".css"; }))))
             .pipe(gIf(compress === true, gCleanCss({ keepSpecialComments: 0 })))
             .pipe(gIf(compress !== true, gSourceMaps.write({ sourceRoot: "/" + file.dst + "/" })))
             .pipe(gulp.dest(file.dst))
