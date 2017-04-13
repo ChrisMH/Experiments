@@ -1,6 +1,15 @@
 ﻿doctype html
 html
-  include head.pug
+  head
+    title= title
+    base(href=baseUrl)
+    link(href="img/favicon.ico" type="image/x-icon" rel="icon")
+    link(href="img/favicon.ico" type="image/x-icon" rel="shortcut icon")
+    each val in stylesheets
+        link(href=val type='text/css' rel='sytlesheet')
+    each val in scripts
+        script(src=val type='text/javascript')
+    script(type='text/javascript') (function(){System.import('app').catch(function(err){console.log(err);});})();
   body
     div(id='root' ui-view)
 

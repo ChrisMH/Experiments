@@ -9,6 +9,7 @@ app.js.map
 /app/**/*.js
 /app/**/*.map
 !/app/system.config.js
+!/app/system.config.bundle.js
 
 /test/**/*.js
 /test/**/*.map

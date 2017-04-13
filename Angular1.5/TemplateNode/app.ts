@@ -9,6 +9,7 @@ app.get("/", (req: express.Request, res: express.Response) =>
         {
             title: "Angular 1.5 NodeJS Template",
             baseUrl: "/",
+            stylesheets: getStylesheets(),
             scripts: getScripts()
         });
 });  
@@ -27,10 +28,19 @@ app.listen(port, () =>
         app.use("/node_modules", express.static("node_modules"));
         app.use("/app", express.static("app"));
     }
-
+     
     console.log(`Listening on port ${port} (${process.env.NODE_ENV})`);
 });     
 
+
+function getStylesheets(): string[]
+{
+    let result = new Array<string>();
+
+    result.push("bootstrap/css/bootstrap-3.3.7.css");
+
+    return result;
+}
 
 function getScripts(): string[]
 {
@@ -43,7 +53,8 @@ function getScripts(): string[]
     }
     else
     {
-        result.push("js/system-0.20.12.js");
+        result.push("system-0.20.12.js");
+        result.push("system.config-1.0.0.js");
     }
 
     return result;

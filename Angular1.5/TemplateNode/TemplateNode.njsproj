@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{d20175af-f474-43bb-bc20-875c4bd1d2be}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>app.ts</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -39,11 +39,9 @@
     <Content Include="app\Components\Main.styl" />
     <Content Include="app\global.styl" />
     <Content Include="app\main.styl" />
+    <Content Include="img\favicon.ico" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
-    <Content Include="views\head.pug">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="views\main.pug">
       <SubType>Code</SubType>
     </Content>
@@ -55,6 +53,7 @@
     <TypeScriptCompile Include="app\Models\index.ts" />
     <TypeScriptCompile Include="app\module.ts" />
     <TypeScriptCompile Include="app\Routes.ts" />
+    <TypeScriptCompile Include="app\Services\AppSettings.ts" />
     <TypeScriptCompile Include="app\Services\index.ts" />
     <TypeScriptCompile Include="app\Utilities\index.ts" />
     <TypeScriptCompile Include="app\Utilities\UrlQuery.ts" />
@@ -66,10 +65,12 @@
     <Folder Include="app\Models\" />
     <Folder Include="app\Services\" />
     <Folder Include="app\Utilities\" />
+    <Folder Include="img\" />
     <Folder Include="public\" />
     <Folder Include="views\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\system.config.bundle.js" />
     <Compile Include="app\system.config.js">
       <SubType>Code</SubType>
     </Compile>

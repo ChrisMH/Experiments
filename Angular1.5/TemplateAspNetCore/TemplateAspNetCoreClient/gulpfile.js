@@ -64,6 +64,14 @@ var vendorArtifacts =
     }
 ];
 
+var appTypescript =
+[
+    {
+        src: "app/**/*.ts",
+        dst: "app"
+    }
+];
+
 
 var appStylesheets = [
     {
@@ -145,8 +153,8 @@ gulp.task("copy:vendor:artifacts", function () { return copyArtifacts(vendorArti
 
 
 // App Typescript
-gulp.task("build:dev:app:ts", ["clean:app:js", "clean:test:js"], function () { return buildTypescript(true); });
-gulp.task("build:prod:app:ts", ["clean:app:js", "clean:test:js"], function () { return buildTypescript(false); });
+gulp.task("build:dev:app:ts", ["clean:app:js"], function () { return buildTypescript(appTypescript, true); });
+gulp.task("build:prod:app:ts", ["clean:app:js"], function () { return buildTypescript(appTypescript, false); });
 
 // App Javascript
 gulp.task("build:prod:app:js",
@@ -211,49 +219,25 @@ function getPackageVersion(packageKey)
     return version;
 }
 
-function buildStylesheets(files, compress)
+
+function buildTypescript(files, sourceMaps)
 {
     var streams = [];
     files.forEach(function (file)
     {
-        streams.push(
+        var tsProject = gTypescript.createProject("./tsconfig.json");
+        var tsResult =
             gulp.src(file.src)
                 .pipe(gPlumber({ errorHandler: onError }))
-            .pipe(gIf(compress !== true, gSourceMaps.init()))
-            .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
-            .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
-            .pipe(gIf(/[.]less/,
-                    gLess(),
-                    gRename(function (path) { path.extname = ".css"; }))
-            )
-            .pipe(gIf(compress === true, gCleanCss({ keepSpecialComments: 0 })))
-            .pipe(gIf(compress !== true, gSourceMaps.write({ sourceRoot: "/" + file.dst + "/" })))
-            .pipe(gulp.dest(file.dst))
-        );
+                .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
+                .pipe(tsProject());
+        streams.push(
+            tsResult.js
+            .pipe(gPlumber({ errorHandler: onError }))
+            .pipe(gIf(sourceMaps === true, gSourceMaps.write()))
+            .pipe(gulp.dest(file.dst)));
     });
     return mergeStream(streams);
-}
-
-
-function getTypescriptConfig()
-{
-    var tsConfigFile = JSON.parse(fs.readFileSync("./tsconfig.json", "utf8"));
-    return tsConfigFile.compilerOptions;
-}
-
-
-function buildTypescript(sourceMaps)
-{
-    var tsProject = gTypescript.createProject("./tsconfig.json");
-
-    var tsResult = tsProject.src()
-        .pipe(gPlumber({ errorHandler: onError }))
-        .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
-        .pipe(tsProject());
-    return tsResult.js
-        .pipe(gPlumber({ errorHandler: onError }))
-        .pipe(gIf(sourceMaps === true, gSourceMaps.write({ sourceRoot: "/scripts/" })))
-        .pipe(gulp.dest("scripts"));
 }
 
 
@@ -268,6 +252,29 @@ function buildJavascript(files, compress)
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
             .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
             .pipe(gIf(compress, gStreamify(gUglify())))
+            .pipe(gulp.dest(file.dst))
+        );
+    });
+    return mergeStream(streams);
+}
+
+function buildStylesheets(files, compress)
+{
+    var streams = [];
+    files.forEach(function (file)
+    {
+        streams.push(
+            gulp.src(file.src)
+            .pipe(gPlumber({ errorHandler: onError }))
+            .pipe(gIf(compress !== true, gSourceMaps.init()))
+            .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
+            .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
+            .pipe(gIf(/[.]less/,
+                    gLess(),
+                    gRename(function (path) { path.extname = ".css"; }))
+            )
+            .pipe(gIf(compress === true, gCleanCss({ keepSpecialComments: 0 })))
+            .pipe(gIf(compress !== true, gSourceMaps.write({ sourceRoot: "/" + file.dst + "/" })))
             .pipe(gulp.dest(file.dst))
         );
     });
