@@ -31,7 +31,7 @@ app.listen(port, () =>
         app.use("/src", express.static("src"));
     }
      
-    console.log(`Listening on port ${port} (${process.env.NODE_ENV}, v${getVersion()})`);
+    console.log(`Listening on port ${port}: ${process.env.node_env}, v${getVersion()}, vDir: ${getVirtualDir() ? getVirtualDir() : "<None>"}`);
 });     
 
 
@@ -39,6 +39,13 @@ function getVersion(): string
 {    
     var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
     return packageFile["version"];
+}
+
+function getVirtualDir(): string
+{
+    if(process.env.hasOwnProperty("virtual_dir") && process.env.virtual_dir !== undefined)
+        return `/${process.env.virtual_dir}`
+    return "";
 }
 
 function getStylesheets(): string[]
