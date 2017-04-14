@@ -1,0 +1,16 @@
+﻿doctype html
+html
+  head
+    title= title
+    base(href=baseUrl)
+    link(href="img/favicon.ico" type="image/x-icon" rel="icon")
+    link(href="img/favicon.ico" type="image/x-icon" rel="shortcut icon")
+    each val in stylesheets
+      link(href=val type='text/css' rel='sytlesheet')
+    each val in scripts
+      script(src=val type='text/javascript')
+    each val in inlineScripts
+      script(type='text/javascript') #{val}
+
+  body
+    div(id='root' ui-view)
