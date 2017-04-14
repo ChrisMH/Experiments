@@ -220,7 +220,6 @@ buildTypescript = (files, sourceMaps) =>
         var tsProject = gTypescript.createProject("./tsconfig.json");
         var tsResult =
             gulp.src(file.src)
-                .pipe(gPlumber({ errorHandler: onError }))
                 .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
                 .pipe(tsProject());
         streams.push(

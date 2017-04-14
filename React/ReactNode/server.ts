@@ -1,37 +1,44 @@
 import * as express from "express";
+import * as fs from "fs";
+
+if (process.env.NODE_ENV === undefined)
+    throw "NODE_ENV is not defined";
 
 let app = express();
-
+let dev = process.env.NODE_ENV === "development";
+let port = process.env.port || 3000;
 
 app.get("/", (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {
-            title: "React NodeJS Template",
+            title: dev ? "Dev | React NodeJS Template" : "React NodeJS Template",
             baseUrl: "/",
+            config: JSON.stringify({ version: getVersion() }),
             stylesheets: getStylesheets(),
             scripts: getScripts()
         });
 });   
  
-let port = process.env.port || 3000;
 app.listen(port, () =>
 {
-    if (process.env.NODE_ENV === undefined)
-        throw "NODE_ENV is not defined";
-
     app.set("view engine", "pug");
     app.use(express.static("public"));
 
-    if (process.env.NODE_ENV === "development")
+    if (dev)
     {
         app.use("/node_modules", express.static("node_modules"));
         app.use("/src", express.static("src"));
     }
      
-    console.log(`Listening on port ${port} (${process.env.NODE_ENV})`);
+    console.log(`Listening on port ${port} (${process.env.NODE_ENV}, v${getVersion()})`);
 });     
 
+function getVersion(): string
+{
+    var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+    return packageFile["version"];
+}
 
 function getStylesheets(): string[]
 {
@@ -46,7 +53,7 @@ function getScripts(): string[]
 {
     let result = new Array<string>();
 
-    if (process.env.NODE_ENV === "development")
+    if (dev)
     {
         result.push("node_modules/systemjs/dist/system.src.js");
         result.push("src/system.config.js");
@@ -54,8 +61,9 @@ function getScripts(): string[]
     else
     {
         result.push("system-0.20.12.js");
-        result.push("system.config-1.0.0.js");
+        result.push(`system.config-${getVersion()}.js`);
     }
 
     return result;
 }
+

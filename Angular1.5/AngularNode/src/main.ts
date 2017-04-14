@@ -1,4 +1,5 @@
 ﻿import * as angular from "angular";
+import "reflect-metadata" // Required for TypedJSON
 
 import "./module";
 import "./main.css";

@@ -6,21 +6,20 @@ if (process.env.NODE_ENV === undefined)
 
 let app = express();
 let dev = process.env.NODE_ENV === "development";
+let port = process.env.port || 3000;
 
 app.get("/", (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {
-            title: dev ? "Debug | Angular 1.5 NodeJS Template" : "Angular 1.5 NodeJS Template",
+            title: dev ? "Dev | Angular 1.5 NodeJS Template" : "Angular 1.5 NodeJS Template",
             baseUrl: "/",
-            version: getVersion(),
+            config: JSON.stringify({ version: getVersion() }),
             stylesheets: getStylesheets(),
-            scripts: getScripts(),
-            inlineScripts: getInlineScripts()
+            scripts: getScripts()
         });
 });  
 
-let port = process.env.port || 3000;
 app.listen(port, () =>
 {
     app.set("view engine", "pug");
@@ -32,7 +31,7 @@ app.listen(port, () =>
         app.use("/src", express.static("src"));
     }
      
-    console.log(`Listening on port ${port} (${process.env.NODE_ENV})`);
+    console.log(`Listening on port ${port} (${process.env.NODE_ENV}, v${getVersion()})`);
 });     
 
 
@@ -65,16 +64,6 @@ function getScripts(): string[]
         result.push("system-0.20.12.js");
         result.push(`system.config-${getVersion()}.js`);
     }
-
-    return result;
-}
-
-function getInlineScripts(): string[]
-{
-    let result = new Array<string>();
-
-    result.push(`(function(){ if(!window.hasOwnProperty('page')) window.page={}; window.page.config = { version: '${getVersion()}' }; })();`);
-    result.push("(function(){System.import('app').catch(function(err){console.log(err);});})();");
 
     return result;
 }

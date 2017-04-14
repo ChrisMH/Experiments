@@ -1,22 +1,17 @@
 ﻿import * as angular from "angular";
-//import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
+import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
-/*
+
 export class AppSettings implements angular.IServiceProvider
 {
-    originUrl: string;
-    rootUrl: string;
     version: string;
 
     static $inject = ["configRoot"];
 
     constructor(private configRoot: any) 
-    {
+    {        
         if (configRoot.hasOwnProperty("page") && configRoot["page"].hasOwnProperty("config")) {
             let pageConfig = TypedJSON.parse(TypedJSON.stringify(configRoot["page"]["config"]), PageConfig);
-
-            this.originUrl = pageConfig.originUrl;
-            this.rootUrl = pageConfig.rootUrl;
             this.version = pageConfig.version;
         }
     }
@@ -29,14 +24,8 @@ export class AppSettings implements angular.IServiceProvider
 
 
 @JsonObject
-export class PageConfig {
-    @JsonMember
-    originUrl: string;
-
-    @JsonMember
-    rootUrl: string;
-
+export class PageConfig 
+{
     @JsonMember
     version: string;
 }
-*/

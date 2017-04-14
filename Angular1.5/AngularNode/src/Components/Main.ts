@@ -1,9 +1,10 @@
 ﻿import * as angular from "angular";
 import * as moment from "moment";
 
+import { AppSettings } from "../Services";
+
 import "./Main.css";
 
-//import { AppSettings } from "../Services/AppSettings";
 
 /*
 export class AppDirective implements ng.IDirective {
@@ -37,18 +38,17 @@ export class Main implements angular.IController
 {
     protected loadTime: Date;
 
-    //static $inject = ["appSettings"];
+    static $inject = ["appSettings"];
 
-    constructor(/*protected appSettings: AppSettings*/)
+    constructor(protected appSettings: AppSettings)
     {
         this.loadTime = moment().toDate();
-        this.version = window.page.config.version;
     }
         
     $onInit()
     {
         console.log("Main.$onInit:");
-        console.log(`  version=${window.page.config.version}`);
+        console.log(`  version=${this.appSettings.version}`);
     }
 }
 

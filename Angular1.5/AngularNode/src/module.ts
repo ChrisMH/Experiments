@@ -2,7 +2,7 @@
 
 import { Routes } from "./Routes";
 import { Main } from "./Components/index";
-//import { AppSettings } from "./Services";
+import { AppSettings } from "./Services";
 
 angular.module("Module",
     [
@@ -13,6 +13,6 @@ angular.module("Module",
 
     .controller("Main", Main)
 
-    //.service("appSettings", AppSettings)
+    .service("appSettings", AppSettings)
 
     ;
