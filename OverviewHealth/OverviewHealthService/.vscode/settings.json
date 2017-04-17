@@ -3,6 +3,7 @@
     "files.exclude": {
         "**/.git": true,
         "npm-debug*": true,
+        "**/*.js.map": true,
         "**/*.js": { "when" : "$(basename).ts" }
     }
 }

@@ -69,6 +69,14 @@ export class BacklogHistory
         public statTime: Date,
         public backlog: number
     ) {}
+
+    toJSON(): any
+    {
+        return { 
+            "t" : this.statTime.toISOString(), 
+            "b": this.backlog 
+        };
+    }
 }
 
 export class CustomerBacklogHistory
@@ -79,6 +87,15 @@ export class CustomerBacklogHistory
         public statTime: Date,
         public backlog: number
     ) {}
+        toJSON(): any
+    {
+        return { 
+            "i": this.customerId,
+            "n": this.customerName,
+            "t" : this.statTime.toISOString(), 
+            "b": this.backlog 
+        };
+    }
 }
 
 
@@ -232,19 +249,38 @@ export class PerformanceDb
 
                         resolve(result);
                     },
-                    (reason: Error) =>
-                    {
-                        reject(reason);
-                    });
+                    (reason: Error) => reject(reason));
         });
     }
 
 
-    public getBacklogHistory(): Promise<Array<BacklogHistory>>
+    public getBacklogHistory(afterTime: moment.Moment, beforeTime: moment.Moment): Promise<Array<BacklogHistory>>
     {
+        let query = 
+            "SELECT cs.stat_time, SUM(cs.backlog)::integer AS backlog  \
+            FROM customer_stats AS cs \
+            JOIN customers AS c on c.id = cs.customer_id \
+            WHERE c.active IS TRUE \
+            AND cs.stat_time > $1 AT TIME ZONE 'UTC' \
+            AND cs.stat_time < $2 AT TIME ZONE 'UTC' \
+            GROUP BY cs.stat_time \
+            ORDER BY cs.stat_time;"
+         
         return new Promise((resolve: (value: Array<BacklogHistory>) => void, reject: (reason?: Error) => void) =>
         {
-            reject(new Error("Not Implemented"));
+            this.pgPool.query(query, [afterTime.toISOString(), beforeTime.toISOString()])
+                .then((queryResult: pg.QueryResult) =>
+                {
+                    let result = new Array<BacklogHistory>();
+
+                    queryResult.rows.forEach((row: any) =>
+                    {
+                        result.push(new BacklogHistory(moment(row.stat_time).toDate(), row.backlog))
+                    });
+
+                    resolve(result);
+                },
+                (reason: Error) => reject(reason));
         });
 
         /*
@@ -275,11 +311,37 @@ export class PerformanceDb
     }
 
     
-    public getCustomerBacklogHistory(): Promise<Array<CustomerBacklogHistory>>
+    public getCustomerBacklogHistory(afterTime: moment.Moment, beforeTime: moment.Moment, customerIds?: number[]): Promise<Array<CustomerBacklogHistory>>
     {
+        let query =
+            `SELECT cs.stat_time, cs.customer_id, c.name AS customer_name, cs.backlog 
+            FROM customer_stats AS cs
+            JOIN customers AS c ON c.id = cs.customer_id
+            WHERE cs.stat_time > $1 AT TIME ZONE 'UTC'
+            AND cs.stat_time < $2 AT TIME ZONE 'UTC'
+            ${customerIds !== undefined ? "AND cs.customer_id = ANY ($3)" : ""}
+            ORDER BY cs.customer_id, cs.stat_time;`;
+
+        let queryParams: any[] = [afterTime.toISOString(), beforeTime.toISOString()];
+        if(customerIds !== undefined)
+            queryParams.push(customerIds);
+
         return new Promise((resolve: (value: Array<CustomerBacklogHistory>) => void, reject: (reason?: Error) => void) =>
         {
-            reject(new Error("Not Implemented"));
+
+            this.pgPool.query(query, queryParams)
+                .then((queryResult: pg.QueryResult) =>
+                {
+                    let result = new Array<CustomerBacklogHistory>();
+
+                    queryResult.rows.forEach((row: any) =>
+                    {
+                        result.push(new CustomerBacklogHistory(row.customer_id, row.customer_name, moment(row.stat_time).toDate(), row.backlog))
+                    });
+
+                    resolve(result);
+                },
+                (reason: Error) => reject(reason));
         });
 
         /*

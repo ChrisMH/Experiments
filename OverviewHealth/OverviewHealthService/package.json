@@ -4,8 +4,12 @@
   "description": "OverviewHealth Web Service",
   "main": "server.js",
   "scripts": {
-    "start": "set node_env=development&&node server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "del db.js db.js.map server.js server.js.map",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "start": "set node_env=development&& nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w"
   },
   "author": "Chris Hogan - Logikos, Inc.",
   "license": "ISC",

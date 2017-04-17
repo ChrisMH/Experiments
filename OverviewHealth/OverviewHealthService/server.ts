@@ -5,7 +5,7 @@ import * as moment from "moment";
 //import * as http from "http";
 //import * as timers from "timers";
 
-import { Counters, Customer, CustomerBacklog, PerformanceDb } from "./db";
+import { BacklogHistory, Counters, Customer, CustomerBacklog, PerformanceDb } from "./db";
 
 
 if (process.env.node_env === undefined)
@@ -112,13 +112,62 @@ app.get(`${getVirtualDir()}/counters`, (req: express.Request, res: express.Respo
 
 app.get(`${getVirtualDir()}/history/backlog`, (req: express.Request, res: express.Response) =>
 {  
+    if(!req.query.hasOwnProperty("afterTime") || !req.query.hasOwnProperty("beforeTime"))
+    {
         res.sendStatus(400);
+        throw(new Error("Missing URL Parameter"));
+    }
+
+    performanceDb.getBacklogHistory(moment(req.query.afterTime), moment(req.query.beforeTime))
+        .then((value: BacklogHistory[]) =>
+        {
+            let response = JSON.stringify(new ServiceResponse(true, undefined, value));
+            sendResponse(res, response);            
+        },
+        (reason: any) =>
+        {
+            let response = JSON.stringify(new ServiceResponse(false, reason.message));
+            console.error("Error", reason.message);
+            sendResponse(res, response);
+        });
 });
 
 
-app.get(`${getVirtualDir()}/history/counters`, (req: express.Request, res: express.Response) =>
-{  
+app.get(`${getVirtualDir()}/history/customerbacklog`, (req: express.Request, res: express.Response) =>
+{      
+    if(!req.query.hasOwnProperty("afterTime") || !req.query.hasOwnProperty("beforeTime"))
+    {
         res.sendStatus(400);
+        throw(new Error("Missing URL Parameter"));
+    }
+
+    let customerIds: number[] = undefined;
+    if(req.query.hasOwnProperty("customerIds"))
+    {
+        customerIds = [];
+        req.query["customerIds"].split(",").forEach((elem: string) => {
+            let val = parseInt(elem);
+            if(isNaN(val))
+            {
+                res.sendStatus(400);
+                throw(new Error("Invalid URL Parameter"));
+            }
+            customerIds.push(val);
+        });
+    }
+
+    performanceDb.getCustomerBacklogHistory(moment(req.query.afterTime), moment(req.query.beforeTime), customerIds)
+        .then((value: BacklogHistory[]) =>
+        {
+            let response = JSON.stringify(new ServiceResponse(true, undefined, value));
+            sendResponse(res, response);            
+        },
+        (reason: any) =>
+        {
+            let response = JSON.stringify(new ServiceResponse(false, reason.message));
+            console.error("Error", reason.message);
+            sendResponse(res, response);
+        });
 });
 
 
