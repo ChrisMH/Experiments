@@ -8,7 +8,7 @@ let app = express();
 let dev = process.env.NODE_ENV === "development";
 let port = process.env.port || 3000;
 
-app.get("/", (req: express.Request, res: express.Response) =>
+app.get(`${getVirtualDir()}/`, (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {

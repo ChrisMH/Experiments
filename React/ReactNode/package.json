@@ -4,7 +4,7 @@
   "description": "Template application for React with NodeJS",
   "main": "app.js",
   "scripts": {
-    "start": "set node_env=development&&node server",
+    "start": "set node_env=development&& nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Chris Hogan",
@@ -31,6 +31,7 @@
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.0.4",
     "gulp-concat": "^2.6.1",
+    "gulp-debug": "^3.1.0",
     "gulp-if": "^2.0.2",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
@@ -43,6 +44,7 @@
     "gulp-util": "^3.0.8",
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
+    "stylus": "^0.54.5",
     "systemjs-builder": "^0.16.4",
     "systemjs-plugin-css": "^0.1.33",
     "typescript": "^2.2.2"

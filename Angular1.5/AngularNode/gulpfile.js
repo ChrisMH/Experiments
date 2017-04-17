@@ -1,7 +1,7 @@
-/// <binding ProjectOpened='watch' />
 var gulp = require("gulp");
 var gCleanCss = require("gulp-clean-css");
 var gConcat = require("gulp-concat");
+var gDebug = require("gulp-debug");
 var gIf = require("gulp-if");
 var gPlumber = require("gulp-plumber");
 var gRename = require("gulp-rename");
@@ -15,16 +15,16 @@ var gUtil = require("gulp-util");
 
 var del = require("del");
 var fs = require("fs");
+var path = require("path");
 var mergeStream = require("merge-stream");
 var runSequence = require("run-sequence");
 var systemjsBuilder = require("systemjs-builder");
 
-var vendorStylesheets =
+var vendorCss =
 [
     {
         src: "node_modules/bootstrap/dist/css/bootstrap.css",
-        dst: "public/bootstrap/css",
-        version: function () { return getPackageVersion("bootstrap"); }
+        dst: "public/bootstrap/css"
     }
 ];
 
@@ -41,14 +41,13 @@ var vendorJavascript =
     {
         src: "node_modules/systemjs/dist/system.src.js",
         dst: "public",
-        rename: "system.js",
-        version: function () { return getPackageVersion("systemjs"); }
+        rename: "system.js"
     }
 ];
 
-appStylesheets =
+appStylus =
 [
-    { src: ["src/**/*.styl", "!src/global.styl"], dst: "src" }
+    ["src/**/*.styl", "!src/global.styl"]
 ];
 
 appArtifacts =
@@ -56,19 +55,29 @@ appArtifacts =
     { src: "img/**/*", dst: "public/img" }
 ];
 
-appTypescript =
-[
-    { src: "server.ts", dst: "./" },
-    { src: ["src/**/*.ts", "src/**/*.tsx"], dst: "src" }
-];
 
 //
 // Watch for changes
 //
 gulp.task("watch", (cb) =>
 {
+    gulp.watch(["server.ts", "src/**/*.ts", "src/**/*.tsx"]).on("change", (changeEvent) =>
+    {
+        buildTypescriptFile(changeEvent.path);
+    });
 
+    appStylus.forEach((fileGlob) =>
+    {
+        gulp.watch(fileGlob).on("change", (changeEvent) =>
+        {
+            buildStylusFile(changeEvent.path);
+        });
+    });
+
+    gulp.watch(["src/global.styl"], ["app:css"]);
 });
+
+
 
 //
 // Clean
@@ -76,11 +85,11 @@ gulp.task("watch", (cb) =>
 gulp.task("clean", ["clean:css", "clean:js"], () => { return del(["public"]) });
 gulp.task("clean:css", () =>
 {
-    return del(["src/**/*.css"]);
+    return del(["src/**/*.css", "src/**/*.css.map"]);
 });
 gulp.task("clean:js", () =>
 {
-    return del(["server.js", "src/**/*.js", "!src/system.config.js", "!src/system.config.bundle.js"]);
+    return del(["server.js", "server.js.map", "src/**/*.js", "src/**/*js.map", "!src/system.config.js", "!src/system.config.bundle.js"]);
 });
 
 //
@@ -90,8 +99,8 @@ gulp.task("dev", (cb) =>
 {
     return runSequence(
         ["clean"],
-        ["dev:app:ts"],
-        ["dev:vendor:js", "dev:vendor:css", "dev:app:css", "copy:vendor:artifacts", "copy:app:artifacts"],
+        ["dev:ts"],
+        ["dev:vendor:js", "dev:vendor:css", "dev:app:css", "vendor:artifacts", "app:artifacts"],
         cb
     );
 });
@@ -100,8 +109,8 @@ gulp.task("prod", (cb) =>
 {
     return runSequence(
         ["clean"],
-        ["prod:app:ts"],
-        ["prod:vendor:js", "prod:vendor:css", "prod:app:css", "copy:vendor:artifacts", "copy:app:artifacts", "prod:system:config"],
+        ["prod:ts"],
+        ["prod:vendor:js", "prod:vendor:css", "prod:app:css", "vendor:artifacts", "app:artifacts", "prod:system:config"],
         ["prod:bundle"],
         cb
     );
@@ -110,51 +119,36 @@ gulp.task("prod", (cb) =>
 //
 // Vendor stylesheets
 //
-gulp.task("dev:vendor:css", () => { return buildStylesheets(vendorStylesheets, false); });
-gulp.task("prod:vendor:css", () => { return buildStylesheets(vendorStylesheets, true); });
+gulp.task("dev:vendor:css", () => { return transformCss(vendorCss, false); });
+gulp.task("prod:vendor:css", () => { return transformCss(vendorCss, true); });
 
 //
 // Vendor artifacts
 //
-gulp.task("copy:vendor:artifacts", () => { return copyArtifacts(vendorArtifacts); });
+gulp.task("vendor:artifacts", () => { return copyArtifacts(vendorArtifacts); });
 
 //
 // Vendor javascript
 //
-gulp.task("dev:vendor:js", () => { return buildJavascript(vendorJavascript, false); });
-gulp.task("prod:vendor:js", () => { return buildJavascript(vendorJavascript, true); });
+gulp.task("dev:vendor:js", () => { return transformJavascript(vendorJavascript, false); });
+gulp.task("prod:vendor:js", () => { return transformJavascript(vendorJavascript, true); });
 
 //
 // Application stylesheets
 //
-gulp.task("dev:app:css", () =>
-{
-    return buildStylesheets(appStylesheets, false);
-});
-
-gulp.task("prod:app:css", () =>
-{
-    return buildStylesheets(appStylesheets, true);
-});
+gulp.task("dev:app:css", () => { return buildStylusFiles(appStylus, true); });
+gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
 
 //
 // Application artifacts
 //
-gulp.task("copy:app:artifacts", () => { return copyArtifacts(appArtifacts); });
+gulp.task("app:artifacts", () => { return copyArtifacts(appArtifacts); });
 
 //
-// Application typescript
+// Typescript
 //
-gulp.task("dev:app:ts", (cb) =>
-{
-    return buildTypescript(appTypescript, true);
-});
-
-gulp.task("prod:app:ts", (cb) =>
-{
-    return buildTypescript(appTypescript, false);
-});
-
+gulp.task("dev:ts", () => { return buildTypescriptProject(true); });
+gulp.task("prod:ts", () => { return buildTypescriptProject(false); });
 
 //
 // Bundling
@@ -191,57 +185,95 @@ gulp.task("prod:bundle",
 // Helper functions
 //
 
-buildStylesheets = (files, compress) =>
+buildStylusFile = (file) =>
+{
+    var base = path.resolve("./");
+    return gulp.src(file, {base: base})
+            .pipe(gPlumber({ errorHandler: onError }))
+            //.pipe(gDebug())
+            .pipe(gSourceMaps.init())
+            .pipe(gStylus())
+            .pipe(gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"}))
+            .pipe(gulp.dest("./"));
+};
+
+
+buildStylusFiles = (fileGlobs, sourceMaps) =>
+{
+    var streams = [];
+    var base = path.resolve("./");
+    fileGlobs.forEach(function (fileGlob)
+    {
+        streams.push(
+            gulp.src(fileGlob, {base: base})
+            .pipe(gPlumber({ errorHandler: onError }))
+            //.pipe(gDebug())
+            .pipe(gIf(sourceMaps, gSourceMaps.init()))
+            .pipe(gStylus())
+            .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
+            .pipe(gulp.dest("./"))
+        );
+    });
+    return mergeStream(streams);
+}
+
+
+buildTypescriptFile = (file) =>
+{
+    var base = path.resolve("./");
+    var tsProject = gTypescript.createProject("./tsconfig.json");    
+    return gulp.src(file, {base: base})
+            //.pipe(gDebug())
+            .pipe(gSourceMaps.init())
+            .pipe(tsProject())
+            .js
+            .pipe(gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"}))
+            .pipe(gulp.dest("./"));
+}
+
+buildTypescriptProject = (sourceMaps) =>
+{
+    var tsProject = gTypescript.createProject("./tsconfig.json");
+    return tsProject.src()
+            //.pipe(gDebug())
+            .pipe(gIf(sourceMaps, gSourceMaps.init()))
+            .pipe(tsProject())
+            .js
+            .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
+            .pipe(gulp.dest("./"));
+}
+
+
+transformCss = (files, compress) =>
 {
     var streams = [];
     files.forEach(function (file)
     {
         streams.push(
             gulp.src(file.src)
+            //.pipe(gDebug())
             .pipe(gPlumber({ errorHandler: onError }))
-            .pipe(gIf(compress !== true, gSourceMaps.init()))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
-            .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
-            .pipe(gIf(/\.styl/,
-                gStylus(),
-                gRename(function (path) { path.extname = ".css"; })))
-            .pipe(gIf(compress === true, gCleanCss({ keepSpecialComments: 0 })))
-            .pipe(gIf(compress !== true, gSourceMaps.write({ destPath: file.dst })))
+            .pipe(gRename(function (path) { path.basename += "-" + getAppVersion(); }))
+            .pipe(gIf(compress, gCleanCss({ keepSpecialComments: 0 })))
             .pipe(gulp.dest(file.dst))
         );
     });
     return mergeStream(streams);
 }
 
-buildTypescript = (files, sourceMaps) =>
-{
-    var streams = [];
-    files.forEach(function (file)
-    {
-        var tsProject = gTypescript.createProject("./tsconfig.json");
-        var tsResult =
-            gulp.src(file.src)
-                .pipe(gIf(sourceMaps === true, gSourceMaps.init()))
-                .pipe(tsProject());
-        streams.push(
-            tsResult.js
-                .pipe(gPlumber({ errorHandler: onError }))
-                .pipe(gIf(sourceMaps === true, gSourceMaps.write({ destPath: file.dst })))
-                .pipe(gulp.dest(file.dst)));
-    });
-    return mergeStream(streams);
-}
 
-buildJavascript = (files, compress) =>
+transformJavascript = (files, compress) =>
 {
     var streams = [];
     files.forEach(function (file)
     {
         streams.push(
             gulp.src(file.src)
+            //.pipe(gDebug())
             .pipe(gPlumber({ errorHandler: onError }))
             .pipe(gIf(file.rename !== undefined, gRename(file.rename)))
-            .pipe(gIf(file.version !== undefined, gRename(function (path) { path.basename += "-" + file.version(); })))
+            .pipe(gRename(function (path) { path.basename += "-" + getAppVersion(); }))
             .pipe(gIf(compress, gStreamify(gUglify())))
             .pipe(gulp.dest(file.dst))
         );
@@ -268,6 +300,7 @@ getAppVersion = () =>
     return packageFile["version"];
 }
 
+/*
 getPackageVersion = (packageKey) =>
 {
     var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
@@ -282,6 +315,7 @@ getPackageVersion = (packageKey) =>
         return version.substr(1, version.length - 1);
     return version;
 }
+*/
 
 onError = (err) =>
 {

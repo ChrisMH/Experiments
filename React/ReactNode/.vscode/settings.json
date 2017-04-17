@@ -7,6 +7,7 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "npm-debug*": true,
+        "**/*.js.map": true,
         "**/*.js": { "when" : "$(basename).ts" },
         "**/**.js": { "when" : "$(basename).tsx" },
         "**/*.css": { "when" : "$(basename).styl" }

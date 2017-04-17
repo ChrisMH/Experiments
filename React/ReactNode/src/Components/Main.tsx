@@ -6,15 +6,15 @@ import { AppSettings } from "../Services";
 import "./Main.css"
 
 interface MainProps
-{
+{ 
 
-}
-
+} 
+  
 interface MainState
 {
 
-}
-
+}       
+       
 export class Main extends React.Component<MainProps, MainState>
 {
     appSettings: AppSettings;
@@ -27,7 +27,7 @@ export class Main extends React.Component<MainProps, MainState>
 
     render()
     {
-        return (
+        return ( 
             <div id="main">
                 <h1>React Template</h1>
                 <span>Time: {moment().format("MM/DD/YYYY hh:mm:ss A")}</span><br/>
@@ -36,3 +36,4 @@ export class Main extends React.Component<MainProps, MainState>
         );
     }
 }
+    

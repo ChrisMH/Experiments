@@ -2,6 +2,7 @@ server.js
 server.js.map
 
 /public
+/iisnode
 
 /src/**/*.css
 /src/**/*.js

@@ -1,0 +1,23 @@
+{
+  "name": "overview-health",
+  "version": "1.0.0",
+  "description": "OverviewHealth web application",
+  "main": "server.js",
+  "scripts": {
+    "clean:js": "del server.js server.js.map",
+    "prebuild": "npm run clean:js",
+    "build": "tsc --jsx react",
+    "start": "set node_env=development&& nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc --jsx react -w"
+  },
+  "author": "Chris Hogan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.35",
+    "@types/node": "^7.0.12"
+  }
+}

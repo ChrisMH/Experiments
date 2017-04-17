@@ -16,6 +16,7 @@ html
         })();
     script(type="text/javascript"). 
         (function() {
+            System.config({baseURL: '!{baseUrl}'});
             System.import("app").catch(function(err) { console.log(err); } );
         })();
   body
