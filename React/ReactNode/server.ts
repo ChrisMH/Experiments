@@ -13,17 +13,18 @@ app.get(`${getVirtualDir()}/`, (req: express.Request, res: express.Response) =>
     res.render("main",
         {
             title: dev ? "Dev | React NodeJS Template" : "React NodeJS Template",
+            dev: dev,
             baseUrl: getVirtualDir() ? getVirtualDir() : "/",
-            config: JSON.stringify({ version: getVersion() }),
-            stylesheets: getStylesheets(),
-            scripts: getScripts()
+            virtualDir: getVirtualDir(),
+            version: getVersion(),
+            config: JSON.stringify({ version: getVersion() })
         }); 
-});   
+});    
               
 app.listen(port, () =>
 {
     app.set("view engine", "pug");
-    app.use(express.static(`${getVirtualDir()}/public`));
+    app.use(getVirtualDir(), express.static("public"));
 
     if (dev)
     {
@@ -46,31 +47,5 @@ function getVirtualDir(): string
         return `/${process.env.virtual_dir}`
     return "";
 }
- 
-function getStylesheets(): string[]
-{
-    let result = new Array<string>();
 
-    result.push(`bootstrap/css/bootstrap-${getVersion()}.css`);
-
-    return result;
-}
-
-function getScripts(): string[]
-{
-    let result = new Array<string>();
-
-    if (dev)
-    {
-        result.push(`${getVirtualDir()}/node_modules/systemjs/dist/system.src.js`);
-        result.push(`${getVirtualDir()}/src/system.config.js`);
-    }
-    else
-    {
-        result.push(`system-${getVersion()}.js`);
-        result.push(`system.config-${getVersion()}.js`);
-    }
-
-    return result;
-}
 
