@@ -12,7 +12,6 @@ app.get(`${getVirtualDir()}/`, (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {
-            title: dev ? "Dev | React NodeJS Template" : "React NodeJS Template",
             dev: dev,
             baseUrl: getVirtualDir() ? getVirtualDir() : "/",
             virtualDir: getVirtualDir(),
@@ -47,5 +46,3 @@ function getVirtualDir(): string
         return `/${process.env.virtual_dir}`
     return "";
 }
-
-

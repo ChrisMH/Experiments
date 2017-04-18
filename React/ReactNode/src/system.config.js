@@ -2,9 +2,6 @@
 {
     System.config(
         {
-            
-            //baseURL: "/ReactNode",
-
             // paths serve as alias
             paths: {
             },

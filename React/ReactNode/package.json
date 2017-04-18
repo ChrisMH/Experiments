@@ -2,7 +2,7 @@
   "name": "react-node",
   "version": "1.0.0",
   "description": "Template application for React with NodeJS",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "set node_env=development&& nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,6 @@
     "bootstrap": "^3.3.7",
     "express": "^4.15.2",
     "moment": "^2.18.1",
-    "node": "0.0.0",
     "pug": "^2.0.0-beta11",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -27,7 +26,6 @@
     "@types/react": "^15.0.21",
     "@types/react-dom": "^0.14.23",
     "del": "^2.2.2",
-    "fs": "0.0.1-security",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.0.4",
     "gulp-concat": "^2.6.1",

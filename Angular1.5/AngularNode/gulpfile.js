@@ -64,6 +64,7 @@ gulp.task("watch", (cb) =>
     gulp.watch(["server.ts", "src/**/*.ts", "src/**/*.tsx"]).on("change", (changeEvent) =>
     {
         buildTypescriptFile(changeEvent.path);
+        gUtil.log(`Built ${changeEvent.path}`)
     });
 
     appStylus.forEach((fileGlob) =>
@@ -71,10 +72,11 @@ gulp.task("watch", (cb) =>
         gulp.watch(fileGlob).on("change", (changeEvent) =>
         {
             buildStylusFile(changeEvent.path);
+            gUtil.log(`Built ${changeEvent.path}`);
         });
     });
 
-    gulp.watch(["src/global.styl"], ["app:css"]);
+    gulp.watch(["src/global.styl"], ["dev:app:css"]);
 });
 
 
@@ -163,22 +165,20 @@ gulp.task("prod:system:config", () =>
         .pipe(gulp.dest("public"));
 });
 
-// App Production Bundling
-gulp.task("prod:bundle",
-    function (cb)
-    {
-        var builder = new systemjsBuilder("", "src/system.config.js");
+gulp.task("prod:bundle", (cb) =>
+{
+    var builder = new systemjsBuilder("", "src/system.config.js");
 
-        var appBundleName = "public/app-" + getAppVersion() + ".js";
-        builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
-            .then(function () { cb(); })
-            .catch(function (err)
-            {
-                console.log("Bundle Error:");
-                console.log(err);
-                cb();
-            });
-    });
+    var appBundleName = "public/app-" + getAppVersion() + ".js";
+    builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
+        .then(function () { cb(); })
+        .catch(function (err)
+        {
+            console.log("Bundle Error:");
+            console.log(err);
+            cb();
+        });
+});
 
 
 //
@@ -215,7 +215,7 @@ buildStylusFiles = (fileGlobs, sourceMaps) =>
         );
     });
     return mergeStream(streams);
-}
+};
 
 
 buildTypescriptFile = (file) =>
@@ -229,7 +229,8 @@ buildTypescriptFile = (file) =>
             .js
             .pipe(gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"}))
             .pipe(gulp.dest("./"));
-}
+};
+
 
 buildTypescriptProject = (sourceMaps) =>
 {
@@ -241,7 +242,7 @@ buildTypescriptProject = (sourceMaps) =>
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
             .pipe(gulp.dest("./"));
-}
+};
 
 
 transformCss = (files, compress) =>
@@ -260,7 +261,7 @@ transformCss = (files, compress) =>
         );
     });
     return mergeStream(streams);
-}
+};
 
 
 transformJavascript = (files, compress) =>
@@ -279,7 +280,8 @@ transformJavascript = (files, compress) =>
         );
     });
     return mergeStream(streams);
-}
+};
+
 
 copyArtifacts = (artifacts) =>
 {
@@ -292,32 +294,17 @@ copyArtifacts = (artifacts) =>
         );
     });
     return mergeStream(streams);
-}
+};
+
 
 getAppVersion = () =>
 {
     var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
     return packageFile["version"];
-}
+};
 
-/*
-getPackageVersion = (packageKey) =>
-{
-    var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
-    var version = "0.0.0";
-
-    if (packageFile.dependencies && packageFile.dependencies.hasOwnProperty(packageKey))
-        version = packageFile.dependencies[packageKey];
-    else if (packageFile.devDependencies && packageFile.devDependencies.hasOwnProperty(packageKey))
-        version = packageFile.devDependencies[packageKey];
-
-    if (version[0] === "^" || version[0] === "~")
-        return version.substr(1, version.length - 1);
-    return version;
-}
-*/
 
 onError = (err) =>
 {
     gUtil.log(err);
-}
+};

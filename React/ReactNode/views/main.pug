@@ -1,7 +1,10 @@
 ﻿doctype html
 html
   head
-    title= title
+    if dev
+      title="Dev | React NodeJS Template"
+    else
+      title="React NodeJS Template"
     base(href=baseUrl)
     link(href=virtualDir.concat("/img/favicon.ico") type="image/x-icon" rel="icon")
     link(href=virtualDir.concat("/img/favicon.ico") type="image/x-icon" rel="shortcut icon")
