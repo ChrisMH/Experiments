@@ -4,8 +4,9 @@
     "files.exclude": {
         "**/.git": true,
         "npm-debug*": true,
-        "**/*.js.map": true,
+        "**/*.map": true,
         "**/*.js": { "when" : "$(basename).ts" },
-        "**/**.jsx": { "when" : "$(basename).ts" }
+        "**/**.js": { "when" : "$(basename).tsx" },
+        "**/*.css": { "when" : "$(basename).styl" }
     }
 }

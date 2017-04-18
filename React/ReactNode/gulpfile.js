@@ -22,10 +22,6 @@ var systemjsBuilder = require("systemjs-builder");
 
 var vendorCss =
 [
-    {
-        src: "node_modules/bootstrap/dist/css/bootstrap.css",
-        dst: "public/bootstrap/css"
-    }
 ];
 
 var vendorArtifacts =
@@ -102,7 +98,7 @@ gulp.task("dev", (cb) =>
     return runSequence(
         ["clean"],
         ["dev:ts"],
-        ["dev:vendor:css", "vendor:artifacts", "dev:vendor:js", "dev:app:css",  "app:artifacts"],
+        [/*"dev:vendor:css",*/ "vendor:artifacts", "dev:vendor:js", "dev:app:css",  "app:artifacts"],
         cb
     );
 });
@@ -112,7 +108,7 @@ gulp.task("prod", (cb) =>
     return runSequence(
         ["clean"],
         ["prod:ts"],
-        ["prod:vendor:css", "vendor:artifacts", "prod:vendor:js",  "prod:app:css", "app:artifacts", "prod:system:config"],
+        [/*"prod:vendor:css",*/ "vendor:artifacts", "prod:vendor:js",  "prod:app:css", "app:artifacts", "prod:system:config"],
         ["prod:bundle"],
         cb
     );
@@ -167,7 +163,7 @@ gulp.task("prod:system:config", () =>
 
 gulp.task("prod:bundle", (cb) =>
 {
-    var builder = new systemjsBuilder("", "src/system.config.js");
+    var builder = new systemjsBuilder("/", "src/system.config.js");
 
     var appBundleName = "public/app-" + getAppVersion() + ".js";
     builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })

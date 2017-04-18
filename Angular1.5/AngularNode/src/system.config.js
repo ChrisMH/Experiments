@@ -26,8 +26,10 @@
                 "angular-ui-router": "node_modules/angular-ui-router/release/angular-ui-router.js",
                 "moment": "node_modules/moment/moment.js",
                 "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
-                "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js"
+                "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",
                 
+                // Vendor CSS
+                "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css"                
             },
 
             // packages tells the System loader how to load when no filename and/or no extension

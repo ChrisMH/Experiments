@@ -2,6 +2,8 @@
 import "reflect-metadata" // Required for TypedJSON
 
 import "./module";
+
+import "bootstrap-css";
 import "./main.css";
 
 angular.element(document.body).ready(() =>

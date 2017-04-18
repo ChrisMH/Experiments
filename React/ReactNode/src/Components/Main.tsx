@@ -4,18 +4,8 @@ import * as moment from "moment";
 import { AppSettings } from "../Services";
 
 import "./Main.css"
-
-interface MainProps
-{ 
-
-} 
-  
-interface MainState
-{
-
-}       
        
-export class Main extends React.Component<MainProps, MainState>
+export class Main extends React.Component<any, any>
 {
     appSettings: AppSettings;
 

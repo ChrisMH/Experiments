@@ -4,10 +4,11 @@ import "reflect-metadata"; // required for TypedJSON
 
 import { Main } from "./Components";
 
+import "bootstrap-css";
 import "./main.css";
 
 ReactDOM.render(
-    <Main/>,
+    (<Main/>),
     document.getElementById("root")
 );
        

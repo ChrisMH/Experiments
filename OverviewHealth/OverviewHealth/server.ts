@@ -8,29 +8,28 @@ let app = express();
 let dev = process.env.node_env === "development";
 let port = process.env.port || 3000;
 
-app.get("/", (req: express.Request, res: express.Response) =>
+app.get(`${getVirtualDir()}/`, (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {
-            title: dev ? "Dev | React NodeJS Template" : "React NodeJS Template",
-            baseUrl: "/",
-            config: JSON.stringify({ version: getVersion() }),
-            stylesheets: getStylesheets(),
-            scripts: getScripts()
-        });
-});   
- 
+            dev: dev,
+            baseUrl: getVirtualDir() ? getVirtualDir() : "/",
+            rootUrl: getVirtualDir(),
+            version: getVersion()
+        }); 
+});    
+              
 app.listen(port, () =>
 {
     app.set("view engine", "pug");
-    app.use(express.static("public"));
+    app.use(getVirtualDir(), express.static("public"));
 
     if (dev)
     {
-        app.use("/node_modules", express.static("node_modules"));
-        app.use("/src", express.static("src"));
+        app.use(`${getVirtualDir()}/node_modules`, express.static("node_modules"));
+        app.use(`${getVirtualDir()}/src`, express.static("src"));
     }
-     
+       
     console.log(`Listening on port ${port}: ${process.env.node_env}, v${getVersion()}, vDir: ${getVirtualDir() ? getVirtualDir() : "<None>"}`);
 });     
 
@@ -46,31 +45,3 @@ function getVirtualDir(): string
         return `/${process.env.virtual_dir}`
     return "";
 }
-
-function getStylesheets(): string[]
-{
-    let result = new Array<string>();
-
-    result.push("bootstrap/css/bootstrap-3.3.7.css");
-
-    return result;
-}
-
-function getScripts(): string[]
-{
-    let result = new Array<string>();
-
-    if (dev)
-    {
-        result.push("node_modules/systemjs/dist/system.src.js");
-        result.push("src/system.config.js");
-    }
-    else
-    {
-        result.push("system-0.20.12.js");
-        result.push(`system.config-${getVersion()}.js`);
-    }
-
-    return result;
-}
-

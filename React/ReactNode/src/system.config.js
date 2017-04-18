@@ -21,14 +21,15 @@
                 "css": "node_modules/systemjs-plugin-css/css.js",
                 //"text": "node_modules/systemjs-plugin-text/text.js",
                 
-                // Vendor Libraries
-                
+                // Vendor Libraries                
                 "react": "node_modules/react/dist/react.js",
                 "react-dom": "node_modules/react-dom/dist/react-dom.js",
                 "moment": "node_modules/moment/moment.js",
                 "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
-                "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js"
+                "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",
                 
+                // Vendor CSS
+                "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css"
             },
 
             // packages tells the System loader how to load when no filename and/or no extension
