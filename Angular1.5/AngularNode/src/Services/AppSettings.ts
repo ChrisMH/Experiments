@@ -10,8 +10,10 @@ export class AppSettings implements angular.IServiceProvider
 
     constructor(private configRoot: any) 
     {        
-        if (configRoot.hasOwnProperty("page") && configRoot["page"].hasOwnProperty("config")) {
-            let pageConfig = TypedJSON.parse(TypedJSON.stringify(configRoot["page"]["config"]), PageConfig);
+        if (configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings")) 
+        {
+            let pageConfig = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), PageConfig);
+            
             this.version = pageConfig.version;
         }
     }

@@ -13,8 +13,7 @@
                 "app": "src",
                 "Components": "src/Components",
                 "Models": "src/Models",
-                "Services": "src/Services",
-                "Utilities": "src/Utilities",
+                "Services": "src/Services"
 
                 // Plugins
                 "systemjs": "node_modules/systemjs/dist/system.src.js",
@@ -38,8 +37,7 @@
                 "app": { main: "main" },
                 "Components": { main: "index" },
                 "Models": { main: "index" },
-                "Services": { main: "index" },
-                "Utilities": { main: "index" },
+                "Services": { main: "index" }
 
                 "angular": { main: "index" }                
             },
