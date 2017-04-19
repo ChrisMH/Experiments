@@ -1,1 +1,2 @@
-export * from "./Main";
+export * from "./FirstPage";
+export * from "./SecondPage";

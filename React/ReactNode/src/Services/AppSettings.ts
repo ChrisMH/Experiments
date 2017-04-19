@@ -1,23 +1,22 @@
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
-
+@JsonObject
 export class AppSettings
 {
-    version: string;
-
-    constructor(private configRoot: any) 
-    {        
-        if (configRoot.hasOwnProperty("page") && configRoot["page"].hasOwnProperty("config")) {
-            let pageConfig = TypedJSON.parse(TypedJSON.stringify(configRoot["page"]["config"]), PageConfig);
-            this.version = pageConfig.version;
-        }
-    }
-}
-
-
-@JsonObject
-export class PageConfig 
-{
+    @JsonMember
+    rootUrl: string;
+    
     @JsonMember
     version: string;
+
+    private static appSettings: AppSettings;
+
+    static Load(configRoot: Object): AppSettings
+    {        
+        if (AppSettings.appSettings === undefined && configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings"))
+            AppSettings.appSettings = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), AppSettings);
+        return AppSettings.appSettings;
+    }
+
 }
+

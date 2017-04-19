@@ -8,15 +8,14 @@ let app = express();
 let dev = process.env.node_env === "development";
 let port = process.env.port || 3000;
 
-app.get(`${getVirtualDir()}/`, (req: express.Request, res: express.Response) =>
+app.get([`${getVirtualDir()}/`, `${getVirtualDir()}/second`], (req: express.Request, res: express.Response) =>
 {
     res.render("main",
         {
             dev: dev,
             baseUrl: getVirtualDir() ? getVirtualDir() : "/",
-            virtualDir: getVirtualDir(),
-            version: getVersion(),
-            config: JSON.stringify({ version: getVersion() })
+            rootUrl: getVirtualDir(),
+            version: getVersion()
         }); 
 });    
               
