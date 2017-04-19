@@ -1,10 +1,15 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-
-    "files.exclude": {
+        "files.exclude": {
         "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
         "npm-debug*": true,
-        "**/*.map": true,
+        "**/*.js.map": true,
+        "**/*.css.map": true,
+        "node_modules": true,
         "**/*.js": { "when" : "$(basename).ts" },
         "**/**.js": { "when" : "$(basename).tsx" },
         "**/*.css": { "when" : "$(basename).styl" }

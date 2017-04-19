@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import "reflect-metadata"; // required for TypedJSON
 
 import "bootstrap-css";
 import "./main.css";
-import "./bootstrap-overrides.css";
 
 import { App } from "./App";
 

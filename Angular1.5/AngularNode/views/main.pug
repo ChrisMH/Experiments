@@ -9,7 +9,10 @@ html
     link(href=virtualDir.concat("/img/favicon.ico") type="image/x-icon" rel="icon")
     link(href=virtualDir.concat("/img/favicon.ico") type="image/x-icon" rel="shortcut icon")
 
-    script(src=virtualDir.concat("/system-", version, ".js") type="text/javascript")
+    if dev
+        script(src=rootUrl.concat("node_modules/systemjs/dist/system.src.js") type="text/javascript")
+    else
+        script(src=rootUrl.concat("/system-", version, ".js") type="text/javascript")
 
     script(type="text/javascript"). 
         // Set the base URL for SystemJS

@@ -1,8 +1,8 @@
-(function ()
+﻿(function ()
 {
     System.config(
         {
-            warnings: true,
+            warning: true,
 
             // paths serve as alias
             paths: {
@@ -14,7 +14,7 @@
                 // Application
                 "app": "src",
                 "Components": "src/Components",
-                //"Models": "src/Models",
+                "Models": "src/Models",
                 "Services": "src/Services",
                 //"Utilities": "src/Utilities",
 
@@ -23,17 +23,22 @@
                 "css": "node_modules/systemjs-plugin-css/css.js",
                 //"text": "node_modules/systemjs-plugin-text/text.js",
                 
-                // Vendor Libraries
-                
+                // Vendor Libraries                
                 "react": "node_modules/react/dist/react.js",
+                "react-cookie": "node_modules/react-cookie/build/cookie.js",
                 "react-dom": "node_modules/react-dom/dist/react-dom.js",
-                "react-router-dom": "node_modules/react-router-dom",
+                "react-router-dom": "node_modules/react-router-dom/umd/react-router-dom.js",
+
+                "cookie": "node_modules/cookie/index.js",
+                "is-node": "node_modules/is-node/index.js",
+                "object-assign": "node_modules/object-assign/index.js",
                 "moment": "node_modules/moment/moment.js",
-                //"reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
-                //"typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",
+                "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
+                "rxjs": "../node_modules/rxjs",
+                "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",
                 
                 // Vendor CSS
-                "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css"                
+                "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css"
             },
 
             // packages tells the System loader how to load when no filename and/or no extension
@@ -41,11 +46,11 @@
             {
                 "app": { main: "main" },
                 "Components": { main: "index" },
-                //"Models": { main: "index" },
+                "Models": { main: "index" },
                 "Services": { main: "index" },
                 //"Utilities": { main: "index" }
                 
-                "react-router-dom": { main: "index" }
+                "rxjs": { main: "Rx" }
             },
 
             meta:

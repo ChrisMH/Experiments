@@ -1,5 +1,6 @@
 server.js
 server.js.map
+npm-debug*
 
 /public
 /iisnode
