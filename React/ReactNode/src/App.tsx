@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import { FirstPage, SecondPage } from "./Components";
 
+import "./App.css";
+
 export class App extends React.Component<any, any>
 {
     render(): JSX.Element
