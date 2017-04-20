@@ -6,7 +6,7 @@ import { AngularUtil } from "./Utilities";
 let template = `
     <div id="app">
         <header>
-            <h2>Angular 1.x Template</h2>
+            <h2>AngularJS Template</h2>
             <div id="header-links">
                 <a ui-sref="Home">Home</a>
                 <a ui-sref="Second">Second</a>

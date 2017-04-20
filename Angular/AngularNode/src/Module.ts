@@ -2,19 +2,22 @@
 import { BrowserModule } from "@angular/platform-browser";
 
 import { App } from "./App";
-import { FirstPage } from "./Components";
+import { Router } from "./Router";
+import { FirstPage, SecondPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({
     imports:
     [
-        BrowserModule
+        BrowserModule,
+        Router
     ],
 
     declarations:
     [
         App,
-        FirstPage
+        FirstPage,
+        SecondPage
     ],
 
     providers:

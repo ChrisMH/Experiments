@@ -166,6 +166,17 @@ gulp.task("prod:bundle", (cb) =>
     var builder = new systemjsBuilder("/", "src/system.config.js");
 
     var appBundleName = "public/app-" + getAppVersion() + ".js";
+    
+    builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false, encodeNames: false })
+        .then(function () { cb(); })
+        .catch(function (err)
+        {
+            console.log("Bundle Error:");
+            console.log(err);
+            cb();
+        });
+
+    /*
     builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
         .then(function () { cb(); })
         .catch(function (err)
@@ -174,6 +185,7 @@ gulp.task("prod:bundle", (cb) =>
             console.log(err);
             cb();
         });
+    */
 });
 
 

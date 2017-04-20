@@ -4,7 +4,8 @@
   "description": "AngularJS and NodeJS template project",
   "main": "server.js",
   "scripts": {
-    "start": "set NODE_ENV=development&&nodemon server",
+    "start": "set NODE_ENV=development&& nodemon server",
+    "start-prod": "set NODE_ENV=production&& nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Chris Hogan",

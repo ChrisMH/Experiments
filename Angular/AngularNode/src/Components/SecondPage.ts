@@ -3,19 +3,19 @@ import * as moment from "moment";
 
 import { AppSettings } from "../Services";
 
-//const template = require("./FirstPage.html");
-//const styles = [require("./FirstPage.css").toString()];
+//const styles = [require("./SecondPage.css").toString()];
+//const template = require("./SecondPage.html");
 
 @Component({
     moduleId: module.id,
-    selector: "first-page",
+    selector: "second-page",
+    templateUrl: "SecondPage.html",
+    styleUrls: ["SecondPage.css"]
     //template: template,
-    //styles: styles
-    templateUrl: "FirstPage.html",
-    styleUrls: ["FirstPage.css"]
+    //styles: [styles]
 })
 
-export class FirstPage
+export class SecondPage
 {
     protected loadTime: Date;
 

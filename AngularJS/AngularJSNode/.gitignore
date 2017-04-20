@@ -7,8 +7,7 @@ server.js.map
 /src/**/*.css
 /src/**/*.js
 /src/**/*.map
-!/src/system.config.js
-!/src/system.config.bundle.js
+!/src/system.config.jss
 
 /test/**/*.js
 /test/**/*.map
