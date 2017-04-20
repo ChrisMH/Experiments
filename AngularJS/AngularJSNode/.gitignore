@@ -1,0 +1,16 @@
+server.js
+server.js.map
+
+/public
+/iisnode
+
+/src/**/*.css
+/src/**/*.js
+/src/**/*.map
+!/src/system.config.js
+!/src/system.config.bundle.js
+
+/test/**/*.js
+/test/**/*.map
+
+!/node_modules/**/*
