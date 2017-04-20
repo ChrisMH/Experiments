@@ -1,6 +1,8 @@
 ﻿import * as angular from "angular";
 import "angular-ui-router";
 
+import { FirstPage, SecondPage } from "./Components";
+
 export class Routes 
 {
     static $inject = ["$stateProvider", "$urlRouterProvider", "$locationProvider"];
@@ -13,13 +15,20 @@ export class Routes
         $locationProvider.html5Mode(true);
 
         $stateProvider
-            .state("Main",
-                {
-                    url: "/",
-                    template: require("./Components/Main.html"),
-                    controller: "Main",
-                    controllerAs: "ctrlMain"
-                });
+        .state("Home",
+            {
+                url: "/",
+                template: require("./Components/FirstPage.html"),
+                controller: FirstPage,
+                controllerAs: "ctrlFirstPage"
+            })
+            .state("Second",
+            {
+                url: "/second",
+                template: require("./Components/SecondPage.html"),
+                controller: SecondPage,
+                controllerAs: "ctrlSecondPage"
+            });
     }
 }
  

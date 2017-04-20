@@ -5,6 +5,7 @@ import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 export class AppSettings implements angular.IServiceProvider
 {
     version: string;
+    rootUrl: string;
 
     static $inject = ["configRoot"];
 
@@ -12,9 +13,10 @@ export class AppSettings implements angular.IServiceProvider
     {        
         if (configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings")) 
         {
-            let pageConfig = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), PageConfig);
+            let appSettings = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), PageConfig);
             
-            this.version = pageConfig.version;
+            this.version = appSettings.version;
+            this.rootUrl = appSettings.rootUrl;
         }
     }
 
@@ -30,4 +32,7 @@ export class PageConfig
 {
     @JsonMember
     version: string;
+
+    @JsonMember
+    rootUrl: string;
 }
