@@ -9,12 +9,12 @@ import { AppSettings } from "../Services";
 @Component({
     moduleId: module.id,
     selector: "second-page",
-    templateUrl: "SecondPage.html",
-    styleUrls: ["SecondPage.css"]
+    templateUrl: "./SecondPage.html",
+    styleUrls: ["./SecondPage.css"]
     //template: template,
     //styles: [styles]
 })
-
+ 
 export class SecondPage
 {
     protected loadTime: Date;

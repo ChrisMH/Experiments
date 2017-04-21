@@ -3,6 +3,7 @@ var gCleanCss = require("gulp-clean-css");
 var gConcat = require("gulp-concat");
 var gDebug = require("gulp-debug");
 var gIf = require("gulp-if");
+var gInlineNgTemplate = require("gulp-inline-ng2-template");
 var gPlumber = require("gulp-plumber");
 var gRename = require("gulp-rename");
 var gReplace = require("gulp-replace");
@@ -13,8 +14,10 @@ var gTypescript = require("gulp-typescript");
 var gUglify = require("gulp-uglify");
 var gUtil = require("gulp-util");
 
+var cleanCss = require("clean-css");
 var del = require("del");
 var fs = require("fs");
+var htmlMinify = require("html-minify");
 var path = require("path");
 var mergeStream = require("merge-stream");
 var runSequence = require("run-sequence");
@@ -54,7 +57,7 @@ gulp.task("watch", (cb) =>
 {
     gulp.watch(["server.ts", "src/**/*.ts", "src/**/*.tsx"]).on("change", (changeEvent) =>
     {
-        buildTypescriptFile(changeEvent.path);
+        buildTypescriptFile(changeEvent.path, false);
         gUtil.log(`Built ${changeEvent.path}`)
     });
 
@@ -92,8 +95,9 @@ gulp.task("dev", (cb) =>
 {
     return runSequence(
         ["clean"],
+        ["vendor:artifacts", "app:artifacts"],
+        [/*"dev:vendor:css",*/ "dev:app:css"],
         ["dev:ts"],
-        [/*"dev:vendor:css",*/ "vendor:artifacts", /*"dev:vendor:js",*/ "dev:app:css",  "app:artifacts"],
         cb
     );
 });
@@ -102,8 +106,9 @@ gulp.task("prod", (cb) =>
 {
     return runSequence(
         ["clean"],
+        ["vendor:artifacts", "app:artifacts"],
+        [/*"prod:vendor:css",*/ "prod:app:css"],
         ["prod:ts"],
-        [/*"prod:vendor:css",*/ "vendor:artifacts", /*"prod:vendor:js",*/  "prod:app:css", "app:artifacts"],
         ["prod:bundle"],
         cb
     );
@@ -140,8 +145,8 @@ gulp.task("app:artifacts", () => { return copyArtifacts(appArtifacts); });
 //
 // Typescript
 //
-gulp.task("dev:ts", () => { return buildTypescriptProject(true); });
-gulp.task("prod:ts", () => { return buildTypescriptProject(false); });
+gulp.task("dev:ts", () => { return buildTypescriptProject(true, false); });
+gulp.task("prod:ts", () => { return buildTypescriptProject(false, true); });
 
 //
 // Bundling
@@ -167,6 +172,7 @@ gulp.task("prod:bundle", (cb) =>
 //
 // Helper functions
 //
+
 
 buildStylusFile = (file) =>
 {
@@ -200,14 +206,30 @@ buildStylusFiles = (fileGlobs, sourceMaps) =>
     return mergeStream(streams);
 };
 
+inlineProcessor = (path, ext, file, cb) =>
+{
+    if(ext[0] === ".html")
+    {
+        var minified = htmlMinify.minify(file);
+        return cb(null, minified);
+    }
+    else if(ext[0] === ".css")
+    {
+        var minified = new cleanCss().minify(file);
+        return cb(null, minified.styles);
+    }
+    return cb(null, file);
+}
 
-buildTypescriptFile = (file) =>
+buildTypescriptFile = (file, inlineTemplates) =>
 {
     var base = path.resolve("./");
     var tsProject = gTypescript.createProject("./tsconfig.json");    
     return gulp.src(file, {base: base})
+            .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gSourceMaps.init())
+            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: inlineProcessor, styleProcessor: inlineProcessor})))
             .pipe(tsProject())
             .js
             .pipe(gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"}))
@@ -215,12 +237,14 @@ buildTypescriptFile = (file) =>
 };
 
 
-buildTypescriptProject = (sourceMaps) =>
+buildTypescriptProject = (sourceMaps, inlineTemplates) =>
 {
     var tsProject = gTypescript.createProject("./tsconfig.json");
     return tsProject.src()
+            .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gIf(sourceMaps, gSourceMaps.init()))
+            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: inlineProcessor, styleProcessor: inlineProcessor})))
             .pipe(tsProject())
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))

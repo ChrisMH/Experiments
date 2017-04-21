@@ -11,17 +11,17 @@
             // map tells the System loader where to look for things
             map:
             {
+                // Plugins
+                "systemjs": "node_modules/systemjs/dist/system.src.js",
+                "css": "node_modules/systemjs-plugin-css/css.js",
+                "text": "node_modules/systemjs-plugin-text/text.js",
+
                 // Application
                 "app": "src",
                 "Components": "src/Components",
                 "Models": "src/Models",
                 "Services": "src/Services",
                 "Utilities": "src/Utilities",
-
-                // Plugins
-                "systemjs": "node_modules/systemjs/dist/system.src.js",
-                "css": "node_modules/systemjs-plugin-css/css.js",
-                "text": "node_modules/systemjs-plugin-text/text.js",
                 
                 // Vendor Libraries                
                 "angular": "node_modules/angular",

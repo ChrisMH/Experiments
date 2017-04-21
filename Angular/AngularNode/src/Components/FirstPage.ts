@@ -11,8 +11,8 @@ import { AppSettings } from "../Services";
     selector: "first-page",
     //template: template,
     //styles: styles
-    templateUrl: "FirstPage.html",
-    styleUrls: ["FirstPage.css"]
+    templateUrl: "./FirstPage.html",
+    styleUrls: ["./FirstPage.css"]
 })
 
 export class FirstPage
@@ -24,3 +24,4 @@ export class FirstPage
         this.loadTime = moment().toDate();
     }
 }
+   
