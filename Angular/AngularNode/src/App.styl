@@ -1,37 +1,40 @@
 @require "global.styl"
 
-header
+:host
+    position absolute
+    left 0px
+    top 0px
+    right 0px
+    bottom 0px
     background-color background-color
-    position fixed
-    left 0
-    top 0
-    width 100%
-    height header-height
-    border-bottom 1px solid form-border-color 
     overflow hidden
 
-    h2, div
-        display inline-block
-
-    #header-version
-        font-size x-small
-        position absolute
-        top 2px
-        right 5px
-
-
-div#view
-    position absolute
-    left 0
-    top header-height
-    bottom 0
-    width 100% 
-    overflow auto
-
-    > *:not(router-outlet)
-        position absolute
+    header
+        background-color background-color
+        position fixed
+        left 0
+        top 0
         width 100%
-        padding 10px
+        height header-height
+        border-bottom 1px solid form-border-color 
+        overflow hidden
 
-    // > *:not(router-outlet)
+        h2, div
+            display inline-block
+
+        #header-version
+            font-size x-small
+            position absolute
+            top 2px
+            right 5px
+
+
+    div#view
+        position absolute
+        left 0
+        top header-height
+        bottom 0
+        width 100% 
+        overflow auto
+
     

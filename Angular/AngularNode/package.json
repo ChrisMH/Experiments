@@ -33,7 +33,7 @@
     "gulp-typescript": "^3.1.6",
     "gulp-uglify": "^2.1.2",
     "gulp-util": "^3.0.8",
-    "html-minify": "^0.3.2",
+    "html-minifier": "^3.4.3",
     "jasmine": "^2.5.3",
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",

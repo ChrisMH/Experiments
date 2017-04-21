@@ -9,6 +9,16 @@ import { Module } from "./Module"
 import "bootstrap-css";
 import "./main.css";
 
-//enableProdMode();
-platformBrowserDynamic().bootstrapModule(Module);
- 
+(function()
+{
+    function boot()
+    {
+        //enableProdMode();
+        platformBrowserDynamic().bootstrapModule(Module);
+    };
+
+    if(document.readyState === "complete")
+        boot();
+    else
+        document.addEventListener("DOMContentLoaded", boot);
+})();

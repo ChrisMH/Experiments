@@ -17,7 +17,7 @@ var gUtil = require("gulp-util");
 var cleanCss = require("clean-css");
 var del = require("del");
 var fs = require("fs");
-var htmlMinify = require("html-minify");
+var htmlMinifier = require("html-minifier");
 var path = require("path");
 var mergeStream = require("merge-stream");
 var runSequence = require("run-sequence");
@@ -27,7 +27,7 @@ var vendorCss =
 [
 ];
 
-var vendorArtifacts =
+var vendorArt =
 [
     {
         src: "node_modules/bootstrap/dist/fonts/**/*",
@@ -44,9 +44,9 @@ appStylus =
     ["src/**/*.styl", "!src/global.styl"]
 ];
 
-appArtifacts =
+appArt =
 [
-    { src: "img/**/*", dst: "public/img" }
+    { src: "art/**/*", dst: "public/art" }
 ];
 
 
@@ -95,7 +95,7 @@ gulp.task("dev", (cb) =>
 {
     return runSequence(
         ["clean"],
-        ["vendor:artifacts", "app:artifacts"],
+        ["vendor:art", "app:art"],
         [/*"dev:vendor:css",*/ "dev:app:css"],
         ["dev:ts"],
         cb
@@ -106,7 +106,7 @@ gulp.task("prod", (cb) =>
 {
     return runSequence(
         ["clean"],
-        ["vendor:artifacts", "app:artifacts"],
+        ["vendor:art", "app:art"],
         [/*"prod:vendor:css",*/ "prod:app:css"],
         ["prod:ts"],
         ["prod:bundle"],
@@ -123,7 +123,7 @@ gulp.task("prod:vendor:css", () => { return transformCss(vendorCss, true); });
 //
 // Vendor artifacts
 //
-gulp.task("vendor:artifacts", () => { return copyArtifacts(vendorArtifacts); });
+gulp.task("vendor:art", () => { return copyArt(vendorArt); });
 
 //
 // Vendor javascript
@@ -140,12 +140,12 @@ gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
 //
 // Application artifacts
 //
-gulp.task("app:artifacts", () => { return copyArtifacts(appArtifacts); });
+gulp.task("app:art", () => { return copyArt(appArt); });
 
 //
 // Typescript
 //
-gulp.task("dev:ts", () => { return buildTypescriptProject(true, false); });
+gulp.task("dev:ts", () => { return buildTypescriptProject(true, true); });
 gulp.task("prod:ts", () => { return buildTypescriptProject(false, true); });
 
 //
@@ -206,11 +206,12 @@ buildStylusFiles = (fileGlobs, sourceMaps) =>
     return mergeStream(streams);
 };
 
-inlineProcessor = (path, ext, file, cb) =>
+
+ngInlineTemplateProcessor = (path, ext, file, cb) =>
 {
     if(ext[0] === ".html")
     {
-        var minified = htmlMinify.minify(file);
+        var minified = htmlMinifier.minify(file, { caseSensitive: true, collapseWhitespace: true, collapseInlineTagWhitespace: true, removeComments: true });
         return cb(null, minified);
     }
     else if(ext[0] === ".css")
@@ -221,6 +222,7 @@ inlineProcessor = (path, ext, file, cb) =>
     return cb(null, file);
 }
 
+
 buildTypescriptFile = (file, inlineTemplates) =>
 {
     var base = path.resolve("./");
@@ -229,7 +231,7 @@ buildTypescriptFile = (file, inlineTemplates) =>
             .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gSourceMaps.init())
-            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: inlineProcessor, styleProcessor: inlineProcessor})))
+            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: ngInlineTemplateProcessor, styleProcessor: ngInlineTemplateProcessor})))
             .pipe(tsProject())
             .js
             .pipe(gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"}))
@@ -244,7 +246,7 @@ buildTypescriptProject = (sourceMaps, inlineTemplates) =>
             .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gIf(sourceMaps, gSourceMaps.init()))
-            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: inlineProcessor, styleProcessor: inlineProcessor})))
+            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: ngInlineTemplateProcessor, styleProcessor: ngInlineTemplateProcessor})))
             .pipe(tsProject())
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
@@ -290,7 +292,7 @@ transformJavascript = (files, compress) =>
 };
 
 
-copyArtifacts = (artifacts) =>
+copyArt = (artifacts) =>
 {
     var streams = [];
     artifacts.forEach(function (artifact)
