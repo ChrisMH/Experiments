@@ -11,9 +11,9 @@ const template = `
         </div>
         <div id="header-version">{{appSettings.version}}</div>
     </header>
-    <section>
+    <div id="view">
         <router-outlet></router-outlet>
-    </section>
+    </div>
 `;
 //const styles = [require("./App.css").toString()];
 

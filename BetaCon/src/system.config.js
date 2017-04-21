@@ -28,6 +28,7 @@
                 "react-dom": "node_modules/react-dom/dist/react-dom.js",
                 "react-router-dom": "node_modules/react-router-dom/umd/react-router-dom.js",
 
+                "jquery": "node_modules/jquery/dist/jquery.js",
                 "moment": "node_modules/moment/moment.js",
                 "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
                 "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",

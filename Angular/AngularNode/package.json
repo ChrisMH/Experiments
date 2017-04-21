@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "set node_env=development&& nodemon server",
+    "start-prod": "set node_env=production&& nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Chris Hogan",

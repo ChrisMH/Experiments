@@ -34,11 +34,6 @@ var vendorArtifacts =
 
 var vendorJavascript =
 [
-    {
-        src: "node_modules/systemjs/dist/system.src.js",
-        dst: "public",
-        rename: "system.js"
-    }
 ];
 
 appStylus =
@@ -98,7 +93,7 @@ gulp.task("dev", (cb) =>
     return runSequence(
         ["clean"],
         ["dev:ts"],
-        [/*"dev:vendor:css",*/ "vendor:artifacts", "dev:vendor:js", "dev:app:css",  "app:artifacts"],
+        [/*"dev:vendor:css",*/ "vendor:artifacts", /*"dev:vendor:js",*/ "dev:app:css",  "app:artifacts"],
         cb
     );
 });
@@ -108,7 +103,7 @@ gulp.task("prod", (cb) =>
     return runSequence(
         ["clean"],
         ["prod:ts"],
-        [/*"prod:vendor:css",*/ "vendor:artifacts", "prod:vendor:js",  "prod:app:css", "app:artifacts", "prod:system:config"],
+        [/*"prod:vendor:css",*/ "vendor:artifacts", /*"prod:vendor:js",*/  "prod:app:css", "app:artifacts"],
         ["prod:bundle"],
         cb
     );
@@ -151,33 +146,14 @@ gulp.task("prod:ts", () => { return buildTypescriptProject(false); });
 //
 // Bundling
 //
-gulp.task("prod:system:config", () =>
-{
-    return gulp.src(["src/system.config.js", "src/system.config.bundle.js"])
-        .pipe(gPlumber({ errorHandler: onError }))
-        .pipe(gReplace("__VERSION__", getAppVersion()))
-        .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
-        .pipe(gStreamify(gUglify()))
-        .pipe(gulp.dest("public"));
-});
-
 gulp.task("prod:bundle", (cb) =>
 {
     var builder = new systemjsBuilder("/", "src/system.config.js");
 
     var appBundleName = "public/app-" + getAppVersion() + ".js";
-    
-    builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false, encodeNames: false })
-        .then(function () { cb(); })
-        .catch(function (err)
-        {
-            console.log("Bundle Error:");
-            console.log(err);
-            cb();
-        });
 
-    /*
-    builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
+    // The first argument of buildStatic is the entry point of the application
+    builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false })
         .then(function () { cb(); })
         .catch(function (err)
         {
@@ -185,7 +161,6 @@ gulp.task("prod:bundle", (cb) =>
             console.log(err);
             cb();
         });
-    */
 });
 
 

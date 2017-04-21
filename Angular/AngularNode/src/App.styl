@@ -20,7 +20,7 @@ header
         right 5px
 
 
-section
+div#view
     position absolute
     left 0
     top header-height
@@ -28,8 +28,10 @@ section
     width 100% 
     overflow auto
 
-    // > *:not(router-outlet)
-    first-page, second-page
+    > *:not(router-outlet)
         position absolute
         width 100%
         padding 10px
+
+    // > *:not(router-outlet)
+    

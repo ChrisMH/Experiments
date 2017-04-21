@@ -1,13 +1,17 @@
+import "reflect-metadata"; // required for TypedJSON
+import * as $ from "jquery";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import "reflect-metadata"; // required for TypedJSON
 
 import "bootstrap-css";
 import "./main.css";
 
 import { App } from "./App";
 
-ReactDOM.render(
-    <App/>,
-    document.getElementById("root")
-);
+$(document).ready(() =>
+{
+    ReactDOM.render(
+        <App/>,
+        $("body div#root").get(0)
+    );
+});

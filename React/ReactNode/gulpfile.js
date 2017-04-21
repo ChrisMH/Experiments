@@ -153,7 +153,7 @@ gulp.task("prod:bundle", (cb) =>
     var appBundleName = "public/app-" + getAppVersion() + ".js";
     
     // The first argument of buildStatic is the entry point of the application
-    builder.buildStatic("app", appBundleName, { minify: false, sourceMaps: false })
+    builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false })
         .then(function () { cb(); })
         .catch(function (err)
         {
