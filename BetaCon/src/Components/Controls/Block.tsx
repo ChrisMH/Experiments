@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export class BlockProps
+export interface BlockProps
 {
     x: number;
     y: number;
@@ -13,7 +13,7 @@ export class Block extends React.Component<BlockProps, any>
     render(): JSX.Element
     {
         return (
-            <rect x={this.props.x} y={this.props.y} width={this.props.width} height={this.props.height} />
+            <rect x={this.props.x} y={this.props.y} width={this.props.width} height={this.props.height} fill="none" stroke="black" strokeWidth="2" />
         );
     }
 }

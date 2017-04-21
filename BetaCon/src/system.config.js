@@ -26,10 +26,12 @@
                 // Vendor Libraries                
                 "react": "node_modules/react/dist/react.js",
                 "react-dom": "node_modules/react-dom/dist/react-dom.js",
+                "react-measure": "node_modules/react-measure/dist/react-measure.js",
                 "react-router-dom": "node_modules/react-router-dom/umd/react-router-dom.js",
-
-                "jquery": "node_modules/jquery/dist/jquery.js",
+                
+                "get-node-dimensions": "node_modules/get-node-dimensions/dist/get-node-dimensions.js",
                 "moment": "node_modules/moment/moment.js",
+                "resize-observer-polyfill": "node_modules/resize-observer-polyfill/dist/ResizeObserver.js",
                 "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
                 "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",
                 

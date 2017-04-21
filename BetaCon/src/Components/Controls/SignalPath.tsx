@@ -1,23 +1,40 @@
 import * as React from "react";
+import * as Measure from "react-measure";
 
-import { Block } from "../../Components";
+import { SignalPathBlocks } from "../../Components";
 
 import "./SignalPath.css";
 
 interface SignalPathProps
 {
     id: string;
+    title: string;
 }
 
-export class SignalPath extends React.Component<SignalPathProps, any>
+interface SignalPathState
 {
+    width: number;
+    height: number;
+}
+
+export class SignalPath extends React.Component<SignalPathProps, SignalPathState>
+{
+    constructor()
+    {
+        super();
+        this.state = { width: 0, height: 0};
+    }
+
     render(): JSX.Element
     {
         return (
-            <svg className="signal-path" id={this.props.id} viewBox="0 0 600 200" >
-                <Block x={10} y={10} width={200} height={180}/>
-                <Block x={230} y={10} width={200} height={180}/>
-            </svg>
+            <Measure onMeasure={(dims: Measure.Dimensions) => { this.setState({width: dims.width, height: dims.height})}}>
+                <div className="signal-path" id={this.props.id} >
+                    <div>{this.props.title}</div>
+                    <SignalPathBlocks/>
+                </div>
+            </Measure>
         );
     }
 }
+  
