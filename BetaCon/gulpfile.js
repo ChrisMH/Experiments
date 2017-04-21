@@ -24,7 +24,7 @@ var vendorCss =
 [
 ];
 
-var vendorArtifacts =
+var vendorArt =
 [
     {
         src: "node_modules/bootstrap/dist/fonts/**/*",
@@ -41,9 +41,9 @@ appStylus =
     ["src/**/*.styl", "!src/global.styl"]
 ];
 
-appArtifacts =
+appArt =
 [
-    { src: "img/**/*", dst: "public/img" }
+    { src: "art/**/*", dst: "public/art" }
 ];
 
 
@@ -92,8 +92,9 @@ gulp.task("dev", (cb) =>
 {
     return runSequence(
         ["clean"],
+        ["vendor:art", "app:art"],
+        [/*"dev:vendor:css",*/ "dev:app:css"],
         ["dev:ts"],
-        [/*"dev:vendor:css",*/ "vendor:artifacts", /*"dev:vendor:js",*/ "dev:app:css",  "app:artifacts"],
         cb
     );
 });
@@ -102,8 +103,9 @@ gulp.task("prod", (cb) =>
 {
     return runSequence(
         ["clean"],
+        ["vendor:art", "app:art"],
+        [/*"prod:vendor:css",*/ "prod:app:css"],
         ["prod:ts"],
-        [/*"prod:vendor:css",*/ "vendor:artifacts", /*"prod:vendor:js",*/  "prod:app:css", "app:artifacts"],
         ["prod:bundle"],
         cb
     );
@@ -118,7 +120,7 @@ gulp.task("prod:vendor:css", () => { return transformCss(vendorCss, true); });
 //
 // Vendor artifacts
 //
-gulp.task("vendor:artifacts", () => { return copyArtifacts(vendorArtifacts); });
+gulp.task("vendor:art", () => { return copyArt(vendorArt); });
 
 //
 // Vendor javascript
@@ -135,7 +137,7 @@ gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
 //
 // Application artifacts
 //
-gulp.task("app:artifacts", () => { return copyArtifacts(appArtifacts); });
+gulp.task("app:art", () => { return copyArt(appArt); });
 
 //
 // Typescript
@@ -151,7 +153,7 @@ gulp.task("prod:bundle", (cb) =>
     var builder = new systemjsBuilder("/", "src/system.config.js");
 
     var appBundleName = "public/app-" + getAppVersion() + ".js";
-    
+
     // The first argument of buildStatic is the entry point of the application
     builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false })
         .then(function () { cb(); })
@@ -167,6 +169,7 @@ gulp.task("prod:bundle", (cb) =>
 //
 // Helper functions
 //
+
 
 buildStylusFile = (file) =>
 {
@@ -206,6 +209,7 @@ buildTypescriptFile = (file) =>
     var base = path.resolve("./");
     var tsProject = gTypescript.createProject("./tsconfig.json");    
     return gulp.src(file, {base: base})
+            .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gSourceMaps.init())
             .pipe(tsProject())
@@ -219,6 +223,7 @@ buildTypescriptProject = (sourceMaps) =>
 {
     var tsProject = gTypescript.createProject("./tsconfig.json");
     return tsProject.src()
+            .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gIf(sourceMaps, gSourceMaps.init()))
             .pipe(tsProject())
@@ -266,7 +271,7 @@ transformJavascript = (files, compress) =>
 };
 
 
-copyArtifacts = (artifacts) =>
+copyArt = (artifacts) =>
 {
     var streams = [];
     artifacts.forEach(function (artifact)

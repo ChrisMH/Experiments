@@ -1,5 +1,4 @@
 import "reflect-metadata"; // required for TypedJSON
-import * as $ from "jquery";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -8,10 +7,18 @@ import "./main.css";
 
 import { App } from "./App";
 
-$(document).ready(() =>
+(function()
 {
-    ReactDOM.render(
-        <App/>,
-        $("body div#root").get(0)
-    );
-});
+    function boot()
+    {    
+        ReactDOM.render(
+            <App/>,
+            document.getElementById("root")
+        );
+    };
+
+    if(document.readyState === "complete")
+        boot();
+    else
+        document.addEventListener("DOMContentLoaded", boot);
+})();
