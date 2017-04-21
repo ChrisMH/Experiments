@@ -85,7 +85,7 @@ gulp.task("clean:css", () =>
 });
 gulp.task("clean:js", () =>
 {
-    return del(["server.js", "server.js.map", "src/**/*.js", "src/**/*js.map", "!src/system.config.js", "!src/system.config.bundle.js"]);
+    return del(["server.js", "server.js.map", "src/**/*.js", "src/**/*js.map", "!src/system.config.js"]);
 });
 
 //
