@@ -13,6 +13,7 @@ app.get([`${getVirtualDir()}/`, `${getVirtualDir()}/second`], (req: express.Requ
     res.render("main",
         {
             dev: dev,
+            originUrl: "/",
             rootUrl: `${getVirtualDir()}/`,
             version: getVersion()
         }); 

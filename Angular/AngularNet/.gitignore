@@ -1,0 +1,11 @@
+/public
+
+/src/**/*.css
+/src/**/*.js
+/src/**/*.map
+!/src/system.config.js
+
+/test/**/*.js
+/test/**/*.map
+
+!/node_modules/**/*

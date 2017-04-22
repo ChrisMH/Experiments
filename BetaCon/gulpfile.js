@@ -43,7 +43,7 @@ appStylus =
 
 appArt =
 [
-    { src: "art/**/*", dst: "public/art" }
+    { src: "src/art/**/*", dst: "public/art" }
 ];
 
 
