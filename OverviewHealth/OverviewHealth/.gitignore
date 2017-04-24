@@ -1,6 +1,5 @@
 server.js
 server.js.map
-npm-debug*
 
 /public
 /iisnode
@@ -9,7 +8,6 @@ npm-debug*
 /src/**/*.js
 /src/**/*.map
 !/src/system.config.js
-!/src/system.config.bundle.js
 
 /test/**/*.js
 /test/**/*.map

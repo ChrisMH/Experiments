@@ -3,6 +3,7 @@
     System.config(
         {
             warning: true,
+            transpiler: "plugin-babel",
 
             // paths serve as alias
             paths: {
@@ -22,6 +23,8 @@
                 "systemjs": "node_modules/systemjs/dist/system.src.js",
                 "css": "node_modules/systemjs-plugin-css/css.js",
                 //"text": "node_modules/systemjs-plugin-text/text.js",
+                "plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
+                "systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
                 
                 // Vendor Libraries                
                 "react": "node_modules/react/dist/react.js",

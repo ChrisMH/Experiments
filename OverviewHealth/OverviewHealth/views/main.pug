@@ -2,41 +2,26 @@
 html
   head
     if dev
-      title="Dev | Overview Health"
+      title="Dev | Angular Template"
     else
-      title="Overview Health"
+      title="Angular Template"
     base(href=rootUrl)
-    link(href=rootUrl.concat("img/favicon.ico") type="image/x-icon" rel="icon")
-    link(href=rootUrl.concat("img/favicon.ico") type="image/x-icon" rel="shortcut icon")
-
-    if dev
-        script(src=rootUrl.concat("node_modules/systemjs/dist/system.src.js") type="text/javascript")
-    else
-        script(src=rootUrl.concat("system-", version, ".js") type="text/javascript")
-
-    script(type="text/javascript"). 
-        // Set the base URL for SystemJS
-        (function() {            
-            System.config({baseURL: '!{baseUrl}'});
-        })();
-
-    if dev
-        script(src=rootUrl.concat("src/system.config.js"), type="text/javascript")
-    else        
-        script(src=rootUrl.concat("system.config-", version, ".js"), type="text/javascript")
+    link(href="art/favicon.ico" type="image/x-icon" rel="icon")
+    link(href="art/favicon.ico" type="image/x-icon" rel="shortcut icon")
 
     script(type="text/javascript"). 
         // Configuration to be used by the web site
         (function() {
             if(!window.hasOwnProperty("app")) window.app = {};
             window.app.settings = {
+                originUrl: "!{originUrl}",
                 rootUrl: "!{rootUrl}",
                 version: "!{version}",
                 gatewayServiceUrl: "http://overview.logikos.com/GatewayService/",
                 healthServers: [
-                    { serverName: "Overview", serverUrl: "http://overview.logikos.com/OverviewHealthService/"},
-                    { serverName: "Overview 2", serverUrl: "http://overview2.logikos.com/OverviewHealthService/"},
-                    { serverName: "Overview Staging", serverUrl: "http://ogws.logikos.com/OverviewHealthService/"}
+                    { serverName: "Overview", serverUrl: "http://overview.logikos.com/OverviewHealthServiceNode/"},
+                    { serverName: "Overview 2", serverUrl: "http://overview2.logikos.com/OverviewHealthServiceNode/"},
+                    { serverName: "Overview Staging", serverUrl: "http://ogws.logikos.com/OverviewHealthServiceNode/"}
                 ],
                 requireAuthentication: true,
                 minimumRoleLevel: 110000,
@@ -44,10 +29,16 @@ html
             };
         })();
 
-        // Bootstrap the application with SystemJS
-        (function() {
-            System.import("app").catch(function(err) { console.log(err); } );
-        })();
+    if dev
+        script(src="node_modules/systemjs/dist/system.src.js" type="text/javascript")
+        script(src="src/system.config.js", type="text/javascript")
+        script(type="text/javascript"). 
+            // Bootstrap the application with SystemJS
+            (function() {
+                System.import("app").catch(function(err) { console.log(err); } );
+            })();
+    else        
+        script(src="app-".concat(version, ".js"), type="text/javascript")
+        
   body
-    div(id="root")
-
+    <app></app>

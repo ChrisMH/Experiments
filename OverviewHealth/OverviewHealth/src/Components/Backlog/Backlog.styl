@@ -1,0 +1,315 @@
+@require "../../global.styl"
+
+title-height = 30px
+
+block-title-left = 4px
+block-extra-info-left = 4px
+
+count-width = 80px
+
+server-block-width = 300px
+server-block-height = 126px
+
+customer-backlog-left = 2 * default-margin + server-block-width + 10px
+
+customer-block-width = 400px
+customer-block-height = 82px
+customer-block-expanded-height = 240px
+
+spinner-color = lighten(blue, 20%)
+
+blockLeft(width, height)
+    >>> .block-left
+        border: 1px solid blue
+        position: absolute
+        left: 0px
+        top: 0px
+        width: width
+        height: height
+        blockTitle()
+        blockExtraInfo()
+
+blockRight(width, height)
+    >>> .block-right
+        border: 1px solid red
+        position: absolute
+        right: 0px
+        top: 0px
+        width: width
+        height: height
+        blockCount()
+        blockControls(height)
+        blockSpinner()
+
+
+blockTitle()
+    .block-title
+        color: inherit
+        padding-left: block-title-left
+        width: 100%
+        font-size: 16pt
+        font-weight: normal
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+    .block-title-selected
+        font-weight: bold
+
+blockExtraInfo()
+    .block-extra-info
+        padding-left: block-title-left
+        max-width: 100%
+        font-size: 11px
+        display: table
+
+        .block-extra-info-row
+            display: table-row
+
+            .block-extra-info-label
+                display: table-cell
+                text-align: right
+                vertical-align: middle
+                white-space: nowrap
+                overflow: hidden
+
+            .block-extra-info-value
+                display: table-cell
+                font-weight: 600
+                vertical-align: middle
+                padding-left: 5px
+                white-space: nowrap
+                overflow: hidden
+                
+
+blockCount()
+    .block-count
+        background-color: transparent
+        background-image: none
+        width: 100%
+        font-size: 16pt
+        font-weight: 600
+        text-align: right
+        white-space: nowrap
+        display: table
+        padding-right: 5px
+
+        span
+            display: table-cell
+            vertical-align: middle
+ 
+
+blockControls(height)
+    .block-controls
+        position: absolute
+        right: 6px
+        bottom: 6px
+
+        button
+            padding: 0px !important
+            margin: 0px 0px 0px 0px !important
+            width: 22px
+            height: 22px
+
+
+blockSpinner()
+    .block-spinner
+        position: absolute
+        color: spinner-color
+        top: 32px
+        right: 6px
+
+div
+    &#server-list
+        position: relative
+        width: server-block-width
+
+        server-block
+            display: block
+            position: relative
+            margin-bottom: default-margin // (i * (default-margin + server-block-height))
+            width: 100%
+            height: server-block-height
+            border: 1px solid rgb(100,100,100)
+            border-radius: 1px
+            overflow: hidden
+            blockLeft(server-block-width - count-width, server-block-height)
+            blockRight(count-width, server-block-height)
+
+    &#customer-backlog-list
+        position: absolute
+        left: customer-backlog-left
+        top: default-margin
+        right: default-margin
+        bottom: default-margin
+        min-width: customer-block-width
+
+        div
+            &.customer-block
+                position: relative
+                left: 0px
+                margin-bottom: default-margin // (i * (default-margin + customer-block-height))
+                width: 100%
+                height: customer-block-height
+                border: 1px solid rgb(100,100,100)
+                border-radius: 1px
+                overflow: hidden
+                //visibility: collapse
+                blockLeft("calc(100% - %s)" % count-width, customer-block-height)
+                blockRight(count-width, customer-block-height)
+
+                #tracker-list
+                    position: absolute
+                    left: 0px
+                    top: customer-block-height
+                    right: 0px
+                    bottom: 0px
+                    font-size: small
+                    overflow-y: scroll
+                    overflow-x: hidden
+                    border-top: 1px solid rgb(100,100,100)
+
+
+                    &.ng-hide
+                        opacity: 0
+                        height: 0px
+
+                    &.ng-hide-add
+                        -webkit-transition: all 0.49s ease-in-out
+                        -moz-transition: all 0.49s ease-in-out
+                        transition: all 0.49s ease-in-out
+
+                    &.ng-hide-remove
+                        -webkit-transition: all 0.5s ease-in-out
+                        -moz-transition: all 0.5s ease-in-out
+                        transition: all 0.5s ease-in-out
+
+                    table
+                        position: absolute
+                        left: 0px
+                        top: 0px
+                        right: 0px
+                        bottom: 0px
+
+                        thead
+                            font-weight: bold
+
+                            td
+                                padding: 3px
+
+                        tbody
+                            td
+                                padding: 2px
+                                font-size: x-small
+                                vertical-align: middle
+
+                                &.tracker-list-backlog
+                                    font-size: larger
+                                    font-weight: bold
+                                    text-align: center
+
+
+                &.customer-block.ng-enter,
+                &.customer-block.ng-move
+                    -webkit-transition: all 0.5s ease-in-out
+                    -moz-transition: all 0.5s ease-in-out
+                    -o-transition: all 0.5s ease-in-out
+                    transition: all 0.5s ease-in-out
+                    opacity: .5
+
+                    &.customer-block.ng-move.ng-enter-active,
+                    &.customer-block.ng-move.ng-move-active
+                        opacity: 1
+
+            &.customer-block-expanded
+                height: customer-block-expanded-height !important
+
+            &.customer-block-expanded-add
+                -webkit-transition: 0.25s linear
+                -moz-transition: 0.25s linear
+                -o-transition: 0.25s linear
+                transition: 0.25s linear
+
+            &.customer-block-expanded-remove
+                -webkit-transition: 0.25s linear
+                -moz-transition: 0.25s linear
+                -o-transition: 0.25s linear
+                transition: 0.25s linear
+            //.generate-customer-blocks(50)
+
+/*
+.generate-server-blocks(n, i: 0) when (i < n)
+{
+    &.server-block-{i}
+    {
+        position: relative
+        margin-bottom: default-margin // (i * (default-margin + server-block-height))
+        width: 100%
+        height: server-block-height
+        border: 1px solid rgb(100,100,100)
+        border-radius: 1px
+        overflow: hidden
+        .block-left(calc(~"100% - count-width"), server-block-height)
+        .block-right(count-width, server-block-height)
+    }
+
+    .generate-server-blocks(n, (i + 1))
+}
+
+.generate-customer-blocks(n, i: 0) when (i < n)
+{
+    &.customer-block-{i}
+    {
+        visibility: visible
+    }
+
+    &.customer-block-{i}-add
+    {
+        -webkit-transition: 1s linear
+        -moz-transition: 1s linear
+        -o-transition: 1s linear
+        transition: 1s linear
+    }
+
+    &.customer-block-{i}-remove
+    {
+        -webkit-transition: 1s linear
+        -moz-transition: 1s linear
+        -o-transition: 1s linear
+        transition: 1s linear
+    }
+
+    .generate-customer-blocks(n, (i + 1))
+}
+*/
+
+
+        
+
+
+  
+
+.server-block-good
+    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), background-color, left top, right top)
+
+.server-block-poor
+    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), background-color, left top, right top)
+
+.server-block-bad
+    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), background-color, left top, right top)
+
+.customer-block-good
+    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), background-color, left top, right top)
+
+.customer-block-poor
+    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), background-color, left top, right top)
+
+.customer-block-bad 
+    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), background-color, left top, right top)
+
+linear-gradient(start_color, end_color, start = left top, end = left bottom)
+  mozstart = top if start = left top
+  background start_color
+  background -moz-linear-gradient(mozstart, start_color 0%, end_color 100%)
+  background -webkit-gradient(linear, start, end, color-stop(0%, start_color), color-stop(100%, end_color))
+  -webkit-background-origin padding-box

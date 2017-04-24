@@ -3,6 +3,7 @@
     System.config(
         {
             warning: true,
+            transpiler: "plugin-babel",
 
             // paths serve as alias
             paths: {
@@ -14,14 +15,15 @@
                 // Application
                 "app": "src",
                 "Components": "src/Components",
-                //"Models": "src/Models",
+                "Models": "src/Models",
                 "Services": "src/Services",
                 //"Utilities": "src/Utilities",
 
                 // Plugins
                 "systemjs": "node_modules/systemjs/dist/system.src.js",
                 "css": "node_modules/systemjs-plugin-css/css.js",
-                //"text": "node_modules/systemjs-plugin-text/text.js",
+                "plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
+                "systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
                 
                 // Vendor Libraries                
                 "react": "node_modules/react/dist/react.js",
@@ -44,7 +46,7 @@
             {
                 "app": { main: "main" },
                 "Components": { main: "index" },
-                //"Models": { main: "index" },
+                "Models": { main: "index" },
                 "Services": { main: "index" },
                 //"Utilities": { main: "index" }
                 

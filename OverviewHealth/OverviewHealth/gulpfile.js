@@ -3,6 +3,7 @@ var gCleanCss = require("gulp-clean-css");
 var gConcat = require("gulp-concat");
 var gDebug = require("gulp-debug");
 var gIf = require("gulp-if");
+var gInlineNgTemplate = require("gulp-inline-ng2-template");
 var gPlumber = require("gulp-plumber");
 var gRename = require("gulp-rename");
 var gReplace = require("gulp-replace");
@@ -13,8 +14,10 @@ var gTypescript = require("gulp-typescript");
 var gUglify = require("gulp-uglify");
 var gUtil = require("gulp-util");
 
+var cleanCss = require("clean-css");
 var del = require("del");
 var fs = require("fs");
+var htmlMinifier = require("html-minifier");
 var path = require("path");
 var mergeStream = require("merge-stream");
 var runSequence = require("run-sequence");
@@ -24,7 +27,7 @@ var vendorCss =
 [
 ];
 
-var vendorArtifacts =
+var vendorArt =
 [
     {
         src: "node_modules/bootstrap/dist/fonts/**/*",
@@ -34,11 +37,6 @@ var vendorArtifacts =
 
 var vendorJavascript =
 [
-    {
-        src: "node_modules/systemjs/dist/system.src.js",
-        dst: "public",
-        rename: "system.js"
-    }
 ];
 
 appStylus =
@@ -46,9 +44,9 @@ appStylus =
     ["src/**/*.styl", "!src/global.styl"]
 ];
 
-appArtifacts =
+appArt =
 [
-    { src: "img/**/*", dst: "public/img" }
+    { src: "src/art/**/*", dst: "public/art" }
 ];
 
 
@@ -57,20 +55,27 @@ appArtifacts =
 //
 gulp.task("watch", (cb) =>
 {
-    gulp.watch(["server.ts", "src/**/*.ts", "src/**/*.tsx"]).on("change", (changeEvent) =>
+    gulp.watch(["server.ts", "src/**/*.ts", "test/**/*.ts"]).on("change", (changeEvent) =>
     {
-        buildTypescriptFile(changeEvent.path);
+        buildTypescriptFile(changeEvent.path, false);
         gUtil.log(`Built ${changeEvent.path}`)
     });
-
+    
     appStylus.forEach((fileGlob) =>
     {
         gulp.watch(fileGlob).on("change", (changeEvent) =>
         {
             buildStylusFile(changeEvent.path);
             gUtil.log(`Built ${changeEvent.path}`);
+
+            //buildMatchingTypescriptFile(changeEvent.path);            
         });
     });
+
+    // gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
+    // {
+    //     buildMatchingTypescriptFile(changeEvent.path);            
+    // });
 
     gulp.watch(["src/global.styl"], ["dev:app:css"]);
 });
@@ -87,7 +92,9 @@ gulp.task("clean:css", () =>
 });
 gulp.task("clean:js", () =>
 {
-    return del(["server.js", "server.js.map", "src/**/*.js", "src/**/*js.map", "!src/system.config.js", "!src/system.config.bundle.js"]);
+    return del(["server.js", "server.js.map", 
+                "src/**/*.js", "src/**/*.js.map", "!src/system.config.js",
+                "test/**/*.js", "test/**/*.js.map"]);
 });
 
 //
@@ -97,8 +104,9 @@ gulp.task("dev", (cb) =>
 {
     return runSequence(
         ["clean"],
+        ["vendor:art", "app:art"],
+        [/*"dev:vendor:css",*/ "dev:app:css"],
         ["dev:ts"],
-        [/*"dev:vendor:css",*/ "vendor:artifacts", "dev:vendor:js", "dev:app:css",  "app:artifacts"],
         cb
     );
 });
@@ -107,8 +115,9 @@ gulp.task("prod", (cb) =>
 {
     return runSequence(
         ["clean"],
+        ["vendor:art", "app:art"],
+        [/*"prod:vendor:css",*/ "prod:app:css"],
         ["prod:ts"],
-        [/*"prod:vendor:css",*/ "vendor:artifacts", "prod:vendor:js",  "prod:app:css", "app:artifacts", "prod:system:config"],
         ["prod:bundle"],
         cb
     );
@@ -123,7 +132,7 @@ gulp.task("prod:vendor:css", () => { return transformCss(vendorCss, true); });
 //
 // Vendor artifacts
 //
-gulp.task("vendor:artifacts", () => { return copyArtifacts(vendorArtifacts); });
+gulp.task("vendor:art", () => { return copyArt(vendorArt); });
 
 //
 // Vendor javascript
@@ -140,33 +149,25 @@ gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
 //
 // Application artifacts
 //
-gulp.task("app:artifacts", () => { return copyArtifacts(appArtifacts); });
+gulp.task("app:art", () => { return copyArt(appArt); });
 
 //
 // Typescript
 //
-gulp.task("dev:ts", () => { return buildTypescriptProject(true); });
-gulp.task("prod:ts", () => { return buildTypescriptProject(false); });
+gulp.task("dev:ts", () => { return buildTypescriptProject(true, false); });
+gulp.task("prod:ts", () => { return buildTypescriptProject(false, true); });
 
 //
 // Bundling
 //
-gulp.task("prod:system:config", () =>
-{
-    return gulp.src(["src/system.config.js", "src/system.config.bundle.js"])
-        .pipe(gPlumber({ errorHandler: onError }))
-        .pipe(gReplace("__VERSION__", getAppVersion()))
-        .pipe(gConcat("system.config-" + getAppVersion() + ".js"))
-        .pipe(gStreamify(gUglify()))
-        .pipe(gulp.dest("public"));
-});
-
 gulp.task("prod:bundle", (cb) =>
 {
     var builder = new systemjsBuilder("/", "src/system.config.js");
 
     var appBundleName = "public/app-" + getAppVersion() + ".js";
-    builder.bundle("app", appBundleName, { minify: true, sourceMaps: false })
+
+    // The first argument of buildStatic is the entry point of the application
+    builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false })
         .then(function () { cb(); })
         .catch(function (err)
         {
@@ -180,6 +181,7 @@ gulp.task("prod:bundle", (cb) =>
 //
 // Helper functions
 //
+
 
 buildStylusFile = (file) =>
 {
@@ -214,13 +216,31 @@ buildStylusFiles = (fileGlobs, sourceMaps) =>
 };
 
 
-buildTypescriptFile = (file) =>
+ngInlineTemplateProcessor = (path, ext, file, cb) =>
+{
+    if(ext[0] === ".html")
+    {
+        var minified = htmlMinifier.minify(file, { caseSensitive: true, collapseWhitespace: true, collapseInlineTagWhitespace: true, removeComments: true });
+        return cb(null, minified);
+    }
+    else if(ext[0] === ".css")
+    {
+        var minified = new cleanCss().minify(file);
+        return cb(null, minified.styles);
+    }
+    return cb(null, file);
+}
+
+
+buildTypescriptFile = (file, inlineTemplates) =>
 {
     var base = path.resolve("./");
     var tsProject = gTypescript.createProject("./tsconfig.json");    
     return gulp.src(file, {base: base})
+            .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gSourceMaps.init())
+            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: ngInlineTemplateProcessor, styleProcessor: ngInlineTemplateProcessor})))
             .pipe(tsProject())
             .js
             .pipe(gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"}))
@@ -228,16 +248,32 @@ buildTypescriptFile = (file) =>
 };
 
 
-buildTypescriptProject = (sourceMaps) =>
+buildTypescriptProject = (sourceMaps, inlineTemplates) =>
 {
     var tsProject = gTypescript.createProject("./tsconfig.json");
     return tsProject.src()
+            .pipe(gPlumber({ errorHandler: err => {} }))
             //.pipe(gDebug())
             .pipe(gIf(sourceMaps, gSourceMaps.init()))
+            .pipe(gIf(inlineTemplates, gInlineNgTemplate({useRelativePaths: true, removeLineBreaks: true, templateProcessor: ngInlineTemplateProcessor, styleProcessor: ngInlineTemplateProcessor})))
             .pipe(tsProject())
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
             .pipe(gulp.dest("./"));
+};
+
+
+buildMatchingTypescriptFile = (file) =>
+{
+    var extName = path.extname(file);
+    var fileName = path.basename(file, extName);
+    var tsPath = path.join(path.dirname(file), fileName.concat(".ts"));
+
+    if(fs.existsSync(tsPath))
+    {
+        buildTypescriptFile(tsPath);
+        gUtil.log(`Built ${tsPath}`)
+    }
 };
 
 
@@ -279,7 +315,7 @@ transformJavascript = (files, compress) =>
 };
 
 
-copyArtifacts = (artifacts) =>
+copyArt = (artifacts) =>
 {
     var streams = [];
     artifacts.forEach(function (artifact)

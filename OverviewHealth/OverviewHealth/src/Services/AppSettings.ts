@@ -1,4 +1,36 @@
+﻿import { Injectable, Inject } from "@angular/core";
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
+
+
+@Injectable()
+export class AppSettings
+{
+    originUrl: string;
+    rootUrl: string;
+    version: string;
+    gatewayServiceUrl: string;
+    healthServers: Array<HealthServer>;
+    requireAuthentication: boolean;
+    minimumRoleLevel: number;
+    updateInterval: number;
+
+    constructor(@Inject("ConfigRoot") configRoot: any)
+    {
+        if (configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings"))
+        {
+            const appSettings = TypedJSON.parse(JSON.stringify(configRoot["app"]["settings"]), InternalAppSettings);
+            
+            this.originUrl = appSettings.originUrl;
+            this.rootUrl = appSettings.rootUrl;
+            this.version = appSettings.version;
+            this.gatewayServiceUrl = appSettings.gatewayServiceUrl;
+            this.healthServers = appSettings.healthServers;
+            this.requireAuthentication = appSettings.requireAuthentication;
+            this.minimumRoleLevel = appSettings.minimumRoleLevel;
+            this.updateInterval = appSettings.updateInterval;
+        }
+    }
+}
 
 @JsonObject
 export class HealthServer
@@ -11,11 +43,14 @@ export class HealthServer
 }
 
 @JsonObject
-export class AppSettings
+class InternalAppSettings
 {
     @JsonMember
+    originUrl: string;
+
+    @JsonMember
     rootUrl: string;
-    
+
     @JsonMember
     version: string;
 
@@ -33,16 +68,4 @@ export class AppSettings
 
     @JsonMember
     updateInterval: number;
-
-    private static appSettings: AppSettings;
-    static Load(configRoot?: Object): AppSettings
-    {        
-        if(!configRoot)
-            configRoot = window;
-            
-        if (AppSettings.appSettings === undefined && configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings"))
-            AppSettings.appSettings = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), AppSettings);
-        return AppSettings.appSettings;
-    }
 }
-

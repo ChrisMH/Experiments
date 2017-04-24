@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
+    "lib": ["es6", "dom"],
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -9,8 +10,7 @@
     "removeComments": true,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "jsx": "react",
-    "typeRoots":  ["node_modules/@types"] 
+    "typeRoots":  ["node_modules/@types"]
   },
   "exclude": [
     "node_modules"

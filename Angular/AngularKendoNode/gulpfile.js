@@ -154,7 +154,7 @@ gulp.task("app:art", () => { return copyArt(appArt); });
 //
 // Typescript
 //
-gulp.task("dev:ts", () => { return buildTypescriptProject(true, true); });
+gulp.task("dev:ts", () => { return buildTypescriptProject(true, false); });
 gulp.task("prod:ts", () => { return buildTypescriptProject(false, true); });
 
 //

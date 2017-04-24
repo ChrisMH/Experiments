@@ -1,4 +1,4 @@
-import "reflect-metadata"; // required for TypedJSON
+//import "reflect-metadata"; // required for TypedJSON
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
