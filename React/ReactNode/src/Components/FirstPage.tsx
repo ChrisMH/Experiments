@@ -1,13 +1,14 @@
 import * as React from "react";
 import * as moment from "moment";
+import { inject } from "inversify";
 
-import { AppSettings } from "../Services";
+import { AppSettings, IoC } from "../Services";
 
 import "./FirstPage.css"
        
 export class FirstPage extends React.Component<any, any>
 {
-    appSettings = AppSettings.Load();
+    protected appSettings = IoC.getContainer().get<AppSettings>(AppSettings);
 
     render()
     {

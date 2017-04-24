@@ -1,7 +1,29 @@
+import { injectable, inject } from "inversify";
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
-@JsonObject
+@injectable()
 export class AppSettings
+{
+    originUrl: string;
+    rootUrl: string;
+    version: string;
+
+    constructor(@inject("configRoot") configRoot: Object)
+    {
+        if(configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings"))
+        {
+            const appSettings = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), InternalAppSettings);
+            
+            this.originUrl = appSettings.originUrl;
+            this.rootUrl = appSettings.rootUrl;
+            this.version = appSettings.version;
+        }
+    }
+}
+
+
+@JsonObject
+class InternalAppSettings
 {
     @JsonMember
     originUrl: string;
@@ -11,24 +33,4 @@ export class AppSettings
     
     @JsonMember
     version: string;
-
-    private static appSettings: AppSettings;
-
-    static Load(configRoot?: Object, reload?: boolean): AppSettings
-    {        
-        if(!configRoot)
-            configRoot = window;
-            
-        if (AppSettings.appSettings === undefined || reload)
-        {
-            if(configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings"))
-                AppSettings.appSettings = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), AppSettings);
-            else
-                AppSettings.appSettings = new AppSettings();
-        }
-
-        return AppSettings.appSettings;
-    }
-
 }
-

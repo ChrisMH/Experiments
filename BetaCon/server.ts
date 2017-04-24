@@ -18,6 +18,7 @@ app.get(routes, (req: express.Request, res: express.Response) =>
     res.render("main",
         {
             dev: dev,
+            originUrl: "/",
             rootUrl: `${getVirtualDir()}/`,
             version: getVersion()
         }); 

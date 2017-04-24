@@ -1,14 +1,15 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Container } from "inversify";
 
 import { Header, MainPage, InputSetupPage } from "./Components";
-import { AppSettings } from "./Services";
+import { AppSettings, IoC } from "./Services";
 
 import "./App.css";
 
 export class App extends React.Component<any, any>
 {
-    appSettings = AppSettings.Load();
+    protected appSettings = IoC.getContainer().get<AppSettings>(AppSettings);
 
     render(): JSX.Element
     {

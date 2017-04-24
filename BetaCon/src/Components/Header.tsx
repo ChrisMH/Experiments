@@ -2,13 +2,13 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import * as moment from "moment";
 
-import { AppSettings } from "../Services";
+import { AppSettings, IoC } from "../Services";
 
 import "./Header.css"
        
 export class Header extends React.Component<any, any>
 {
-    appSettings = AppSettings.Load();
+    protected appSettings = IoC.getContainer().get<AppSettings>(AppSettings);
 
     render(): JSX.Element
     {

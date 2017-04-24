@@ -52,7 +52,7 @@ appArt =
 //
 gulp.task("watch", (cb) =>
 {
-    gulp.watch(["server.ts", "src/**/*.ts", "src/**/*.tsx"]).on("change", (changeEvent) =>
+    gulp.watch(["server.ts", "src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"]).on("change", (changeEvent) =>
     {
         buildTypescriptFile(changeEvent.path);
         gUtil.log(`Built ${changeEvent.path}`)
@@ -82,7 +82,9 @@ gulp.task("clean:css", () =>
 });
 gulp.task("clean:js", () =>
 {
-    return del(["server.js", "server.js.map", "src/**/*.js", "src/**/*js.map", "!src/system.config.js"]);
+    return del(["server.js", "server.js.map", 
+                "src/**/*.js", "src/**/*.js.map", "!src/system.config.js",
+                "test/**/*.js", "test/**/*.js.map"]);
 });
 
 //
