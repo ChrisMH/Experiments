@@ -1,0 +1,1 @@
+{"version":3,"file":"is-number.js","sources":["is-number.js"],"sourcesContent":["export default function isNumber(value) {\n    return typeof value === \"number\" && !isNaN(value);\n}"],"names":[],"mappings":"AAAA,eAAe,SAAS,QAAQ,CAAC,KAAK,EAAE;IACpC,OAAO,OAAO,KAAK,KAAK,QAAQ,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC;"}

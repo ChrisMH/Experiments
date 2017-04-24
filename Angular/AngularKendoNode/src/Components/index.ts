@@ -1,2 +1,2 @@
-﻿export * from "./KendoDatePickerPage";
-export * from "./SecondPage";
+﻿export * from "./DatePickerPage";
+export * from "./PieChartPage";

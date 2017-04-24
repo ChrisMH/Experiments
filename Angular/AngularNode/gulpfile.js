@@ -67,7 +67,14 @@ gulp.task("watch", (cb) =>
         {
             buildStylusFile(changeEvent.path);
             gUtil.log(`Built ${changeEvent.path}`);
+
+            buildMatchingTypescriptFile(changeEvent.path);            
         });
+    });
+
+    gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
+    {
+        buildMatchingTypescriptFile(changeEvent.path);            
     });
 
     gulp.watch(["src/global.styl"], ["dev:app:css"]);
@@ -253,6 +260,20 @@ buildTypescriptProject = (sourceMaps, inlineTemplates) =>
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
             .pipe(gulp.dest("./"));
+};
+
+
+buildMatchingTypescriptFile = (file) =>
+{
+    var extName = path.extname(file);
+    var fileName = path.basename(file, extName);
+    var tsPath = path.join(path.dirname(file), fileName.concat(".ts"));
+
+    if(fs.existsSync(tsPath))
+    {
+        buildTypescriptFile(tsPath);
+        gUtil.log(`Built ${tsPath}`)
+    }
 };
 
 

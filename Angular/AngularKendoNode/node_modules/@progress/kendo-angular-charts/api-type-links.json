@@ -1,0 +1,8 @@
+{
+    "Element": "{% slug api_kendo-drawing_element_kendouiforangular %}",
+    "Group": "{% slug api_kendo-drawing_group_kendouiforangular %}",
+    "MultiPath": "{% slug api_kendo-drawing_multipath_kendouiforangular %}",
+    "Rect": "{% slug api_kendo-drawing_geometry_rect_kendouiforangular %}",
+    "Point": "{% slug api_kendo-drawing_geometry_point_kendouiforangular %}",
+    "Arc": "{% slug api_kendo-drawing_geometry_arc_kendouiforangular %}"
+}

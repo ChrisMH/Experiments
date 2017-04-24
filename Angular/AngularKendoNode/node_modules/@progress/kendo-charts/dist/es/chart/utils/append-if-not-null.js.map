@@ -1,0 +1,1 @@
+{"version":3,"file":"append-if-not-null.js","sources":["append-if-not-null.js"],"sourcesContent":["export default function appendIfNotNull(array, element) {\n    if (element !== null) {\n        array.push(element);\n    }\n}"],"names":[],"mappings":"AAAA,eAAe,SAAS,eAAe,CAAC,KAAK,EAAE,OAAO,EAAE;IACpD,IAAI,OAAO,KAAK,IAAI,EAAE;QAClB,KAAK,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;KACvB;"}

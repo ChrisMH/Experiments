@@ -1,5 +1,6 @@
-﻿import "zone.js";
-import "reflect-metadata";
+﻿import "zone.js";   // Required for Angular
+import "reflect-metadata"; // Required for typedjson
+import "hammerjs";  // Required for some Kendo controls
 
 import { enableProdMode } from "@angular/core";
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -7,6 +8,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Module } from "./Module"
 
 import "bootstrap-css";
+import "kendo-css";
+
 import "./main.css";
 
 (function()

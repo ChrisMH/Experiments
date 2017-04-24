@@ -2,12 +2,13 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { IntlModule } from "@progress/kendo-angular-intl";
+import { ChartModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from "@progress/kendo-angular-dateinputs";
+import { IntlModule } from "@progress/kendo-angular-intl";
 
 import { App } from "./App";
 import { Router } from "./Router";
-import { KendoDatePickerPage, SecondPage } from "./Components";
+import { KendoDatePickerPage, PieChartPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({
@@ -15,8 +16,11 @@ import { AppSettings } from "./Services";
     [
         BrowserModule,
         BrowserAnimationsModule,
-        IntlModule,
+
+        ChartModule,
         DateInputsModule,
+        IntlModule,
+
         Router
     ],
 
@@ -24,7 +28,7 @@ import { AppSettings } from "./Services";
     [
         App,
         KendoDatePickerPage,
-        SecondPage
+        PieChartPage
     ],
 
     providers:

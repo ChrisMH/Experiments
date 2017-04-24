@@ -1,0 +1,1 @@
+{"version":3,"file":"add-ticks.js","sources":["add-ticks.js"],"sourcesContent":["export default function addTicks(date, ticks) {\n    return new Date(date.getTime() + ticks);\n}"],"names":[],"mappings":"AAAA,eAAe,SAAS,QAAQ,CAAC,IAAI,EAAE,KAAK,EAAE;IAC1C,OAAO,IAAI,IAAI,CAAC,IAAI,CAAC,OAAO,EAAE,GAAG,KAAK,CAAC,CAAC;"}

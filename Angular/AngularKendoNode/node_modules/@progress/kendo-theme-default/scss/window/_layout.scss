@@ -1,0 +1,79 @@
+@include exports("window/layout") {
+
+    .k-window {
+        padding: 0;
+        max-width: 98vw;
+        max-height: 98vh;
+        border-width: 1px;
+        border-style: solid;
+        display: inline-flex;
+        flex-direction: column;
+        position: absolute;
+        z-index: 10002;
+
+        // overlay during dragging
+        .k-overlay {
+            position: absolute;
+            opacity: 0;
+        }
+
+        // Compact
+        // sass-lint:disable mixins-before-declarations
+        @include compact {
+
+            .k-window-titlebar {
+                padding: $padding-y-sm $padding-x-sm;
+                line-height: $line-height;
+            }
+            .k-window-content {
+                padding: $padding-x-sm;
+            }
+        }
+        // sass-lint:enable mixins-before-declarations
+    }
+
+
+    // Title bar
+    .k-window-titlebar {
+        padding: $window-titlebar-padding-y $window-titlebar-padding-x;
+        min-height: 16px;
+        border-width: 0 0 1px;
+        border-style: solid;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 0;
+        align-items: center;
+    }
+    .k-window-title {
+        margin: 0;
+        font-size: $font-size-lg;
+        line-height: 1;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: default;
+        flex: 1;
+    }
+
+
+    // Actions
+    .k-window-actions {
+        line-height: 1;
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 0;
+        align-items: center;
+        vertical-align: top;
+    }
+
+
+    // Content
+    .k-window-content {
+        padding: $window-inner-padding-y $window-inner-padding-x;
+        outline: 0;
+        overflow: auto;
+        position: relative;
+        flex: 1 1 auto;
+    }
+
+}

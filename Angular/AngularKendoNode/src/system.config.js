@@ -19,9 +19,9 @@
             "Services":             "src/Services",
             
             // Plugins
-            "systemjs":             "node_modules/systemjs/dist/system.src.js",
-            "css": "node_modules/systemjs-plugin-css/css.js",
-            "text":                 "node_modules/systemjs-plugin-text/text.js",
+            "systemjs": "node_modules/systemjs/dist/system.src.js",
+            "css":      "node_modules/systemjs-plugin-css/css.js",
+            "text":     "node_modules/systemjs-plugin-text/text.js",
             //"plugin-babel":         "node_modules/systemjs-plugin-babel/plugin-babel.js",
             //"systemjs-babel-build": "node_modules/systemjs-plugin-babel/systemjs-babel-browser.js",
             
@@ -40,16 +40,22 @@
             
             // Kendo Bundles
 
-            "@progress/kendo-angular-dateinputs":   "node_modules/@progress/kendo-angular-dateinputs/dist/npm",
-            "@progress/kendo-angular-intl":         "node_modules/@progress/kendo-angular-intl/dist/npm",
-            "@progress/kendo-angular-l10n":         "node_modules/@progress/kendo-angular-l10n/dist/npm",
-            "@progress/kendo-angular-popup":        "node_modules/@progress/kendo-angular-popup/dist/npm",
-            "@progress/kendo-angular-math":         "node_modules/@progress/kendo-angular-math/dist/npm",
-            "@progress/kendo-date-math":            "node_modules/@progress/kendo-date-math/dist/npm",
-            "@progress/kendo-popup-common":         "node_modules/@progress/kendo-popup-common/dist/npm",
-            "@telerik/kendo-intl":                  "node_modules/@telerik/kendo-intl/dist/npm",
+            "@progress/kendo-angular-charts":           "node_modules/@progress/kendo-angular-charts/dist/npm",
+            "@progress/kendo-angular-dateinputs":       "node_modules/@progress/kendo-angular-dateinputs/dist/npm",
+            "@progress/kendo-angular-intl":             "node_modules/@progress/kendo-angular-intl/dist/npm",
+            "@progress/kendo-angular-l10n":             "node_modules/@progress/kendo-angular-l10n/dist/npm",
+            "@progress/kendo-angular-popup":            "node_modules/@progress/kendo-angular-popup/dist/npm",
+            "@progress/kendo-angular-math":             "node_modules/@progress/kendo-angular-math/dist/npm",
+            "@progress/kendo-angular-resize-sensor":    "node_modules/@progress/kendo-angular-resize-sensor/dist/npm",
+            "@progress/kendo-charts":                   "node_modules/@progress/kendo-charts/dist/npm",
+            "@progress/kendo-data-query":               "node_modules/@progress/kendo-data-query/dist/npm",
+            "@progress/kendo-date-math":                "node_modules/@progress/kendo-date-math/dist/npm",
+            "@progress/kendo-drawing":                  "node_modules/@progress/kendo-drawing/dist/npm",
+            "@progress/kendo-popup-common":             "node_modules/@progress/kendo-popup-common/dist/npm",
+            "@telerik/kendo-intl":                      "node_modules/@telerik/kendo-intl/dist/npm",
 
             // other libraries
+            "hammerjs":         "node_modules/hammerjs/hammer.js",
             "moment":           "node_modules/moment",
             "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
             "rxjs":             "node_modules/rxjs",
@@ -57,7 +63,8 @@
             "zone.js":          "node_modules/zone.js/dist/zone.js",
 
             // CSS
-            "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css"  
+            "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css",
+            "kendo-css": "node_modules/@progress/kendo-theme-default/dist/all.css" 
 
         },
 
@@ -68,14 +75,19 @@
             "Models":               { main: "index" },
             "Services":             { main: "index" },
             
-            "@progress/kendo-angular-dateinputs":   { main: "main" },
-            "@progress/kendo-angular-intl":         { main: "main" },
-            "@progress/kendo-angular-l10n":         { main: "main" },
-            "@progress/kendo-angular-popup":        { main: "main" },
-            "@progress/kendo-angular-math":         { main: "main" },
-            "@progress/kendo-date-math":            { main: "main" },
-            "@progress/kendo-popup-common":         { main: "main" },
-            "@telerik/kendo-intl":                  { main: "main" },
+            "@progress/kendo-angular-charts":           { main: "main" },
+            "@progress/kendo-angular-dateinputs":       { main: "main" },
+            "@progress/kendo-angular-intl":             { main: "main" },
+            "@progress/kendo-angular-l10n":             { main: "main" },
+            "@progress/kendo-angular-popup":            { main: "main" },
+            "@progress/kendo-angular-math":             { main: "main" },
+            "@progress/kendo-angular-resize-sensor":    { main: "main" },
+            "@progress/kendo-charts":                   { main: "main" },
+            "@progress/kendo-data-query":               { main: "main" },
+            "@progress/kendo-date-math":                { main: "main" },
+            "@progress/kendo-drawing":                  { main: "main" },
+            "@progress/kendo-popup-common":             { main: "main" },
+            "@telerik/kendo-intl":                      { main: "main" },
 
 
             "moment":               { main: "moment" },
