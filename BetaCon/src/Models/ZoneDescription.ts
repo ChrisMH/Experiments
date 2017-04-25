@@ -1,8 +1,11 @@
 
 export class ZoneDescription
 {
-    constructor(public title: string)
-    {
+    title: string;
 
+    constructor(title?: string)
+    {
+        if(title !== undefined)
+            this.title = title;
     }
 }

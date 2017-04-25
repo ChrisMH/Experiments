@@ -1,33 +1,56 @@
+import "reflect-metadata"; // TypedJSON
 import * as express from "express";
 import * as fs from "fs";
 import * as moment from "moment";
-
+import { JsonMember, JsonObject, SerializerSettings, TypedJSON } from "typedjson-npm";
 //import * as http from "http";
 //import * as timers from "timers";
 
-import { BacklogHistory, Counters, Customer, CustomerBacklog, PerformanceDb } from "./db";
-
+import { BacklogHistory, Counters, Customer, CustomerBacklog } from "./Models";
+import { PerformanceDb } from "./PerformanceDb";
 
 if (process.env.node_env === undefined)
     throw "node_env is not defined";
 
+TypedJSON.config(<SerializerSettings>{enableTypeHints: false});
 
 let app = express();
 let port = process.env.port || 1337;
 
 
+@JsonObject
 class ServiceResponse
 {
-    dataTime: Date;
+    @JsonMember
+    success: boolean;
 
+    @JsonMember
+    message: string
+
+    @JsonMember
+    data: Object
+
+    @JsonMember
+    dataTime: Date
+    
     constructor(
-        public success: boolean,
-        public message: string,
-        public data?: Object)
+        success?: boolean,
+        message?: string,
+        data?: Object)
     {
+        if(success !== undefined)
+            this.success = success;
+            
+        if(message !== undefined)
+            this.message = message;
+            
+        if(data !== undefined)
+            this.data = data;
+
         this.dataTime = moment().toDate();
     }
 }
+
 
 const cacheTime = 60;
 
@@ -45,11 +68,11 @@ app.get(`${getVirtualDir()}/customers`, (req: express.Request, res: express.Resp
     performanceDb.getCustomers()
         .then((value: Array<Customer>) =>
             {
-                sendResponse(res, JSON.stringify(new ServiceResponse(true, undefined, value)));
+                sendResponse(res, TypedJSON.stringify(new ServiceResponse(true, undefined, value)));
             },
             (reason: Error) =>
             {
-                sendResponse(res, JSON.stringify(new ServiceResponse(false, reason.message)));
+                sendResponse(res, TypedJSON.stringify(new ServiceResponse(false, reason.message)));
             });
 });
 
@@ -67,14 +90,14 @@ app.get(`${getVirtualDir()}/backlog`, (req: express.Request, res: express.Respon
         performanceDb.getBacklog()
             .then((value: Array<CustomerBacklog>) =>
                 {
-                    backlog = JSON.stringify(new ServiceResponse(true, undefined, value));
+                    backlog = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
                     lastBacklogTime = moment();
                     console.log("Replying with new backlog");
                     sendResponse(res, backlog);
                 },
                 (reason: Error) =>
                 {
-                    backlog = JSON.stringify(new ServiceResponse(false, reason.message));
+                    backlog = TypedJSON.stringify(new ServiceResponse(false, reason.message));
                     console.error("Error", reason.message);
                     sendResponse(res, backlog);
                 });
@@ -95,14 +118,14 @@ app.get(`${getVirtualDir()}/counters`, (req: express.Request, res: express.Respo
         performanceDb.getCounters()
             .then((value: Counters) =>
                 {
-                    counters = JSON.stringify(new ServiceResponse(true, undefined, value));
+                    counters = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
                     lastCountersTime = moment();
                     console.log("Replying with new counters");
                     sendResponse(res, counters);
                 },
                 (reason: Error) =>
                 {
-                    counters = JSON.stringify(new ServiceResponse(false, reason.message));
+                    counters = TypedJSON.stringify(new ServiceResponse(false, reason.message));
                     console.error("Error", reason.message);
                     sendResponse(res, counters);
                 });
@@ -121,12 +144,12 @@ app.get(`${getVirtualDir()}/history/backlog`, (req: express.Request, res: expres
     performanceDb.getBacklogHistory(moment(req.query.afterTime), moment(req.query.beforeTime))
         .then((value: BacklogHistory[]) =>
         {
-            let response = JSON.stringify(new ServiceResponse(true, undefined, value));
+            let response = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
             sendResponse(res, response);            
         },
         (reason: any) =>
         {
-            let response = JSON.stringify(new ServiceResponse(false, reason.message));
+            let response = TypedJSON.stringify(new ServiceResponse(false, reason.message));
             console.error("Error", reason.message);
             sendResponse(res, response);
         });
@@ -159,12 +182,12 @@ app.get(`${getVirtualDir()}/history/customerbacklog`, (req: express.Request, res
     performanceDb.getCustomerBacklogHistory(moment(req.query.afterTime), moment(req.query.beforeTime), customerIds)
         .then((value: BacklogHistory[]) =>
         {
-            let response = JSON.stringify(new ServiceResponse(true, undefined, value));
+            let response = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
             sendResponse(res, response);            
         },
         (reason: any) =>
         {
-            let response = JSON.stringify(new ServiceResponse(false, reason.message));
+            let response = TypedJSON.stringify(new ServiceResponse(false, reason.message));
             console.error("Error", reason.message);
             sendResponse(res, response);
         });

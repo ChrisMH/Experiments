@@ -1,16 +1,10 @@
 server.js
 server.js.map
+PerformanceDb.js
+PerformanceDb.js.map
+/Models/**/*.js
+/Modelstest/**/*.js.map
 
 /iisnode
-/public
-
-/src/**/*.css
-/src/**/*.js
-/src/**/*.js.map
-!/src/system.config.js
-!/src/system.config.bundle.js
-
-/test/**/*.js
-/test/**/*.js.map
 
 !/node_modules/**/*
