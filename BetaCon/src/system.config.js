@@ -17,7 +17,7 @@
                 "Components": "src/Components",
                 "Models": "src/Models",
                 "Services": "src/Services",
-                //"Utilities": "src/Utilities",
+                "Redux": "src/Redux",
 
                 // Plugins
                 "systemjs": "node_modules/systemjs/dist/system.src.js",
@@ -29,13 +29,18 @@
                 "react": "node_modules/react/dist/react.js",
                 "react-dom": "node_modules/react-dom/dist/react-dom.js",
                 "react-measure": "node_modules/react-measure/dist/react-measure.js",
+                "react-redux": "node_modules/react-redux/dist/react-redux.js",
                 "react-router-dom": "node_modules/react-router-dom/umd/react-router-dom.js",
+                "react-router-redux": "node_modules/react-router-redux/dist/ReactRouterRedux.js",
 		
                 "get-node-dimensions": "node_modules/get-node-dimensions/dist/get-node-dimensions.js",
                 "inversify": "node_modules/inversify/lib",
                 "moment": "node_modules/moment/moment.js",
+                "redux": "node_modules/redux/dist/redux.js",
+                "redux-observable": "node_modules/redux-observable/dist/redux-observable.js",
                 "resize-observer-polyfill": "node_modules/resize-observer-polyfill/dist/ResizeObserver.js",
                 "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
+                "rxjs": "node_modules/rxjs/bundles/Rx.js",
                 "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",
                 
                 // Vendor CSS
@@ -49,7 +54,7 @@
                 "Components": { main: "index" },
                 "Models": { main: "index" },
                 "Services": { main: "index" },
-                //"Utilities": { main: "index" }
+                "Redux": { main: "index" },
                 
                 "inversify": { main: "inversify" }
             },

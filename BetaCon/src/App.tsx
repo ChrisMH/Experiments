@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Container } from "inversify";
 
 import { Header, MainPage, InputSetupPage } from "./Components";
-import { AppSettings, IoC } from "./Services";
+import { AppSettings, getContainer } from "./Services";
 
 import "./App.css";
 
 export class App extends React.Component<any, any>
 {
-    protected appSettings = IoC.getContainer().get<AppSettings>(AppSettings);
+    protected appSettings = getContainer().get<AppSettings>(AppSettings);
 
     render(): JSX.Element
     {

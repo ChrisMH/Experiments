@@ -15,9 +15,7 @@ export class AppSettings
         {
             const appSettings = TypedJSON.parse(JSON.stringify(configRoot["app"]["settings"]), PageConfig);
             
-            this.originUrl = appSettings.originUrl;
-            this.rootUrl = appSettings.rootUrl;
-            this.version = appSettings.version;
+            Object.assign(this, appSettings);     
         }
     }
 }

@@ -36,8 +36,8 @@
             "@angular/router":                      "node_modules/@angular/router/bundles/router.umd.js",
               
             // other libraries
-            "moment": "node_modules/moment",
-            "ngx-cookie": "node_modules/ngx-cookie",
+            "moment": "node_modules/moment/moment.js",
+            "ngx-cookie": "node_modules/ngx-cookie/bundles/ngx-cookie.umd.js",
 
             "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
             "rxjs": "node_modules/rxjs",
@@ -56,9 +56,7 @@
             "Models":               { main: "index" },
             "Services":             { main: "index" },
 
-            "moment":               { main: "moment" },
-            "ngx-cookie":           { main: "index" },
-            "rxjs":                 { main: "Rx" }
+            "rxjs": { main: "Rx" }
         },
 
         meta:

@@ -3,13 +3,13 @@ import * as moment from "moment";
 
 import { SignalPath } from "../Components";
 
-import { AppSettings, IoC } from "../Services";
+import { AppSettings, getContainer } from "../Services";
 
 import "./MainPage.css"
        
 export class MainPage extends React.Component<any, any>
 {
-    protected appSettings = IoC.getContainer().get<AppSettings>(AppSettings);
+    protected appSettings = getContainer().get<AppSettings>(AppSettings);
 
     render(): JSX.Element
     {

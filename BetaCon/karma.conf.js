@@ -17,14 +17,13 @@ module.exports = function(config)
 
         // list of files / patterns to load in the browser
         files: [
-            { pattern: "node_modules/moment/*.js", included: false, watched: false },
-            { pattern: "node_modules/reflect-metadata/*.js", included: false, watched: false },
-            { pattern: "node_modules/typedjson-npm/js/*.js", included: false, watched: false },
+            { pattern: "node_modules/moment/**/*.js", included: false, watched: false },
+            { pattern: "node_modules/reflect-metadata/**/*.js", included: false, watched: false },
+            { pattern: "node_modules/rxjs/**/*.js", included: false, watched: false },
+            { pattern: "node_modules/typedjson-npm/**/*.js", included: false, watched: false },
             { pattern: "node_modules/inversify/lib/**/*.js", included: false, watched: false },
-            { pattern: "src/*.js", included: false, watched: true },
             { pattern: "src/**/*.js", included: false, watched: true },
             { pattern: "test/Mocks/*.js", included: false, watched: true },
-            { pattern: "test/*.test.js", included: true, watched: true },
             { pattern: "test/**/*.test.js", included: true, watched: true }
         ],
 

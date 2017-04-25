@@ -1,19 +1,18 @@
 import { Container, interfaces } from "inversify";
-import { AppSettings } from "../Services";
+import { AppSettings, ZoneService } from "../Services";
 
-export namespace IoC
-{    
-    let container: Container;
 
-    export function getContainer(): Container
+let container: Container;
+
+export function getContainer(): Container
+{
+    if(container === undefined)
     {
-        if(container === undefined)
-        {
-            container = new Container();
-            container.bind<Object>("configRoot").toConstantValue(window);
-            container.bind<AppSettings>(AppSettings).to(AppSettings).inSingletonScope();
-        }
-        return container;
+        container = new Container();
+        container.bind<Object>("configRoot").toConstantValue(window);
+        container.bind<AppSettings>(AppSettings).to(AppSettings).inSingletonScope();
+        container.bind<ZoneService>(ZoneService).to(ZoneService).inSingletonScope();
     }
+    return container;
 }
 

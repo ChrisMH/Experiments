@@ -1,13 +1,13 @@
 import * as React from "react";
 import * as moment from "moment";
 
-import { AppSettings, IoC } from "../Services";
+import { AppSettings, getContainer } from "../Services";
 
 import "./InputSetupPage.css"
        
 export class InputSetupPage extends React.Component<any, any>
 {
-    protected appSettings = IoC.getContainer().get<AppSettings>(AppSettings);
+    protected appSettings = getContainer().get<AppSettings>(AppSettings);
 
     render(): JSX.Element
     {

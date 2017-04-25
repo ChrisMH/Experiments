@@ -20,14 +20,7 @@ export class AppSettings
         {
             const appSettings = TypedJSON.parse(JSON.stringify(configRoot["app"]["settings"]), InternalAppSettings);
             
-            this.originUrl = appSettings.originUrl;
-            this.rootUrl = appSettings.rootUrl;
-            this.version = appSettings.version;
-            this.gatewayServiceUrl = appSettings.gatewayServiceUrl;
-            this.healthServers = appSettings.healthServers;
-            this.requireAuthentication = appSettings.requireAuthentication;
-            this.minimumRoleLevel = appSettings.minimumRoleLevel;
-            this.updateInterval = appSettings.updateInterval;
+            Object.assign(this, appSettings);     
         }
     }
 }
