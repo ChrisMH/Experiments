@@ -1,21 +1,19 @@
 import "reflect-metadata";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+//import { Provider } from "react-redux";
 
 import "bootstrap-css";
 import "./main.css";
 
 import { App } from "./App";
 
-let store: 
 
-function boot()
+
+function boot(): void
 {    
     ReactDOM.render(
-        <Provider store={store}>
-            <App></App>
-        </Provider>,
+        <App></App>,
         document.getElementById("root")
     );
 };

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 
 import "bootstrap-css";
 import "./main.css";
@@ -12,7 +13,9 @@ import { App } from "./App";
     function boot()
     {    
         ReactDOM.render(
-            <App/>,
+            <Provider>
+                <App/>
+            </Provider>,
             document.getElementById("root")
         );
     };

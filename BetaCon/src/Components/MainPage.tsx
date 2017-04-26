@@ -1,22 +1,56 @@
 import * as React from "react";
 import * as moment from "moment";
 
-import { SignalPath } from "../Components";
+import { Zone } from "../Components";
 
-import { AppSettings, getContainer } from "../Services";
+import { AppSettings, getContainer, ZoneService } from "../Services";
+import { ZoneDescription } from "../Models";
 
 import "./MainPage.css"
-       
-export class MainPage extends React.Component<any, any>
+    
+interface State
+{
+    zones: ZoneDescription[]
+}
+
+export class MainPage extends React.Component<any, State>
 {
     protected appSettings = getContainer().get<AppSettings>(AppSettings);
+    protected zoneService = getContainer().get<ZoneService>(ZoneService);
 
+    constructor()
+    {
+        super();
+        this.setState({ zones: [] });
+    }
+
+    componentDidMount(): void
+    {
+        // this.zoneService.getZones().subscribe((value: ZoneDescription) =>
+        // {
+        //     this.setState((prevState: State) =>
+        //     {
+        //         let nextState = {...prevState};
+        //         nextState.zones = prevState.zones.slice();
+        //         nextState.zones.push(value);
+        //         return nextState;
+        //     });
+        // });
+    }
+ 
     render(): JSX.Element
     {
         return ( 
             <div id="main-page">
-                <SignalPath id="path-1" title="Zone 1: 4 Input Source (#2 selected), 2 Level Paging, ANC, Biamp Output" />
-                <SignalPath id="path-2" title="Zone 2: 3 Input Source, 1 Level Paging, ANC, Single Output" />
+                <Zone key="zone-1" desc={new ZoneDescription("Zone 1: 4 Input Source (#2 selected), 2 Level Paging, ANC, Biamp Output")}/>
+                <Zone key="zone-2" desc={new ZoneDescription("Zone 2: 3 Input Source, 1 Level Paging, ANC, Single Output")}/>
+
+                {/*{
+                    this.state.zones.map((z: ZoneDescription, index: number) =>
+                    {
+                        <Zone key={`zone-${index}`} desc={z}></Zone>
+                    })
+                }*/}
             </div>
         );
     }
