@@ -1,33 +1,41 @@
 ﻿import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from "@progress/kendo-angular-dateinputs";
 import { IntlModule } from "@progress/kendo-angular-intl";
+import { DropDownListModule } from "@progress/kendo-angular-dropdowns";
 
 import { App } from "./App";
 import { Router } from "./Router";
-import { KendoDatePickerPage, PieChartPage } from "./Components";
+import { DatePickerPage, DropDownsPage, PieChartPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({
     imports:
     [
+        // Angular
         BrowserModule,
         BrowserAnimationsModule,
+        FormsModule,
 
+        // Kendo
         ChartModule,
         DateInputsModule,
+        DropDownListModule,
         IntlModule,
 
+        // Application
         Router
     ],
 
     declarations:
     [
         App,
-        KendoDatePickerPage,
+        DatePickerPage,
+        DropDownsPage,
         PieChartPage
     ],
 

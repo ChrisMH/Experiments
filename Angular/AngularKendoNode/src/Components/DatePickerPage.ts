@@ -11,7 +11,7 @@ import { AppSettings } from "../Services";
     host: { class: "view" }
 })
 
-export class KendoDatePickerPage
+export class DatePickerPage
 {
     public value: Date = moment().toDate();
 }
