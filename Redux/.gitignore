@@ -1,0 +1,6 @@
+*.js
+*.js.map
+npm-debug*
+
+!gulpfile.js
+!/node_modules/**/*
