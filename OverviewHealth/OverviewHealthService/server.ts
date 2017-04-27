@@ -1,5 +1,6 @@
 import "reflect-metadata"; // TypedJSON
 import * as express from "express";
+
 import * as fs from "fs";
 import * as moment from "moment";
 import { JsonMember, JsonObject, SerializerSettings, TypedJSON } from "typedjson-npm";
@@ -16,6 +17,14 @@ TypedJSON.config(<SerializerSettings>{enableTypeHints: false});
 
 let app = express();
 let port = process.env.port || 1337;
+
+// Enable CORS
+app.use((req: express.Request, res: express.Response, next: express.NextFunction  ) =>
+{
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 
 @JsonObject
