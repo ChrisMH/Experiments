@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Measure from "react-measure";
 
 import { Block, BlockProps, BlockOutput } from "../../Components";
-import { ZoneDescription } from "../../Models";
+import { ZoneDescription, ZoneInput, ZoneSource } from "../../Models";
 
 
 interface ZoneSignalPathProps
@@ -51,41 +51,35 @@ export class ZoneSignalPath extends React.Component<ZoneSignalPathProps, ZoneSig
         }
  
         blocks[0].title = ["Input", "Setup"];
-        blocks[0].outputs = [
-            { title: "Source 1", drawLine: true },
-            { title: "Source 2", drawLine: true },
-            { title: "Source 3", drawLine: true },
-            { title: "Source 4", drawLine: true }
-        ];
-
+        this.props.desc.inputs.forEach((i: ZoneInput) => blocks[0].outputs.push({title: i.name, drawLine: true, bold: i.selected}));
 
         blocks[1].title = ["Source", "Selector"];
         blocks[1].outputs = [
-            { title: "Source 2", drawLine: true }
+            { title: this.props.desc.source.name, drawLine: true, bold: false }
         ];
 
         blocks[2].title = ["Auto", "Volume"];
         blocks[2].rectHeightPct = .4;        
         blocks[2].outputs = [
-            { title: "On / Off", drawLine: true }
+            { title: "On / Off", drawLine: true, bold: false }
         ];
 
         blocks[3].title = ["Zone EQ"];
         blocks[3].rectHeightPct = .4;        
         blocks[3].outputs = [
-            { title: "On / Off", drawLine: true }
+            { title: "On / Off", drawLine: true, bold: false }
         ];
 
         blocks[4].title = ["Zone Gain"];
         blocks[4].rectHeightPct = .4;     
         blocks[4].outputs = [
-            { title: "+0.0 dB", drawLine: true }
+            { title: "+0.0 dB", drawLine: true, bold: false }
         ];
 
         blocks[5].title = ["Zone", "Configuration"];   
         blocks[5].outputs = [
-            { title: "Output 1", drawLine: false },
-            { title: "Output 2", drawLine: false }
+            { title: "Output 1", drawLine: false, bold: false },
+            { title: "Output 2", drawLine: false, bold: false }
         ];
         blocks[5].distanceToNext = 0;
 

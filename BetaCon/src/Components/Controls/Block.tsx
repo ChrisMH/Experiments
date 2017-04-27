@@ -5,6 +5,7 @@ export interface BlockOutput
 {
     title: string;
     drawLine: boolean;
+    bold: boolean;
 }
 
 export interface BlockProps
@@ -23,6 +24,12 @@ export interface BlockProps
 export class Block
 {
     constructor(protected props: BlockProps) {}
+
+    onClick(e: any)
+    {
+        console.log("onClick");
+
+    }
 
     render(): JSX.Element[]
     {
@@ -53,7 +60,7 @@ export class Block
         const rectX = this.props.x;
         const rectY = rectYCenter - Math.round(rectHeight / 2);
 
-        result.push(<rect x={rectX} y={rectY} width={this.props.width} height={rectHeight} fill="none" stroke="black" strokeWidth="1" shapeRendering="crispEdges"/>);
+        result.push(<rect onClick={this.onClick.bind(this)} x={rectX} y={rectY} width={this.props.width} height={rectHeight} fill="none" stroke="black" strokeWidth="1" shapeRendering="crispEdges"/>);
 
         // Outputs
 
@@ -63,7 +70,7 @@ export class Block
 
         this.props.outputs.forEach((o: BlockOutput) =>
         {
-            result.push(<text x={titleX} y={outputY} textAnchor="middle" alignmentBaseline="central">{o.title}</text>);
+            result.push(<text x={titleX} y={outputY} fontWeight={o.bold ? "bold" : "normal"} textAnchor="middle" alignmentBaseline="central">{o.title}</text>);
             if(o.drawLine)
                 result.push(<line x1={this.props.x + this.props.width} y1={outputY} 
                                   x2={this.props.x + this.props.width + this.props.distanceToNext - 10} y2={outputY} 

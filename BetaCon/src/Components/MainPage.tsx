@@ -10,7 +10,7 @@ import "./MainPage.css"
     
 interface State
 {
-    zones: ZoneDescription[]
+    zones: ZoneDescription[];
 }
 
 export class MainPage extends React.Component<any, State>
@@ -21,36 +21,32 @@ export class MainPage extends React.Component<any, State>
     constructor()
     {
         super();
-        this.setState({ zones: [] });
+        this.state = {
+            zones: []
+        };
     }
-
+    
     componentDidMount(): void
     {
-        // this.zoneService.getZones().subscribe((value: ZoneDescription) =>
-        // {
-        //     this.setState((prevState: State) =>
-        //     {
-        //         let nextState = {...prevState};
-        //         nextState.zones = prevState.zones.slice();
-        //         nextState.zones.push(value);
-        //         return nextState;
-        //     });
-        // });
+        this.zoneService.getZones().subscribe((value: ZoneDescription) =>
+        {
+            this.setState((prevState: State) =>
+            {
+                let nextState = {...prevState};
+                nextState.zones = prevState.zones.concat(value);
+                return nextState;
+            });
+        });
     }
- 
+    
     render(): JSX.Element
     {
         return ( 
             <div id="main-page">
-                <Zone key="zone-1" desc={new ZoneDescription("Zone 1: 4 Input Source (#2 selected), 2 Level Paging, ANC, Biamp Output")}/>
-                <Zone key="zone-2" desc={new ZoneDescription("Zone 2: 3 Input Source, 1 Level Paging, ANC, Single Output")}/>
-
-                {/*{
-                    this.state.zones.map((z: ZoneDescription, index: number) =>
-                    {
-                        <Zone key={`zone-${index}`} desc={z}></Zone>
-                    })
-                }*/}
+                {this.state.zones.map((z: ZoneDescription, index: number) =>
+                {
+                    return <Zone key={`zone-${index}`} desc={z}/>
+                })}
             </div>
         );
     }
