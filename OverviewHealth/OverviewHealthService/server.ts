@@ -26,41 +26,6 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
     next();
 });
 
-
-@JsonObject
-class ServiceResponse
-{
-    @JsonMember
-    success: boolean;
-
-    @JsonMember
-    message: string
-
-    @JsonMember
-    data: Object
-
-    @JsonMember
-    dataTime: Date
-    
-    constructor(
-        success?: boolean,
-        message?: string,
-        data?: Object)
-    {
-        if(success !== undefined)
-            this.success = success;
-            
-        if(message !== undefined)
-            this.message = message;
-            
-        if(data !== undefined)
-            this.data = data;
-
-        this.dataTime = moment().toDate();
-    }
-}
-
-
 const cacheTime = 60;
 
 let performanceDb = new PerformanceDb();
@@ -77,11 +42,11 @@ app.get(`${getVirtualDir()}/customers`, (req: express.Request, res: express.Resp
     performanceDb.getCustomers()
         .then((value: Array<Customer>) =>
             {
-                sendResponse(res, TypedJSON.stringify(new ServiceResponse(true, undefined, value)));
+                sendResponse(res, TypedJSON.stringify(value));
             },
             (reason: Error) =>
             {
-                sendResponse(res, TypedJSON.stringify(new ServiceResponse(false, reason.message)));
+                res.sendStatus(500);
             });
 });
 
@@ -99,16 +64,15 @@ app.get(`${getVirtualDir()}/backlog`, (req: express.Request, res: express.Respon
         performanceDb.getBacklog()
             .then((value: Array<CustomerBacklog>) =>
                 {
-                    backlog = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
+                    backlog = TypedJSON.stringify(value);
                     lastBacklogTime = moment();
-                    console.log("Replying with new backlog");
                     sendResponse(res, backlog);
                 },
                 (reason: Error) =>
                 {
-                    backlog = TypedJSON.stringify(new ServiceResponse(false, reason.message));
+                    backlog = undefined;
                     console.error("Error", reason.message);
-                    sendResponse(res, backlog);
+                    res.sendStatus(500);
                 });
     }
 });
@@ -127,16 +91,15 @@ app.get(`${getVirtualDir()}/counters`, (req: express.Request, res: express.Respo
         performanceDb.getCounters()
             .then((value: Counters) =>
                 {
-                    counters = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
+                    counters = TypedJSON.stringify(value);
                     lastCountersTime = moment();
-                    console.log("Replying with new counters");
                     sendResponse(res, counters);
                 },
                 (reason: Error) =>
                 {
-                    counters = TypedJSON.stringify(new ServiceResponse(false, reason.message));
+                    counters = undefined;
                     console.error("Error", reason.message);
-                    sendResponse(res, counters);
+                    res.sendStatus(500);
                 });
     }
 });
@@ -153,14 +116,13 @@ app.get(`${getVirtualDir()}/history/backlog`, (req: express.Request, res: expres
     performanceDb.getBacklogHistory(moment(req.query.afterTime), moment(req.query.beforeTime))
         .then((value: BacklogHistory[]) =>
         {
-            let response = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
+            let response = TypedJSON.stringify(value);
             sendResponse(res, response);            
         },
         (reason: any) =>
         {
-            let response = TypedJSON.stringify(new ServiceResponse(false, reason.message));
             console.error("Error", reason.message);
-            sendResponse(res, response);
+            res.sendStatus(500);
         });
 });
 
@@ -191,14 +153,13 @@ app.get(`${getVirtualDir()}/history/customerbacklog`, (req: express.Request, res
     performanceDb.getCustomerBacklogHistory(moment(req.query.afterTime), moment(req.query.beforeTime), customerIds)
         .then((value: BacklogHistory[]) =>
         {
-            let response = TypedJSON.stringify(new ServiceResponse(true, undefined, value));
+            let response = TypedJSON.stringify(value);
             sendResponse(res, response);            
         },
         (reason: any) =>
         {
-            let response = TypedJSON.stringify(new ServiceResponse(false, reason.message));
             console.error("Error", reason.message);
-            sendResponse(res, response);
+            res.sendStatus(500);
         });
 });
 

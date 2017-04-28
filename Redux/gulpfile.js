@@ -91,13 +91,12 @@ gulp.task("clean:js", () =>
 //
 // Build entire application
 //
-gulp.task("dev", (cb) =>
+gulp.task("dev", cb =>
 {
-    return runSequence(
-        ["clean"],
-        ["vendor:art", "app:art"],
-        [/*"dev:vendor:css",*/ "dev:app:css"],
-        ["dev:ts"],
+    runSequence(
+        "clean",
+        [/*"vendor:art", "dev:vendor:css", */ "app:art", "dev:app:css"],
+        "dev:ts",
         cb
     );
 });
@@ -105,11 +104,10 @@ gulp.task("dev", (cb) =>
 gulp.task("prod", (cb) =>
 {
     return runSequence(
-        ["clean"],
-        ["vendor:art", "app:art"],
-        [/*"prod:vendor:css",*/ "prod:app:css"],
-        ["prod:ts"],
-        ["prod:bundle"],
+        "clean",
+        [/*"vendor:art", "dev:vendor:css", */ "app:art", "dev:app:css"],
+        "prod:ts",
+        "prod:bundle",
         cb
     );
 });

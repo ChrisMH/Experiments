@@ -1,7 +1,3 @@
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/mergeMap";
-
  
 /*
 import { getStore, State1Actions, State2Actions } from "./basic";
@@ -38,7 +34,6 @@ store.dispatch({ type: "WRONG" });
 
 */
 
-
 /*
 import { getStore, getBacklogAction } from "./observable";
 
@@ -50,8 +45,8 @@ store.subscribe(() =>
 });
 
 store.dispatch(getBacklogAction());
-
 */
+
 
 
 import { getStore, getBacklog } from "./reduxObservable";

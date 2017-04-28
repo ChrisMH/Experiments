@@ -3,7 +3,7 @@ server.js.map
 PerformanceDb.js
 PerformanceDb.js.map
 /Models/**/*.js
-/Modelstest/**/*.js.map
+/Models/**/*.js.map
 
 /iisnode
 

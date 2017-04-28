@@ -4,14 +4,19 @@ import thunk, { ThunkAction } from "redux-thunk";
 
 import { AjaxResponse, Observable, Subscriber } from "rxjs";
 
+const GET_BACKLOG = "GET_BACKLOG";
+const GET_BACKLOG_FULFILLED = "GET_BACKLOG_FULFILLED";
+const GET_BACKLOG_ERROR = "GET_BACKLOG_ERROR";
 
-
-enum BacklogActions
-{
-    GET_BACKLOG,
-    GET_BACKLOG_FULFILLED,
-    GET_BACKLOG_ERROR
+interface BacklogAction extends Action
+{ 
+    payload: any
 }
+
+const getBacklog: () => BacklogAction = () => ({type: GET_BACKLOG, payload: undefined});
+const getBacklogFulfilled: (payload: any) => BacklogAction = (payload: any) =>  ({type: GET_BACKLOG_FULFILLED, payload: payload});
+const getBacklogError: (error: any) => BacklogAction = (error: any) =>  ({type: GET_BACKLOG_FULFILLED, payload: error});
+
 
 interface BacklogState
 {
@@ -19,11 +24,6 @@ interface BacklogState
     fetched: boolean;
     error: boolean;
     backlog: Array<Object>
-}
-
-interface BacklogAction extends Action
-{
-    backlog: Array<object>
 }
 
 const initialBacklogState = {
@@ -37,13 +37,13 @@ const backlogReducer: Reducer<BacklogState> = (state: BacklogState = initialBack
 {
     switch(action.type)
     {
-        case BacklogActions.GET_BACKLOG:
+        case GET_BACKLOG:
             return Object.assign({}, initialBacklogState, { fetching: true });
 
-        case BacklogActions.GET_BACKLOG_FULFILLED:
-            return Object.assign({}, initialBacklogState, { fetched: true, backlog: action.backlog });
+        case GET_BACKLOG_FULFILLED:
+            return Object.assign({}, initialBacklogState, { fetched: true, backlog: action.payload });
 
-        case BacklogActions.GET_BACKLOG_ERROR:
+        case GET_BACKLOG_ERROR:
             return Object.assign({}, initialBacklogState, { fetched: true, error: true });
 
         default: 
@@ -55,17 +55,17 @@ const getBacklogAction = (): ThunkAction<void, BacklogState, any> =>
 {
     return (dispatch: Dispatch<BacklogState>): void =>
     {
-        dispatch({ type: BacklogActions.GET_BACKLOG});
+        dispatch(getBacklog);
 
         Observable.ajax.get("http://localhost/OverviewHealthService/backlog")
             .subscribe((value: AjaxResponse) =>
             {
                 let backlog = value.response.data;
-                dispatch({type: BacklogActions.GET_BACKLOG_FULFILLED, backlog: backlog});
+                dispatch(getBacklogFulfilled(backlog));
             },
             (error: any) =>
             {                
-                dispatch({type: BacklogActions.GET_BACKLOG_ERROR});
+                dispatch(getBacklogError(error));
             });            
     }
 };

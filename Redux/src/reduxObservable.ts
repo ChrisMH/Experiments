@@ -2,9 +2,7 @@ import { Action, applyMiddleware, createStore, combineReducers, Dispatch, Reduce
 import { ActionsObservable, combineEpics, createEpicMiddleware, Epic } from "redux-observable";
 import logger from "redux-logger";
 
-import { ajax } from "rxjs/observable/dom/ajax";
-import { map } from "rxjs/operator/map";
-import { mergeMap } from "rxjs/operator/mergeMap";
+import * as Rx from "rxjs";
 
 const GET_BACKLOG = "GET_BACKLOG";
 const GET_BACKLOG_FULFILLED = "GET_BACKLOG_FULFILLED";
@@ -13,11 +11,11 @@ const GET_BACKLOG_ERROR = "GET_BACKLOG_ERROR";
 interface BacklogAction extends Action
 { 
     payload: any
-}
+}  
 
 const getBacklog: () => BacklogAction = () => ({type: GET_BACKLOG, payload: undefined});
-const getBacklogFulfilled: (payload: any) => BacklogAction = (payload: any) =>  ({type: GET_BACKLOG_FULFILLED, payload: payload});
-const getBacklogError: (error: any) => BacklogAction = (error: any) =>  ({type: GET_BACKLOG_FULFILLED, payload: error});
+const getBacklogFulfilled: (payload: Array<Object>) => BacklogAction = (payload: any) =>  ({type: GET_BACKLOG_FULFILLED, payload: payload});
+const getBacklogError: (error: any) => BacklogAction = (error: any) =>  ({type: GET_BACKLOG_ERROR, payload: error});
 
 interface BacklogState
 {
@@ -33,7 +31,7 @@ const initialBacklogState = {
     error: false,
     backlog: new Array<Object>()
 };
-
+ 
 const backlogReducer: Reducer<BacklogState> = (state: BacklogState = initialBacklogState, action: BacklogAction): BacklogState =>
 {
     switch(action.type)
@@ -51,19 +49,17 @@ const backlogReducer: Reducer<BacklogState> = (state: BacklogState = initialBack
             return state;
     } 
 }
- 
+  
 
 const backlogEpic: Epic<BacklogAction, BacklogState>  = (action$: ActionsObservable<BacklogAction>) =>
 {
     return action$.ofType(GET_BACKLOG)
-        .mergeMap((value: BacklogAction, index: number) =>
+        .mergeMap((action: BacklogAction) =>
         {
-            return ajax.getJSON("http://localhost/OverviewHealthService/backlog")
-                .map((response: {}) =>
-                {
-                    return getBacklogFulfilled(response);
-                });
-        });
+            return Rx.Observable.ajax.getJSON("http://localhost/OverviewHealthService/backlog")
+                .map((json: any) => getBacklogFulfilled(json))
+                .catch((err: Rx.AjaxError) => Rx.Observable.of(getBacklogError(`${err.xhr.status} ${err.xhr.statusText}`)));
+        });        
 };
 
 //
