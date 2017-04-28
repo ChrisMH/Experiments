@@ -9,5 +9,5 @@ import { AppSettings } from "./Services";
     styleUrls: ["./App.css"]
 })
 export class App {
-    constructor(private appSettings: AppSettings) { }
+    constructor(public appSettings: AppSettings) { }
 } 

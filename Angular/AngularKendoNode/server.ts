@@ -12,6 +12,7 @@ const routes =
 [
     `${getVirtualDir()}/`, 
     `${getVirtualDir()}/datepicker`, 
+    `${getVirtualDir()}/grid`, 
     `${getVirtualDir()}/dropdowns`, 
     `${getVirtualDir()}/piechart`
 ]
@@ -25,7 +26,7 @@ app.get(routes, (req: express.Request, res: express.Response) =>
             version: getVersion()
         }); 
 });    
-              
+                
 app.listen(port, () =>
 {
     app.set("view engine", "pug");

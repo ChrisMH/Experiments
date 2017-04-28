@@ -1,13 +1,14 @@
 import { NgModule }              from "@angular/core";
 import { RouterModule, Routes }  from "@angular/router";
 
-import { DatePickerPage, DropDownsPage, PieChartPage } from "./Components";
+import { DatePickerPage, DropDownsPage, GridPage, PieChartPage } from "./Components";
 
 const routes: Routes = 
 [
     { path: "", redirectTo: "datepicker", pathMatch: "full" },
     { path: "dropdowns", component: DropDownsPage },
     { path: "datepicker", component: DatePickerPage },
+    { path: "grid", component: GridPage },
     { path: "piechart", component: PieChartPage }
 ];
 

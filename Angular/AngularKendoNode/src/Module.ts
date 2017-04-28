@@ -5,12 +5,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from "@progress/kendo-angular-dateinputs";
+import { GridModule } from "@progress/kendo-angular-grid";
 import { IntlModule } from "@progress/kendo-angular-intl";
 import { DropDownListModule } from "@progress/kendo-angular-dropdowns";
 
 import { App } from "./App";
 import { Router } from "./Router";
-import { DatePickerPage, DropDownsPage, PieChartPage } from "./Components";
+import { DatePickerPage, DropDownsPage, GridPage, PieChartPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({
@@ -25,6 +26,7 @@ import { AppSettings } from "./Services";
         ChartModule,
         DateInputsModule,
         DropDownListModule,
+        GridModule,
         IntlModule,
 
         // Application
@@ -36,6 +38,7 @@ import { AppSettings } from "./Services";
         App,
         DatePickerPage,
         DropDownsPage,
+        GridPage, 
         PieChartPage
     ],
 
