@@ -13,4 +13,3 @@ npm-debug*
 /test/**/*.js
 /test/**/*.map
 
-!/node_modules/**/*

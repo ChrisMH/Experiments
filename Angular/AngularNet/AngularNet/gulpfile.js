@@ -40,12 +40,8 @@ var vendorJavascript =
 [
 ];
 
-appStylus =
-[
-    ["src/**/*.styl", "!src/global.styl"]
-];
 
-appArt =
+var appArt =
 [
     { src: "src/art/**/*", dst: "public/art" }
 ];
@@ -62,20 +58,10 @@ gulp.task("watch", (cb) =>
         gUtil.log(`Built ${changeEvent.path}`)
     });
     
-    appStylus.forEach((fileGlob) =>
+    gulp.watch(["src/**/*.styl", "!src/global.styl"]).on("change", (changeEvent) =>
     {
-        gulp.watch(fileGlob).on("change", (changeEvent) =>
-        {
-            buildStylusFile(changeEvent.path);
-            gUtil.log(`Built ${changeEvent.path}`);
-
-            buildMatchingTypescriptFile(changeEvent.path);            
-        });
-    });
-
-    gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
-    {
-        buildMatchingTypescriptFile(changeEvent.path);            
+        buildStylusFile(changeEvent.path);
+        gUtil.log(`Built ${changeEvent.path}`);         
     });
 
     gulp.watch(["src/global.styl"], ["dev:app:css"]);
@@ -144,8 +130,8 @@ gulp.task("prod:vendor:js", () => { return transformJavascript(vendorJavascript,
 //
 // Application stylesheets
 //
-gulp.task("dev:app:css", () => { return buildStylusFiles(appStylus, true); });
-gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
+gulp.task("dev:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], true); });
+gulp.task("prod:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], false); });
 
 //
 // Application artifacts
@@ -155,7 +141,7 @@ gulp.task("app:art", () => { return copyArt(appArt); });
 //
 // Typescript
 //
-gulp.task("dev:ts", () => { return buildTypescriptProject(true, true); });
+gulp.task("dev:ts", () => { return buildTypescriptProject(true, false); });
 gulp.task("prod:ts", () => { return buildTypescriptProject(false, true); });
 
 //
@@ -261,20 +247,6 @@ buildTypescriptProject = (sourceMaps, inlineTemplates) =>
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
             .pipe(gulp.dest("./"));
-};
-
-
-buildMatchingTypescriptFile = (file) =>
-{
-    var extName = path.extname(file);
-    var fileName = path.basename(file, extName);
-    var tsPath = path.join(path.dirname(file), fileName.concat(".ts"));
-
-    if(fs.existsSync(tsPath))
-    {
-        buildTypescriptFile(tsPath);
-        gUtil.log(`Built ${tsPath}`)
-    }
 };
 
 

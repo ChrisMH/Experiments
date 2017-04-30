@@ -3,16 +3,12 @@ import * as moment from "moment";
 
 import { AppSettings } from "../Services";
 
-//const template = require("./FirstPage.html");
-//const styles = [require("./FirstPage.css").toString()];
-
 @Component({
     moduleId: module.id,
     selector: "first-page",
-    //template: template,
-    //styles: styles
     templateUrl: "./FirstPage.html",
-    styleUrls: ["./FirstPage.css"]
+    styleUrls: ["./FirstPage.css"],
+    host: { class: "view" }
 })
 
 export class FirstPage

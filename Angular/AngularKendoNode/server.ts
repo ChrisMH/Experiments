@@ -14,6 +14,7 @@ const routes =
     `${getVirtualDir()}/datepicker`, 
     `${getVirtualDir()}/grid`, 
     `${getVirtualDir()}/dropdowns`, 
+    `${getVirtualDir()}/linechart`, 
     `${getVirtualDir()}/piechart`
 ]
 app.get(routes, (req: express.Request, res: express.Response) =>

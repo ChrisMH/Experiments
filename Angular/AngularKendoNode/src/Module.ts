@@ -9,9 +9,8 @@ import { GridModule } from "@progress/kendo-angular-grid";
 import { IntlModule } from "@progress/kendo-angular-intl";
 import { DropDownListModule } from "@progress/kendo-angular-dropdowns";
 
-import { App } from "./App";
 import { Router } from "./Router";
-import { DatePickerPage, DropDownsPage, GridPage, PieChartPage } from "./Components";
+import { App, DatePickerPage, DropDownsPage, GridPage, LineChartPage, PieChartPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({
@@ -39,6 +38,7 @@ import { AppSettings } from "./Services";
         DatePickerPage,
         DropDownsPage,
         GridPage, 
+        LineChartPage,
         PieChartPage
     ],
 

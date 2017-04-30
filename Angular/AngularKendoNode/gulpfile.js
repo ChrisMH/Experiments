@@ -39,12 +39,7 @@ var vendorJavascript =
 [
 ];
 
-appStylus =
-[
-    ["src/**/*.styl", "!src/global.styl"]
-];
-
-appArt =
+var appArt =
 [
     { src: "src/art/**/*", dst: "public/art" }
 ];
@@ -61,13 +56,10 @@ gulp.task("watch", (cb) =>
         gUtil.log(`Built ${changeEvent.path}`)
     });
     
-    appStylus.forEach((fileGlob) =>
+    gulp.watch(["src/**/*.styl", "!src/global.styl"]).on("change", (changeEvent) =>
     {
-        gulp.watch(fileGlob).on("change", (changeEvent) =>
-        {
-            buildStylusFile(changeEvent.path);
-            gUtil.log(`Built ${changeEvent.path}`);          
-        });
+        buildStylusFile(changeEvent.path);
+        gUtil.log(`Built ${changeEvent.path}`);          
     });
 
     gulp.watch(["src/global.styl"], ["dev:app:css"]);
@@ -136,8 +128,8 @@ gulp.task("prod:vendor:js", () => { return transformJavascript(vendorJavascript,
 //
 // Application stylesheets
 //
-gulp.task("dev:app:css", () => { return buildStylusFiles(appStylus, true); });
-gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
+gulp.task("dev:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], true); });
+gulp.task("prod:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], false); });
 
 //
 // Application artifacts

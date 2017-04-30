@@ -3,5 +3,6 @@ bin/
 obj/
 logs/
 out/
+node_modules/
 *.suo
 *.user

@@ -3,16 +3,12 @@ import * as moment from "moment";
 
 import { AppSettings } from "../Services";
 
-//const styles = [require("./SecondPage.css").toString()];
-//const template = require("./SecondPage.html");
-
 @Component({
     moduleId: module.id,
     selector: "second-page",
     templateUrl: "./SecondPage.html",
-    styleUrls: ["./SecondPage.css"]
-    //template: template,
-    //styles: [styles]
+    styleUrls: ["./SecondPage.css"],
+    host: { class: "view" }
 })
  
 export class SecondPage

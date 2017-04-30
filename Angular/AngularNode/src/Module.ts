@@ -1,9 +1,8 @@
 ﻿import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import { App } from "./App";
 import { Router } from "./Router";
-import { FirstPage, SecondPage } from "./Components";
+import { App, FirstPage, SecondPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({

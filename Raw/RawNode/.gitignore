@@ -12,4 +12,3 @@ server.js.map
 /test/**/*.js
 /test/**/*.map
 
-!/node_modules/**/*
