@@ -46,7 +46,8 @@ export class Login
         const password: string = this.form.controls.password.value;
         const rememberMe: boolean = this.form.controls.rememberMe.value;
 
-        let sub = this.principalService.authenticate(name, password)
+        this.principalService.authenticate(name, password)
+            .first()
             .subscribe((identity: Identity) =>
             {
                 if(rememberMe)
@@ -61,13 +62,11 @@ export class Login
                 }
 
                 this.cookieService.setIdentityToken(identity.token);
-                
-                sub.unsubscribe();
+
                 this.appState.dispatch(go(""));
             },
             (err: any) =>
             {
-                sub.unsubscribe();
                 this.attempted = true;
                 this.submitting = false;
             });

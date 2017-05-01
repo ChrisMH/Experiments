@@ -5,9 +5,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CookieModule } from "ngx-cookie";
 
 import { StoreModule } from "@ngrx/store";
-import { routerReducer, RouterStoreModule } from "@ngrx/router-store";
+import { RouterStoreModule } from "@ngrx/router-store";
 
 import { Router } from "./Router";
+import { AppStore } from "./Store";
 import { App, AppHeader, Backlog, ServerBlock, Login } from "./Components";
 import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } from "./Services";
 
@@ -17,8 +18,7 @@ import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } fro
         BrowserModule, BrowserAnimationsModule,
         ReactiveFormsModule,
 
-        StoreModule.provideStore({ router: routerReducer }),
-        RouterStoreModule.connectRouter(),        
+        AppStore,     
         Router,
 
         CookieModule.forRoot()

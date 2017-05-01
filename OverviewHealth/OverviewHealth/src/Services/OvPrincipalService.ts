@@ -79,6 +79,7 @@ export class OvPrincipalService
                         return new Identity(response.data.name, response.data.identity, response.data.roleLevel);
                     throw new Error(response.message);
                 })
+                .first()
                 .subscribe((value: Identity) => 
                 {
                     this.identity = value;
@@ -127,6 +128,7 @@ export class OvPrincipalService
                         return new Identity(response.data.name, response.data.identity, response.data.roleLevel);
                     throw new Error(response.message);
                 })
+                .first()
                 .subscribe((value: Identity) => 
                 {
                     this.identity = value;
