@@ -22,8 +22,8 @@ namespace AngularNet.Models
                 new TitleElem {Title = Debug ? "Dev | AngularNet" : "AngularNet"},
                 new BaseElem {Href = AppSettings.RootUrl},
                 new LinkElem {Href = $"{AppSettings.RootUrl}public/art/favicon.ico", Type = LinkType.XIcon, Rel = LinkRelType.Icon},
-                new LinkElem {Href = $"{AppSettings.RootUrl}public/art/favicon.ico", Type = LinkType.XIcon, Rel = LinkRelType.ShortcutIcon}
-
+                new LinkElem {Href = $"{AppSettings.RootUrl}public/art/favicon.ico", Type = LinkType.XIcon, Rel = LinkRelType.ShortcutIcon},
+                new LinkElem {Href = $"{AppSettings.RootUrl}public/bootstrap/css/bootstrap-{AppSettings.Version}.css", Type = LinkType.Css, Rel = LinkRelType.Stylesheet}
             };
 
             Scripts = new HtmlBuilder

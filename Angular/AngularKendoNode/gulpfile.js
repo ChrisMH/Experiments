@@ -25,6 +25,15 @@ var systemjsBuilder = require("systemjs-builder");
 
 var vendorCss =
 [
+    {
+        src: "node_modules/bootstrap/dist/css/bootstrap.css",
+        dst: "public/bootstrap/css",
+    },
+    {
+        src: "node_modules/@progress/kendo-theme-default/dist/all.css",
+        dst: "public",
+        rename: "kendo.css"
+    }
 ];
 
 var vendorArt =
@@ -90,7 +99,7 @@ gulp.task("dev", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"dev:vendor:css",*/ "dev:app:css"],
+        ["dev:vendor:css", "dev:app:css"],
         ["dev:ts"],
         cb
     );
@@ -101,7 +110,7 @@ gulp.task("prod", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"prod:vendor:css",*/ "prod:app:css"],
+        ["prod:vendor:css", "prod:app:css"],
         ["prod:ts"],
         ["prod:bundle"],
         cb

@@ -68,12 +68,7 @@
             "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
             "rxjs":             "node_modules/rxjs",
             "typedjson-npm":    "node_modules/typedjson-npm/js/typed-json.js",
-            "zone.js":          "node_modules/zone.js/dist/zone.js",
-
-            // CSS
-            "bootstrap-css": "node_modules/bootstrap/dist/css/bootstrap.css",
-            "kendo-css": "node_modules/@progress/kendo-theme-default/dist/all.css"
-
+            "zone.js":          "node_modules/zone.js/dist/zone.js"
         },
         
         // packages tells the System loader how to load when no filename and/or no extension

@@ -2,10 +2,9 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { CookieModule } from "ngx-cookie";
 
-import { App } from "./App";
 import { Router } from "./Router";
-import { Backlog, ServerBlock, Login, OvHeader } from "./Components";
-import { AppSettings, OvCookieService, OvHealthService } from "./Services";
+import { App, AppHeader, Backlog, ServerBlock, Login } from "./Components";
+import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } from "./Services";
 
 @NgModule({
     imports:
@@ -17,10 +16,11 @@ import { AppSettings, OvCookieService, OvHealthService } from "./Services";
 
     declarations:
     [
-        App,
+        App, AppHeader,
+
         Backlog, ServerBlock,
-        Login,
-        OvHeader
+        
+        Login        
     ],
 
     providers:
@@ -28,7 +28,8 @@ import { AppSettings, OvCookieService, OvHealthService } from "./Services";
         { provide: "ConfigRoot", useValue: window },
         AppSettings,
         OvCookieService,
-        OvHealthService
+        OvHealthService,
+        OvPrincipalService
     ],
 
     exports: [App],

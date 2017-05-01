@@ -46,7 +46,7 @@
     "systemjs-plugin-babel": "0.0.21",
     "systemjs-plugin-css": "^0.1.33",
     "systemjs-plugin-text": "0.0.9",
-    "typescript": "^2.2.2"
+    "typescript": "^2.3.2"
   },
   "dependencies": {
     "@angular/common": "^4.1.0",

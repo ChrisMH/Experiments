@@ -25,6 +25,10 @@ var systemjsBuilder = require("systemjs-builder");
 
 var vendorCss =
 [
+    {
+        src: "node_modules/bootstrap/dist/css/bootstrap.css",
+        dst: "public/bootstrap/css",
+    }
 ];
 
 var vendorArt =
@@ -59,9 +63,7 @@ gulp.task("watch", (cb) =>
     gulp.watch(["src/**/*.styl", "!src/global.styl"]).on("change", (changeEvent) =>
     {
         buildStylusFile(changeEvent.path);
-        gUtil.log(`Built ${changeEvent.path}`);
-
-        buildMatchingTypescriptFile(changeEvent.path);            
+        gUtil.log(`Built ${changeEvent.path}`);         
     });
 
     gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
@@ -97,7 +99,7 @@ gulp.task("dev", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"dev:vendor:css",*/ "dev:app:css"],
+        ["dev:vendor:css", "dev:app:css"],
         ["dev:ts"],
         cb
     );
@@ -108,7 +110,7 @@ gulp.task("prod", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"prod:vendor:css",*/ "prod:app:css"],
+        ["prod:vendor:css", "prod:app:css"],
         ["prod:ts"],
         ["prod:bundle"],
         cb
@@ -252,20 +254,6 @@ buildTypescriptProject = (sourceMaps, inlineTemplates) =>
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
             .pipe(gulp.dest("./"));
-};
-
-
-buildMatchingTypescriptFile = (file) =>
-{
-    var extName = path.extname(file);
-    var fileName = path.basename(file, extName);
-    var tsPath = path.join(path.dirname(file), fileName.concat(".ts"));
-
-    if(fs.existsSync(tsPath))
-    {
-        buildTypescriptFile(tsPath);
-        gUtil.log(`Built ${tsPath}`)
-    }
 };
 
 

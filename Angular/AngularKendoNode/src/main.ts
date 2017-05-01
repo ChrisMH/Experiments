@@ -7,9 +7,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { Module } from "./Module"
 
-import "bootstrap-css";
-import "kendo-css";
-
 import "./main.css";
 
 (function()

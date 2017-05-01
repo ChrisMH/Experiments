@@ -10,7 +10,7 @@ import { IntlModule } from "@progress/kendo-angular-intl";
 import { DropDownListModule } from "@progress/kendo-angular-dropdowns";
 
 import { Router } from "./Router";
-import { App, DatePickerPage, DropDownsPage, GridPage, LineChartPage, PieChartPage } from "./Components";
+import { App, DatePickerPage, DonutChartPage, DropDownsPage, GridPage, LineChartPage } from "./Components";
 import { AppSettings } from "./Services";
 
 @NgModule({
@@ -36,10 +36,10 @@ import { AppSettings } from "./Services";
     [
         App,
         DatePickerPage,
+        DonutChartPage,
         DropDownsPage,
         GridPage, 
-        LineChartPage,
-        PieChartPage
+        LineChartPage
     ],
 
     providers:

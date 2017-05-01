@@ -8,6 +8,8 @@ html
     base(href=rootUrl)
     link(href="art/favicon.ico" type="image/x-icon" rel="icon")
     link(href="art/favicon.ico" type="image/x-icon" rel="shortcut icon")
+    link(href=`bootstrap/css/bootstrap-${version}.css`, type="text/css" rel="stylesheet")
+    link(href=`kendo-${version}.css`, type="text/css" rel="stylesheet")
 
     script(type="text/javascript"). 
         // Configuration to be used by the web site
@@ -16,7 +18,8 @@ html
             window.app.settings = {
                 originUrl: "!{originUrl}",
                 rootUrl: "!{rootUrl}",
-                version: "!{version}"
+                version: "!{version}",
+                service: "http://overview.logikos.com/OverviewHealthServiceNode/"
             };
         })();
 

@@ -6,7 +6,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { Module } from "./Module"
 
-import "bootstrap-css";
 import "./main.css";
 
 (function()
@@ -22,3 +21,4 @@ import "./main.css";
     else
         document.addEventListener("DOMContentLoaded", boot);
 })();
+ 

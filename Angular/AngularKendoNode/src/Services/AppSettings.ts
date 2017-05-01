@@ -8,6 +8,7 @@ export class AppSettings
     originUrl: string;
     rootUrl: string;
     version: string;
+    service: string;
 
     constructor(@Inject("ConfigRoot") configRoot: any)
     {
@@ -31,4 +32,7 @@ class PageConfig
 
     @JsonMember
     version: string;
+
+    @JsonMember
+    service: string;
 }

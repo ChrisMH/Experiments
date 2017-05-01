@@ -25,6 +25,15 @@ var systemjsBuilder = require("systemjs-builder");
 
 var vendorCss =
 [
+    {
+        src: "node_modules/bootstrap/dist/css/bootstrap.css",
+        dst: "public/bootstrap/css",
+    },
+    {
+        src: "node_modules/@progress/kendo-theme-default/dist/all.css",
+        dst: "public",
+        rename: "kendo.css"
+    }
 ];
 
 var vendorArt =
@@ -37,11 +46,6 @@ var vendorArt =
 
 var vendorJavascript =
 [
-];
-
-appStylus =
-[
-    ["src/**/*.styl", "!src/global.styl"]
 ];
 
 appArt =
@@ -61,21 +65,16 @@ gulp.task("watch", (cb) =>
         gUtil.log(`Built ${changeEvent.path}`)
     });
     
-    appStylus.forEach((fileGlob) =>
+    gulp.watch(["src/**/*.styl", "!src/global.styl"]).on("change", (changeEvent) =>
     {
-        gulp.watch(fileGlob).on("change", (changeEvent) =>
-        {
-            buildStylusFile(changeEvent.path);
-            gUtil.log(`Built ${changeEvent.path}`);
-
-            //buildMatchingTypescriptFile(changeEvent.path);            
-        });
+        buildStylusFile(changeEvent.path);
+        gUtil.log(`Built ${changeEvent.path}`);         
     });
 
-    // gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
-    // {
-    //     buildMatchingTypescriptFile(changeEvent.path);            
-    // });
+    gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
+    {
+        buildMatchingTypescriptFile(changeEvent.path);            
+    });
 
     gulp.watch(["src/global.styl"], ["dev:app:css"]);
 });
@@ -105,7 +104,7 @@ gulp.task("dev", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"dev:vendor:css",*/ "dev:app:css"],
+        ["dev:vendor:css", "dev:app:css"],
         ["dev:ts"],
         cb
     );
@@ -116,7 +115,7 @@ gulp.task("prod", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"prod:vendor:css",*/ "prod:app:css"],
+        ["prod:vendor:css", "prod:app:css"],
         ["prod:ts"],
         ["prod:bundle"],
         cb
@@ -143,8 +142,8 @@ gulp.task("prod:vendor:js", () => { return transformJavascript(vendorJavascript,
 //
 // Application stylesheets
 //
-gulp.task("dev:app:css", () => { return buildStylusFiles(appStylus, true); });
-gulp.task("prod:app:css", () => { return buildStylusFiles(appStylus, false); });
+gulp.task("dev:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], true); });
+gulp.task("prod:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], false); });
 
 //
 // Application artifacts

@@ -26,6 +26,10 @@ var systemjsBuilder = require("systemjs-builder");
 
 var vendorCss =
 [
+    {
+        src: "node_modules/bootstrap/dist/css/bootstrap.css",
+        dst: "public/bootstrap/css",
+    }
 ];
 
 var vendorArt =
@@ -52,11 +56,11 @@ var appArt =
 //
 gulp.task("watch", (cb) =>
 {
-    gulp.watch(["server.ts", "src/**/*.ts", "test/**/*.ts"]).on("change", (changeEvent) =>
-    {
-        buildTypescriptFile(changeEvent.path, false);
-        gUtil.log(`Built ${changeEvent.path}`)
-    });
+    // gulp.watch(["server.ts", "src/**/*.ts", "test/**/*.ts"]).on("change", (changeEvent) =>
+    // {
+    //     buildTypescriptFile(changeEvent.path, false);
+    //     gUtil.log(`Built ${changeEvent.path}`)
+    // });
     
     gulp.watch(["src/**/*.styl", "!src/global.styl"]).on("change", (changeEvent) =>
     {
@@ -92,7 +96,7 @@ gulp.task("Debug", (cb) =>
     return runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
-        [/*"dev:vendor:css",*/ "dev:app:css"],
+        ["dev:vendor:css", "dev:app:css"],
         ["dev:ts"],
         cb
     );
