@@ -1,0 +1,39 @@
+<form class="ov-form ov-login-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-group ov-form-header">
+        <p>Log In is Required</p>
+    </div>
+
+    <div class="form-group ov-error-box" *ngIf="attempted">
+        <div class="ov-error-box-title">
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </div>
+        <div class="ov-error-box-message">
+            <p>Sorry, that user name and password combination is not recognized or not authorized.</p>
+            <p>Please double-check and try again.</p>
+        </div>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error': form.get('name').dirty && !form.get('name').valid}">
+        <label for="name">User Name</label>
+        <input id="name" formControlName="name" class="form-control"  placeholder="User Name" type="text" />
+        <div class="help-block" *ngIf="form.get('name').dirty && !form.get('name').valid">
+            <p>User Name is required</p>
+        </div>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error': form.get('password').dirty && !form.get('password').valid}">
+        <label for="password">Password</label>
+        <input id="password" formControlName="password" class="form-control"  placeholder="Password" type="password" />
+        <div class="help-block" *ngIf="form.get('password').dirty && !form.get('password').valid">
+            <p>Password is required</p>
+        </div>
+    </div>
+
+    <div class="form-group checkbox">
+        <label><input formControlName="rememberMe" type="checkbox" />Remember Me</label>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || submitting">Log In</button>
+    </div>
+</form>

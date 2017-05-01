@@ -11,7 +11,7 @@ let port = process.env.port || 3000;
 const routes =
 [
     `${getVirtualDir()}/`, 
-    `${getVirtualDir()}/second`
+    `${getVirtualDir()}/login`
 ]
 app.get(routes, (req: express.Request, res: express.Response) =>
 {

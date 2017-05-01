@@ -1,0 +1,29 @@
+@require "../../global.styl"
+ 
+:host 
+    position absolute
+    left 0px
+    top 0px
+    right 0px
+    bottom 0px
+    background-color backgroundColor
+    overflow hidden
+ 
+    app-header
+        background-color backgroundColor
+        position fixed
+        left 0
+        top 0
+        width 100%
+        height headerHeight
+        border-bottom 1px solid formBorderColor 
+        overflow hidden
+
+    div#view-container
+        position absolute
+        left 0
+        right 0
+        top headerHeight
+        bottom 0
+        overflow auto
+

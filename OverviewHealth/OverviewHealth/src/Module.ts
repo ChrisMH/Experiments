@@ -1,6 +1,11 @@
 ﻿import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CookieModule } from "ngx-cookie";
+
+import { StoreModule } from "@ngrx/store";
+import { routerReducer, RouterStoreModule } from "@ngrx/router-store";
 
 import { Router } from "./Router";
 import { App, AppHeader, Backlog, ServerBlock, Login } from "./Components";
@@ -9,9 +14,14 @@ import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } fro
 @NgModule({
     imports:
     [
-        BrowserModule,
-        CookieModule,
-        Router
+        BrowserModule, BrowserAnimationsModule,
+        ReactiveFormsModule,
+
+        StoreModule.provideStore({ router: routerReducer }),
+        RouterStoreModule.connectRouter(),        
+        Router,
+
+        CookieModule.forRoot()
     ],
 
     declarations:

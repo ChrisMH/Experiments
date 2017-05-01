@@ -1,0 +1,8 @@
+<div id="header-branding">
+    <a href=""></a>
+</div>
+<div id="header-version">{{appSettings.version}}</div>
+<div id="header-account">
+    <span>{{principalService.getUserName()}}</span>
+    <button type="button" class="btn btn-default" (click)="onLogout()">Log Out</button>
+</div>

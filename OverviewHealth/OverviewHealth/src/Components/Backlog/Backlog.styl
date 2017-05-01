@@ -1,22 +1,22 @@
 @require "../../global.styl"
 
-title-height = 30px
+titleHeight = 30px
 
-block-title-left = 4px
-block-extra-info-left = 4px
+blockTitleLeft = 4px
+blockExtraInfoLeft = 4px
 
-count-width = 80px
+countWidth = 80px
 
-server-block-width = 300px
-server-block-height = 126px
+serverBlockWidth = 300px
+serverBlockHeight = 126px
 
-customer-backlog-left = 2 * default-margin + server-block-width + 10px
+customerBacklogLeft = 2 * defaultMargin + serverBlockWidth + 10px
 
-customer-block-width = 400px
-customer-block-height = 82px
-customer-block-expanded-height = 240px
+customerBlockWidth = 400px
+customerBlockHeight = 82px
+customerBlockExpandedHeight = 240px
 
-spinner-color = lighten(blue, 20%)
+spinnerColor = lighten(blue, 20%)
 
 blockLeft(width, height)
     >>> .block-left
@@ -45,7 +45,7 @@ blockRight(width, height)
 blockTitle()
     .block-title
         color: inherit
-        padding-left: block-title-left
+        padding-left: blockTitleLeft
         width: 100%
         font-size: 16pt
         font-weight: normal
@@ -58,7 +58,7 @@ blockTitle()
 
 blockExtraInfo()
     .block-extra-info
-        padding-left: block-title-left
+        padding-left: blockTitleLeft
         max-width: 100%
         font-size: 11px
         display: table
@@ -115,53 +115,53 @@ blockControls(height)
 blockSpinner()
     .block-spinner
         position: absolute
-        color: spinner-color
+        color: spinnerColor
         top: 32px
         right: 6px
 
 div
     &#server-list
         position: relative
-        width: server-block-width
+        width: serverBlockWidth
 
         server-block
             display: block
             position: relative
-            margin-bottom: default-margin // (i * (default-margin + server-block-height))
+            margin-bottom: defaultMargin // (i * (defaultMargin + serverBlockHeight))
             width: 100%
-            height: server-block-height
+            height: serverBlockHeight
             border: 1px solid rgb(100,100,100)
             border-radius: 1px
             overflow: hidden
-            blockLeft(server-block-width - count-width, server-block-height)
-            blockRight(count-width, server-block-height)
+            blockLeft(serverBlockWidth - countWidth, serverBlockHeight)
+            blockRight(countWidth, serverBlockHeight)
 
     &#customer-backlog-list
         position: absolute
-        left: customer-backlog-left
-        top: default-margin
-        right: default-margin
-        bottom: default-margin
-        min-width: customer-block-width
+        left: customerBacklogLeft
+        top: defaultMargin
+        right: defaultMargin
+        bottom: defaultMargin
+        min-width: customerBlockWidth 
 
         div
             &.customer-block
                 position: relative
                 left: 0px
-                margin-bottom: default-margin // (i * (default-margin + customer-block-height))
+                margin-bottom: defaultMargin // (i * (defaultMargin + customerBlockHeight))
                 width: 100%
-                height: customer-block-height
+                height: customerBlockHeight
                 border: 1px solid rgb(100,100,100)
                 border-radius: 1px
                 overflow: hidden
                 //visibility: collapse
-                blockLeft("calc(100% - %s)" % count-width, customer-block-height)
-                blockRight(count-width, customer-block-height)
+                blockLeft("calc(100% - %s)" % countWidth, customerBlockHeight)
+                blockRight(countWidth, customerBlockHeight)
 
                 #tracker-list
                     position: absolute
                     left: 0px
-                    top: customer-block-height
+                    top: customerBlockHeight
                     right: 0px
                     bottom: 0px
                     font-size: small
@@ -222,7 +222,7 @@ div
                         opacity: 1
 
             &.customer-block-expanded
-                height: customer-block-expanded-height !important
+                height: customerBlockExpandedHeight !important
 
             &.customer-block-expanded-add
                 -webkit-transition: 0.25s linear
@@ -243,14 +243,14 @@ div
     &.server-block-{i}
     {
         position: relative
-        margin-bottom: default-margin // (i * (default-margin + server-block-height))
+        margin-bottom: defaultMargin // (i * (defaultMargin + serverBlockHeight))
         width: 100%
-        height: server-block-height
+        height: serverBlockHeight
         border: 1px solid rgb(100,100,100)
         border-radius: 1px
         overflow: hidden
-        .block-left(calc(~"100% - count-width"), server-block-height)
-        .block-right(count-width, server-block-height)
+        .block-left(calc(~"100% - countWidth"), serverBlockHeight)
+        .block-right(countWidth, serverBlockHeight)
     }
 
     .generate-server-blocks(n, (i + 1))
@@ -290,22 +290,22 @@ div
   
 
 .server-block-good
-    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), background-color, left top, right top)
+    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), backgroundColor, left top, right top)
 
 .server-block-poor
-    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), background-color, left top, right top)
+    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), backgroundColor, left top, right top)
 
 .server-block-bad
-    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), background-color, left top, right top)
+    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), backgroundColor, left top, right top)
 
 .customer-block-good
-    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), background-color, left top, right top)
+    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), backgroundColor, left top, right top)
 
 .customer-block-poor
-    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), background-color, left top, right top)
+    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), backgroundColor, left top, right top)
 
 .customer-block-bad 
-    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), background-color, left top, right top)
+    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), backgroundColor, left top, right top)
 
 linear-gradient(start_color, end_color, start = left top, end = left bottom)
   mozstart = top if start = left top

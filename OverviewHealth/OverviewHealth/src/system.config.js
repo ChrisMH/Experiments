@@ -16,6 +16,7 @@
             "app":                  "src",
             "Components":           "src/Components",
             "Models":               "src/Models",
+            "Store":                "src/Store",
             "Services":             "src/Services",
             
             // Plugins
@@ -61,7 +62,12 @@
             "@telerik/kendo-dropdowns-common":          "node_modules/@telerik/kendo-dropdowns-common/dist/cdn/js/kendo-dropdowns-common.js",
             "@telerik/kendo-inputs-common":             "node_modules/@telerik/kendo-inputs-common/dist/cdn/js/kendo-inputs-common.js",
             "@telerik/kendo-intl":                      "node_modules/@telerik/kendo-intl/dist/cdn/js/kendo-intl.js",
-              
+            
+            // @ngrx
+            "@ngrx/core": "node_modules/@ngrx/core/bundles/core.umd.js",
+            "@ngrx/router-store": "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
+            "@ngrx/store": "node_modules/@ngrx/store/bundles/store.umd.js",
+
             // other libraries
             "hammerjs":         "node_modules/hammerjs/hammer.js",
             "moment": "node_modules/moment/moment.js",
@@ -78,6 +84,7 @@
             "app":                  { main: "main" },
             "Components":           { main: "index" },
             "Models":               { main: "index" },
+            "Store":                { main: "index" },
             "Services":             { main: "index" },
 
             "rxjs": { main: "Rx" }
