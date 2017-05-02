@@ -75,6 +75,15 @@ export class IdentityEffects
                 })
                 .catch((err: any) => this.authenticateError(err));
         });
+    
+    @Effect({dispatch: false}) logout = this.actions$
+        .ofType(identity.REVOKE)
+        .do(() =>
+        {
+            console.log("logout effect");
+            localStorage.removeItem(identity.lsName);
+            localStorage.removeItem(identity.lsToken);
+        });
 
     private authorizeFulfilled(state: identity.State, response: identity.LoginFulfilledPayload): rx.Observable<Action>
     {

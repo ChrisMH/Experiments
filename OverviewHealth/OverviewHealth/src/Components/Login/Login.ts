@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { go } from "@ngrx/router-store";
 
@@ -25,6 +26,7 @@ export class Login
     protected submitting: boolean = false;
 
     constructor(
+        protected activatedRoute: ActivatedRoute,
         protected formBuilder: FormBuilder,
         protected store: Store<AppState>,
         protected appSettings: AppSettings)
@@ -39,6 +41,10 @@ export class Login
     
     onNgInit(): void
     {
+        this.activatedRoute.queryParams.take(1).subscribe((value: {[key: string]: any}) =>
+        {
+            console.dir(value);
+        });
     }
 
     onSubmit(): void
