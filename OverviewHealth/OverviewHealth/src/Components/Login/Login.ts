@@ -4,7 +4,10 @@ import { Store } from "@ngrx/store";
 import { go } from "@ngrx/router-store";
 
 import { AppState } from "../../Store";
-import { AppSettings, Identity, OvCookieService, OvPrincipalService } from "../../Services";
+import * as identity from "../../Store/Identity";
+import * as router from "../../Store/Router";
+
+import { AppSettings } from "../../Services";
 
 @Component({
     moduleId: module.id,
@@ -23,52 +26,46 @@ export class Login
 
     constructor(
         protected formBuilder: FormBuilder,
-        protected appState: Store<AppState>,
-        protected appSettings: AppSettings, 
-        protected cookieService: OvCookieService,
-        protected principalService: OvPrincipalService)
+        protected store: Store<AppState>,
+        protected appSettings: AppSettings)
     {
-        const rememberMe = this.cookieService.getRememberMe();
-        let name: string;
-        if(rememberMe)
-            name = this.cookieService.getUserName();
+        const identityState = identity.getState(this.store);
 
-        this.form = formBuilder.group({
-            name: [name, Validators.required], 
+        this.form = this.formBuilder.group({
+            name: [identityState.name, Validators.required], 
             password: [undefined, Validators.required],
-            rememberMe: rememberMe});
+            stayLoggedIn: identityState.stayLoggedIn});
+    }
+    
+    onNgInit(): void
+    {
     }
 
     onSubmit(): void
-    {
+    {        
         this.submitting = true;
         const name: string = this.form.controls.name.value;
         const password: string = this.form.controls.password.value;
-        const rememberMe: boolean = this.form.controls.rememberMe.value;
+        const stayLoggedIn: boolean = this.form.controls.stayLoggedIn.value;
 
-        this.principalService.authenticate(name, password)
-            .first()
-            .subscribe((identity: Identity) =>
+        this.store.dispatch(identity.authenticate(this.form.controls.name.value, this.form.controls.password.value, this.form.controls.stayLoggedIn.value));
+
+        this.store.select(identity.key)
+            .skipWhile((state: identity.State) => state.loggingIn)
+            .take(1)
+            .subscribe((state: identity.State) =>
             {
-                if(rememberMe)
+                this.submitting = false;
+
+                if(state.loggedIn)
                 {
-                    this.cookieService.setUserName(name);
-                    this.cookieService.setRememberMe(true);
+                    const routerState = router.getState(this.store);
+                    this.store.dispatch(go(""));
                 }
                 else
                 {
-                    this.cookieService.removeUserName();
-                    this.cookieService.setRememberMe(false);
+                    this.attempted = true;
                 }
-
-                this.cookieService.setIdentityToken(identity.token);
-
-                this.appState.dispatch(go(""));
-            },
-            (err: any) =>
-            {
-                this.attempted = true;
-                this.submitting = false;
-            });
+            })
     }
 }

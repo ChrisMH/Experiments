@@ -2,15 +2,14 @@
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { CookieModule } from "ngx-cookie";
 
 import { StoreModule } from "@ngrx/store";
 import { RouterStoreModule } from "@ngrx/router-store";
 
-import { Router } from "./Router";
-import { AppStore } from "./Store";
-import { App, AppHeader, Backlog, ServerBlock, Login } from "./Components";
-import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } from "./Services";
+import { AppRouterModule } from "./AppRouterModule";
+import { AppStoreModule } from "./Store";
+import { App, Backlog, ServerBlock, Login } from "./Components";
+import { AppSettings, OvHealthService } from "./Services";
 
 @NgModule({
     imports:
@@ -18,15 +17,13 @@ import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } fro
         BrowserModule, BrowserAnimationsModule,
         ReactiveFormsModule,
 
-        AppStore,     
-        Router,
-
-        CookieModule.forRoot()
+        AppStoreModule,     
+        AppRouterModule
     ],
 
     declarations:
     [
-        App, AppHeader,
+        App, 
 
         Backlog, ServerBlock,
         
@@ -36,10 +33,8 @@ import { AppSettings, OvCookieService, OvHealthService, OvPrincipalService } fro
     providers:
     [
         { provide: "ConfigRoot", useValue: window },
-        AppSettings,
-        OvCookieService,
-        OvHealthService,
-        OvPrincipalService
+        AppSettings,        
+        OvHealthService
     ],
 
     exports: [App],

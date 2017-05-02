@@ -65,13 +65,13 @@
             
             // @ngrx
             "@ngrx/core": "node_modules/@ngrx/core/bundles/core.umd.js",
+            "@ngrx/effects": "node_modules/@ngrx/effects/bundles/effects.umd.js",
             "@ngrx/router-store": "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
             "@ngrx/store": "node_modules/@ngrx/store/bundles/store.umd.js",
 
             // other libraries
             "hammerjs":         "node_modules/hammerjs/hammer.js",
             "moment": "node_modules/moment/moment.js",
-            "ngx-cookie": "node_modules/ngx-cookie/bundles/ngx-cookie.umd.js",
             "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
             "rxjs": "node_modules/rxjs",
             "typedjson-npm": "node_modules/typedjson-npm/js/typed-json.js",

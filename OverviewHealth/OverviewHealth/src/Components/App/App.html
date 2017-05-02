@@ -1,0 +1,13 @@
+<header>
+    <div id="branding">
+        <a routerLink="/"></a>
+    </div>
+    <div id="version">{{appSettings.version}}</div>
+    <div id="account" *ngIf="(identity | async)?.loggedIn">
+        <span>{{(identity | async)?.name}}</span>
+        <button type="button" class="btn btn-default" (click)="onLogout()">Log Out</button>
+    </div>
+</header>
+<div id="view-container">
+    <router-outlet></router-outlet>
+</div>

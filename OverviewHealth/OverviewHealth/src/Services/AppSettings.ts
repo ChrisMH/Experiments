@@ -10,7 +10,6 @@ export class AppSettings
     version: string;
     gatewayServiceUrl: string;
     healthServers: Array<HealthServer>;
-    requireAuthentication: boolean;
     minimumRoleLevel: number;
     updateInterval: number;
 
@@ -52,9 +51,6 @@ class InternalAppSettings
 
     @JsonMember({elements: HealthServer})
     healthServers: Array<HealthServer>;
-
-    @JsonMember
-    requireAuthentication: boolean;
 
     @JsonMember
     minimumRoleLevel: number;

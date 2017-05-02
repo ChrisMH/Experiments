@@ -13,7 +13,6 @@ export namespace MockHelpers
                     { serverName: "One", serverUrl: "one/health" },
                     { serverName: "Two", serverUrl: "two/health" }
                 ],
-                requireAuthentication: true,
                 minimumRoleLevel: 100,
                 updateInterval: 200
             }

@@ -1,33 +1,35 @@
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
-import * as Rx from "rxjs";
+import { go } from "@ngrx/router-store";
+import * as rx from "rxjs";
 
 import { AppState } from "../../Store";
+import * as identity from "../../Store/Identity";
+import * as router from "../../Store/Router";
+
 import { AppSettings } from "../../Services";
 
 @Component({
     moduleId: module.id,
     selector: "app",
-    template: `
-        <app-header></app-header>
-        <div id="view-container">
-            <router-outlet></router-outlet>
-        </div>
-    `,
+    templateUrl: "./App.html",
     styleUrls: ["./App.css"]
 })
 export class App 
 {
-    private routerSub: Rx.Subscription;
+    protected identity: rx.Observable<identity.State>;
+    private routerSub: rx.Subscription;
 
-    constructor(protected store: Store<AppState>, private appSettings: AppSettings)
+    constructor(
+        protected store: Store<AppState>, 
+        protected appSettings: AppSettings)
     {
-        
+        this.identity = store.select(identity.key)
     }
 
     ngOnInit(): void
     {
-        this.routerSub = this.store.select("router").subscribe((value: Object) =>
+        this.routerSub = this.store.select(router.key).subscribe((value: Object) =>
         {
             console.log("Router change:", value);
         });
@@ -37,5 +39,11 @@ export class App
     {
         if(this.routerSub)
             this.routerSub.unsubscribe();
+    }
+
+    onLogout(): void
+    {
+        this.store.dispatch(identity.revoke());
+        this.store.dispatch(go("login"));
     }
 } 

@@ -53,8 +53,6 @@ describe("AppSettings : ", () =>
                 expect(appSettings.healthServers[i].serverUrl).toEqual(<string>(<HealthServer[]>MockHelpers.configRoot["app"]["settings"]["healthServers"])[i]["serverUrl"]);
             }
 
-            expect(appSettings.requireAuthentication).toBeDefined();
-            expect(appSettings.requireAuthentication).toEqual(<boolean>MockHelpers.configRoot["app"]["settings"]["requireAuthentication"]);
             expect(appSettings.minimumRoleLevel).toBeDefined();
             expect(appSettings.minimumRoleLevel).toEqual(<number>MockHelpers.configRoot["app"]["settings"]["minimumRoleLevel"]);
             expect(appSettings.updateInterval).toBeDefined();
