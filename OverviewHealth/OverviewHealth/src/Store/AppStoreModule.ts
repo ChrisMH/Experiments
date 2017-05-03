@@ -1,7 +1,9 @@
 import { NgModule } from "@angular/core";
+
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { routerReducer, RouterStoreModule } from "@ngrx/router-store";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 import * as identity from "./Identity";
 import * as router from "./Router";
@@ -17,6 +19,7 @@ reducers[identity.key] = identity.reducer;
     imports: 
     [
         StoreModule.provideStore(reducers),
+        StoreDevtoolsModule.instrumentOnlyWithExtension({ maxAge: 10 }),
         RouterStoreModule.connectRouter(),
 
         EffectsModule.run(IdentityEffects)

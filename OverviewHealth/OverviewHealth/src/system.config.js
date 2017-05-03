@@ -68,9 +68,10 @@
             "@ngrx/effects": "node_modules/@ngrx/effects/bundles/effects.umd.js",
             "@ngrx/router-store": "node_modules/@ngrx/router-store/bundles/router-store.umd.js",
             "@ngrx/store": "node_modules/@ngrx/store/bundles/store.umd.js",
+            "@ngrx/store-devtools": "node_modules/@ngrx/store-devtools/bundles/store-devtools.umd.js",
 
             // other libraries
-            "hammerjs":         "node_modules/hammerjs/hammer.js",
+            "hammerjs": "node_modules/hammerjs/hammer.js",
             "moment": "node_modules/moment/moment.js",
             "reflect-metadata": "node_modules/reflect-metadata/Reflect.js",
             "rxjs": "node_modules/rxjs",
