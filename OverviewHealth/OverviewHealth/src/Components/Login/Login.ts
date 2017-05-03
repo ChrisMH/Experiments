@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+
 import { Store } from "@ngrx/store";
 import { go } from "@ngrx/router-store";
 
@@ -27,6 +28,7 @@ export class Login
 
     constructor(
         protected activatedRoute: ActivatedRoute,
+        protected router: Router,
         protected formBuilder: FormBuilder,
         protected store: Store<AppState>,
         protected appSettings: AppSettings)
@@ -41,10 +43,7 @@ export class Login
     
     onNgInit(): void
     {
-        this.activatedRoute.queryParams.take(1).subscribe((value: {[key: string]: any}) =>
-        {
-            console.dir(value);
-        });
+        
     }
 
     onSubmit(): void
@@ -58,20 +57,30 @@ export class Login
 
         this.store.select(identity.key)
             .skipWhile((state: identity.State) => state.loggingIn)
-            .take(1)
-            .subscribe((state: identity.State) =>
+            .first().subscribe((state: identity.State) =>
             {
                 this.submitting = false;
 
                 if(state.loggedIn)
                 {
-                    const routerState = router.getState(this.store);
-                    this.store.dispatch(go(""));
+                    this.activatedRoute.queryParams
+                        .first().subscribe((queryParams: Object) =>
+                        {
+                            if(queryParams.hasOwnProperty("returnUrl"))
+                            {
+                                let returnUrl: string = queryParams["returnUrl"];
+                                while(returnUrl.startsWith("/"))
+                                    returnUrl = returnUrl.slice(1);
+                                this.router.navigate([returnUrl]);
+                            }                                
+                            else
+                                this.router.navigate([""]);
+                        });
                 }
                 else
                 {
                     this.attempted = true;
                 }
-            })
+            });
     }
 }

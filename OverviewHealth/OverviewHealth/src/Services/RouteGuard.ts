@@ -1,5 +1,5 @@
 import { Injectable }  from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 
 import { Store } from "@ngrx/store";
 import { go } from "@ngrx/router-store";
@@ -11,7 +11,7 @@ import * as identity from "../Store/Identity"
 @Injectable()
 export class RouteGuard implements CanActivate
 {
-    constructor(protected store: Store<AppState>) 
+    constructor(protected router: Router, protected store: Store<AppState>) 
     {}
 
     canActivate(route: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): rx.Observable<boolean>
@@ -26,8 +26,8 @@ export class RouteGuard implements CanActivate
                 if(state.loggedIn) 
                     return true;
 
-                this.store.dispatch(go(["login", {returnUrl: routerState.url }]));
-                
+                //this.store.dispatch(go(["login"], {returnUrl: routerState.url }));
+                this.router.navigate(["login"], {queryParams: { returnUrl: routerState.url }})
                 return state.loggedIn; 
             });
     }
