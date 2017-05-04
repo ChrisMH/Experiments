@@ -8,13 +8,11 @@ let app = express();
 let dev = process.env.node_env === "development";
 let port = process.env.port || 3000;
 
-const routes =
-[
-    `${getVirtualDir()}/`, 
-    `${getVirtualDir()}/;*`, 
-    `${getVirtualDir()}/login`, 
-    `${getVirtualDir()}/login;*`
-]
+
+
+//const routes = new RegExp(getVirtualDir() + "/[\d|\d/\d|login.*]");
+const routes = new RegExp("^\\/(|\d+|\d+\\/\d+|login.*)$");
+
 app.get(routes, (req: express.Request, res: express.Response) =>
 {
     res.render("main",
@@ -25,18 +23,19 @@ app.get(routes, (req: express.Request, res: express.Response) =>
             version: getVersion()
         }); 
 });    
-              
+
+
+app.set("view engine", "pug");
+app.use(getVirtualDir(), express.static("public"));
+
+if (dev)
+{
+    app.use(`${getVirtualDir()}/node_modules`, express.static("node_modules"));
+    app.use(`${getVirtualDir()}/src`, express.static("src"));
+}
+
 app.listen(port, () =>
 {
-    app.set("view engine", "pug");
-    app.use(getVirtualDir(), express.static("public"));
-
-    if (dev)
-    {
-        app.use(`${getVirtualDir()}/node_modules`, express.static("node_modules"));
-        app.use(`${getVirtualDir()}/src`, express.static("src"));
-    }
-       
     console.log(`Listening on port ${port}: ${process.env.node_env}, v${getVersion()}, vDir: ${getVirtualDir() ? getVirtualDir() : "<None>"}`);
 });     
 

@@ -1,57 +1,51 @@
-<!--<div class="server-block"
-      ng-class="[{'server-block-good': ctrlServerBlock.server.backlog <= 100, 'server-block-poor': ctrlServerBlock.server.backlog > 100 && ctrlServerBlock.server.backlog <= 500, 'server-block-bad': ctrlServerBlock.server.backlog > 500 }]">-->
-
 <div class="block-left">
-    <div class="block-title" > <!--ng-class="{'block-title-selected': ctrlServerBlock.server.showCustomerBacklog}"-->
-        {{server.serverName}}
+    <div class="block-title" [ngClass]="{'block-title-selected': server.showCustomerBacklog}">
+        {{server.name}}
     </div>
 
-    <!--<div class="block-extra-info">
+    <div class="block-extra-info">
         <div class="block-extra-info-row">
             <div class="block-extra-info-label">Total received:</div>
-            <div class="block-extra-info-value">{{ctrlServerBlock.server.totalReceived | number}}</div>
+            <div class="block-extra-info-value">{{server.totalReceived | number}}</div>
         </div>
         <div class="block-extra-info-row">
             <div class="block-extra-info-label">Last received on:</div>
-            <div class="block-extra-info-value">{{ctrlServerBlock.server.lastReceivedOn | date : 'MM/dd/yyyy HH:mm:ss'}}</div>
+            <div class="block-extra-info-value">{{server.lastReceivedOn | date : 'MM/dd/yyyy HH:mm:ss'}}</div>
         </div>
         <div class="block-extra-info-row">
             <div class="block-extra-info-label">CPU Usage:</div>
-            <div class="block-extra-info-value">{{ctrlServerBlock.server.pctProcessorTime | number : 0}}%</div>
+            <div class="block-extra-info-value">{{server.pctProcessorTime | number : 0}}%</div>
         </div>
         <div class="block-extra-info-row">
             <div class="block-extra-info-label">Available Memory:</div>
-            <div class="block-extra-info-value">{{ctrlServerBlock.server.availableMBytes / 1000 | number : 2}} GB</div>
+            <div class="block-extra-info-value">{{server.availableMBytes / 1000 | number: '1.2'}} GB</div>
         </div>
         <div class="block-extra-info-row">
             <div class="block-extra-info-label">Paging File Usage:</div>
-            <div class="block-extra-info-value">{{ctrlServerBlock.server.pctPagingFileUsage | number : 0}}%</div>
+            <div class="block-extra-info-value">{{server.pctPagingFileUsage | number : 0}}%</div>
         </div>
         <div class="block-extra-info-row">
             <div class="block-extra-info-label">DB Connections:</div>
-            <div class="block-extra-info-value">{{ctrlServerBlock.server.databaseConnections}} ({{ctrlServerBlock.server.idleDatabaseConnections}} idle)</div>
+            <div class="block-extra-info-value">{{server.databaseConnections | number}} ({{server.idleDatabaseConnections | number}} idle)</div>
         </div>
-    </div>-->
+    </div>
 </div>
 
 <div class="block-right">
-    <!--<div class="block-spinner" ng-show="ctrlServerBlock.isLoading">
+    <div class="block-spinner" *ngIf="server.isLoading > 0" >
         <span class="fa fa-spinner fa-spin fa-2x"></span>
     </div>
-
+    
     <div class="block-count">
-        <span>{{ctrlServerBlock.server.backlog}}</span>
+        <span>{{server.backlog}}</span>
     </div>
 
     <div class="block-controls">
-        <button type="button" class="btn btn-default" ng-click="ctrlServerBlock.onHistoryClicked()" title="Show the history for this server">
-            <span class="fa fa-history"
-                    aria-hidden="true"></span>
+        <button type="button" class="btn btn-default" (click)="onHistoryClick()" title="Show the history for this server">
+            <span class="fa fa-history"></span>
         </button>
-        <button type="button" class="btn btn-default" ng-click="ctrlServerBlock.onToggleClicked()" title="Toggle the customer backlog for this server">
-            <span class="fa fa-lg" 
-                    ng-class="{'fa-angle-double-right': !ctrlServerBlock.server.showCustomerBacklog, 'fa-angle-double-left': ctrlServerBlock.server.showCustomerBacklog}" 
-                    aria-hidden="true"></span>
+        <button type="button" class="btn btn-default" (click)="onExpandClick()" title="Toggle the customer backlog for this server">
+            <span class="fa fa-lg" [ngClass]="{'fa-angle-double-right': !server.showCustomerBacklog, 'fa-angle-double-left': server.showCustomerBacklog}"></span>
         </button>
-    </div>-->
+    </div>
 </div>

@@ -87,7 +87,6 @@ export class IdentityEffects
         .ofType(identity.REVOKE)
         .do(() =>
         {
-            console.log("logout effect");
             localStorage.removeItem(identity.lsName);
             localStorage.removeItem(identity.lsToken);
         });

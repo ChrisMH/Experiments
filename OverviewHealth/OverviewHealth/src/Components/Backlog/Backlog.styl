@@ -20,7 +20,6 @@ spinnerColor = lighten(blue, 20%)
 
 blockLeft(width, height)
     >>> .block-left
-        border: 1px solid blue
         position: absolute
         left: 0px
         top: 0px
@@ -31,7 +30,6 @@ blockLeft(width, height)
 
 blockRight(width, height)
     >>> .block-right
-        border: 1px solid red
         position: absolute
         right: 0px
         top: 0px
@@ -113,7 +111,7 @@ blockControls(height)
 
 
 blockSpinner()
-    .block-spinner
+     .block-spinner
         position: absolute
         color: spinnerColor
         top: 32px
@@ -284,32 +282,25 @@ div
 */
 
 
-        
 
 
-  
 
 .server-block-good
-    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), backgroundColor, left top, right top)
+    linear_gradient(right, rgb(0, 205, 0), backgroundColor)
 
 .server-block-poor
-    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), backgroundColor, left top, right top)
+    linear_gradient(right, rgb(255,119,0), backgroundColor)
 
 .server-block-bad
-    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), backgroundColor, left top, right top)
+    linear_gradient(right, rgb(224,0,0), backgroundColor)
 
 .customer-block-good
-    background-image: linear-gradient(lighten(rgb(0, 205, 0), 30%), backgroundColor, left top, right top)
+    linear_gradient(right, lighten(rgb(0, 205, 0), 30%), backgroundColor)
 
 .customer-block-poor
-    background-image: linear-gradient(lighten(rgb(255,119,0), 30%), backgroundColor, left top, right top)
+    linear_gradient(right, lighten(rgb(255,119,0), 30%), backgroundColor)
 
 .customer-block-bad 
-    background-image: linear-gradient(lighten(rgb(224,0,0), 30%), backgroundColor, left top, right top)
+    linear_gradient(right, lighten(rgb(224,0,0), 30%), backgroundColor)
 
-linear-gradient(start_color, end_color, start = left top, end = left bottom)
-  mozstart = top if start = left top
-  background start_color
-  background -moz-linear-gradient(mozstart, start_color 0%, end_color 100%)
-  background -webkit-gradient(linear, start, end, color-stop(0%, start_color), color-stop(100%, end_color))
-  -webkit-background-origin padding-box
+

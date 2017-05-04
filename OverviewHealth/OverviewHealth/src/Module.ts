@@ -8,7 +8,7 @@ import { RouterStoreModule } from "@ngrx/router-store";
 
 import { AppRouterModule } from "./AppRouterModule";
 import { AppStoreModule } from "./Store";
-import { App, Backlog, ServerBlock, Login } from "./Components";
+import { App, Backlog, CustomerBlock, ServerBlock, Login } from "./Components";
 import { AppSettings, OvHealthService } from "./Services";
 
 @NgModule({
@@ -25,7 +25,7 @@ import { AppSettings, OvHealthService } from "./Services";
     [
         App, 
 
-        Backlog, ServerBlock,
+        Backlog, CustomerBlock, ServerBlock,
         
         Login        
     ],

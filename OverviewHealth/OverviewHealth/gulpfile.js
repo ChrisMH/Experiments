@@ -32,6 +32,10 @@ var vendorCss =
         dst: "public"
     },
     {
+        src: "node_modules/font-awesome/css/font-awesome.css",
+        dst: "public/font-awesome/css"
+    },
+    {
         src: "node_modules/@progress/kendo-theme-default/dist/all.css",
         dst: "public",
         rename: "kendo.css"
@@ -43,6 +47,10 @@ var vendorArt =
     {
         src: "src/bootstrap/fonts/**/*",
         dst: "public/fonts"
+    },
+    {
+        src: "node_modules/font-awesome/fonts/**/*",
+        dst: "public/font-awesome/fonts"
     }
 ];
 

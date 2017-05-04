@@ -7,6 +7,8 @@ import { RouteGuard } from "./Services";
 const routes: Routes = 
 [
     { path: "", component: Backlog, canActivate: [ RouteGuard ] },
+    { path: ":serverIndex", component: Backlog, canActivate: [ RouteGuard ] },
+    { path: ":serverIndex/:customerIndex", component: Backlog, canActivate: [ RouteGuard ] },
     { path: "login", component: Login },
     { path: "**", redirectTo: "/", pathMatch: "full" }
 ];
