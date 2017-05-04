@@ -1,5 +1,4 @@
 import { Injectable, Inject } from "@angular/core";
-import { Observable, Subscriber } from "rxjs";
 
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
@@ -13,12 +12,8 @@ export class OvHealthService
 
     }
 
-    getBacklog(server: HealthServer) : Observable<any>
+    getBacklog(server: HealthServer)
     {
-        return new Observable<any>((obs: Subscriber<any>) =>
-        {
-            obs.complete();
-        });
     }
 
     getCounters(server: HealthServer)

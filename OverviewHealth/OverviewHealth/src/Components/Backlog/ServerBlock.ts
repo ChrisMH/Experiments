@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import * as moment from "moment";
 
 import { AppSettings, HealthServer } from "../../Services";
@@ -12,10 +12,20 @@ import { AppSettings, HealthServer } from "../../Services";
 
 export class ServerBlock
 {
-    server: HealthServer;
+    @Input() server: HealthServer;
 
     constructor(protected appSettings: AppSettings)
     {
+    }
+
+    ngOnInit(): void
+    {
+
+    }
+
+    ngOnDestroy(): void
+    {
+        
     }
 }
    

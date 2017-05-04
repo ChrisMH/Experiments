@@ -1,6 +1,7 @@
 import { Action, ActionReducer, Reducer, Store } from "@ngrx/store";
-import * as rx from "rxjs";
-
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/first";
+ 
 import { AppState } from "./AppState";
 
 export const key = "identity";
@@ -19,7 +20,7 @@ export interface State
 export const getState = (store: Store<AppState>): State =>
 {
     let state: State;
-    store.select(key).take(1).subscribe((s: State) => state = s);
+    store.select(key).first().subscribe((s: State) => state = s);
     return state;
 }
 
@@ -45,8 +46,6 @@ const initialValue: State =
     loggingIn: false,
     loggedIn: false
 };
-
-console.dir(initialValue);
 
 /**
  * Authorize against the identity token in the current state

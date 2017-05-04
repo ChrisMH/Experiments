@@ -1,8 +1,15 @@
 import {Injectable} from "@angular/core";
 import { Action, Store } from "@ngrx/store";
 import { Actions, Effect } from "@ngrx/effects";
-import * as rx from "rxjs";
 import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
+
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/dom/ajax";
+import "rxjs/add/observable/from";
+import "rxjs/add/operator/catch";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/switchMap";
+import "rxjs/add/operator/withLatestFrom";
 
 import * as identity from "./Identity";
 import { AppSettings } from "../Services";
@@ -20,7 +27,7 @@ export class IdentityEffects
      */
     @Effect() authorize$ = this.actions$
         .ofType(identity.AUTHORIZE)
-        .withLatestFrom(this.state$.select(identity.key) as rx.Observable<identity.State>)
+        .withLatestFrom(this.state$.select(identity.key) as Observable<identity.State>)
         .switchMap((value: [Action, identity.State]) =>
         {           
             if(value[1].token === undefined)
@@ -30,7 +37,7 @@ export class IdentityEffects
                 // Authorization not necessary
                 return this.authorizeFulfilled(value[1], {name: value[1].name, token: value[1].token, roleLevel: value[1].roleLevel});
 
-            return rx.Observable.ajax.getJSON(`${this.appSettings.gatewayServiceUrl}Account/GetUserFromIdentity?Identity=${value[1].token}`)
+            return Observable.ajax.getJSON(`${this.appSettings.gatewayServiceUrl}Account/GetUserFromIdentity?Identity=${value[1].token}`)
                 .switchMap((rawResponse: Object) =>
                 {
                     const response = TypedJSON.parse(TypedJSON.stringify(rawResponse), GetUserResponse);
@@ -42,7 +49,7 @@ export class IdentityEffects
                         return this.authorizeFulfilled(value[1], {name: response.data.name, token: response.data.identity, roleLevel: response.data.roleLevel});
                     }
 
-                    return rx.Observable.from([{ type: identity.AUTHORIZE_ERROR, payload: new Error(response.message) as Object }]);
+                    return Observable.from([{ type: identity.AUTHORIZE_ERROR, payload: new Error(response.message) as Object }]);
                 })
                 .catch((err: any) => this.authorizeError(err));
         });
@@ -59,7 +66,7 @@ export class IdentityEffects
             if(payload.name === undefined || payload.name.length === 0 || payload.password === undefined || payload.password.length === 0 )
                 return this.authenticateError("Name or password is invalid");
 
-            return rx.Observable.ajax.getJSON(`${this.appSettings.gatewayServiceUrl}Account/GetUserFromLogin?Name=${value.payload["name"]}&Password=${value.payload["password"]}`)
+            return Observable.ajax.getJSON(`${this.appSettings.gatewayServiceUrl}Account/GetUserFromLogin?Name=${value.payload["name"]}&Password=${value.payload["password"]}`)
                 .switchMap((rawResponse: Object) =>
                 {
                     const response = TypedJSON.parse(TypedJSON.stringify(rawResponse), GetUserResponse);
@@ -85,7 +92,7 @@ export class IdentityEffects
             localStorage.removeItem(identity.lsToken);
         });
 
-    private authorizeFulfilled(state: identity.State, response: identity.LoginFulfilledPayload): rx.Observable<Action>
+    private authorizeFulfilled(state: identity.State, response: identity.LoginFulfilledPayload): Observable<Action>
     {
         if(state.stayLoggedIn)
         {
@@ -98,18 +105,18 @@ export class IdentityEffects
             localStorage.removeItem(identity.lsToken);
         }
 
-        return rx.Observable.from([{ type: identity.AUTHORIZE_FULFILLED, payload: response}]);
+        return Observable.from([{ type: identity.AUTHORIZE_FULFILLED, payload: response}]);
     }
 
-    private authorizeError(error: any): rx.Observable<Action>
+    private authorizeError(error: any): Observable<Action>
     {
         localStorage.removeItem(identity.lsName);
         localStorage.removeItem(identity.lsToken);
 
-        return rx.Observable.from([{ type: identity.AUTHORIZE_ERROR, payload: new Error(error)}]);
+        return Observable.from([{ type: identity.AUTHORIZE_ERROR, payload: new Error(error)}]);
     }
 
-    private authenticateFulfilled(payload: identity.AuthenticatePayload, response: identity.LoginFulfilledPayload): rx.Observable<Action>
+    private authenticateFulfilled(payload: identity.AuthenticatePayload, response: identity.LoginFulfilledPayload): Observable<Action>
     {
         if(payload.stayLoggedIn)
         {
@@ -124,15 +131,15 @@ export class IdentityEffects
             localStorage[identity.lsStayLoggedIn] = false;
         }
 
-        return rx.Observable.from([{ type: identity.AUTHENTICATE_FULFILLED, payload: response}]);
+        return Observable.from([{ type: identity.AUTHENTICATE_FULFILLED, payload: response}]);
     }
 
-    private authenticateError(error: any): rx.Observable<Action>
+    private authenticateError(error: any): Observable<Action>
     {
         localStorage.removeItem(identity.lsName);
         localStorage.removeItem(identity.lsToken);
 
-        return rx.Observable.from([{ type: identity.AUTHENTICATE_ERROR, payload: new Error(error)}]);
+        return Observable.from([{ type: identity.AUTHENTICATE_ERROR, payload: new Error(error)}]);
     }
 }
 

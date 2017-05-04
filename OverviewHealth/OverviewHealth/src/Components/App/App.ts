@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { go } from "@ngrx/router-store";
-import * as rx from "rxjs";
+import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 
 import { AppState } from "../../Store";
 import * as identity from "../../Store/Identity";
@@ -17,8 +18,8 @@ import { AppSettings } from "../../Services";
 })
 export class App 
 {
-    protected identity: rx.Observable<identity.State>;
-    private routerSub: rx.Subscription;
+    protected identity: Observable<identity.State>;
+    private routerSub: Subscription;
 
     constructor(
         protected store: Store<AppState>, 

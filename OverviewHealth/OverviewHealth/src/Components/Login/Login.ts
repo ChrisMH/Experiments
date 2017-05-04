@@ -5,13 +5,17 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { go } from "@ngrx/router-store";
 
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/first";
+
 import { AppState } from "../../Store";
 import * as identity from "../../Store/Identity";
 import * as router from "../../Store/Router";
 
 import { AppSettings } from "../../Services";
 
-@Component({
+@Component({ 
     moduleId: module.id,
     selector: "login",
     templateUrl: "./Login.html",
@@ -41,11 +45,6 @@ export class Login
             stayLoggedIn: identityState.stayLoggedIn});
     }
     
-    onNgInit(): void
-    {
-        
-    }
-
     onSubmit(): void
     {        
         this.submitting = true;
