@@ -4,9 +4,11 @@ var gConcat = require("gulp-concat");
 var gDebug = require("gulp-debug");
 var gIf = require("gulp-if");
 var gInlineNgTemplate = require("gulp-inline-ng2-template");
+var gLess = require("gulp-less");
 var gPlumber = require("gulp-plumber");
 var gRename = require("gulp-rename");
 var gReplace = require("gulp-replace");
+var gSass = require("gulp-sass");
 var gSourceMaps = require("gulp-sourcemaps");
 var gStreamify = require("gulp-streamify");
 var gStylus = require("gulp-stylus");
@@ -18,17 +20,16 @@ var cleanCss = require("clean-css");
 var del = require("del");
 var fs = require("fs");
 var htmlMinifier = require("html-minifier");
-var path = require("path");
 var mergeStream = require("merge-stream");
+var path = require("path");
 var runSequence = require("run-sequence");
 var systemjsBuilder = require("systemjs-builder");
 
 var vendorCss =
-[
+[   
     {
-        src: "src/css/bootstrap/bootstrap-custom.css",
-        dst: "public",
-        rename: "bootstrap.css"
+        src: "src/bootstrap/bootstrap.css",
+        dst: "public"
     },
     {
         src: "node_modules/@progress/kendo-theme-default/dist/all.css",
@@ -40,7 +41,7 @@ var vendorCss =
 var vendorArt =
 [
     {
-        src: "src/css/bootstrap/fonts/**/*",
+        src: "src/bootstrap/fonts/**/*",
         dst: "public/fonts"
     }
 ];
@@ -49,7 +50,8 @@ var vendorJavascript =
 [
 ];
 
-appArt =
+
+var appArt =
 [
     { src: "src/art/**/*", dst: "public/art" }
 ];
@@ -58,7 +60,7 @@ appArt =
 //
 // Watch for changes
 //
-gulp.task("watch", (cb) =>
+gulp.task("watch", () =>
 {
     gulp.watch(["server.ts", "src/**/*.ts", "test/**/*.ts"]).on("change", (changeEvent) =>
     {
@@ -72,12 +74,9 @@ gulp.task("watch", (cb) =>
         gUtil.log(`Built ${changeEvent.path}`);         
     });
 
-    gulp.watch(["src/**/*.html"]).on("change", (changeEvent) =>
-    {
-        buildMatchingTypescriptFile(changeEvent.path);            
-    });
-
     gulp.watch(["src/global.styl"], ["dev:app:css"]);
+
+    gulp.watch(["src/bootstrap/less/**/*.less"], ["dev:vendor:css"]);
 });
 
 
@@ -85,77 +84,81 @@ gulp.task("watch", (cb) =>
 //
 // Clean
 //
-gulp.task("clean", ["clean:css", "clean:js"], () => { return del(["public"]) });
-gulp.task("clean:css", () =>
-{
-    return del(["src/**/*.css", "src/**/*.css.map", "!src/css/**/*"]);
-});
+gulp.task("clean", ["clean:css", "clean:js"], () => del(["public"]));
+gulp.task("clean:css", () => del(["src/**/*.css", "src/**/*.css.map"]));
 gulp.task("clean:js", () =>
-{
-    return del(["server.js", "server.js.map", 
-                "src/**/*.js", "src/**/*.js.map", "!src/system.config.js",
-                "test/**/*.js", "test/**/*.js.map"]);
-});
+    del(["server.js", "server.js.map", 
+         "src/**/*.js", "src/**/*.js.map", "!src/system.config.js",
+         "test/**/*.js", "test/**/*.js.map"]));
 
 //
 // Build entire application
 //
 gulp.task("dev", (cb) =>
-{
-    return runSequence(
+    runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
         ["dev:vendor:css", "dev:app:css"],
         ["dev:ts"],
-        cb
-    );
-});
+        cb));
 
 gulp.task("prod", (cb) =>
-{
-    return runSequence(
+    runSequence(
         ["clean"],
         ["vendor:art", "app:art"],
         ["prod:vendor:css", "prod:app:css"],
         ["prod:ts"],
         ["prod:bundle"],
-        cb
-    );
-});
+        cb));
 
 //
 // Vendor stylesheets
 //
-gulp.task("dev:vendor:css", () => { return transformCss(vendorCss, false); });
-gulp.task("prod:vendor:css", () => { return transformCss(vendorCss, true); });
+gulp.task("dev:vendor:css", (cb) => 
+    runSequence(
+        ["dev:bootstrap"],
+        ["dev:vendor:transform"],
+        cb));
+
+gulp.task("prod:vendor:css", (cb) => 
+    runSequence(
+        ["prod:bootstrap"],
+        ["prod:vendor:transform"],
+        cb));
+
+gulp.task("dev:vendor:transform", () => transformCss(vendorCss, false));
+gulp.task("prod:vendor:transform", () => transformCss(vendorCss, false));
+
+gulp.task("dev:bootstrap", () => buildLessFiles(["src/bootstrap/less/bootstrap.less"], true, false, "src/bootstrap"));
+gulp.task("prod:bootstrap", () => buildLessFiles(["src/bootstrap/less/bootstrap.less"], false, false, "src/bootstrap"));
 
 //
-// Vendor artifacts
+// Vendor art
 //
-gulp.task("vendor:art", () => { return copyArt(vendorArt); });
+gulp.task("vendor:art", () => copyArt(vendorArt));
 
 //
 // Vendor javascript
 //
-gulp.task("dev:vendor:js", () => { return transformJavascript(vendorJavascript, false); });
-gulp.task("prod:vendor:js", () => { return transformJavascript(vendorJavascript, true); });
+gulp.task("dev:vendor:js", () => transformJavascript(vendorJavascript, false));
+gulp.task("prod:vendor:js", () => transformJavascript(vendorJavascript, true));
 
 //
 // Application stylesheets
 //
-gulp.task("dev:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], true); });
-gulp.task("prod:app:css", () => { return buildStylusFiles(["src/**/*.styl", "!src/global.styl"], false); });
+gulp.task("dev:app:css", () => buildStylusFiles(["src/**/*.styl", "!src/global.styl"], true));
+gulp.task("prod:app:css", () => buildStylusFiles(["src/**/*.styl", "!src/global.styl"], false));
 
 //
 // Application artifacts
 //
-gulp.task("app:art", () => { return copyArt(appArt); });
+gulp.task("app:art", () => copyArt(appArt));
 
 //
 // Typescript
 //
-gulp.task("dev:ts", () => { return buildTypescriptProject(true, false); });
-gulp.task("prod:ts", () => { return buildTypescriptProject(false, true); });
+gulp.task("dev:ts", () => buildTypescriptProject(true, false));
+gulp.task("prod:ts", () => buildTypescriptProject(false, true));
 
 //
 // Bundling
@@ -168,7 +171,7 @@ gulp.task("prod:bundle", (cb) =>
 
     // The first argument of buildStatic is the entry point of the application
     builder.buildStatic("app", appBundleName, { minify: true, sourceMaps: false })
-        .then(function () { cb(); })
+        .then(() => cb())
         .catch(function (err)
         {
             console.log("Bundle Error:");
@@ -181,6 +184,51 @@ gulp.task("prod:bundle", (cb) =>
 //
 // Helper functions
 //
+
+buildLessFiles = (fileGlobs, sourceMaps, compress, dest) =>
+{
+    var streams = [];
+    var base = path.resolve("./");
+    if (dest === undefined)
+        dest = "./";
+
+    fileGlobs.forEach((fileGlob) => 
+    {
+        streams.push(
+            gulp.src(fileGlob/*, {base: base}*/)
+                .pipe(gPlumber({ errorHandler: onError }))
+                //.pipe(gDebug())
+                .pipe(gIf(sourceMaps, gSourceMaps.init()))
+                .pipe(gLess())
+                .pipe(gIf(sourceMaps, gSourceMaps.write()))
+                .pipe(gIf(compress, gCleanCss({ keepSpecialComments: 0 })))
+                .pipe(gulp.dest(dest)));
+    });
+    return mergeStream(streams);
+};
+
+
+buildSassFiles = (fileGlobs, sourceMaps, compress, dest) => 
+{
+    var streams = [];
+    var base = path.resolve("./");
+    if (dest === undefined)
+        dest = "./";
+
+    fileGlobs.forEach((fileGlob) => 
+    {
+        streams.push(
+            gulp.src(fileGlob)
+            .pipe(gPlumber({ errorHandler: onError }))
+            //.pipe(gDebug())
+            .pipe(gIf(sourceMaps, gSourceMaps.init()))
+            .pipe(gSass())
+            .pipe(gIf(sourceMaps, gSourceMaps.write()))
+            .pipe(gIf(compress, gCleanCss({ keepSpecialComments: 0 })))
+            .pipe(gulp.dest(dest)));
+    });
+    return mergeStream(streams);
+};
 
 
 buildStylusFile = (file) =>
@@ -200,7 +248,7 @@ buildStylusFiles = (fileGlobs, sourceMaps) =>
 {
     var streams = [];
     var base = path.resolve("./");
-    fileGlobs.forEach(function (fileGlob)
+    fileGlobs.forEach((fileGlob) =>
     {
         streams.push(
             gulp.src(fileGlob, {base: base})
@@ -260,20 +308,6 @@ buildTypescriptProject = (sourceMaps, inlineTemplates) =>
             .js
             .pipe(gIf(sourceMaps, gSourceMaps.write("./", {includeContent: false, sourceRoot: "./"})))
             .pipe(gulp.dest("./"));
-};
-
-
-buildMatchingTypescriptFile = (file) =>
-{
-    var extName = path.extname(file);
-    var fileName = path.basename(file, extName);
-    var tsPath = path.join(path.dirname(file), fileName.concat(".ts"));
-
-    if(fs.existsSync(tsPath))
-    {
-        buildTypescriptFile(tsPath);
-        gUtil.log(`Built ${tsPath}`)
-    }
 };
 
 

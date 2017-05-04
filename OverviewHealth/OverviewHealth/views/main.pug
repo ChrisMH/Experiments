@@ -8,7 +8,11 @@ html
     base(href=rootUrl)
     link(href="art/favicon.ico" type="image/x-icon" rel="icon")
     link(href="art/favicon.ico" type="image/x-icon" rel="shortcut icon")
-    link(href=`bootstrap-${version}.css`, type="text/css" rel="stylesheet")
+    if dev
+        link(href=`src/bootstrap/bootstrap.css`, type="text/css" rel="stylesheet")
+    else
+        link(href=`bootstrap-${version}.css`, type="text/css" rel="stylesheet")
+
     link(href=`kendo-${version}.css`, type="text/css" rel="stylesheet")
 
     script(type="text/javascript"). 

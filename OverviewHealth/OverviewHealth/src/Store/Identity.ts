@@ -78,7 +78,7 @@ export const revoke = (): Action =>
 }
 
 export interface AuthenticatePayload
-{
+{ 
     name: string;
     password: string;
     stayLoggedIn: boolean;
@@ -97,7 +97,7 @@ export const reducer: ActionReducer<State> = (state: State = initialValue, actio
     {
         case AUTHORIZE:
             //console.log(`identity.reducer: ${action.type}`);
-            return Object.assign({}, state, {roleLevel: undefined, loggingIn: true, loggedIn: false});
+            return Object.assign({}, state, {loggingIn: true});
             
         case AUTHENTICATE:
         {

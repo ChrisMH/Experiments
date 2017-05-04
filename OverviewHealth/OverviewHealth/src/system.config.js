@@ -40,6 +40,7 @@
             "@angular/router":                      "node_modules/@angular/router/bundles/router.umd.js",
             
             // Kendo Bundles
+            "@progress/kendo-angular-buttons":          "node_modules/@progress/kendo-angular-buttons/dist/cdn/js/kendo-angular-buttons.js",
             "@progress/kendo-angular-charts":           "node_modules/@progress/kendo-angular-charts/dist/cdn/js/kendo-angular-charts.js",
             "@progress/kendo-angular-dateinputs":       "node_modules/@progress/kendo-angular-dateinputs/dist/cdn/js/kendo-angular-dateinputs.js",
             "@progress/kendo-angular-dropdowns":        "node_modules/@progress/kendo-angular-dropdowns/dist/cdn/js/kendo-angular-dropdowns.js",
