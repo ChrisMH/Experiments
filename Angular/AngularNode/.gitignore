@@ -1,6 +1,7 @@
 /public
 /node_modules
-
+/iisnode
+npm*.log*
 server.js
 server.js.map
 

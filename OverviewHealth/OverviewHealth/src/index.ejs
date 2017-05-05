@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="/">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="art/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="art/favicon.ico" type="image/x-icon" rel="shortcut icon">
+  </head>
+  <body>
+    <app>Loading...</app>
+    <script type="text/javascript">
+        (function() {
+            if(!window.hasOwnProperty("app")) window.app = {};
+            window.app.settings = {
+                version: "<%= htmlWebpackPlugin.options.version %>",
+                gatewayServiceUrl: "http://overview.logikos.com/GatewayService/",
+                healthServers: [
+                    { serverName: "Overview", serverUrl: "http://overview.logikos.com/OverviewHealthServiceNode/"},
+                    { serverName: "Overview 2", serverUrl: "http://overview2.logikos.com/OverviewHealthServiceNode/"},
+                    { serverName: "Overview Staging", serverUrl: "http://ogws.logikos.com/OverviewHealthServiceNode/"}
+                ],
+                minimumRoleLevel: 110000,
+                updateInterval: 60000
+            };
+        })();
+    </script>
+  </body>
+</html>

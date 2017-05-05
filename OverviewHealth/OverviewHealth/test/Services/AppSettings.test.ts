@@ -3,13 +3,10 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@ang
 import { TestBed, ComponentFixture, inject, async } from "@angular/core/testing";
 
 import { MockHelpers } from "../Mocks";
-import { AppSettings, HealthServer } from "../../src/Services";
+import { AppSettings, HealthServer } from "../../src/app/services";
 
 describe("AppSettings : ", () =>
 {
-    beforeAll(() => { TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting()); });
-    afterAll(() => { TestBed.resetTestEnvironment(); });
-
     describe(" Happy Path : ", () =>
     {
         beforeEach(() =>
@@ -34,10 +31,6 @@ describe("AppSettings : ", () =>
          
         it("creates AppSettings with expected properties", inject([AppSettings], (appSettings: AppSettings) =>
         {
-            expect(appSettings.originUrl).toBeDefined();
-            expect(appSettings.originUrl).toEqual(<string>MockHelpers.configRoot["app"]["settings"]["originUrl"]);
-            expect(appSettings.rootUrl).toBeDefined();
-            expect(appSettings.rootUrl).toEqual(<string>MockHelpers.configRoot["app"]["settings"]["rootUrl"]);
             expect(appSettings.version).toBeDefined();
             expect(appSettings.version).toEqual(<string>MockHelpers.configRoot["app"]["settings"]["version"]);
             expect(appSettings.gatewayServiceUrl).toBeDefined();
@@ -76,9 +69,11 @@ describe("AppSettings : ", () =>
             inject([AppSettings], (appSettings: AppSettings) =>
             {
                 expect(appSettings).toBeDefined();
-                expect(appSettings.originUrl).toBeUndefined();
-                expect(appSettings.rootUrl).toBeUndefined();
                 expect(appSettings.version).toBeUndefined();
+                expect(appSettings.gatewayServiceUrl).toBeUndefined();
+                expect(appSettings.healthServers).toBeUndefined();
+                expect(appSettings.minimumRoleLevel).toBeUndefined();
+                expect(appSettings.updateInterval).toBeUndefined();
             });
         });
   
@@ -96,9 +91,11 @@ describe("AppSettings : ", () =>
             inject([AppSettings], (appSettings: AppSettings) =>
             {
                 expect(appSettings).toBeDefined();
-                expect(appSettings.originUrl).toBeUndefined();
-                expect(appSettings.rootUrl).toBeUndefined();
                 expect(appSettings.version).toBeUndefined();
+                expect(appSettings.gatewayServiceUrl).toBeUndefined();
+                expect(appSettings.healthServers).toBeUndefined();
+                expect(appSettings.minimumRoleLevel).toBeUndefined();
+                expect(appSettings.updateInterval).toBeUndefined();
             });
 
         });        

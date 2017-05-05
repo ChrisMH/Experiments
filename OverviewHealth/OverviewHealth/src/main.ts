@@ -1,23 +1,14 @@
-﻿import "zone.js";
-import "reflect-metadata";
+﻿import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
 
-import { enableProdMode } from "@angular/core";
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/AppModule';
 
-import { Module } from "./Module"
+import "./main.styl";
 
-import "./main.css";
-
-(function()
+if (process.env.ENV === 'production') 
 {
-    function boot()
-    {
-        //enableProdMode();
-        platformBrowserDynamic().bootstrapModule(Module);
-    };
+    enableProdMode();
+}
 
-    if(document.readyState === "complete")
-        boot();
-    else
-        document.addEventListener("DOMContentLoaded", boot);
-})();
+platformBrowserDynamic().bootstrapModule(AppModule);
+ 

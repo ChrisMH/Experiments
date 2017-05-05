@@ -1,13 +1,11 @@
-﻿import { AppSettings } from "../../src/Services";
+﻿import { AppSettings } from "../../src/app/services";
 
 export namespace MockHelpers
 {
     export const configRoot: any = {
         app: {
             settings: {
-                originUrl: "/",
-                rootUrl: "/root/",
-                version: "1.0.0",
+                version: "1.2.3",
                 gatewayServiceUrl: "gateway",
                 healthServers: [
                     { serverName: "One", serverUrl: "one/health" },

@@ -1,0 +1,53 @@
+@require "../global.styl"
+ 
+:host 
+    position absolute
+    left 0px
+    top 0px
+    right 0px
+    bottom 0px
+    background-color backgroundColor
+    overflow hidden
+ 
+    header
+        background-color backgroundColor
+        position fixed
+        left 0
+        top 0
+        width 100%
+        height headerHeight
+        border-bottom 1px solid formBorderColor 
+        overflow hidden
+
+        #branding
+            position absolute
+            left brandingImageMargin
+            top brandingImageMargin
+            width brandingImageWidth
+            height brandingImageHeight
+            background-image url("art/OverviewBanner.png")
+
+            a
+                position absolute
+                width 100%
+                height 100%
+
+        #version
+            font-size x-small
+            position absolute
+            top 2px
+            right 5px
+
+        #account
+            position absolute
+            bottom 6px
+            right 5px
+
+    div#view-container
+        position absolute
+        left 0
+        right 0
+        top headerHeight
+        bottom 0
+        overflow auto
+
