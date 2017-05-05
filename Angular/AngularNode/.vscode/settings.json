@@ -12,5 +12,6 @@
         "**/*.css.map": true,
         "**/*.js": { "when" : "$(basename).ts" },
         "**/*.css": { "when" : "$(basename).styl" }
-    }
+    },
+    "vsicons.presets.angular": false
 }

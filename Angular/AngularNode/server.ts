@@ -18,27 +18,20 @@ app.get(routes, (req: express.Request, res: express.Response) =>
     res.render("main",
         {
             dev: dev,
-            originUrl: "/",
-            rootUrl: `${getVirtualDir()}/`,
-            version: getVersion()
+            baseUrl: `${getVirtualDir()}/`,
+            version: appVersion()
         }); 
 });    
-              
-app.listen(port, () =>
-{
-    app.set("view engine", "pug");
-    app.use(getVirtualDir(), express.static("public"));
 
-    if (dev)
-    {
-        app.use(`${getVirtualDir()}/node_modules`, express.static("node_modules"));
-        app.use(`${getVirtualDir()}/src`, express.static("src"));
-    }
-       
-    console.log(`Listening on port ${port}: ${process.env.node_env}, v${getVersion()}, vDir: ${getVirtualDir() ? getVirtualDir() : "<None>"}`);
+app.set("view engine", "pug");
+app.use(getVirtualDir(), express.static("public"));
+
+app.listen(port, () =>
+{       
+    console.log(`Listening on port ${port}: ${process.env.node_env}, v${appVersion()}`);
 });     
 
-function getVersion(): string
+function appVersion(): string
 {
     var packageFile = JSON.parse(fs.readFileSync("./package.json", "utf8"));
     return packageFile["version"];
