@@ -20,6 +20,13 @@ module.exports = function(options) {
         "vendor": helpers.root("src", "vendor.ts"),
         "app": helpers.root("src", "main.ts")
     },
+    
+    devServer: {
+        contentBase: helpers.root("src"),
+        //hot: true,
+        port: 3000,
+        historyApiFallback: true
+    },
 
     resolve: {
         extensions: [".ts", ".js"]
