@@ -1,6 +1,7 @@
 var webpack = require("webpack");
 var path = require("path");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var helpers = require("./helpers");
@@ -59,10 +60,11 @@ module.exports = function(options) {
                 include: helpers.root("src", "app"),
                 loaders: [ "raw-loader", "stylus-loader" ]
             },
+            // Outside src/app
             {
                 test: /\.styl$/,
                 exclude: helpers.root("src", "app"),
-                loaders: [ "style-loader", "raw-loader", "stylus-loader" ]
+                loader: "style-loader!raw-loader!stylus-loader"
             }
 
         ]

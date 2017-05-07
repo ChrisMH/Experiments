@@ -2,11 +2,10 @@
   "name": "angular-raw",
   "version": "1.0.1",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "npm run build:dev",
-    "build:dev": "rimraf public && tsc server.ts && webpack --config config/webpack.dev.js --progress --profile",
-    "build:prod": "rimraf public && tsc server.ts && webpack --config config/webpack.prod.js  --progress --profile --bail",
+    "build:dev": "rimraf public && webpack --config config/webpack.dev.js --progress --profile",
+    "build:prod": "rimraf public && webpack --config config/webpack.prod.js  --progress --profile --bail",
     "clean": "rimraf npm*.log* && rimraf public",
     "start:dev": "webpack-dev-server --config config/webpack.dev.js --progress --profile --watch",
     "start": "npm run start:dev",
