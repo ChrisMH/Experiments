@@ -2,9 +2,9 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import * as moment from "moment";
 
-import { AppSettings, getContainer } from "../Services";
+import { AppSettings, getContainer } from "../services";
 
-import "./Header.css"
+import "./Header.styl"
        
 export class Header extends React.Component<any, any>
 {
@@ -15,8 +15,8 @@ export class Header extends React.Component<any, any>
         return ( 
             <header>
                 <h2>BetaCon</h2>
-                <Link to={`${this.appSettings.rootUrl}`}>Main</Link>
-                <Link to={`${this.appSettings.rootUrl}inputsetup`}>Input Setup</Link>
+                <Link to={`/`}>Main</Link>
+                <Link to={`inputsetup`}>Input Setup</Link>
             </header>
         );
     }

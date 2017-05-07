@@ -1,5 +1,5 @@
 import { Container, interfaces } from "inversify";
-import { AppSettings, ZoneService } from "../Services";
+import { AppSettings, ZoneService } from "../services";
 
 
 let container: Container;

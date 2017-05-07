@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { Observable, Subscriber } from "rxjs";
 
-import { ZoneDescription, ZoneInput, ZoneSource } from "../Models";
+import { ZoneDescription, ZoneInput, ZoneSource } from "../models";
 
 @injectable()
 export class ZoneService

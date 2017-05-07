@@ -4,8 +4,6 @@ import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 @injectable()
 export class AppSettings
 {
-    originUrl: string;
-    rootUrl: string;
     version: string;
 
     constructor(@inject("configRoot") configRoot: Object)
@@ -14,8 +12,6 @@ export class AppSettings
         {
             const appSettings = TypedJSON.parse(TypedJSON.stringify(configRoot["app"]["settings"]), InternalAppSettings);
             
-            this.originUrl = appSettings.originUrl;
-            this.rootUrl = appSettings.rootUrl;
             this.version = appSettings.version;
         }
     }
@@ -25,11 +21,6 @@ export class AppSettings
 @JsonObject
 class InternalAppSettings
 {
-    @JsonMember
-    originUrl: string;
-    
-    @JsonMember
-    rootUrl: string;
     
     @JsonMember
     version: string;

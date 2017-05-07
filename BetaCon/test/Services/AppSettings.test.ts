@@ -1,7 +1,7 @@
 ﻿import { configRoot } from "../Mocks";
 import { Container } from "inversify";
 
-import { AppSettings } from "../../src/Services";
+import { AppSettings } from "../../src/app/services";
 
 describe("AppSettings : ", () =>
 {
@@ -20,10 +20,6 @@ describe("AppSettings : ", () =>
             container.bind<Object>("configRoot").toConstantValue(configRoot);
             let appSettings = container.get<AppSettings>(AppSettings);
 
-            expect(appSettings.originUrl).toBeDefined();
-            expect(appSettings.originUrl).toEqual(<string>configRoot["app"]["settings"]["originUrl"]);
-            expect(appSettings.rootUrl).toBeDefined();
-            expect(appSettings.rootUrl).toEqual(<string>configRoot["app"]["settings"]["rootUrl"]);
             expect(appSettings.version).toBeDefined();
             expect(appSettings.version).toEqual(<string>configRoot["app"]["settings"]["version"]);
         });
@@ -37,8 +33,6 @@ describe("AppSettings : ", () =>
             let appSettings = container.get<AppSettings>(AppSettings);
 
             expect(appSettings).toBeDefined();
-            expect(appSettings.originUrl).toBeUndefined();
-            expect(appSettings.rootUrl).toBeUndefined();
             expect(appSettings.version).toBeUndefined();
         });
 
@@ -48,8 +42,6 @@ describe("AppSettings : ", () =>
             let appSettings = container.get<AppSettings>(AppSettings);
 
             expect(appSettings).toBeDefined();
-            expect(appSettings.originUrl).toBeUndefined();
-            expect(appSettings.rootUrl).toBeUndefined();
             expect(appSettings.version).toBeUndefined();
         });
 

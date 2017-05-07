@@ -1,12 +1,11 @@
 import * as React from "react";
 import * as moment from "moment";
 
-import { Zone } from "../Components";
+import { Zone } from "../components";
+import { AppSettings, getContainer, ZoneService } from "../services";
+import { ZoneDescription } from "../models";
 
-import { AppSettings, getContainer, ZoneService } from "../Services";
-import { ZoneDescription } from "../Models";
-
-import "./MainPage.css"
+import "./MainPage.styl"
     
 interface State
 {

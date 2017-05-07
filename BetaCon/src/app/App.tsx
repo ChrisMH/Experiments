@@ -2,10 +2,10 @@ import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Container } from "inversify";
 
-import { Header, MainPage, InputSetupPage } from "./Components";
-import { AppSettings, getContainer } from "./Services";
+import { Header, MainPage, InputSetupPage } from "./components";
+import { AppSettings, getContainer } from "./services";
 
-import "./App.css";
+import "./App.styl";
 
 export class App extends React.Component<any, any>
 {
@@ -18,8 +18,8 @@ export class App extends React.Component<any, any>
                 <div>
                     <Header/>
                     <section>
-                        <Route exact path={`${this.appSettings.rootUrl}`} component={MainPage}/>
-                        <Route path={`${this.appSettings.rootUrl}inputsetup`} component={InputSetupPage}/>
+                        <Route exact path={`/`} component={MainPage}/>
+                        <Route path={`/inputsetup`} component={InputSetupPage}/>
                     </section>
                 </div>
             </Router>
