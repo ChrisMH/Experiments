@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Measure from "react-measure";
 
-import { Block, BlockProps, BlockOutput } from "../../Components";
+import { Block, BlockProps, BlockOutput } from "../../components";
 import { ZoneDescription, ZoneInput, ZoneSource } from "../../Models";
 
 

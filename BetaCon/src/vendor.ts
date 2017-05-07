@@ -7,9 +7,6 @@ import "resize-observer-polyfill";
 import "rxjs";
 import "typedjson-npm";
 
-import "redux";
-import "redux-observable";
-
 // React
 import "react";
 import "react-dom";

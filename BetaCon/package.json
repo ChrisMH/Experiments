@@ -4,10 +4,11 @@
   "description": "BetaCon application",
   "scripts": {
     "build": "npm run build:dev",
-    "build:dev": "rimraf public && webpack --config config/webpack.dev.js --progress --profile",
+    "build:dev": "rimraf public && webpack --config config/webpack.dev.js --progress --profile --bail",
     "build:prod": "rimraf public && webpack --config config/webpack.prod.js  --progress --profile --bail",
     "clean": "rimraf npm*.log* && rimraf public",
     "start:dev": "webpack-dev-server --config config/webpack.dev.js --progress --profile --watch",
+    "start:prod": "webpack-dev-server --config config/webpack.prod.js --progress --profile --watch",
     "start": "npm run start:dev",
     "test": "karma start karma.webpack.config.js"
   },
@@ -24,8 +25,6 @@
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
-    "redux": "^3.6.0",
-    "redux-observable": "^0.14.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.3.0",
     "typedjson-npm": "^0.1.7"

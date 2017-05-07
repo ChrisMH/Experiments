@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as Measure from "react-measure";
 
-import { ZoneSignalPath } from "../../Components";
-import { ZoneDescription } from "../../Models";
+import { ZoneSignalPath } from "../../components";
+import { ZoneDescription } from "../../models";
 
-import "./Zone.css";
+import "./Zone.styl";
 
 interface ZoneProps
 {

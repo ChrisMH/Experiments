@@ -7,7 +7,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var helpers = require("./helpers");
 // NOTE: Directory and file names are case sensitive!!
 
-var TITLE = "Angular Raw";
+var TITLE = "BetaCon";
 
 /**
  * options.env - current environment
@@ -30,13 +30,13 @@ module.exports = function(options) {
     },
 
     resolve: {
-        extensions: [".ts", ".js"]
+        extensions: [".ts", ".tsx", ".js"]
     },
 
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.tsx?$/,
                 loaders: [
                     {
                         loader: "awesome-typescript-loader",
@@ -46,21 +46,12 @@ module.exports = function(options) {
             },
             {
                 test: /\.css$/,
-                include: helpers.root("src/app"),
                 loader: "style-loader!raw-loader"
             },
             {
                 test: /\.styl$/,
-                include: helpers.root("src/app"),
-                loader: "style-loader!raw-loader!stylus-loader"
-            },
-            // Outside src/app
-            {
-                test: /\.styl$/,
-                exclude: helpers.root("src", "app"),
                 loader: "style-loader!raw-loader!stylus-loader"
             }
-
         ]
     },
 
