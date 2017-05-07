@@ -135,14 +135,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="config\helpers.js" />
+    <Content Include="config\karma-test-shim.js" />
+    <Content Include="config\karma.conf.js" />
+    <Content Include="config\webpack.common.js" />
+    <Content Include="config\webpack.dev.js" />
+    <Content Include="config\webpack.prod.js" />
+    <Content Include="config\webpack.test.js" />
     <Content Include="Global.asax" />
-    <Content Include="gulpfile.js" />
     <Content Include="karma.conf.js" />
-    <Content Include="src\Components\App\App.html" />
+    <Content Include="karma.webpack.config.js" />
+    <Content Include="src\app\App.html" />
+    <Content Include="src\app\components\FirstPage.html" />
+    <Content Include="src\app\components\SecondPage.html" />
     <Content Include="src\art\favicon.ico" />
-    <Content Include="src\Components\FirstPage.html" />
-    <Content Include="src\Components\SecondPage.html" />
-    <Content Include="src\system.config.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -151,6 +157,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="webpack.config.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -163,30 +170,36 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="src\Components\App\App.styl" />
-    <Content Include="src\Components\FirstPage.styl" />
-    <Content Include="src\Components\SecondPage.styl" />
     <Content Include="src\global.styl" />
     <Content Include="src\main.styl" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="src\Components\App\App.ts" />
-    <TypeScriptCompile Include="src\Components\FirstPage.ts" />
-    <TypeScriptCompile Include="src\Components\index.ts" />
-    <TypeScriptCompile Include="src\Components\SecondPage.ts" />
+    <TypeScriptCompile Include="src\app\App.ts" />
+    <TypeScriptCompile Include="src\app\AppModule.ts" />
+    <TypeScriptCompile Include="src\app\AppRouterModule.ts" />
+    <TypeScriptCompile Include="src\app\components\FirstPage.ts" />
+    <TypeScriptCompile Include="src\app\components\index.ts" />
+    <TypeScriptCompile Include="src\app\components\SecondPage.ts" />
+    <TypeScriptCompile Include="src\app\services\AppSettings.ts" />
+    <TypeScriptCompile Include="src\app\services\index.ts" />
     <TypeScriptCompile Include="src\main.ts" />
-    <TypeScriptCompile Include="src\Models\index.ts" />
-    <TypeScriptCompile Include="src\Module.ts" />
-    <TypeScriptCompile Include="src\Router.ts" />
-    <TypeScriptCompile Include="src\Services\AppSettings.ts" />
-    <TypeScriptCompile Include="src\Services\index.ts" />
-    <TypeScriptCompile Include="test\Mocks\index.ts" />
-    <TypeScriptCompile Include="test\Mocks\MockHelpers.ts" />
-    <TypeScriptCompile Include="test\Services\AppSettings.test.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\vendor.ts" />
+    <TypeScriptCompile Include="test\mocks\index.ts" />
+    <TypeScriptCompile Include="test\mocks\MockHelpers.ts" />
+    <TypeScriptCompile Include="test\services\AppSettings.test.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\app\App.styl" />
+    <Content Include="src\app\components\FirstPage.styl" />
+    <Content Include="src\app\components\SecondPage.styl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\index.ejs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -230,7 +243,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
-  <Target Name="PostcompileScript" AfterTargets="Build">
+  <!--<Target Name="PostcompileScript" AfterTargets="Build">
     <Exec Command="gulp $(ConfigurationName)" />
-  </Target>
+  </Target>-->
 </Project>

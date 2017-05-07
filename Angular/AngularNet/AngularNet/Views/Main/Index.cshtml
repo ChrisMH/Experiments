@@ -5,12 +5,12 @@
 <html>
 <head>
     @Html.Raw(Model.Styles.Html)
-    @Html.Raw(Model.Scripts.Html)
 </head>
 <body>
 <div>
     <!-- Angular Entry Point -->
     <app></app>
+    @Html.Raw(Model.Scripts.Html)
 </div>
 </body>
 </html>

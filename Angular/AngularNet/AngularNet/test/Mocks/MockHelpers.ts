@@ -1,4 +1,4 @@
-﻿import { AppSettings } from "../../src/Services";
+﻿import { AppSettings } from "../../src/app/services";
 
 export namespace MockHelpers
 {

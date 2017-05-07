@@ -7,13 +7,13 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": true,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "noEmit": true,
     "typeRoots":  ["node_modules/@types"]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "public"
   ],
-  "compileOnSave": true
+  "compileOnSave": false
 }
