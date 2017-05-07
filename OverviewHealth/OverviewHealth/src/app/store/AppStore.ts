@@ -19,10 +19,10 @@ const reducer = compose()(reducers);
 export const STORE_IMPORTS = [
     RouterStoreModule.connectRouter(),
     
-    //StoreModule.provideStore(reducer),
+    StoreModule.provideStore(reducer),
     //StoreDevtoolsModule.instrumentOnlyWithExtension({ maxAge: 10 }),
 
-    //EffectsModule.run(IdentityEffects)
+    EffectsModule.run(IdentityEffects)
 ];
 
  

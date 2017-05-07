@@ -21,6 +21,13 @@ module.exports = function(options) {
         "vendor": helpers.root("src", "vendor.ts"),
         "app": helpers.root("src", "main.ts")
     },
+    
+    devServer: {
+        contentBase: helpers.root("src"),
+        //hot: true,
+        port: 3000,
+        historyApiFallback: true
+    },
 
     resolve: {
         extensions: [".ts", ".js"]
@@ -40,35 +47,34 @@ module.exports = function(options) {
             },
             {
                 test: /\.html$/,
-                include: helpers.root("src", "app"),
+                include: helpers.root("src/app"),
                 loader: "raw-loader"
             },
             {
                 test: /\.css$/,
-                include: helpers.root("src", "app"),
+                include: helpers.root("src/app"),
                 loader: "raw-loader"
             },
             {
                 test: /\.styl$/,
-                include: helpers.root("src", "app"),
+                include: helpers.root("src/app"),
                 loader: "raw-loader!stylus-loader"
             },
             // Outside src/app
             {
                 test: /\.styl$/,
-                exclude: [ 
-                    helpers.root("src", "app"),
-                    helpers.root("src", "art"),
-                    helpers.root("src", "bootstrap") 
-                ],
+                exclude: helpers.root("src/app"),
                 loader: "style-loader!raw-loader!stylus-loader"
             },
             {
                 test: /\.less$/,
-                include: [
-                    helpers.root("src", "bootstrap")
-                ],
+                exclude: helpers.root("src/app"),
                 use: ExtractTextPlugin.extract("raw-loader!less-loader")
+            },
+            {
+                test: /\.scss$/,
+                exclude: helpers.root("src/app"),
+                use: ExtractTextPlugin.extract("raw-loader!sass-loader")
             }
 
         ]
@@ -90,14 +96,16 @@ module.exports = function(options) {
         }),
 
         new HtmlWebpackPlugin({
-            template: helpers.root("src", "index.ejs"),
+            template: helpers.root("src/index.ejs"),
             title: options.env === "development" ? "Dev | ".concat(TITLE) : TITLE,
             version: helpers.appVersion(),
             chunksSortMode: "dependency"
         }),
 
         new CopyWebpackPlugin([
-            { from: helpers.root("src", "art"), to: "art" },
+            { from: helpers.root("src/font-awesome/fonts"), to: "art/fonts" },
+
+            { from: helpers.root("src/art"), to: "art" }
         ])
     ]
 }};

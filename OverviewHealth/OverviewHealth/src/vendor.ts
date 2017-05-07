@@ -1,3 +1,16 @@
+import "hammerjs";
+import "moment";
+import "reflect-metadata";
+import "rxjs";
+import "typedjson-npm";
+
+// @ngrx
+import "@ngrx/core"; 
+import "@ngrx/effects";
+import "@ngrx/router-store";
+import "@ngrx/store";
+import "@ngrx/store-devtools";
+
 // Angular
 import "@angular/animations";                
 import "@angular/animations/browser";        
@@ -35,20 +48,6 @@ import "@telerik/kendo-dropdowns-common";
 import "@telerik/kendo-inputs-common";            
 import "@telerik/kendo-intl";    
 
-// @ngrx
-import "@ngrx/core"; 
-import "@ngrx/effects";
-import "@ngrx/router-store";
-import "@ngrx/store";
-import "@ngrx/store-devtools";
-              
-// other libraries
-import "hammerjs";
-import "moment";
-import "reflect-metadata";
-import "rxjs";
-import "typedjson-npm";
-
-
 // Bootstrap
 import "./bootstrap/less/bootstrap.less";
+import "./font-awesome/scss/font-awesome.scss";
