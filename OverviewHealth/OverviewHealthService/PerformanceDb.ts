@@ -1,7 +1,7 @@
 import * as pg from "pg";
 import * as moment from "moment";
 
-import { BacklogHistory, Counters, Customer, CustomerBacklog, CustomerBacklogHistory, CustomerCounter, TrackerBacklog } from "./Models";
+import { BacklogHistory, Counters, Customer, CustomerBacklog, CustomerBacklogHistory, CustomerCounter, TrackerBacklog } from "@chrismh/ov-common";
 
 export class PerformanceDb
 {

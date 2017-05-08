@@ -14,7 +14,7 @@ import "rxjs/add/operator/switchMap";
 import "rxjs/add/operator/timeout";
 import "rxjs/add/operator/take";
 
-import { Counters, CustomerBacklog, CustomerCounter, TrackerBacklog } from "../../models";
+import { Counters, CustomerBacklog, CustomerCounter, TrackerBacklog } from "@chrismh/ov-common";
 import { AppSettings, HealthServer } from "../../services";
 
 @Component({

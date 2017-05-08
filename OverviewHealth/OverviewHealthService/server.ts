@@ -7,7 +7,7 @@ import { JsonMember, JsonObject, SerializerSettings, TypedJSON } from "typedjson
 //import * as http from "http";
 //import * as timers from "timers";
 
-import { BacklogHistory, Counters, Customer, CustomerBacklog } from "./Models";
+import { BacklogHistory, Counters, Customer, CustomerBacklog } from "@chrismh/ov-common";
 import { PerformanceDb } from "./PerformanceDb";
 
 if (process.env.node_env === undefined)

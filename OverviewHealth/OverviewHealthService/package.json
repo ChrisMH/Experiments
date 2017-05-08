@@ -4,12 +4,15 @@
   "description": "OverviewHealth Web Service",
   "main": "server.js",
   "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rimraf PerformanceDb.js* && rimraf server.js*",
     "start": "set node_env=development&& nodemon server",
     "start-prod": "set node_env=production&& nodemon server"
   },
   "author": "Chris Hogan - Logikos, Inc.",
   "license": "ISC",
   "dependencies": {
+    "@chrismh/ov-common": "file:///C:\\DevP\\Experiments\\OverviewHealth\\OvCommon\\chrismh-ov-common-1.0.1.tgz",
     "express": "^4.15.2",
     "moment": "^2.18.1",
     "pg": "^6.1.5",
@@ -20,21 +23,8 @@
     "@types/express": "^4.0.35",
     "@types/node": "^7.0.12",
     "@types/pg": "^6.1.38",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-debug": "^3.1.0",
-    "gulp-if": "^2.0.2",
-    "gulp-plumber": "^1.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
-    "gulp-sourcemaps": "^2.6.0",
-    "gulp-streamify": "^1.0.2",
-    "gulp-typescript": "^3.1.6",
-    "gulp-uglify": "^2.1.2",
-    "gulp-util": "^3.0.8",
-    "merge-stream": "^1.0.1",
-    "run-sequence": "^1.2.2",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.6.1",
     "typescript": "^2.2.2"
   }
 }
