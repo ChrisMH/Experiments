@@ -11,7 +11,8 @@ import { DropDownListModule } from "@progress/kendo-angular-dropdowns";
 
 import { ROUTER_IMPORTS, ROUTER_PROVIDERS } from "./AppRouter";
 import { App } from "./App";
-import {  DatePickerPage, DonutChartPage, DropDownsPage, GridPage, LineChartPage } from "./components";
+import {  DatePickerPage, DonutChartPage, DropDownsPage, GridPage, LineChartPage,
+          LoadingIndicator } from "./components";
 import { AppSettings } from "./services";
 
 @NgModule({
@@ -36,6 +37,7 @@ import { AppSettings } from "./services";
     declarations:
     [
         App,
+        LoadingIndicator,
         DatePickerPage,
         DonutChartPage,
         DropDownsPage,

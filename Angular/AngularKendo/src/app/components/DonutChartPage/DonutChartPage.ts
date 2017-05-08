@@ -14,6 +14,8 @@ import "rxjs/add/operator/map";
  
 export class DonutChartPage
 {
+    protected isLoading = true;
+
     protected chartData: Observable<Object[]>;
     constructor(protected appSettings: AppSettings)
     {
@@ -48,5 +50,10 @@ export class DonutChartPage
     ngOnInit(): void
     {
 
+    }
+
+    private onRender()
+    {
+        this.isLoading = false;
     }
 }

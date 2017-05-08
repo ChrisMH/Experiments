@@ -1,0 +1,16 @@
+indicatorSize = 80px
+
+:host
+    display block
+    width 100%
+    height 100%
+    text-align center
+
+    svg
+        display block
+        position absolute
+        width indicatorSize
+        height indicatorSize
+        left "calc(100% / 2 - %s / 2)" % indicatorSize
+        top "calc(100% / 2 - %s / 2)" % indicatorSize
+        z-index 100

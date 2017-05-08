@@ -1,13 +1,15 @@
-
-<kendo-chart [seriesColors]="['#428BCA', '#5BC0DE', '#5CB85C', '#F2B661', '#E67D4A', '#DA3B36']">
-    <kendo-chart-title text="Top 10 Customers on Overview"></kendo-chart-title>
-    <kendo-chart-legend position="bottom"></kendo-chart-legend>
-    <kendo-chart-series>
-        <kendo-chart-series-item type="donut"
-            [data]="chartData | async"
-            field="totalReceived"
-            categoryField="customerName">
-            <kendo-chart-series-item-labels visible="true" align="circle" position="outsideEnd" format="n0"></kendo-chart-series-item-labels>
-        </kendo-chart-series-item>
-    </kendo-chart-series>
-</kendo-chart>
+<loading-indicator [loading]="isLoading">
+    <kendo-chart [seriesColors]="['#428BCA', '#5BC0DE', '#5CB85C', '#F2B661', '#E67D4A', '#DA3B36']"
+        (render)="onRender()">
+        <kendo-chart-title text="Top 10 Customers on Overview"></kendo-chart-title>
+        <kendo-chart-legend position="bottom"></kendo-chart-legend>
+        <kendo-chart-series>
+            <kendo-chart-series-item type="donut"
+                [data]="chartData | async"
+                field="totalReceived"
+                categoryField="customerName">
+                <kendo-chart-series-item-labels visible="true" align="circle" position="outsideEnd" format="n0"></kendo-chart-series-item-labels>
+            </kendo-chart-series-item>
+        </kendo-chart-series>
+    </kendo-chart>
+</loading-indicator>
