@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="/">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="art/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="art/favicon.ico" type="image/x-icon" rel="shortcut icon">
+  </head>
+  <body>
+    <div id="first">
+      <div class="loading-image"></div>
+    </div>
+    <div id="second">
+      <div class="loading-image"></div>
+    </div>
+
+    <script type="text/javascript">
+        (function() {
+            if(!window.hasOwnProperty("app")) window.app = {};
+            window.app.settings = {
+                version: "<%= htmlWebpackPlugin.options.version %>"
+            };
+        })();
+    </script>
+  </body>
+</html>

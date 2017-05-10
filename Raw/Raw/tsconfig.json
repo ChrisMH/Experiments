@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "noEmit": true,
+    "typeRoots":  ["node_modules/@types"]
+  },
+  "exclude": [
+    "node_modules",
+    "public"
+  ],
+  "compileOnSave": false
+}
