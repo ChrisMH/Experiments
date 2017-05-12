@@ -31,8 +31,8 @@
             &::before {
                 content: "";
                 background-color: currentColor;
-                -webkit-transition: opacity 0.2s ease-in-out;
-                transition: opacity 0.2s ease-in-out;
+                -webkit-transition: opacity .2s ease-in-out;
+                transition: opacity .2s ease-in-out;
             }
 
             &::after {
@@ -64,22 +64,15 @@
         .k-button.k-state-hover {
 
             &::before {
-                opacity: 0.07;
+                opacity: .07;
                 z-index: 1;
             }
         }
         .k-split-button {
-
             .k-button:hover,
             .k-button.k-state-hover {
                 @include appearance( hovered-button );
             }
-            .k-button:hover + .k-button {
-                border-left-color: $button-hovered-border;
-            }
-        }
-        .k-split-button .k-button:hover + .k-button {
-            border-left-color: $button-hovered-border;
         }
 
 
@@ -89,7 +82,7 @@
             box-shadow: none;
 
             &::after {
-                opacity: 0.08;
+                opacity: .08;
                 z-index: 1;
             }
         }
@@ -115,10 +108,10 @@
             }
 
             &::before {
-                opacity: 0.07;
+                opacity: .07;
             }
             &::after {
-                opacity: 0.13;
+                opacity: .13;
             }
         }
         .k-split-button {

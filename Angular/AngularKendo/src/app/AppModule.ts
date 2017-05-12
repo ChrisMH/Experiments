@@ -1,4 +1,5 @@
 ﻿import { NgModule } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -21,6 +22,7 @@ import { AppSettings } from "./services";
         // Angular
         BrowserModule,
         BrowserAnimationsModule,
+        FlexLayoutModule,
         FormsModule,
 
         // Kendo

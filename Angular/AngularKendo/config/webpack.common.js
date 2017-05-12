@@ -103,8 +103,6 @@ module.exports = function(options) {
         }),
 
         new CopyWebpackPlugin([
-            { from: helpers.root("src/bootstrap/fonts"), to: "art/fonts" },
-
             { from: helpers.root("src/art"), to: "art" }
         ])
     ]

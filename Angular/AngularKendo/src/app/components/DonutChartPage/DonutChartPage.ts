@@ -54,6 +54,6 @@ export class DonutChartPage
 
     private onRender()
     {
-        this.isLoading = false;
+        setTimeout(() => this.isLoading = false, 1000);
     }
 }
