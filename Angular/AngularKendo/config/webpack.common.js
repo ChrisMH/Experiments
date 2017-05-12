@@ -51,11 +51,6 @@ module.exports = function(options) {
                 loader: "raw-loader"
             },
             {
-                test: /\.css$/,
-                include: helpers.root("src/app"),
-                loader: "raw-loader"
-            },
-            {
                 test: /\.styl$/,
                 include: helpers.root("src/app"),
                 loader: "raw-loader!stylus-loader"
@@ -65,11 +60,6 @@ module.exports = function(options) {
                 test: /\.styl$/,
                 exclude: helpers.root("src/app"),
                 loader: "style-loader!raw-loader!stylus-loader"
-            },
-            {
-                test: /\.less$/,
-                exclude: helpers.root("src/app"),
-                use: ExtractTextPlugin.extract("raw-loader!less-loader")
             },
             {
                 test: /\.scss$/,

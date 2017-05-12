@@ -1,4 +1,3 @@
-import { NgModule }              from "@angular/core";
 import { RouterModule, Routes }  from "@angular/router";
 
 import { FirstPage, SecondPage } from "./components";
@@ -10,13 +9,9 @@ const routes: Routes =
     { path: "**", redirectTo: "/" }
 ];
 
-@NgModule(
-{
-    imports: [
-        RouterModule.forRoot(routes)
-    ],
-    exports: [
-        RouterModule
-    ]
-})
-export class AppRouterModule {}
+export const ROUTER_IMPORTS: any[] = [
+    RouterModule.forRoot(routes)
+];
+
+export const ROUTER_PROVIDERS: any[] = [
+];

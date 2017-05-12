@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostBinding } from "@angular/core";
 
 import { AppSettings } from "./services";
 
@@ -12,4 +12,4 @@ export class App {
   constructor(protected appSettings: AppSettings) {}
 }
 
-      
+       
