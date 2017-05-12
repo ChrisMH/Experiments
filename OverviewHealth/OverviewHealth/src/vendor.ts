@@ -16,7 +16,8 @@ import "@angular/animations";
 import "@angular/animations/browser";        
 import "@angular/common";                    
 import "@angular/compiler";                  
-import "@angular/core";                      
+import "@angular/core";                
+import "@angular/flex-layout";                   
 import "@angular/forms";                     
 import "@angular/http";                      
 import "@angular/platform-browser";          
@@ -49,5 +50,4 @@ import "@telerik/kendo-inputs-common";
 import "@telerik/kendo-intl";    
 
 // Bootstrap
-import "./bootstrap/less/bootstrap.less";
 import "./font-awesome/scss/font-awesome.scss";
