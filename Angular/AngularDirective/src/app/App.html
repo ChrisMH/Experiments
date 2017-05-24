@@ -1,0 +1,15 @@
+<header> 
+
+    <div fxLayout="column" fxLayoutAlign="start stretch">
+        <h2>Angular Raw Template</h2> 
+        <div id="links" fxLayout="row" fxLayoutGap="6px">
+            <a routerLink="/">Home</a>
+            <a routerLink="/second">Second</a>
+        </div>
+    </div>
+
+    <div id="header-version">{{appSettings.version}}</div>
+</header>
+<div id="view-container"> 
+    <router-outlet></router-outlet>   
+</div> 

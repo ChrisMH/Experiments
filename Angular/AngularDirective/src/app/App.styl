@@ -1,0 +1,47 @@
+@require "../global.styl"
+ 
+:host 
+    position absolute
+    left 0px
+    top 0px
+    right 0px
+    bottom 0px
+    background-color backgroundColor
+    overflow hidden
+ 
+    header
+        background-color backgroundColor
+        position fixed
+        left 0
+        top 0
+        width 100%
+        height headerHeight
+        border-bottom 1px solid formBorderColor 
+        overflow hidden
+
+        h2
+            margin-left 10px
+            margin-top 10px
+            margin-bottom 5px
+        
+        div#links
+            margin-left 10px
+            a
+                font-size 13px
+
+        #header-version
+            font-size x-small
+            position absolute
+            top 2px
+            right 5px
+
+
+    div#view-container
+        position absolute
+        left 0
+        right 0
+        top headerHeight
+        bottom 0
+        overflow auto
+
+    
