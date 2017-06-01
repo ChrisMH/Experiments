@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
     "noEmit": true,
     "typeRoots":  ["node_modules/@types"]
   },
