@@ -4,6 +4,7 @@ obj/
 logs/
 out/
 node_modules/
+packages/
 *.suo
 *.user
 npm-debug*
