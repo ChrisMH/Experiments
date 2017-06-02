@@ -26,7 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -134,7 +135,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".gitignore" />
     <Content Include="config\helpers.js" />
     <Content Include="config\karma-test-shim.js" />
     <Content Include="config\karma.conf.js" />
@@ -170,8 +170,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="src\global.styl" />
-    <Content Include="src\main.styl" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +195,9 @@
     <Content Include="src\app\App.styl" />
     <Content Include="src\app\components\FirstPage.styl" />
     <Content Include="src\app\components\SecondPage.styl" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="src\global.styl" />
     <Content Include="src\index.ejs" />
+    <Content Include="src\main.styl" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
