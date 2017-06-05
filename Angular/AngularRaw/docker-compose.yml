@@ -9,5 +9,11 @@ services:
       - 8080:80
     volumes:
       - ./public:/wwwroot
-      - ./server/log:/var/log/nginx
-  
+      #- ./server/log:/var/log/nginx
+
+  webpack:
+    build:
+      context: ./config
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/app

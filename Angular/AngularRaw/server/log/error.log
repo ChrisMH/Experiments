@@ -1,3 +1,7 @@
 2017/05/31 19:33:37 [error] 7#7: *1 open() "/wwwroot/second" failed (2: No such file or directory), client: 172.22.0.1, server: , request: "GET /second HTTP/1.1", host: "localhost:8080"
 2017/05/31 19:38:54 [error] 7#7: *5 open() "/wwwroot/second" failed (2: No such file or directory), client: 172.22.0.1, server: , request: "GET /second HTTP/1.1", host: "localhost:8080"
 2017/05/31 19:39:40 [error] 7#7: *6 open() "/wwwroot/second" failed (2: No such file or directory), client: 172.22.0.1, server: , request: "GET /second HTTP/1.1", host: "localhost:8080"
+2017/06/05 21:01:43 [error] 6#6: *1 directory index of "/wwwroot/" is forbidden, client: 172.22.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8080"
+2017/06/05 21:01:44 [error] 6#6: *1 open() "/wwwroot/favicon.ico" failed (2: No such file or directory), client: 172.22.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2017/06/05 21:01:54 [error] 6#6: *1 open() "/wwwroot/index.html" failed (2: No such file or directory), client: 172.22.0.1, server: , request: "GET /index.html HTTP/1.1", host: "localhost:8080"
+2017/06/05 21:04:00 [error] 7#7: *2 open() "/wwwroot/second" failed (2: No such file or directory), client: 172.22.0.1, server: , request: "GET /second HTTP/1.1", host: "localhost:8080"
