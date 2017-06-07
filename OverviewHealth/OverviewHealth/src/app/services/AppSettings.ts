@@ -1,6 +1,6 @@
 ﻿import { Injectable, Inject } from "@angular/core";
-import { TypedJSON, JsonObject, JsonMember } from "typedjson-npm";
 
+import { WINDOW } from "./index";
 
 @Injectable()
 export class AppSettings
@@ -11,42 +11,17 @@ export class AppSettings
     minimumRoleLevel: number;
     updateInterval: number;
 
-    constructor(@Inject("ConfigRoot") configRoot: any)
+    constructor(@Inject(WINDOW) window: Window)
     {
-        if (configRoot.hasOwnProperty("app") && configRoot["app"].hasOwnProperty("settings"))
-        {
-            const appSettings = TypedJSON.parse(JSON.stringify(configRoot["app"]["settings"]), InternalAppSettings);
-            
-            Object.assign(this, appSettings);     
+        if (window.hasOwnProperty("app") && window["app"].hasOwnProperty("settings"))
+        {            
+            Object.assign(this, window["app"]["settings"]);     
         }
     }
 }
 
-@JsonObject
-export class HealthServer
+export interface HealthServer
 {
-    @JsonMember
     serverName: string;
-
-    @JsonMember
     serverUrl: string;
-}
-
-@JsonObject
-class InternalAppSettings
-{
-    @JsonMember
-    version: string;
-
-    @JsonMember
-    gatewayServiceUrl: string;
-
-    @JsonMember({elements: HealthServer})
-    healthServers: Array<HealthServer>;
-
-    @JsonMember
-    minimumRoleLevel: number;
-
-    @JsonMember
-    updateInterval: number;
 }

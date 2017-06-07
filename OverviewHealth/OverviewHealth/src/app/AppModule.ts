@@ -2,41 +2,48 @@
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule, Routes }  from "@angular/router";
 
-import { ROUTER_IMPORTS, ROUTER_PROVIDERS } from "./AppRouter";
 import { STORE_IMPORTS } from "./store/AppStore";
 
-import { App } from "./App";
-import { Backlog, CustomerBlock, ServerBlock, Login } from "./components";
-import { AppSettings } from "./services";
+import { App } from "./components/App";
+import { Backlog, CustomerBlock, ServerBlock } from "./components";
+import { OvAdminModule } from "./components/Admin";
+import { OvServicesModule } from "./services";
+
+const ROUTES: Routes = 
+[
+    { path: "", component: Backlog /*, canActivate: [ RouteGuard ]*/ },
+    { path: ":serverIndex", component: Backlog/*, , canActivate: [ RouteGuard ]*/ },
+    { path: ":serverIndex/:customerIndex", component: Backlog/*, , canActivate: [ RouteGuard ]*/ },
+    { path: "**", redirectTo: "/", pathMatch: "full" }
+];
+
+const COMPONENTS = [
+    App,
+    Backlog, CustomerBlock, ServerBlock
+]
 
 @NgModule({
-    imports:
-    [
+    imports: [
         BrowserModule, BrowserAnimationsModule,
         ReactiveFormsModule,
-     
-        ROUTER_IMPORTS,
-        STORE_IMPORTS   
-    ],
-
-    declarations:
-    [
-        App, 
-
-        Backlog, CustomerBlock, ServerBlock,
         
-        Login        
+        RouterModule.forRoot(ROUTES),
+        STORE_IMPORTS,
+
+        OvAdminModule,
+        OvServicesModule
     ],
 
-    providers:
-    [
-        { provide: "ConfigRoot", useValue: window },
-        AppSettings,
-        ROUTER_PROVIDERS
+    declarations: [
+        COMPONENTS        
     ],
-
-    exports: [App],
+    exports: [
+        COMPONENTS   
+    ],
+    providers: [
+    ],
     bootstrap: [App]
 })
 export class AppModule { }

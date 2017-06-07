@@ -4,11 +4,11 @@ import { go } from "@ngrx/router-store";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
-import { AppState } from "./store/AppState";
-import * as identity from "./store/Identity";
-import * as router from "./store/Router";
+import { AppState } from "../store/AppState";
+import * as identity from "../store/Identity";
+import * as router from "../store/Router";
 
-import { AppSettings } from "./services";
+import { AppSettings } from "../services";
 
 @Component({
     selector: "app",
