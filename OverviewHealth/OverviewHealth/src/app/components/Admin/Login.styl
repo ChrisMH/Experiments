@@ -4,23 +4,44 @@
 errorBoxBorderColor = red
 errorBoxBorderRadius = 3px
 
+:host
+    form
+        border 1px solid formBorderColor
+        border-radius formBorderRadius
+        padding formPadding
+        margin 100px auto 0px auto
+        width 350px
 
-.ov-login-form
-    width 360px
+        div#header
+            font-size 14px
+            font-weight bold
+            padding-bottom formPadding
+            border-bottom 1px solid formBorderColor
 
-.ov-error-box
-    border 1px solid errorBoxBorderColor
-    border-radius errorBoxBorderRadius
-    margin 10px 5px 10px 5px
+        input.k-textbox
+            width 250px        
 
-    .ov-error-box-title
-        border 1px solid errorBoxBorderColor
-        background-color errorBoxBorderColor
-        border-top-left-radius errorBoxBorderRadius
-        border-bottom-left-radius errorBoxBorderRadius
-        padding 3px
+        button
+            width 100px
 
-    .ov-error-box-message
-        padding 5px
-    
+        div#error-box
+            border 1px solid errorBoxBorderColor
+            border-radius errorBoxBorderRadius
+
+            div#title
+                border 1px solid errorBoxBorderColor
+                background-color errorBoxBorderColor
+                border-top-left-radius errorBoxBorderRadius
+                border-bottom-left-radius errorBoxBorderRadius
+                padding 3px
+            
+            span#error
+                font-size 16px
+
+            div#message
+                padding 5px
+            
    
+
+
+
