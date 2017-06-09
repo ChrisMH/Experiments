@@ -3,34 +3,29 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes }  from "@angular/router";
 
-import { STORE_IMPORTS } from "./store/AppStore";
-
 import { App } from "./components/App";
-import { Backlog, CustomerBlock, ServerBlock } from "./components";
-import { OvAdminModule } from "./components/Admin";
-import { OvServicesModule, RouteGuard } from "./services";
+import { OvAdminModule } from "./components/Admin/OvAdminModule";
+import { OvBacklogModule } from "./components/Backlog/OvBacklogModule";
+import { OvStoreModule } from "./store/OvStoreModule";
+import { OvServicesModule } from "./services/OvServicesModule";
 
-const ROUTES: Routes = 
-[
-    { path: "", component: Backlog, canActivate: [ RouteGuard ] },
-    { path: ":serverIndex", component: Backlog, canActivate: [ RouteGuard ] },
-    { path: ":serverIndex/:customerIndex", component: Backlog, canActivate: [ RouteGuard ] },
+const ROUTES: Routes = [
     { path: "**", redirectTo: "/", pathMatch: "full" }
 ];
 
 const COMPONENTS = [
-    App,
-    Backlog, CustomerBlock, ServerBlock
-]
+    App
+];
 
 @NgModule({
     imports: [
         BrowserModule, BrowserAnimationsModule,
         
         RouterModule.forRoot(ROUTES),
-        STORE_IMPORTS,
 
         OvAdminModule,
+        OvBacklogModule,
+        OvStoreModule,
         OvServicesModule
     ],
 
@@ -44,4 +39,6 @@ const COMPONENTS = [
     ],
     bootstrap: [App]
 })
-export class AppModule { }
+export class AppModule 
+{
+}

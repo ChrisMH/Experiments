@@ -1,3 +1,5 @@
+import { NgModule } from "@angular/core";
+
 import { compose } from "@ngrx/core/compose";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
@@ -16,13 +18,18 @@ reducers[identity.key] = identity.reducer;
 
 const reducer = compose()(reducers);
 
-export const STORE_IMPORTS = [
-    RouterStoreModule.connectRouter(),
-    
-    StoreModule.provideStore(reducer),
-    //StoreDevtoolsModule.instrumentOnlyWithExtension({ maxAge: 10 }),
 
-    EffectsModule.run(IdentityEffects)
-];
+@NgModule({
+    imports: [
+        RouterStoreModule.connectRouter(),
+        
+        StoreModule.provideStore(reducer),
+        //StoreDevtoolsModule.instrumentOnlyWithExtension({ maxAge: 10 }),
 
- 
+        EffectsModule.run(IdentityEffects)
+    ]
+})
+export class OvStoreModule
+{
+}
+
