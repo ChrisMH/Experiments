@@ -49,5 +49,6 @@ import "@telerik/kendo-dropdowns-common";
 import "@telerik/kendo-inputs-common";            
 import "@telerik/kendo-intl";    
 
-// Bootstrap
+// Styles
 import "./font-awesome/scss/font-awesome.scss";
+import "./kendo/scss/all.scss";

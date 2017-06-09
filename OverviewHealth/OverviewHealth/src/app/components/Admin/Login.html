@@ -1,9 +1,10 @@
-<form class="ov-form ov-login-form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <div class="form-group ov-form-header">
+<form class="ov-form ov-login-form" [formGroup]="form" (ngSubmit)="onSubmit()" 
+      fxLayout="column" fxLayoutGap="6px" novalidate>
+    <div class="ov-form-header">
         <p>Log In is Required</p>
     </div>
 
-    <div class="form-group ov-error-box" *ngIf="attempted">
+    <div class="ov-error-box" *ngIf="attempted">
         <div class="ov-error-box-title">
             <span class="glyphicon glyphicon-info-sign"></span>
         </div>
@@ -13,27 +14,27 @@
         </div>
     </div>
 
-    <div class="form-group" [ngClass]="{'has-error': form.get('name').dirty && !form.get('name').valid}">
+    <div [ngClass]="{'has-error': form.get('name').dirty && !form.get('name').valid}">
         <label for="name">User Name</label>
-        <input id="name" formControlName="name" class="form-control"  placeholder="User Name" type="text" />
+        <input id="name" formControlName="name" class="k-textbox" placeholder="User Name" type="text" />
         <div class="help-block" *ngIf="form.get('name').dirty && !form.get('name').valid">
             <p>User Name is required</p>
         </div>
     </div>
 
-    <div class="form-group" [ngClass]="{'has-error': form.get('password').dirty && !form.get('password').valid}">
+    <div [ngClass]="{'has-error': form.get('password').dirty && !form.get('password').valid}">
         <label for="password">Password</label>
-        <input id="password" formControlName="password" class="form-control"  placeholder="Password" type="password" />
+        <input id="password" formControlName="password" class="k-textbox" placeholder="Password" type="password" />
         <div class="help-block" *ngIf="form.get('password').dirty && !form.get('password').valid">
             <p>Password is required</p>
         </div>
     </div>
 
-    <div class="form-group checkbox">
-        <label><input formControlName="stayLoggedIn" type="checkbox" />Stay Logged In</label>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
+        <input id="stay-logged-in" class="k-checkbox" formControlName="stayLoggedIn" type="checkbox" />
+        <label class="k-checkbox-label" for="stay-logged-in">Stay Logged In</label>
     </div>
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || submitting">Log In</button>
-    </div>
+    <button kendoButton type="submit" [disabled]="!form.valid || submitting">Log In</button>
+        
 </form>

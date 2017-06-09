@@ -8,13 +8,13 @@ import { STORE_IMPORTS } from "./store/AppStore";
 import { App } from "./components/App";
 import { Backlog, CustomerBlock, ServerBlock } from "./components";
 import { OvAdminModule } from "./components/Admin";
-import { OvServicesModule } from "./services";
+import { OvServicesModule, RouteGuard } from "./services";
 
 const ROUTES: Routes = 
 [
-    { path: "", component: Backlog /*, canActivate: [ RouteGuard ]*/ },
-    { path: ":serverIndex", component: Backlog/*, , canActivate: [ RouteGuard ]*/ },
-    { path: ":serverIndex/:customerIndex", component: Backlog/*, , canActivate: [ RouteGuard ]*/ },
+    { path: "", component: Backlog, canActivate: [ RouteGuard ] },
+    { path: ":serverIndex", component: Backlog, canActivate: [ RouteGuard ] },
+    { path: ":serverIndex/:customerIndex", component: Backlog, canActivate: [ RouteGuard ] },
     { path: "**", redirectTo: "/", pathMatch: "full" }
 ];
 
