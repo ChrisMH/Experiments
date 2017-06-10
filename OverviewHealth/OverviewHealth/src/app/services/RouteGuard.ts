@@ -15,7 +15,8 @@ import * as identity from "../store/Identity"
 export class RouteGuard implements CanActivate
 {
     constructor(protected router: Router, protected store: Store<AppState>) 
-    {}
+    {
+    }
 
     canActivate(route: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Observable<boolean>
     {

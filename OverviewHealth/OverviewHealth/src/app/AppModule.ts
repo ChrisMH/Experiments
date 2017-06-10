@@ -4,12 +4,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes }  from "@angular/router";
 
 import { App } from "./components/App";
-import { OvAdminModule } from "./components/Admin/OvAdminModule";
+//import { OvAdminModule } from "./components/Admin/OvAdminModule";
 import { OvBacklogModule } from "./components/Backlog/OvBacklogModule";
 import { OvStoreModule } from "./store/OvStoreModule";
 import { OvServicesModule } from "./services/OvServicesModule";
 
 const ROUTES: Routes = [
+    { path: "login", loadChildren: "./components/Admin/OvAdminModule#OvAdminModule" },
     { path: "**", redirectTo: "/", pathMatch: "full" }
 ];
 
@@ -23,7 +24,7 @@ const COMPONENTS = [
         
         RouterModule.forRoot(ROUTES),
 
-        OvAdminModule,
+        //OvAdminModule,
         OvBacklogModule,
         OvStoreModule,
         OvServicesModule
@@ -34,8 +35,6 @@ const COMPONENTS = [
     ],
     exports: [
         COMPONENTS   
-    ],
-    providers: [
     ],
     bootstrap: [App]
 })
