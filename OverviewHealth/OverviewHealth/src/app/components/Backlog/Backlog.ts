@@ -20,8 +20,7 @@ import { AppSettings, HealthServer } from "../../services";
 @Component({
     selector: "backlog",
     templateUrl: "Backlog.html",
-    styleUrls: ["Backlog.styl"],
-    host: { class: "view" }
+    styleUrls: ["Backlog.styl"]
 })
 
 export class Backlog

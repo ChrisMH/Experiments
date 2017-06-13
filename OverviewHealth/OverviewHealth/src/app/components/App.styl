@@ -1,54 +1,61 @@
 @require "../../global.styl"
  
+brandingImageWidth = 138px
+brandingImageHeight = 48px
+headerPadding = 6px
+headerHeight = brandingImageHeight + 2 * headerPadding
+maxWidth = 1000px
+
 :host 
     position absolute
     left 0px
     top 0px
-    right 0px
-    bottom 0px
+    width 100%
+    height 100%
+    max-width 1000px
+    margin 0px auto 0px auto
     background-color backgroundColor
-    overflow hidden
- 
+    display flex
+    flex-direction column
+
     header
-        background-color backgroundColor
-        position fixed
-        left 0
-        top 0
-        width 100%
-        height headerHeight
+        flex 0 0 headerHeight   
+        padding headerPadding
         border-bottom 1px solid formBorderColor 
-        overflow hidden
-        font-size 13px
-        
-        #branding
-            position absolute
-            left brandingImageMargin
-            top brandingImageMargin
-            width brandingImageWidth
+        font-size 13px        
+        display flex
+        flex-direction row
+        align-items center
+
+        div#branding
+            flex 0 0 brandingImageWidth
             height brandingImageHeight
             background-image url("art/OverviewBanner.png")
-
-            a
-                position absolute
-                width 100%
+            display flex
+            a 
+                width 100% 
                 height 100%
+        
+        div#controls
+            margin-left auto
+            display flex
+            flex-direction column
+            align-items flex-end
 
-        #version
-            font-size x-small
-            position absolute
-            top 2px
-            right 5px
+            div#version
+                font-size x-small
+                margin-bottom 5px
 
-        #account
-            position absolute
-            bottom 6px
-            right 5px
+            div#account
+                display flex
+                flex-direction row
+                align-items center
+                >:not(:last-child)
+                    margin-right 4px
 
     div#view-container
-        position absolute
-        left 0
-        right 0
-        top headerHeight
-        bottom 0
-        overflow auto
+        flex-grow 1
         font-size 13px
+        padding viewPadding
+        overflow-x hidden
+        overflow-y auto

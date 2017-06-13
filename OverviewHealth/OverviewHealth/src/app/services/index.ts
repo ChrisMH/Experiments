@@ -3,6 +3,5 @@
 export const WINDOW = new InjectionToken<Window>("WindowToken");
 
 export * from "./AppSettings";
-export * from "./RouteGuard";
 
 

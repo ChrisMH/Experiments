@@ -32,20 +32,24 @@
 </div>
 
 <div class="block-right">
-    <div class="block-spinner" *ngIf="server.isLoading > 0" >
-        <span class="fa fa-spinner fa-spin fa-2x"></span>
-    </div>
     
     <div class="block-count">
         <span>{{server.backlog}}</span>
     </div>
+    
 
     <div class="block-controls">
-        <button type="button" class="btn btn-default" (click)="onHistoryClick()" title="Show the history for this server">
-            <span class="fa fa-history"></span>
-        </button>
-        <button type="button" class="btn btn-default" (click)="onExpandClick()" title="Toggle the customer backlog for this server">
-            <span class="fa fa-lg" [ngClass]="{'fa-angle-double-right': !server.showCustomerBacklog, 'fa-angle-double-left': server.showCustomerBacklog}"></span>
-        </button>
+        <div class="block-spinner" *ngIf="server.isLoading > 0" >
+            <span class="fa fa-spinner fa-spin fa-2x"></span>
+        </div>
+        
+        <div class="block-buttons">
+            <button type="button" class="btn btn-default" (click)="onHistoryClick()" title="Show the history for this server">
+                <span class="fa fa-history"></span>
+            </button>
+            <button type="button" class="btn btn-default" (click)="onExpandClick()" title="Toggle the customer backlog for this server">
+                <span class="fa fa-lg" [ngClass]="{'fa-angle-double-right': !server.showCustomerBacklog, 'fa-angle-double-left': server.showCustomerBacklog}"></span>
+            </button>
+        </div>
     </div>
 </div>

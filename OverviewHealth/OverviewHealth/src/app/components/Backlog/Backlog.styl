@@ -2,13 +2,10 @@
 
 titleHeight = 30px
 
-blockTitleLeft = 4px
-blockExtraInfoLeft = 4px
-
 countWidth = 80px
 
 serverBlockWidth = 300px
-serverBlockHeight = 126px
+serverBlockHeight = 122px
 
 customerBacklogLeft = 2 * defaultMargin + serverBlockWidth + 10px
 
@@ -18,221 +15,232 @@ customerBlockExpandedHeight = 240px
 
 spinnerColor = lighten(blue, 20%)
 
-blockLeft(width, height)
-    >>> .block-left
-        position: absolute
-        left: 0px
-        top: 0px
-        width: width
-        height: height
+blockLeft()
+    >>>.block-left
+        flex-grow 1
+        height 100%
+        display flex
+        flex-direction column
         blockTitle()
         blockExtraInfo()
 
-blockRight(width, height)
-    >>> .block-right
-        position: absolute
-        right: 0px
-        top: 0px
-        width: width
-        height: height
+blockRight(width)
+    >>>.block-right
+        flex 0 0 width
+        height 100%
+        display flex
+        flex-direction column
+        align-items flex-end
         blockCount()
-        blockControls(height)
-        blockSpinner()
-
+        blockControls()
 
 blockTitle()
     .block-title
-        color: inherit
-        padding-left: blockTitleLeft
-        width: 100%
-        font-size: 16pt
-        font-weight: normal
-        white-space: nowrap
-        overflow: hidden
-        text-overflow: ellipsis
+        width 100%
+        color inherit
+        margin-left 4px
+        font-size 16pt
+        font-weight normal
+        white-space nowrap
+        overflow hidden
+        text-overflow ellipsis
 
     .block-title-selected
-        font-weight: bold
+        font-weight bold
 
 blockExtraInfo()
     .block-extra-info
-        padding-left: blockTitleLeft
-        max-width: 100%
-        font-size: 11px
-        display: table
+        width 100%
+        font-size 11px
+        display flex
+        flex-direction column
 
         .block-extra-info-row
-            display: table-row
+            width 100%
+            display flex
+            flex-direction row
+            margin 1px 0px
 
             .block-extra-info-label
-                display: table-cell
-                text-align: right
-                vertical-align: middle
-                white-space: nowrap
-                overflow: hidden
+                flex 0 0 45%
+                margin-right 2px
+                text-align right
+                vertical-align middle
+                white-space nowrap
+                overflow hidden
 
             .block-extra-info-value
-                display: table-cell
-                font-weight: 600
-                vertical-align: middle
-                padding-left: 5px
-                white-space: nowrap
-                overflow: hidden
+                flex 0 0 55%
+                font-weight 600
+                vertical-align middle
+                white-space nowrap
+                overflow hidden
                 
 
 blockCount()
     .block-count
         background-color: transparent
         background-image: none
-        width: 100%
         font-size: 16pt
         font-weight: 600
-        text-align: right
         white-space: nowrap
-        display: table
         padding-right: 5px
 
         span
-            display: table-cell
             vertical-align: middle
  
 
-blockControls(height)
+blockControls()
     .block-controls
-        position: absolute
-        right: 6px
-        bottom: 6px
+        width 100%
+        margin 4px
+        flex-grow 1
+        display flex
+        flex-direction column
+        justify-content flex-end
+        align-items flex-end
 
-        button
-            padding: 0px !important
-            margin: 0px 0px 0px 0px !important
-            width: 22px
-            height: 22px
+        .block-spinner
+            color: spinnerColor
+            margin-bottom 8px
+        
+        .block-buttons
+            display flex
+            flex-direction row
 
+            button
+                padding: 0px !important
+                margin: 0px 0px 0px 2px !important
+                width: 22px
+                height: 22px
 
 blockSpinner()
-     .block-spinner
-        position: absolute
-        color: spinnerColor
-        top: 32px
-        right: 6px
 
-div
-    &#server-list
-        position: relative
-        width: serverBlockWidth
+//div
+    // &#server-list
+    //     position: relative
+    //     width: serverBlockWidth
+
+:host
+    display flex
+    flex-direction row
+
+    div#server-list
+        display flex
+        flex-direction column
+        width serverBlockWidth
 
         server-block
-            display: block
-            position: relative
-            margin-bottom: defaultMargin // (i * (defaultMargin + serverBlockHeight))
-            width: 100%
-            height: serverBlockHeight
-            border: 1px solid rgb(100,100,100)
-            border-radius: 1px
-            overflow: hidden
-            blockLeft(serverBlockWidth - countWidth, serverBlockHeight)
-            blockRight(countWidth, serverBlockHeight)
+            flex 0 0 serverBlockHeight
+            width 100%
+            border 1px solid rgb(100,100,100)
+            border-radius 1px
+            overflow hidden
+            margin-bottom 5px
+            display flex
+            flex-direction row
+            blockLeft()
+            blockRight(countWidth)
 
-    &#customer-backlog-list
-        position: absolute
-        left: customerBacklogLeft
-        top: defaultMargin
-        right: defaultMargin
-        bottom: defaultMargin
-        min-width: customerBlockWidth 
+    // &#customer-backlog-list
+    //     position: absolute
+    //     left: customerBacklogLeft
+    //     top: defaultMargin
+    //     right: defaultMargin
+    //     bottom: defaultMargin
+    //     min-width: customerBlockWidth 
 
-        div
-            &.customer-block
-                position: relative
-                left: 0px
-                margin-bottom: defaultMargin // (i * (defaultMargin + customerBlockHeight))
-                width: 100%
-                height: customerBlockHeight
-                border: 1px solid rgb(100,100,100)
-                border-radius: 1px
-                overflow: hidden
-                //visibility: collapse
-                blockLeft("calc(100% - %s)" % countWidth, customerBlockHeight)
-                blockRight(countWidth, customerBlockHeight)
+    //     div
+    //         &.customer-block
+    //             position: relative
+    //             left: 0px
+    //             margin-bottom: defaultMargin // (i * (defaultMargin + customerBlockHeight))
+    //             width: 100%
+    //             height: customerBlockHeight
+    //             border: 1px solid rgb(100,100,100)
+    //             border-radius: 1px
+    //             overflow: hidden
+    //             //visibility: collapse
+    //             blockLeft("calc(100% - %s)" % countWidth, customerBlockHeight)
+    //             blockRight(countWidth, customerBlockHeight)
 
-                #tracker-list
-                    position: absolute
-                    left: 0px
-                    top: customerBlockHeight
-                    right: 0px
-                    bottom: 0px
-                    font-size: small
-                    overflow-y: scroll
-                    overflow-x: hidden
-                    border-top: 1px solid rgb(100,100,100)
-
-
-                    &.ng-hide
-                        opacity: 0
-                        height: 0px
-
-                    &.ng-hide-add
-                        -webkit-transition: all 0.49s ease-in-out
-                        -moz-transition: all 0.49s ease-in-out
-                        transition: all 0.49s ease-in-out
-
-                    &.ng-hide-remove
-                        -webkit-transition: all 0.5s ease-in-out
-                        -moz-transition: all 0.5s ease-in-out
-                        transition: all 0.5s ease-in-out
-
-                    table
-                        position: absolute
-                        left: 0px
-                        top: 0px
-                        right: 0px
-                        bottom: 0px
-
-                        thead
-                            font-weight: bold
-
-                            td
-                                padding: 3px
-
-                        tbody
-                            td
-                                padding: 2px
-                                font-size: x-small
-                                vertical-align: middle
-
-                                &.tracker-list-backlog
-                                    font-size: larger
-                                    font-weight: bold
-                                    text-align: center
+    //             #tracker-list
+    //                 position: absolute
+    //                 left: 0px
+    //                 top: customerBlockHeight
+    //                 right: 0px
+    //                 bottom: 0px
+    //                 font-size: small
+    //                 overflow-y: scroll
+    //                 overflow-x: hidden
+    //                 border-top: 1px solid rgb(100,100,100)
 
 
-                &.customer-block.ng-enter,
-                &.customer-block.ng-move
-                    -webkit-transition: all 0.5s ease-in-out
-                    -moz-transition: all 0.5s ease-in-out
-                    -o-transition: all 0.5s ease-in-out
-                    transition: all 0.5s ease-in-out
-                    opacity: .5
+    //                 &.ng-hide
+    //                     opacity: 0
+    //                     height: 0px
 
-                    &.customer-block.ng-move.ng-enter-active,
-                    &.customer-block.ng-move.ng-move-active
-                        opacity: 1
+    //                 &.ng-hide-add
+    //                     -webkit-transition: all 0.49s ease-in-out
+    //                     -moz-transition: all 0.49s ease-in-out
+    //                     transition: all 0.49s ease-in-out
 
-            &.customer-block-expanded
-                height: customerBlockExpandedHeight !important
+    //                 &.ng-hide-remove
+    //                     -webkit-transition: all 0.5s ease-in-out
+    //                     -moz-transition: all 0.5s ease-in-out
+    //                     transition: all 0.5s ease-in-out
 
-            &.customer-block-expanded-add
-                -webkit-transition: 0.25s linear
-                -moz-transition: 0.25s linear
-                -o-transition: 0.25s linear
-                transition: 0.25s linear
+    //                 table
+    //                     position: absolute
+    //                     left: 0px
+    //                     top: 0px
+    //                     right: 0px
+    //                     bottom: 0px
 
-            &.customer-block-expanded-remove
-                -webkit-transition: 0.25s linear
-                -moz-transition: 0.25s linear
-                -o-transition: 0.25s linear
-                transition: 0.25s linear
+    //                     thead
+    //                         font-weight: bold
+
+    //                         td
+    //                             padding: 3px
+
+    //                     tbody
+    //                         td
+    //                             padding: 2px
+    //                             font-size: x-small
+    //                             vertical-align: middle
+
+    //                             &.tracker-list-backlog
+    //                                 font-size: larger
+    //                                 font-weight: bold
+    //                                 text-align: center
+
+
+    //             &.customer-block.ng-enter,
+    //             &.customer-block.ng-move
+    //                 -webkit-transition: all 0.5s ease-in-out
+    //                 -moz-transition: all 0.5s ease-in-out
+    //                 -o-transition: all 0.5s ease-in-out
+    //                 transition: all 0.5s ease-in-out
+    //                 opacity: .5
+
+    //                 &.customer-block.ng-move.ng-enter-active,
+    //                 &.customer-block.ng-move.ng-move-active
+    //                     opacity: 1
+
+    //         &.customer-block-expanded
+    //             height: customerBlockExpandedHeight !important
+
+    //         &.customer-block-expanded-add
+    //             -webkit-transition: 0.25s linear
+    //             -moz-transition: 0.25s linear
+    //             -o-transition: 0.25s linear
+    //             transition: 0.25s linear
+
+    //         &.customer-block-expanded-remove
+    //             -webkit-transition: 0.25s linear
+    //             -moz-transition: 0.25s linear
+    //             -o-transition: 0.25s linear
+    //             transition: 0.25s linear
             //.generate-customer-blocks(50)
 
 /*
@@ -285,22 +293,22 @@ div
 
 
 
-.server-block-good
+>>>.server-block-good
     linear_gradient(right, rgb(0, 205, 0), backgroundColor)
 
-.server-block-poor
+>>>.server-block-poor
     linear_gradient(right, rgb(255,119,0), backgroundColor)
 
-.server-block-bad
+>>>.server-block-bad
     linear_gradient(right, rgb(224,0,0), backgroundColor)
 
-.customer-block-good
+>>>.customer-block-good
     linear_gradient(right, lighten(rgb(0, 205, 0), 30%), backgroundColor)
 
-.customer-block-poor
+>>>.customer-block-poor
     linear_gradient(right, lighten(rgb(255,119,0), 30%), backgroundColor)
 
-.customer-block-bad 
+>>>.customer-block-bad 
     linear_gradient(right, lighten(rgb(224,0,0), 30%), backgroundColor)
 
 

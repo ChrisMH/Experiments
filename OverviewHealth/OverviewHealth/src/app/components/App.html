@@ -2,10 +2,13 @@
     <div id="branding">
         <a routerLink="/"></a>
     </div>
-    <div id="version">{{appSettings.version}}</div>
-    <div id="account" *ngIf="(identity | async)?.loggedIn">
-        <span>{{(identity | async)?.name}}</span>
-        <button type="button" class="btn btn-default" (click)="onLogout()">Log Out</button>
+    <div id="controls">        
+        <div id="version">{{appSettings.version}}</div>
+
+        <div id="account" *ngIf="(identity | async)?.loggedIn" >
+            <span>{{(identity | async)?.name}}</span>
+            <button kendoButton type="button" (click)="onLogout()">Log Out</button>
+        </div>
     </div>
 </header>
 <div id="view-container">

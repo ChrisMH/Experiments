@@ -3,14 +3,16 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes }  from "@angular/router";
 
+import { ButtonsModule } from "@progress/kendo-angular-buttons";
+
 import { App } from "./components/App";
-//import { OvAdminModule } from "./components/Admin/OvAdminModule";
+import { OvAccountModule } from "./components/Account/OvAccountModule";
 import { OvBacklogModule } from "./components/Backlog/OvBacklogModule";
 import { OvStoreModule } from "./store/OvStoreModule";
 import { OvServicesModule } from "./services/OvServicesModule";
 
 const ROUTES: Routes = [
-    { path: "login", loadChildren: "./components/Admin/OvAdminModule#OvAdminModule" },
+    //{ path: "login", loadChildren: "./components/Admin/OvAdminModule#OvAdminModule" },
     { path: "**", redirectTo: "/", pathMatch: "full" }
 ];
 
@@ -22,9 +24,11 @@ const COMPONENTS = [
     imports: [
         BrowserModule, BrowserAnimationsModule,
         
+        ButtonsModule,
+
         RouterModule.forRoot(ROUTES),
 
-        //OvAdminModule,
+        OvAccountModule,
         OvBacklogModule,
         OvStoreModule,
         OvServicesModule

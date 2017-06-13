@@ -8,11 +8,11 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/skipWhile";
 
-import { AppState } from "../store/AppState";
-import * as identity from "../store/Identity"
+import { AppState } from "../../store/AppState";
+import * as identity from "../../store/Identity"
 
 @Injectable()
-export class RouteGuard implements CanActivate
+export class AccountRouteGuard implements CanActivate
 {
     constructor(protected router: Router, protected store: Store<AppState>) 
     {

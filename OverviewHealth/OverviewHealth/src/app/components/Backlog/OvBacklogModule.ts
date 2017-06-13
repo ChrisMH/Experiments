@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { FlexLayoutModule } from "@angular/flex-layout";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -7,7 +6,7 @@ import { RouterModule, Routes }  from "@angular/router";
 
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 
-import { RouteGuard } from "../../services";
+import { AccountRouteGuard } from "../Account/AccountRouteGuard";
 
 import { Backlog } from "./Backlog";
 import { ServerBlock } from "./ServerBlock";
@@ -15,9 +14,9 @@ import { CustomerBlock } from "./CustomerBlock";
 
 const ROUTES: Routes = 
 [
-    { path: "", component: Backlog, canActivate: [ RouteGuard ] },
-    { path: ":serverIndex", component: Backlog, canActivate: [ RouteGuard ] },
-    { path: ":serverIndex/:customerIndex", component: Backlog, canActivate: [ RouteGuard ] },
+    { path: "", component: Backlog, canActivate: [ AccountRouteGuard ] },
+    { path: ":serverIndex", component: Backlog, canActivate: [ AccountRouteGuard ] },
+    { path: ":serverIndex/:customerIndex", component: Backlog, canActivate: [ AccountRouteGuard ] },
 ];
 
 const COMPONENTS = [
@@ -26,7 +25,7 @@ const COMPONENTS = [
 
 @NgModule({
     imports: [
-        BrowserModule, BrowserAnimationsModule, FlexLayoutModule, ReactiveFormsModule,
+        BrowserModule, BrowserAnimationsModule, ReactiveFormsModule,
 
         ButtonsModule,
 

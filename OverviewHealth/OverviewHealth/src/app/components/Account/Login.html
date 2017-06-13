@@ -1,0 +1,32 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+    <div id="header">Log In is Required</div>
+
+    <div id="error-box" *ngIf="attempted">
+        <div id="title">
+            <span class="fa fa-exclamation-circle fa-2x"></span>
+            <span id="error">Error Logging In</span>
+        </div>
+        <div id="message">
+            <span>That user name and password combination is not recognized or not authorized.</span>
+            <span>Please double-check and try again.</span>
+        </div>
+    </div>
+
+    <div class="textbox-row">
+        <label for="name">User Name:</label>
+        <input id="name" formControlName="name" class="k-textbox" placeholder="User Name" type="text" />
+    </div>
+
+    <div class="textbox-row">
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" class="k-textbox" placeholder="Password" type="password" />
+    </div>
+
+    <div id="log-in-row">        
+        <input id="stay-logged-in" type="checkbox" formControlName="stayLoggedIn">
+        <label for="stay-logged-in">Stay Logged In</label>
+        <button kendoButton  type="submit" [disabled]="!form.valid || submitting">Log In</button>
+    </div>
+ 
+</form>
