@@ -1,16 +1,14 @@
-<header>
-    <div id="branding">
-        <a routerLink="/"></a>
-    </div>
-    <div id="controls">        
+<header fxFlex="0 0 58px" fxLayout="row" fxLayoutAlign="start center">
+    <a routerLink="/" fxFlex="initial"><img src="art/OverviewBanner.png"></a>
+    <div fxFlex="grow" fxLayout="column" fxLayoutAlign="start end" fxLayoutGap="6px">        
         <div id="version">{{appSettings.version}}</div>
 
-        <div id="account" *ngIf="(identity | async)?.loggedIn" >
+        <div id="account" *ngIf="(identity | async)?.loggedIn" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="4px">
             <span>{{(identity | async)?.name}}</span>
             <button kendoButton type="button" (click)="onLogout()">Log Out</button>
         </div>
     </div>
 </header>
-<div id="view-container">
+<div fxFlex="grow" id="view-container">
     <router-outlet></router-outlet>
 </div>

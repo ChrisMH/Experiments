@@ -4,20 +4,15 @@ errorBoxBorderColor = red
 errorBoxBorderRadius = 3px
 
 :host
-    display flex
-    flex-direction row
-    justify-content center
+    justify-content center !important
 
     form
-        flex 0 0 350px
         margin-top 50px
         border 1px solid formBorderColor
         border-radius formBorderRadius
         background-color formBackgroundColor
         padding formPadding
 
-        >div:not(#header)
-            margin-top 6px
 
         div#header
             font-size 14px
@@ -34,42 +29,13 @@ errorBoxBorderRadius = 3px
                 background-color errorBoxBorderColor
                 border-top-left-radius errorBoxBorderRadius
                 border-bottom-left-radius errorBoxBorderRadius
-                padding 3px
-                display flex
-                flex-direction row
-                align-items center
+                padding errorBoxBorderRadius
                 
                 span#error
                     font-size 16px
-                    margin-left 4px
 
             div#message
                 padding 5px
-                display flex
-                flex-direction column
-                
-                :not(:last-child)
-                    margin-bottom 8px
-        
-        div.textbox-row
-            display flex
-            flex-direction row
-            justify-content flex-end
-            align-items center
+            
 
-            label
-                flex-grow 1
-                margin-right 4px
-                text-align right
-
-            input
-                flex 0 0 250px
-
-        div#log-in-row
-            display flex
-            flex-direction row
-            align-items center
-
-            button
-                margin-left auto // causes the button to be aligned at flex-end
-                flex 0 0 100px
+            

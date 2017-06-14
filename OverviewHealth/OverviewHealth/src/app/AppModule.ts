@@ -1,4 +1,5 @@
 ﻿import { NgModule } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes }  from "@angular/router";
@@ -22,7 +23,7 @@ const COMPONENTS = [
 
 @NgModule({
     imports: [
-        BrowserModule, BrowserAnimationsModule,
+        BrowserModule, BrowserAnimationsModule, FlexLayoutModule,
         
         ButtonsModule,
 

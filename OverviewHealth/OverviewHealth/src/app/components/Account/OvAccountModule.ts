@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -21,7 +22,7 @@ const COMPONENTS = [
 
 @NgModule({
     imports: [
-        BrowserModule, BrowserAnimationsModule, ReactiveFormsModule,
+        BrowserModule, BrowserAnimationsModule, FlexLayoutModule, ReactiveFormsModule,
 
         ButtonsModule,
 

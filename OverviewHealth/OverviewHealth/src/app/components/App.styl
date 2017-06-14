@@ -1,61 +1,31 @@
 @require "../../global.styl"
  
-brandingImageWidth = 138px
-brandingImageHeight = 48px
-headerPadding = 6px
-headerHeight = brandingImageHeight + 2 * headerPadding
-maxWidth = 1000px
 
 :host 
-    position absolute
-    left 0px
-    top 0px
     width 100%
     height 100%
-    max-width 1000px
+    max-width maxWidth
     margin 0px auto 0px auto
     background-color backgroundColor
-    display flex
-    flex-direction column
+    // Necessary to force the app element, which is automatically converted to display: flex,
+    // to flow in columns.  May be different in later versions if @angular/flex-layout.
+    flex-direction column 
 
     header
-        flex 0 0 headerHeight   
-        padding headerPadding
         border-bottom 1px solid formBorderColor 
-        font-size 13px        
-        display flex
-        flex-direction row
-        align-items center
-
-        div#branding
-            flex 0 0 brandingImageWidth
-            height brandingImageHeight
-            background-image url("art/OverviewBanner.png")
-            display flex
-            a 
-                width 100% 
-                height 100%
+        font-size 13px      
         
-        div#controls
-            margin-left auto
-            display flex
-            flex-direction column
-            align-items flex-end
+        >a
+            padding-left defaultPadding
+        
+        >div
+            padding-right defaultPadding
 
             div#version
                 font-size x-small
-                margin-bottom 5px
-
-            div#account
-                display flex
-                flex-direction row
-                align-items center
-                >:not(:last-child)
-                    margin-right 4px
 
     div#view-container
-        flex-grow 1
         font-size 13px
-        padding viewPadding
+        padding defaultPadding
         overflow-x hidden
         overflow-y auto
