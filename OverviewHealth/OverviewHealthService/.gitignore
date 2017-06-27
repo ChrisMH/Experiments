@@ -1,9 +1,0 @@
-node_modules/
-iisnode/
-npm*.log*
-
-server.js
-server.js.map
-PerformanceDb.js
-PerformanceDb.js.map
-
