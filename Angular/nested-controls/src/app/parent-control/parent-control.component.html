@@ -1,3 +1,10 @@
-<app-child-control>
+<ul>
+    <li *ngFor="let company of companies">
+        {{company.id}} - {{company.displayName}}
+    </li>
+</ul>
+<button type="button" label="Add" (click)="onAdd()">Add</button>
+
+<app-child-control [companies]="companies">
 
 </app-child-control>
