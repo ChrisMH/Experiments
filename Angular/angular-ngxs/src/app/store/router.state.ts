@@ -1,5 +1,6 @@
-import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { Action, State, StateContext } from '@ngxs/store';
+import { filter } from 'rxjs/operators';
 
 @State<string>({
     name: 'router',
@@ -7,14 +8,15 @@ import { Action, State, StateContext } from '@ngxs/store';
 })
 export class RouterState {
     constructor(
-        protected activatedRoute: ActivatedRoute,
         protected router: Router
     ) {
-        this.activatedRoute.url.subscribe((seg: UrlSegment[]) => {console.log(`ar`); console.dir(seg); });
     }
 
     onInit(state: StateContext<string>): void {
-
-        console.log(`onInit: route=${this.activatedRoute.snapshot.url}`);
+        this.router.events.pipe(
+            filter((event: RouterEvent) => event instanceof NavigationEnd)
+        ).subscribe((event: RouterEvent) => {
+            state.setState(event.url);
+        });
     }
 }

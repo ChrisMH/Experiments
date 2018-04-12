@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 
 import { AppComponent } from './app.component';
 import { FirstPageComponent } from './components/first-page/first-page.component';
@@ -25,7 +26,8 @@ const routes: Routes =
     imports: [
         BrowserModule,
         RouterModule.forRoot(routes),
-        NgxsModule.forRoot([RouterState])
+        NgxsModule.forRoot([RouterState]),
+        NgxsLoggerPluginModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]
